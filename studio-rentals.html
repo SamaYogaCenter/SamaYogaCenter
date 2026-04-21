@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rent the Sama Yoga Center studio for your event, workshop, or private gathering in New Canaan, CT.">
+  <title>Studio Rentals | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    /* ===== HERO ===== */
+    .sr-hero {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+    }
+
+    /* ===== INTRO SPLIT ===== */
+    .sr-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .sr-intro__text {
+      padding: var(--space-3xl) var(--space-2xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .sr-intro__title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xl);
+    }
+
+    .sr-intro__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .sr-intro__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      min-height: 360px;
+    }
+
+    /* ===== PRICING SPLIT ===== */
+    .sr-pricing-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .sr-pricing-split__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      min-height: 320px;
+    }
+
+    .sr-pricing-box {
+      background: var(--color-beige);
+      padding: var(--space-3xl) var(--space-2xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .sr-pricing-box__title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xl);
+    }
+
+    .sr-pricing-box__rate {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .sr-pricing-box__note {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ===== INQUIRY FORM ===== */
+    .sr-form-section {
+      background: white;
+      padding: var(--space-4xl) 0;
+    }
+
+    .sr-form-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+    }
+
+    .sr-form__title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2xl);
+    }
+
+    .sr-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .sr-form .form-group {
+      margin-bottom: var(--space-md);
+    }
+
+    .sr-form .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .sr-form .form-input,
+    .sr-form .form-select,
+    .sr-form .form-textarea {
+      width: 100%;
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid rgba(0,0,0,0.15);
+      background: white;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      color: var(--color-text-primary);
+      outline: none;
+      transition: border-color var(--transition-fast);
+      border-radius: 0;
+      box-sizing: border-box;
+    }
+
+    .sr-form .form-input:focus,
+    .sr-form .form-select:focus,
+    .sr-form .form-textarea:focus {
+      border-color: var(--color-primary);
+    }
+
+    .sr-form .form-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-md) center;
+      padding-right: var(--space-2xl);
+    }
+
+    .sr-form .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    @media (max-width: 768px) {
+      .sr-hero {
+        height: 260px;
+      }
+
+      .sr-intro,
+      .sr-pricing-split {
+        grid-template-columns: 1fr;
+      }
+
+      .sr-intro__img {
+        min-height: 260px;
+        order: -1;
+      }
+
+      .sr-intro__text {
+        padding: var(--space-2xl) var(--space-xl);
+      }
+
+      .sr-pricing-split__img {
+        min-height: 240px;
+      }
+
+      .sr-pricing-box {
+        padding: var(--space-2xl) var(--space-xl);
+      }
+
+      .sr-form-container {
+        padding: 0 var(--space-xl);
+      }
+
+      .sr-form__row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown nav__link--active">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Image -->
+  <img src="images/Final%20Images/Landing%20Page/Landing_Image1.webp" alt="Sama Yoga Studio" class="sr-hero">
+
+  <!-- Intro: text left, photo right -->
+  <section style="background: white; padding: var(--space-4xl) 0;">
+    <div class="sr-intro">
+      <div class="sr-intro__text">
+        <h1 class="sr-intro__title">Rent Our Studio</h1>
+        <p>Life is made of moments, big and small. Sama's spacious, sun-lit studio is the perfect place for any and all of life's events. The studio has soaring ceilings, expansive windows looking into the garden, generous natural light, and hardwood floors.</p>
+        <p>The studio is available for rental by the hour for group classes, workshops, corporate wellness events, private gatherings, and more.</p>
+        <a href="#rental-inquiry" class="btn btn--primary" style="margin-top: var(--space-lg); align-self: flex-start;">Inquire Now</a>
+      </div>
+      <img src="images/Final%20Images/Landing%20Page/Landing_Image2.webp" alt="Sama Yoga Studio Interior" class="sr-intro__img">
+    </div>
+  </section>
+
+  <!-- Pricing: photo left, beige box right -->
+  <section style="background: var(--color-beige); padding: var(--space-4xl) 0;">
+    <div class="sr-pricing-split">
+      <img src="images/Final%20Images/Landing%20Page/Landing_Image3.webp" alt="Sama Yoga Studio" class="sr-pricing-split__img">
+      <div class="sr-pricing-box">
+        <h2 class="sr-pricing-box__title">rental prices</h2>
+        <div class="sr-pricing-box__rate">$100 <span style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-secondary);">/ hour</span></div>
+        <p class="sr-pricing-box__note" style="margin-top: var(--space-lg);">Minimum rental of 1 hour. Studio holds up to 25 participants. All rentals include access to props (mats, blocks, bolsters, blankets). Please reach out with any questions about availability.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Inquiry Form -->
+  <section class="sr-form-section" id="rental-inquiry">
+    <div class="sr-form-container">
+      <h2 class="sr-form__title">studio rental inquiry</h2>
+      <form class="sr-form" onsubmit="event.preventDefault();">
+
+        <div class="sr-form__row">
+          <div class="form-group">
+            <label for="sr-firstName" class="form-label">First Name *</label>
+            <input type="text" id="sr-firstName" name="firstName" class="form-input" required placeholder="First name">
+          </div>
+          <div class="form-group">
+            <label for="sr-lastName" class="form-label">Last Name *</label>
+            <input type="text" id="sr-lastName" name="lastName" class="form-input" required placeholder="Last name">
+          </div>
+        </div>
+
+        <div class="sr-form__row">
+          <div class="form-group">
+            <label for="sr-email" class="form-label">Email *</label>
+            <input type="email" id="sr-email" name="email" class="form-input" required placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label for="sr-phone" class="form-label">Phone Number</label>
+            <input type="tel" id="sr-phone" name="phone" class="form-input" placeholder="(203) 555-0100">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sr-purpose" class="form-label">Purpose of Rental *</label>
+          <select id="sr-purpose" name="purpose" class="form-select" required>
+            <option value="" disabled selected>Select a purpose...</option>
+            <option value="group-class">Group Class or Workshop</option>
+            <option value="corporate">Corporate / Wellness Event</option>
+            <option value="birthday">Birthday or Private Party</option>
+            <option value="photography">Photography or Film</option>
+            <option value="retreat">Retreat or Immersion</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="sr-dates" class="form-label">Preferred Dates &amp; Times</label>
+          <input type="text" id="sr-dates" name="dates" class="form-input" placeholder="e.g. Saturday June 14, 10am–12pm">
+        </div>
+
+        <div class="form-group">
+          <label for="sr-details" class="form-label">Additional Details About Your Event</label>
+          <textarea id="sr-details" name="details" class="form-textarea" placeholder="Tell us more — expected number of guests, setup needs, any questions..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--primary">Submit Inquiry</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+        <div class="flex gap-md flex-center flex-wrap">
+          <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+          <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+              <a href="studio-rentals.html" class="footer__link">Studio Rentals</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

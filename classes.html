@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore our yoga class offerings. We offer Vinyasa, Restore, Sculpt, Yin Flow, and more.">
+  <title>Class Offerings | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown nav__link--active">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+  <style>
+    .class-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xl);
+      padding: var(--space-3xl) var(--space-3xl);
+      max-width: 55%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .class-row--beige {
+      background-color: var(--color-beige);
+      margin-left: var(--space-5xl);
+      margin-right: auto;
+      margin-bottom: -50px;
+      z-index: 1;
+    }
+
+    .class-row--white {
+      background-color: white;
+      border: 1px solid var(--color-beige);
+      margin-left: auto;
+      margin-right: var(--space-5xl);
+      margin-bottom: -50px;
+      z-index: 2;
+    }
+
+    .section--cta {
+      position: relative;
+      z-index: 10;
+    }
+
+
+
+    .class-row__image-wrap {
+      flex: 0 0 240px;
+    }
+
+    .class-row__image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      filter: grayscale(100%);
+      display: block;
+    }
+
+    .class-row__content {
+      flex: 1;
+    }
+
+    .class-row__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: var(--space-md);
+    }
+
+    .class-row__description {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    @media (max-width: 1024px) {
+      .class-row {
+        max-width: 75%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .class-row {
+        flex-direction: column;
+        gap: var(--space-lg);
+        padding: var(--space-2xl) var(--space-lg);
+        max-width: 92%;
+        margin-bottom: 0;
+      }
+
+      .class-row--beige,
+      .class-row--white {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .class-row__image-wrap {
+        flex: none;
+        width: 100%;
+        max-width: 380px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .class-row {
+        max-width: 95%;
+        padding: var(--space-xl) var(--space-md);
+        margin-bottom: 0;
+      }
+
+      .class-row--beige,
+      .class-row--white {
+        margin-left: var(--space-sm);
+        margin-right: var(--space-sm);
+      }
+
+      .class-row__image-wrap {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+
+  <!-- Class Types Section -->
+  <div style="padding-top: var(--space-3xl);"></div>
+
+  <!-- Vinyasa — beige -->
+  <section class="class-row class-row--beige">
+    <div class="class-row__image-wrap">
+      <img src="images/Final%20Images/Class%20Descriptions/Vinyasa%20copy.webp" alt="Vinyasa" class="class-row__image">
+    </div>
+    <div class="class-row__content">
+      <h3 class="class-row__title">vinyasa</h3>
+      <p class="class-row__description">
+        A traditional flow with focus and fun. Sun salutations, a little heat, a lot of heart. Tap back into a sense of play with our signature flow.
+      </p>
+    </div>
+  </section>
+
+  <!-- Open — white -->
+  <section class="class-row class-row--white">
+    <div class="class-row__image-wrap">
+      <img src="images/Final%20Images/Class%20Descriptions/Open%20copy.webp" alt="Open" class="class-row__image">
+    </div>
+    <div class="class-row__content">
+      <h3 class="class-row__title">open</h3>
+      <p class="class-row__description">
+        A mindful pace to open and stretch. Movement, breathwork, meditation with expert adaptations offered for a myriad of levels.
+      </p>
+    </div>
+  </section>
+
+  <!-- Sculpt — beige -->
+  <section class="class-row class-row--beige">
+    <div class="class-row__image-wrap">
+      <img src="images/Final%20Images/Class%20Descriptions/Sculpt%20copy.webp" alt="Sculpt" class="class-row__image">
+    </div>
+    <div class="class-row__content">
+      <h3 class="class-row__title">sculpt</h3>
+      <p class="class-row__description">
+        Using ergonomic, light weights and a yoga flow, we refine, define, stretch and tone. Get in your best shape with Sama Sculpt!
+      </p>
+    </div>
+  </section>
+
+  <!-- Yin Flow — white -->
+  <section class="class-row class-row--white">
+    <div class="class-row__image-wrap">
+      <img src="images/Final%20Images/Class%20Descriptions/Yinflow%20copy.webp" alt="Yin Flow" class="class-row__image">
+    </div>
+    <div class="class-row__content">
+      <h3 class="class-row__title">yin flow</h3>
+      <p class="class-row__description">
+        Slow and steady. Breath work, supported poses and sometimes longer holds to restore and stimulate the relaxation response. Much of Yin is done seated or prone.
+      </p>
+    </div>
+  </section>
+
+  <!-- Kids Yoga — beige -->
+  <section class="class-row class-row--beige">
+    <div class="class-row__image-wrap">
+      <img src="images/Final%20Images/Class%20Descriptions/kidsyoga%20copy.webp" alt="Kids Yoga" class="class-row__image">
+    </div>
+    <div class="class-row__content">
+      <h3 class="class-row__title">kids yoga</h3>
+      <p class="class-row__description">
+        Award-winning programs fostering connection, awareness, social skills and resilience. Children discover tools to regulate and greet the world with a kind heart. This class is sold as a package series.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta" style="margin-top: 80px;">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+<footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/booking-widget.js"></script>
+</body>
+</html>

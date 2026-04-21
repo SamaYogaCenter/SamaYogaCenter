@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Meet the team at Sama Yoga Center. Our experienced instructors are dedicated to guiding you on your yoga journey.">
+  <title>Our Team | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    .page-hero {
+      padding-top: 0;
+    }
+
+    .welcome-section {
+      background-color: var(--color-beige);
+      padding: var(--space-lg) 30px;
+      text-align: center;
+    }
+
+    .welcome-section h1 {
+      color: var(--color-text-primary);
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin: 0;
+      text-transform: lowercase;
+      font-style: normal;
+      line-height: 1.4;
+    }
+
+    .founder-section {
+      background-color: white;
+      padding: 60px 30px;
+      overflow: hidden;
+    }
+
+    .founder-content {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: var(--space-3xl);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .founder-image-wrapper {
+      flex: 0 0 540px;
+      position: relative;
+      align-self: stretch;
+    }
+
+    .founder-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 56%;
+    }
+
+    .founder-text-wrapper {
+      background-color: var(--color-beige);
+      flex: 0 0 540px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .founder-text {
+      padding: var(--space-xl) var(--space-xl) var(--space-md);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .founder-text__header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: var(--space-lg);
+      width: 100%;
+    }
+
+    .founder-text__name {
+      margin: 0;
+    }
+
+    .founder-text__title {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-base);
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .founder-text p {
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.55;
+      width: 100%;
+      text-align: left;
+      margin-bottom: var(--space-md);
+    }
+
+    .founder-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .founder-section {
+        padding: 0;
+      }
+
+      .founder-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .founder-image-wrapper {
+        flex: 0 0 auto;
+        width: 100%;
+        height: 320px;
+        position: relative;
+      }
+
+      .founder-image {
+        width: 100%;
+        height: 100%;
+      }
+
+      .founder-text-wrapper {
+        flex: 0 0 auto;
+        width: 100%;
+        height: auto;
+      }
+
+      .founder-text {
+        padding: var(--space-xl) var(--space-lg) var(--space-md);
+      }
+    }
+
+    .teachers-section {
+      padding: var(--space-xl) 0 10px 0;
+      position: relative;
+      background-color: var(--color-beige);
+    }
+
+    .teachers-section__title {
+      margin-bottom: var(--space-xl);
+      padding-left: var(--space-3xl);
+    }
+
+    .teachers-section__title--right {
+      text-align: right;
+      padding-right: var(--space-3xl);
+      padding-left: 0;
+    }
+
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .teachers-carousel {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 30px 20px 30px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      scroll-padding-left: 30px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .teacher-card {
+      scroll-snap-align: start;
+    }
+
+    .teachers-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+      border: none;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all var(--transition-base);
+    }
+
+    .carousel-arrow:hover {
+      background: color-mix(in srgb, var(--color-primary) 50%, transparent);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .carousel-arrow--left {
+      left: 30px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    .carousel-arrow--left.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .carousel-arrow--right {
+      right: 30px;
+    }
+
+    .carousel-arrow svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--color-neutral-100);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .teacher-card {
+      flex-shrink: 0;
+      width: 240px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      scroll-snap-align: start;
+    }
+
+    .teacher-card__image-wrapper {
+      position: relative;
+      width: 240px;
+      height: 305px;
+      margin-bottom: 0;
+      overflow: hidden;
+    }
+
+    .teacher-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      filter: grayscale(100%);
+      transition: transform var(--transition-base);
+    }
+
+    /* Adjust framing for specific teachers */
+    .teacher-card__image[alt="Zach"],
+    .teacher-card__image[alt="Sarah"],
+    .teacher-card__image[alt="Amy"],
+    .teacher-card__image[alt="Megan"],
+    .teacher-card__image[alt="Denise"] {
+      object-position: center 20%;
+    }
+
+    .teacher-card__image[alt="Laura"] {
+      object-position: center 27%;
+    }
+
+    .teacher-card__image[alt="Tamara"] {
+      object-position: center 28%;
+    }
+
+    .teacher-card__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--transition-base);
+      pointer-events: none;
+    }
+
+    .teacher-card__plus {
+      font-size: 48px;
+      color: white;
+      opacity: 0;
+      transition: opacity var(--transition-base);
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .teacher-card:hover .teacher-card__overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .teacher-card:hover .teacher-card__plus {
+      opacity: 1;
+    }
+
+    .teacher-card__name {
+      color: var(--color-text-primary);
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-top: 4px;
+      margin-bottom: 0;
+      letter-spacing: 0.01em;
+    }
+
+    /* Teacher Modal */
+    .teacher-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999999 !important;
+      padding: 30px;
+    }
+
+    .teacher-modal.active {
+      display: flex;
+    }
+
+    .teacher-modal__content {
+      max-width: 900px;
+      width: 100%;
+      max-height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      gap: 20px;
+      z-index: 9999999 !important;
+    }
+
+    .teacher-modal__close {
+      position: fixed;
+      top: 60px;
+      right: 60px;
+      background: none;
+      border: none;
+      font-size: 48px;
+      cursor: pointer;
+      color: white;
+      line-height: 1;
+      padding: 0;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000000 !important;
+      transition: opacity 0.3s ease;
+    }
+
+    .teacher-modal__close:hover {
+      opacity: 0.7;
+    }
+
+    .teacher-modal__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 290 / 368;
+      object-fit: cover;
+      filter: grayscale(100%);
+      display: block;
+    }
+
+    .teacher-modal__image-container {
+      max-width: 290px;
+      margin: 0 auto;
+      background-color: white;
+    }
+
+    .teacher-modal__body {
+      background-color: white;
+      padding: 25px 40px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .teacher-modal__name {
+      font-size: 1.875rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--color-text-primary);
+    }
+
+    .teacher-modal__bio {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    @media (max-width: 768px) {
+      .teachers-section__title {
+        font-size: 2rem;
+        padding-left: 30px;
+      }
+
+      .teachers-section__title--right {
+        padding-right: 30px;
+      }
+
+      .teachers-carousel {
+        padding: 0 30px 20px 30px;
+      }
+
+      .teacher-modal__body {
+        padding: 30px;
+      }
+
+      .teacher-modal__close {
+        top: 20px;
+        right: 20px;
+      }
+
+      .enso-bridge {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .enso-bridge__img {
+        width: 220px;
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link nav__link--active">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero" style="background-image: url('images/Final%20Images/OurTeam/OurTeam_Hero.webp'); background-size: cover; background-position: center 25%; height: 520px; display: flex; align-items: center; justify-content: center; background-color: var(--color-neutral-700);">
+  </section>
+
+  <!-- Welcome Section -->
+  <section class="welcome-section">
+    <h1>from our family to you, welcome to sama. we're so glad you're here.</h1>
+  </section>
+
+  <!-- Founder Section -->
+  <section class="founder-section">
+    <div class="founder-content">
+      <div class="founder-image-wrapper">
+        <img src="images/Final%20Images/OurTeam/Rebekah.webp" alt="Rebekah Jacobs" class="founder-image">
+      </div>
+      <div class="founder-text-wrapper">
+        <div class="founder-text">
+          <div class="founder-text__header">
+            <h2 class="section-title section-title--left founder-text__name" style="text-transform: none;">Rebekah Jacobs</h2>
+            <span class="founder-text__title">CPT, E-RYT® 500, YACEP®<br>Founder &amp; Owner — Sama Yoga Center and Academy</span>
+          </div>
+          <p>Rebekah Jacobs is a certified personal trainer (CPT), E-RYT® 500, YACEP®, and AMI Montessori Assistant Teacher with nearly two decades of experience in the yoga and wellness space. She has been teaching for 18 years, managing studio operations for just as long, and has owned and grown Sama Yoga Center for over 10 years. She is also the founder of Sama Yoga Academy, a nationally accredited Yoga Alliance® training program. Rebekah's commitment to excellence has been recognized with multiple honors, including the Mindbody Visionary Award, Best Yoga Studio by Best of the Gold Coast and Local Love Award, and the 2023 "Brilliant Woman" award from Grown Brilliance.</p>
+          <p>Sama means same, equal, equanimity — a reminder that there's more that unites us than divides us. Rebekah founded Sama to offer space to move and rest, to process and let go. She invites you to carve out time for yourself and join the community, because we get stronger together, one breath at a time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekly Instructors Section -->
+  <section class="teachers-section">
+    <h2 class="section-title section-title--left teachers-section__title">weekly instructors</h2>
+
+    <div class="carousel-container">
+      <button class="carousel-arrow carousel-arrow--left" onclick="scrollCarousel('weekly', -1)" aria-label="Previous">
+        <svg viewBox="0 0 24 24">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="9 8 5 12 9 16"/>
+        </svg>
+      </button>
+      <button class="carousel-arrow carousel-arrow--right" onclick="scrollCarousel('weekly', 1)" aria-label="Next">
+        <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="15 8 19 12 15 16"/>
+        </svg>
+      </button>
+      <div class="teachers-carousel" id="weekly-carousel">
+      <!-- Teacher 1 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Allie.webp" alt="Allie" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Allie</h3>
+      </div>
+
+      <!-- Teacher 2 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Amber.webp" alt="Amber" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Amber</h3>
+      </div>
+
+      <!-- Teacher 3 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Amy.webp" alt="Amy" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Amy</h3>
+      </div>
+
+      <!-- Teacher 4 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Denise.webp" alt="Denise" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Denise</h3>
+      </div>
+
+      <!-- Teacher 5 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Laura.webp" alt="Laura" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Laura</h3>
+      </div>
+
+      <!-- Teacher 6 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Mary.webp" alt="Mary" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Mary</h3>
+      </div>
+
+      <!-- Teacher 7 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Sarah.webp" alt="Sarah" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Sarah</h3>
+      </div>
+
+      <!-- Teacher 8 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Tamara.webp" alt="Tamara" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Tamara</h3>
+      </div>
+
+      <!-- Teacher 9 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Zach.webp" alt="Zach" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Zach</h3>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Substitutes & Guest Teachers Section -->
+  <section class="teachers-section">
+    <h2 class="section-title section-title--left teachers-section__title teachers-section__title--right">substitute & guest instructors</h2>
+
+    <div class="carousel-container">
+      <button class="carousel-arrow carousel-arrow--left" onclick="scrollCarousel('subs', -1)" aria-label="Previous">
+        <svg viewBox="0 0 24 24">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="9 8 5 12 9 16"/>
+        </svg>
+      </button>
+      <button class="carousel-arrow carousel-arrow--right" onclick="scrollCarousel('subs', 1)" aria-label="Next">
+        <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="15 8 19 12 15 16"/>
+        </svg>
+      </button>
+      <div class="teachers-carousel" id="subs-carousel">
+      <!-- Sub Teacher 1 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Anna.webp" alt="Anna" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Anna</h3>
+      </div>
+
+      <!-- April -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/April.webp" alt="April" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">April</h3>
+      </div>
+
+      <!-- Sub Teacher 2 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Caroline.webp" alt="Caroline" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Caroline</h3>
+      </div>
+
+      <!-- Sub Teacher 3 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Heather.webp" alt="Heather" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Heather</h3>
+      </div>
+
+      <!-- Sub Teacher 4 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Megan.webp" alt="Megan" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Megan</h3>
+      </div>
+
+      <!-- Missy -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Missy.webp" alt="Missy" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Missy</h3>
+      </div>
+
+      <!-- Sub Teacher 5 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Molly.webp" alt="Molly" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Molly</h3>
+      </div>
+
+      <!-- Sub Teacher 6 -->
+      <div class="teacher-card">
+        <div class="teacher-card__image-wrapper">
+          <img src="images/Final%20Images/OurTeam/Sara.webp" alt="Sara" class="teacher-card__image">
+          <div class="teacher-card__overlay">
+            <div class="teacher-card__plus">+</div>
+          </div>
+        </div>
+        <h3 class="teacher-card__name">Sara</h3>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+<footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Teacher Modal -->
+  <div class="teacher-modal" id="teacherModal">
+    <div class="teacher-modal__content">
+      <button class="teacher-modal__close" onclick="closeTeacherModal()">&times;</button>
+      <div class="teacher-modal__image-container">
+        <img class="teacher-modal__image" id="modalImage" src="" alt="">
+      </div>
+      <div class="teacher-modal__body">
+        <h2 class="teacher-modal__name" id="modalName"></h2>
+        <p class="teacher-modal__bio" id="modalBio">Click here to add teacher bio and details...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+    // Teacher data with exact bios
+    const teacherData = {
+      'Allie': { bio: 'Allie Muzzio is a licensed Occupational Therapist and registered yoga teacher, completing both the 200-Hour Yoga Teacher Training and Kids Yoga Teacher Training at Sama Academy. She holds a Master\'s degree in Occupational Therapy with a minor in Psychology, integrating evidence-based OT principles with nervous system support, functional movement, and embodied awareness.\n\nWith specialized training in Pediatric Yoga & Mindfulness, Allie guides students of all ages in developing tools for safety, confidence, and self-regulation—both on and off the mat. Her approach blends therapeutic insight with accessible movement and breath awareness, helping students meet themselves with curiosity and kindness. She looks forward to supporting you here at Sama!' },
+      'Amber': { bio: 'Amber is thrilled to be with you. She is a New Canaan resident, native of the Netherlands, mom of 3, avid learner and proud graduate of Sama Academy\'s 200 hr Yoga Teacher Training Program. Amber\'s signature classes offer steady and easeful sequences to set you on your wonderful day ahead. Welcome to Sama!' },
+      'Amy': { bio: 'Amy is a leader in our community, serving as art educator and lead at a private school in Greenwich. She is a graduate of Sama Yoga Academy\'s YTT-200-hour and Restorative Teacher Training programs and a mentor for Sama Academy. Amy\'s experience and steady presence guide us into harmony.\n\nIn 2020 Amy founded bilden farmacy, hand-poured candles available here at Sama that offer rituals from the mat to your home. She is an artist, art educator and marathon runner and can not wait to welcome you.' },
+      'Denise': { bio: 'After a career in Finance and 10 years abroad, Denise and her family settled in Darien, CT. She was an avid Sama student and developed into a proud graduate of Sama Yoga Academy\'s 200 Hour YTT, Sama\'s 30 Hour Kids and Sama\'s 25 Hour Restorative YTT. She dedicates some of her time to volunteering including the Norwalk Grassroots Tennis & Education Center.\n\nShe loves her family dog walks, neighborhood runs, friendly tennis matches and time on her mat. Denise believes that one secret to maintaining an active lifestyle is finding a little time to slow down. She invites you to come to your mat, take a breath and move mindfully so you are energized ready for your day.' },
+      'Mary': { bio: 'Mary has been practicing yoga for over fifteen years, and is proud to be a graduate of Sama Academy\'s Yoga Teacher Training. She is mother of six-year-old twins.\n\nShe currently leads partnerships for Thirty Madison, a platform increasing access to virtual specialized healthcare. Prior to Thirty Madison, Mary led strategy and growth initiatives for the non-profit DoSomething.org, as well as at mission-driven tech startups Andela and ZocDoc. Mary graduated Magna Cum Laude from Fordham University, where she studied International Political Economy and Peace & Justice Studies.' },
+      'Missy': { bio: 'Missy has been practicing yoga since her 20\'s, achieved her goal to become a teacher and is a graduate of Sama Yoga Academy\'s 200 Hour YTT. She balances her time being both a Digital Ad Agency executive and a yoga teacher.\n\nMissy lives in Ridgefield with her two teenage daughters, English husband and two dogs. She is passionate about yoga, tennis, pickleball and refining her sourdough skills! Her classes guide us to build strength, awareness and harmony from our bones to our brain.' },
+      'Sara': { bio: 'Sara is a proud graduate of Sama Yoga Academy\'s 200 hr YTT, and Savannah College of Art and Design with a major in fashion design. She works as a sewing and crafting teacher in Darien and Greenwich, designs clothes, knits and crochets in her free time.' },
+      'Sarah': { bio: 'Sarah began practicing yoga over 7 years ago in search of balance, harmony, and inner strength, and immediately fell in love. As a graduate of Sama Yoga Academy\'s 200-hour Yoga Teacher Training, she seeks to offer the support and steady easefulness that yoga has brought to her life in every one of her classes.\n\nOutside the studio, Sarah bounces between Norwalk and New York City working in book publishing and fills her free time with long runs, crochet projects, and matcha lattes. She is a cat mom and dog walking volunteer at a local shelter and will always say yes to seeing a picture of your pet.\n\nSarah invites you to leave your day at the door and join her on the mat for an hour of blissful unplugging, joyful movement, and the occasional fiery flow.' },
+      'Tamara': { bio: 'Tamara is honored to have completed Sama\'s 200-hour YTT and Restorative Yoga Program has been practicing yoga for over 30 years. With a background in personal training and group fitness, she has explored many movement modalities—but yoga has always been her true home.\n\nShe is passionate about helping others feel strong, supported, and empowered at every stage of life. Tamara is excited to share the joy, curiosity, and connection that yoga brings—both on and off the mat. Welcome!' },
+      'Zach': { bio: 'Graduate of Sama Academy\'s YTT-200-hour and Children\'s Teacher Training. With a Masters in educational psychology and undergrad in Human Development and Family Science, Zach is passionate about every human being being heard and seen, He is a graduate of Sama Yoga Academy\'s 200 hr YTT program and is currently an elementary school teacher in Bridgeport, CT. Through his mindful flows and innate kindness, Zach shares that he started yoga as an adult and is eager to meet you where you are.' },
+      'April': { bio: 'April has been practicing yoga for over 15 years. A lifelong athlete, her relationship with movement transformed after being diagnosed with fibromyalgia at a young age, followed by chronic Lyme disease. Through these experiences, she was invited to slow down to cultivate a compassionate, intuitive understanding of her body.\n\nApril first came to Sama drawn to its belief that yoga is truly for every body, and is a proud graduate of the Sama Yoga Center Teacher Training program. Her teaching is rooted in that same philosophy—creating a space where students feel seen, supported, and empowered to meet themselves exactly as they are. She is passionate about helping others discover that strength, healing, and connection are always available, no matter where they begin.' },
+      'Laura': { bio: 'Laura is an RYT 200 Yoga Instructor, Sama Academy Graduate, Certified Personal Trainer, originally from the UK, a former finance professional, and a mother of four. She is a lifelong lover of movement, actively engaged in racquet sports, running, and strength training. She teaches through the lens of balance, strength and softness, effort and ease, flow and release.\n\nHer yoga practice began as support for an active lifestyle, but the grounding breathwork and meditative focus soon became essential to calming her nervous system.\n\nIn class, she offers both challenge and space to soften, guiding students to explore strength, release, and the place where they meet.' },
+      'Anna': { bio: 'Anna earned her RYT-200 hour teaching certification from Sama Yoga Academy\'s Teacher Training. On the side, she holds an MBA, a B.S. in Marketing and a B.A. in German; Anna works in consumer behavior and branding functions.\n\nAnna\'s upbeat spirit and classes lift us up! "Movement, mindfulness, strength, and stretch are Sama\'s recipe for joy!" Join her in flow!' },
+      'Caroline': { bio: 'Caroline is passionate about the benefits of slowing down and connecting to inner calm through the practice of yoga. She holds a B.S. in Educational Studies from Colgate University and a MAT in Early Childhood Education from Manhattanville College. In 2019, she completed her 200-hour YTT.\n\nHere at Sama, she obtained her Kids Yoga Certification and Restorative Yoga Certification. Caroline is a Grade 3 teacher at New Canaan Country School and the Director of the Sama Kids Program.' },
+      'Heather': { bio: 'With three children and a Darien, CT native, Heather understands the pressures and joys of managing our time and priorities. As a proud graduate of Sama Yoga Academy\'s Teacher Training Program, she has taken yoga from passion to priority. She is always a student and here to support you. "Welcome – may you be comfortable, safe and flexible in mind and body on your mat and into your day."' },
+      'Megan': { bio: 'Megan Yee is a psychotherapist and a graduate of Sama Yoga Academy\'s 200-hour YTT, who brings depth, creativity, and presence to her teaching. A lifelong violinist and community orchestra leader, she offers moving meditation with live music to wellness spaces across Fairfield County, exploring the relationship between sound, movement, and emotional well-being. She also facilitates hands-on craft workshops and enjoys making whimsical art, viewing creativity as a powerful pathway to healing and self-expression. Community and connection are at the heart of all that Megan does.' },
+      'Molly': { bio: 'Molly has been a student of yoga for over 10 years and is grateful to have the opportunity to graduate from Sama\'s 200 hr YTT Program. In Molly\'s view, yoga is the quintessential therapy for mental and physical health and helps her navigate the challenges of her corporate responsibilities with steadiness and perspective. Molly can\'t wait to share the light, love and joy of yoga through uplifting and energizing practices with you here at Sama. Welcome!' }
+    };
+
+    // Open teacher modal
+    function openTeacherModal(name, imageSrc) {
+      const modal = document.getElementById('teacherModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalName = document.getElementById('modalName');
+      const modalBio = document.getElementById('modalBio');
+
+      modalImage.src = imageSrc;
+      modalImage.alt = name;
+      modalName.textContent = name;
+      modalBio.textContent = teacherData[name]?.bio || 'Add bio here...';
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close teacher modal
+    function closeTeacherModal() {
+      const modal = document.getElementById('teacherModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('teacherModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeTeacherModal();
+      }
+    });
+
+    function updateArrowVisibility(carouselId) {
+      const carousel = document.getElementById(carouselId + '-carousel');
+      const leftArrow = carousel.parentElement.querySelector('.carousel-arrow--left');
+      const rightArrow = carousel.parentElement.querySelector('.carousel-arrow--right');
+      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+      // Show left arrow if scrolled away from start (accounting for 30px padding)
+      if (carousel.scrollLeft > 35) {
+        leftArrow.classList.add('visible');
+      } else {
+        leftArrow.classList.remove('visible');
+      }
+
+      // Hide right arrow if at the end
+      if (carousel.scrollLeft >= maxScroll - 10) {
+        rightArrow.style.opacity = '0';
+        rightArrow.style.pointerEvents = 'none';
+      } else {
+        rightArrow.style.opacity = '1';
+        rightArrow.style.pointerEvents = 'auto';
+      }
+    }
+
+    function scrollCarousel(carouselId, direction) {
+      const carousel = document.getElementById(carouselId + '-carousel');
+      const cardWidth = 240; // Width of teacher card
+      const gap = 30; // Gap between cards
+      const scrollAmount = cardWidth + gap;
+
+      // Scroll the carousel
+      carousel.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+
+      // Update arrow visibility after scroll
+      setTimeout(() => {
+        updateArrowVisibility(carouselId);
+      }, 300);
+    }
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      // Move modal to body to escape stacking context
+      const modal = document.getElementById('teacherModal');
+      if (modal && modal.parentElement.tagName !== 'BODY') {
+        document.body.appendChild(modal);
+      }
+
+      // Add click handlers to teacher cards
+      document.querySelectorAll('.teacher-card').forEach(card => {
+        card.addEventListener('click', function() {
+          const name = this.querySelector('.teacher-card__name').textContent;
+          const imageSrc = this.querySelector('.teacher-card__image').src;
+          openTeacherModal(name, imageSrc);
+        });
+      });
+
+      // Add scroll listeners to update arrow visibility
+      document.getElementById('weekly-carousel').addEventListener('scroll', () => {
+        updateArrowVisibility('weekly');
+      });
+      document.getElementById('subs-carousel').addEventListener('scroll', () => {
+        updateArrowVisibility('subs');
+      });
+
+      // Set initial arrow visibility
+      setTimeout(() => {
+        updateArrowVisibility('weekly');
+        updateArrowVisibility('subs');
+      }, 100);
+    });
+  </script>
+</body>
+</html>

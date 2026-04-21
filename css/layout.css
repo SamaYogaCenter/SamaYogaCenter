@@ -1,0 +1,204 @@
+/* Layout System - Container, Grid, Flexbox utilities */
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+.container-fluid {
+  width: 100%;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+/* Grid System */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.grid--2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive grid - auto-fit pattern */
+.grid--auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Flexbox utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-justify-between {
+  justify-content: space-between;
+}
+
+.flex-justify-end {
+  justify-content: flex-end;
+}
+
+/* Gap utilities */
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+.gap-2xl { gap: var(--space-2xl); }
+
+/* Spacing utilities */
+.mt-xs { margin-top: var(--space-xs); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+.mt-2xl { margin-top: var(--space-2xl); }
+.mt-3xl { margin-top: var(--space-3xl); }
+.mt-4xl { margin-top: var(--space-4xl); }
+
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+.mb-2xl { margin-bottom: var(--space-2xl); }
+.mb-3xl { margin-bottom: var(--space-3xl); }
+.mb-4xl { margin-bottom: var(--space-4xl); }
+
+.pt-xs { padding-top: var(--space-xs); }
+.pt-sm { padding-top: var(--space-sm); }
+.pt-md { padding-top: var(--space-md); }
+.pt-lg { padding-top: var(--space-lg); }
+.pt-xl { padding-top: var(--space-xl); }
+.pt-2xl { padding-top: var(--space-2xl); }
+.pt-3xl { padding-top: var(--space-3xl); }
+.pt-4xl { padding-top: var(--space-4xl); }
+.pt-5xl { padding-top: var(--space-5xl); }
+
+.pb-xs { padding-bottom: var(--space-xs); }
+.pb-sm { padding-bottom: var(--space-sm); }
+.pb-md { padding-bottom: var(--space-md); }
+.pb-lg { padding-bottom: var(--space-lg); }
+.pb-xl { padding-bottom: var(--space-xl); }
+.pb-2xl { padding-bottom: var(--space-2xl); }
+.pb-3xl { padding-bottom: var(--space-3xl); }
+.pb-4xl { padding-bottom: var(--space-4xl); }
+.pb-5xl { padding-bottom: var(--space-5xl); }
+
+/* Section spacing */
+.section {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  scroll-margin-top: 120px;
+}
+
+.section--sm {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.section--lg {
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-2xl);
+}
+
+/* Hero section (accounts for absolute header) */
+.page-heading {
+  font-size: var(--font-size-6xl);
+  font-weight: var(--font-weight-bold);
+  text-transform: lowercase;
+}
+
+/* Text alignment */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Responsive utilities */
+@media (max-width: 1024px) {
+  .grid--4col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: var(--space-md);
+  }
+
+  .grid--2col,
+  .grid--3col,
+  .grid--4col {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  .section--lg {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  /* Mobile-specific flex direction */
+  .flex-col-mobile {
+    flex-direction: column;
+  }
+
+  /* Hide on mobile */
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  /* Hide on desktop */
+  .hidden-desktop {
+    display: none !important;
+  }
+}

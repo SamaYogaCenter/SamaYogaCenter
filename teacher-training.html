@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yoga Teacher Training at Sama Yoga Center. Yoga Alliance® registered training in Westchester.">
+  <title>Teacher Training | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://widgets.mindbodyonline.com">
+  <link rel="preload" href="https://widgets.mindbodyonline.com/javascripts/healcode.js" as="script">
+  <script src="https://widgets.mindbodyonline.com/javascripts/healcode.js" type="text/javascript" async></script>
+
+  <style>
+    .tt-register-btn {
+      min-height: 44px;
+    }
+
+    .tt-register-btn healcode-widget {
+      display: inline-block;
+      min-height: 44px;
+      min-width: 160px;
+    }
+
+    .tt-register-btn .healcode-pricing-option-text-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: white !important;
+      padding: var(--space-md) var(--space-xl);
+      font-size: var(--font-size-base);
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-medium);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border-radius: var(--radius-md);
+      min-height: 44px;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .tt-register-btn .healcode-pricing-option-text-link:hover {
+      background-color: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .tt-hero {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    .tt-section {
+      background: white;
+      padding: var(--space-4xl) 0;
+    }
+
+    .tt-section--beige {
+      background: var(--color-beige);
+      padding: var(--space-md) 0;
+    }
+
+    /* Split background: left beige, right white (what's included / what you'll learn) */
+    .tt-section--split {
+      padding: var(--space-xl) 0;
+      background: linear-gradient(to right, var(--color-beige) 50%, white 50%);
+    }
+
+    /* Split background: left white, right beige (schedule / graduation requirements) */
+    .tt-section--split-reverse {
+      padding: var(--space-xl) 0;
+      background: linear-gradient(to right, white 50%, var(--color-beige) 50%);
+    }
+
+    .tt-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+    }
+
+    .tt-heading {
+      font-size: 1.75rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tt-heading--large {
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .tt-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4xl);
+      align-items: center;
+    }
+
+    .tt-intro__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .tt-intro__img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    .tt-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4xl);
+      align-items: start;
+    }
+
+    .tt-grid--three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2xl);
+    }
+
+    .tt-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tt-list li {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .tt-list li:last-child {
+      border-bottom: none;
+    }
+
+    .tt-list li::before {
+      content: '—';
+      color: var(--color-primary);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .tt-card {
+      background: white;
+      border: 1px solid var(--color-primary);
+      padding: var(--space-xl);
+    }
+
+    .tt-card__title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-transform: lowercase;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-md);
+    }
+
+    .tt-schedule {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    .tt-schedule strong {
+      color: var(--color-text-primary);
+      font-weight: 700;
+    }
+
+    .tt-schedule-dates {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-lg);
+      margin: 0 auto;
+    }
+
+    .tt-schedule-dates::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      background: var(--color-primary);
+      z-index: 0;
+    }
+
+    .tt-schedule-dates span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Arrowhead just above graduation pill */
+    .tt-schedule-dates span:last-child::before {
+      content: '';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid var(--color-primary);
+      z-index: 2;
+    }
+
+    .tt-schedule-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4xl);
+      align-items: stretch;
+    }
+
+    .tt-grad-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .tt-grad-img {
+      flex: 1 1 0;
+      min-height: 0;
+      width: 100%;
+      object-fit: cover;
+      object-position: center 10%;
+      display: block;
+    }
+
+    .tt-grad-card {
+      flex: 1 1 0;
+      background: var(--color-beige);
+      padding: var(--space-xl) var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .tt-grad-card .tt-heading {
+      font-size: 1.75rem;
+      margin-bottom: var(--space-md);
+    }
+
+    .tt-grad-card .tt-list li {
+      padding: 5px 0;
+    }
+
+    .tt-connector-svg {
+      position: absolute;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 0;
+    }
+
+    .tt-pricing-box {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .tt-pricing-row {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 1rem;
+    }
+
+    .tt-pricing-row:last-child {
+      border-bottom: none;
+    }
+
+    .tt-pricing-row__label {
+      color: var(--color-text-secondary);
+    }
+
+    .tt-pricing-row__price {
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .tt-pricing-row__note {
+      font-size: 0.875rem;
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .tt-kids {
+      background: var(--color-beige);
+      padding: var(--space-4xl) 0;
+    }
+
+    .tt-kids__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4xl);
+      align-items: center;
+    }
+
+    .tt-kids__img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      object-position: center 50%;
+      display: block;
+    }
+
+    .tt-kids__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    @media (max-width: 768px) {
+      .tt-grid,
+      .tt-grid--three,
+      .tt-kids__inner,
+      .tt-intro,
+      .tt-schedule-layout {
+        grid-template-columns: 1fr;
+      }
+
+      /* Fix split backgrounds — become single color when stacked */
+      .tt-section--split,
+      .tt-section--split-reverse {
+        background: var(--color-beige);
+      }
+
+      .tt-container {
+        padding: 0 var(--space-xl);
+      }
+
+      .tt-hero {
+        height: 300px;
+      }
+
+      .tt-connector-svg {
+        display: none;
+      }
+
+      /* Graduation requirements: flex: 1 1 0 collapses without a fixed container height */
+      .tt-grad-img {
+        flex: 0 0 220px;
+        min-height: 220px;
+        width: 100%;
+        margin-top: 0;
+      }
+
+      .tt-grad-card {
+        flex: 0 0 auto;
+        overflow: visible;
+        max-width: 100%;
+      }
+
+      .tt-intro__img {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__link--active">
+            <a href="teacher-training.html" class="nav__link nav__link--active">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Image -->
+  <img src="images/Final%20Images/Teacher%20Training/TeacherTraining_Hero.webp" alt="Yoga Teacher Training" class="tt-hero">
+
+  <!-- Intro Blurb -->
+  <section class="tt-section" id="teacher-training-program">
+    <div class="tt-container">
+      <div class="tt-intro">
+        <div class="tt-intro__text">
+          <h2 class="tt-heading tt-heading--large">yoga teacher training</h2>
+          <p>Join us this Spring for an experience that goes far beyond learning to teach. Our <strong>200-hour Yoga Alliance® registered training</strong> — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.</p>
+          <p>This training is for you. <strong>You don't need to intend to teach.</strong> Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as <strong>a retreat you return to every weekend</strong> — immersive, personal, and transformative.</p>
+          <div class="tt-register-btn" style="margin-top: var(--space-md);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
+        </div>
+        <img src="images/Final%20Images/Teacher%20Training/TeacherTraining_Image2.webp" alt="Yoga Teacher Training" class="tt-intro__img" style="object-position: 30% 60%;">
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Included + What We Will Cover -->
+  <section style="background: var(--color-beige); padding: var(--space-3xl) 0;">
+    <div class="tt-container">
+      <div class="tt-grid" style="align-items: stretch;">
+
+        <!-- What We Will Cover -->
+        <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
+          <h2 class="tt-heading">what we will cover</h2>
+          <ul class="tt-list">
+            <li>Āsana study &amp; practice</li>
+            <li>Anatomy &amp; physiology</li>
+            <li>Meditation</li>
+            <li>Prānāyāma</li>
+            <li>Philosophy &amp; Sanskrit</li>
+            <li>Teaching methodology</li>
+          </ul>
+        </div>
+
+        <!-- What's Included -->
+        <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
+          <h2 class="tt-heading">what's included</h2>
+          <ul class="tt-list">
+            <li>In-person group training sessions</li>
+            <li>Unlimited membership from registration to graduation</li>
+            <li>Comprehensive learning manual</li>
+            <li>Recorded lecture access</li>
+            <li>One on one mentorship</li>
+            <li>Opportunity to register with Yoga Alliance&reg; at graduation</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule + Graduation Requirements -->
+  <section style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-xl);">
+    <div class="tt-container">
+      <div class="tt-schedule-layout">
+
+        <!-- Left: Schedule -->
+        <div style="text-align: center; background: white; padding: var(--space-2xl);">
+          <h2 class="tt-heading" style="margin-bottom: var(--space-xs);">schedule</h2>
+          <div class="tt-schedule">
+            <p style="font-size: 1.25rem; margin-bottom: var(--space-lg);"><strong>weekends, 12:30–3:30pm</strong></p>
+            <div class="tt-schedule-dates">
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 18–19</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 25–26</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 2–3</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 9–10</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 16–17</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 30–31</span>
+              <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem; font-weight: 700;">Graduation: June 6–7</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Graduation Requirements Card + Photo -->
+        <div class="tt-grad-area">
+          <img src="images/Final%20Images/Teacher%20Training/L1130392%201.webp" alt="Yoga Teacher Training" class="tt-grad-img">
+          <div class="tt-grad-card">
+            <h2 class="tt-heading">graduation requirements</h2>
+            <ul class="tt-list">
+              <li>Attend training modules or watch recordings</li>
+              <li>Complete 50 yoga or meditation sessions (at least 30 with Sama)</li>
+              <li>Submit and teach a prepared sequence</li>
+              <li>Complete an open-book exam at your own pace</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Cost -->
+  <section style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
+    <div class="tt-container">
+      <div class="tt-intro">
+        <img src="images/Final%20Images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
+        <div style="background: var(--color-beige); min-height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-lg) var(--space-2xl);">
+          <p style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a 200-Hour Yoga Alliance&reg; Certified Yoga Teacher and immerse in your own well-being.</p>
+          <div style="background: white; padding: var(--space-lg) var(--space-2xl); width: 100%; max-width: 380px;">
+            <h2 class="tt-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
+            <div class="tt-pricing-box">
+              <div class="tt-pricing-row">
+                <span class="tt-pricing-row__label">Full Program</span>
+                <span class="tt-pricing-row__price">$3,500</span>
+              </div>
+              <div class="tt-pricing-row">
+                <span class="tt-pricing-row__label">Payment Plan</span>
+                <span class="tt-pricing-row__price">contact for details</span>
+              </div>
+            </div>
+          </div>
+          <div class="tt-register-btn" style="margin-top: var(--space-lg);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <style>
+    .tt-reviews {
+      padding: var(--space-2xl) 0;
+      background: var(--color-beige);
+    }
+    .tt-reviews__intro {
+      max-width: 800px;
+      margin: 0 auto var(--space-2xl);
+      text-align: center;
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+    .tt-reviews__grid {
+      columns: 3;
+      column-gap: var(--space-md);
+      max-width: 1600px;
+      margin: 0 auto var(--space-md);
+      padding: 0 var(--space-xl);
+    }
+    .tt-review-card {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: var(--space-md);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      break-inside: avoid;
+      margin-bottom: var(--space-md);
+    }
+    .tt-review-card__stars {
+      color: var(--color-primary);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-xs);
+      letter-spacing: 2px;
+    }
+    .tt-review-card__quote {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+      margin-bottom: var(--space-xs);
+    }
+    .tt-review-card {
+      flex-direction: row !important;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+    .tt-review-card__avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      flex-shrink: 0;
+      background: var(--color-beige);
+    }
+    .tt-review-card__body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .tt-review-card__author {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-top: var(--space-xs);
+      align-self: flex-end;
+    }
+    .tt-reviews__badges {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+    .tt-reviews__badges img {
+      height: 80px;
+      width: auto;
+      filter: grayscale(100%);
+    }
+    @media (max-width: 768px) {
+      .tt-reviews__grid {
+        columns: 1;
+      }
+    }
+  </style>
+
+  <section class="tt-reviews">
+    <div class="tt-container" style="text-align: center;">
+      <h2 class="tt-heading" style="text-align: center;">what our graduates say</h2>
+      <p style="max-width: 800px; margin: 0 auto var(--space-lg); text-align: center; font-size: 1rem; color: var(--color-text-secondary); line-height: 1.7;">Our Yoga Teacher Trainings are registered with Yoga Alliance&reg; and recognized nationwide for their exceptional quality. We take pride in our five-star reviews, a testament to our commitment to excellence.</p>
+    </div>
+    <div class="tt-reviews__grid">
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/OurTeam/Megan.webp" alt="Megan" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;I joined this YTT with the intention of deepening my personal practice, and I ended up gaining so much more than I expected. Beyond learning about yoga, the training offered meaningful opportunities for self-reflection and growth that extended into other areas of my life. I felt genuinely supported by both the instructors and my fellow trainees, and appreciated how flexible and accessible the program was. It provided a strong foundation in yoga philosophy, cueing, and thoughtful sequencing, with a clear emphasis on creating classes that are inclusive, welcoming, and responsive to different bodies and experiences. Over the course of the training, I began to see potential in myself as a teacher that I hadn&rsquo;t anticipated when I first started. I now feel equipped with both the confidence and the practical tools to share this practice with others in a way that feels authentic and grounded.&rdquo;</p>
+          <span class="tt-review-card__author">-Megan</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/OurTeam/Laura.webp" alt="Laura" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;A truly transformative experience. Fascinating, deeply instructive, and held in a beautiful, welcoming, and supportive environment. Rebekah is an exceptional teacher and leader. She guided us with such grace and care, creating space for our own individual journeys to unfold naturally. I highly recommend this yoga academy to anyone looking to deepen their practice.&rdquo;</p>
+          <span class="tt-review-card__author">-Laura</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/Teacher%20Training/Nathalie.YTT.webp" alt="Nathalie" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;I loved my teacher training program at Sama with Rebekah! It is so informative and she makes the material digestible as it is A LOT. I appreciate the booklet she creates for the teacher training; it is very clear. I also appreciate her help in continuing my learning with a mentor and opportunities to practice teach. I highly recommend the program!&rdquo;</p>
+          <span class="tt-review-card__author">-Nathalie</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/Teacher%20Training/Jen%20D..webp" alt="Jennifer D." class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;The program was an absolutely joy. Rebekah is the consummate teacher, I couldn&rsquo;t have asked for a better experience. It has opened doors to new paths personally and professionally. I am eternally grateful and would recommend anyone who is curious about this training and/or Sama&rsquo;s practice to not delay and reach out, you won&rsquo;t be disappointed.&rdquo;</p>
+          <span class="tt-review-card__author">-Jennifer D.</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/Teacher%20Training/Mayela.webp" alt="Mayela" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;The material, guidance and heartfelt empathy provided by Sama Yoga Center and specially by Rebekah, made this experience truly invaluable and deeply transformative.&rdquo;</p>
+          <span class="tt-review-card__author">-Mayela</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/Teacher%20Training/Kari.webp" alt="Kari" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;This training was incredibly organized, comprehensive, and heartfelt. I learned more than I could have ever hoped. I couldn&rsquo;t recommend Sama enough.&rdquo;</p>
+          <span class="tt-review-card__author">-Kari</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/Teacher%20Training/Becky.webp" alt="Becky" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;The program includes opportunities for take-home readings and self-practice, complemented by in-studio discussions, peer connections, and co-teaching experiences. Enrolling in the program gives you access to a comprehensive handbook, unlimited classes at Sama, and an online library of additional content, including text and videos. It&rsquo;s a balanced and supportive approach to learning, fostering both personal and professional growth as a yoga instructor.&rdquo;</p>
+          <span class="tt-review-card__author">-Becky</span>
+        </div>
+      </div>
+      <div class="tt-review-card">
+        <img src="images/Final%20Images/OurTeam/Zach.webp" alt="Zach" class="tt-review-card__avatar">
+        <div class="tt-review-card__body">
+          <p class="tt-review-card__quote">&ldquo;Rebekah&rsquo;s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice.&rdquo;</p>
+          <span class="tt-review-card__author">-Zach</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <a href="https://app.yogaalliance.org/schoolprofilereviews?id=0013g000002pjihAAA&sid=0013g000002npBIAAY" class="btn btn--primary" target="_blank">More Reviews on Yoga Alliance&reg;</a>
+      <div class="tt-reviews__badges">
+        <!-- Yoga Alliance badges — add back when ready -->
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .tt-payment-details--open {
+      opacity: 1 !important;
+    }
+    .tt-arrow--open {
+      transform: rotate(180deg);
+    }
+  </style>
+
+  <!-- Pink Bar + Additional Education -->
+  <style>
+    .tt-pink-bar {
+      background: var(--color-primary);
+      padding: var(--space-3xl) 0;
+      text-align: center;
+    }
+    .tt-pink-bar h2 {
+      color: white;
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .tt-ce-section {
+      background: white;
+      padding: var(--space-3xl) 0 var(--space-2xl) 0;
+    }
+    .tt-ce-intro {
+      max-width: 1100px;
+      margin: 0 auto var(--space-2xl);
+      padding: 0 var(--space-3xl);
+    }
+    .tt-ce-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: stretch;
+      max-width: 1100px;
+      margin: 0 auto var(--space-3xl);
+      padding: 0 var(--space-3xl);
+    }
+    .tt-ce-row__img {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .tt-ce-row__text {
+      padding: var(--space-2xl) var(--space-3xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tt-ce-row__text h3 {
+      white-space: nowrap;
+      font-size: 1.75rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-sm);
+      color: var(--color-text-primary);
+    }
+    .tt-ce-row__text .tt-ce-dates {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+    }
+    .tt-ce-row__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+    .tt-ce-row__text .tt-ce-details {
+      list-style: disc;
+      padding-left: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .tt-ce-row__text .tt-ce-details li {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-xs);
+    }
+    .tt-ce-row__text .tt-ce-details li a {
+      color: var(--color-primary);
+      text-decoration: underline;
+    }
+    .tt-ce-row__text .tt-ce-pricing {
+      margin-top: var(--space-sm);
+    }
+    .tt-ce-row__text .tt-ce-pricing p {
+      margin-bottom: var(--space-xs);
+      font-size: 1rem;
+    }
+    .tt-ce-row__text .tt-ce-pricing .tt-ce-highlight {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+    @media (max-width: 768px) {
+      .tt-ce-row {
+        grid-template-columns: 1fr;
+      }
+      .tt-ce-row__img {
+        min-height: 280px;
+      }
+    }
+  </style>
+
+  <div class="tt-pink-bar">
+    <h2 class="tt-heading tt-heading--large" style="color: white; margin-bottom: 0;">Can't get enough? Join us for further education:</h2>
+    <p style="color: white; font-size: 1.25rem; font-weight: 300; margin-top: var(--space-sm); white-space: nowrap;">Continue your education or drop in and expand your knowledge. Open to both graduates and non-graduates.</p>
+  </div>
+
+  <section class="tt-ce-section">
+
+    <!-- Masterclass: Immersion Specials -->
+    <style>
+      .tt-fs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+        max-width: 1100px;
+        margin: 0 auto var(--space-3xl);
+        padding: 0 var(--space-3xl);
+        align-items: stretch;
+      }
+      .tt-fs__img-wrap {
+        position: relative;
+        min-height: 380px;
+      }
+      .tt-fs__img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+      .tt-fs__content {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
+      .tt-fs__title {
+        white-space: nowrap;
+        font-size: 1.75rem;
+        font-weight: 600;
+        text-transform: lowercase;
+        letter-spacing: -0.02em;
+        margin-bottom: var(--space-xs);
+        color: var(--color-text-primary);
+      }
+      .tt-fs__subtitle {
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+        margin-bottom: var(--space-lg);
+      }
+      .tt-fs__date-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-sm);
+        margin-bottom: var(--space-lg);
+      }
+      .tt-fs__date-card {
+        background: var(--color-beige);
+        padding: var(--space-md) var(--space-sm);
+        text-align: center;
+      }
+      .tt-fs__date-card-date {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: 2px;
+      }
+      .tt-fs__date-card-day {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-text-secondary);
+        margin-bottom: var(--space-xs);
+      }
+      .tt-fs__date-card-focus {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin-bottom: 2px;
+      }
+      .tt-fs__date-card-focus a {
+        color: var(--color-text-primary);
+        text-decoration: none;
+      }
+      .tt-fs__date-card-focus a:hover {
+        color: var(--color-primary);
+      }
+      .tt-fs__date-card-desc {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        line-height: 1.5;
+      }
+      .tt-fs__body p {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        margin-bottom: var(--space-sm);
+      }
+      .tt-fs__pricing-box {
+        background: var(--color-beige);
+        padding: var(--space-md) var(--space-lg);
+        margin-top: var(--space-lg);
+      }
+      .tt-fs__pricing-section-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-text-secondary);
+        font-weight: 600;
+        margin-bottom: var(--space-xs);
+      }
+      .tt-fs__pricing-items {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: var(--space-sm);
+      }
+      .tt-fs__pricing-item {
+        display: flex;
+        align-items: center;
+        padding: var(--space-sm) 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        gap: var(--space-md);
+      }
+      .tt-fs__pricing-item:last-child {
+        border-bottom: none;
+      }
+      .tt-fs__pricing-item-label {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        flex: 1;
+      }
+      .tt-fs__pricing-item-price {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        white-space: nowrap;
+      }
+      .tt-fs__pricing-link {
+        color: var(--color-primary);
+        text-decoration: underline;
+        font-weight: 600;
+      }
+      .tt-fs__pricing-link:hover {
+        opacity: 0.8;
+      }
+      .tt-fs__pricing-singles {
+        padding-left: var(--space-lg);
+      }
+      .tt-fs__pricing-single {
+        padding: var(--space-xs) 0;
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+      }
+      .tt-fs__pricing-single-date {
+        color: var(--color-text-secondary);
+      }
+      .tt-ky-pricing {
+        display: flex;
+        background: var(--color-beige);
+      }
+      .tt-ky-pricing-col {
+        flex: 1;
+        padding: var(--space-md) var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--space-sm);
+        border-right: 1px solid rgba(0,0,0,0.12);
+      }
+      .tt-ky-pricing-col .tt-ky-pricing-price {
+        margin-top: auto;
+      }
+      .tt-ky-pricing-col:last-child {
+        border-right: none;
+      }
+      .tt-ky-pricing-label {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        font-weight: 600;
+      }
+      .tt-ky-pricing-price {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-primary);
+      }
+      .tt-ky-date-box {
+        background: var(--color-beige);
+        padding: var(--space-md) var(--space-lg);
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-lg);
+        flex-wrap: wrap;
+      }
+      .tt-ky-date-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-text-secondary);
+        font-weight: 600;
+      }
+      .tt-ky-date-main {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-text-primary);
+      }
+      .tt-ky-date-time {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+      }
+      @media (max-width: 768px) {
+        .tt-fs {
+          grid-template-columns: 1fr;
+        }
+        .tt-fs__img-wrap {
+          min-height: 280px;
+        }
+        .tt-fs__date-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <!-- Training: Pregnancy In Practice -->
+    <div class="tt-fs" id="prenatal-training-tt">
+      <div class="tt-fs__content" style="justify-content: flex-start; height: auto; gap: var(--space-md);">
+        <h3 class="tt-fs__title">training: pregnancy in practice</h3>
+        <p style="font-size: 1rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 0;">with <strong>Rebekah Jacobs</strong></p>
+        <div class="tt-ky-date-box">
+          <span class="tt-ky-date-main">Saturday, June 27th</span>
+          <span class="tt-ky-date-time">12:30–3:30 PM</span>
+        </div>
+        <div class="tt-fs__body">
+          <p>A Prenatal Yoga Training for Teachers &amp; Expectant Students</p>
+          <p>This one-day immersive is designed to support you to meet the changing body with clarity, confidence, and care.</p>
+          <p>Whether you are a yoga teacher or moving through pregnancy yourself, this 3-hour experience offers a grounded, intelligent approach to supporting the prenatal body — to ease discomfort, strengthen the mind &amp; body and prepare for birth.</p>
+          <p><strong>You'll learn to:</strong><br>
+          – Teach and practice with safety, awareness, and responsiveness<br>
+          – Adapt movement, flow and shapes skillfully for each trimester<br>
+          – Use breathing techniques as a foundation for regulation<br>
+          – Offer grounding tools that cultivate presence and ease<br>
+          – Understand key anatomy and create truly supportive rest</p>
+          <p>If you are a Registered Yoga Teacher (RYT), this training is eligible for 5 Yoga Alliance Continuing Education hours.</p>
+          <p>A refined approach to supporting pregnancy with steadiness, skill, and presence.</p>
+        </div>
+        <div class="tt-ky-pricing">
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Early Bird (by May 27th)</span>
+            <span class="tt-ky-pricing-price">$350</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Regular</span>
+            <span class="tt-ky-pricing-price">$450</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+        </div>
+      </div>
+      <div class="tt-fs__img-wrap">
+        <img src="images/Final%20Images/Events/PregnancyandPractice.webp" alt="Training: Pregnancy In Practice" class="tt-fs__img" style="object-position: center bottom;">
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div style="max-width: 1100px; margin: 0 auto var(--space-3xl); padding: 0 var(--space-3xl);">
+      <div style="height: 1px; background: rgba(0, 0, 0, 0.1);"></div>
+    </div>
+
+    <div class="tt-fs" id="founders-series">
+      <div class="tt-fs__content" style="justify-content: flex-start; height: auto; gap: var(--space-md);">
+        <h3 class="tt-fs__title">master class: refine with rebekah</h3>
+        <p style="font-size: 1rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 0;">with <strong>Rebekah Jacobs</strong></p>
+
+        <!-- Date box -->
+        <div class="tt-ky-pricing">
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-date-label">July 11</span>
+            <span class="tt-ky-date-main">Inversions</span>
+            <span class="tt-ky-date-time">12:30–2:30 PM</span>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-date-label">July 18</span>
+            <span class="tt-ky-date-main">Advanced Backbends + Binds</span>
+            <span class="tt-ky-date-time">12:30–2:30 PM</span>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-date-label">July 25</span>
+            <span class="tt-ky-date-main">Strength + Standing</span>
+            <span class="tt-ky-date-time">12:30–2:30 PM</span>
+          </div>
+        </div>
+
+        <!-- Body text -->
+        <div class="tt-fs__body">
+          <p>Join Rebekah Jacobs, Founder of Sama Yoga Center &amp; Training Academy, for a deep dive into the form and intelligence of your body and practice.</p>
+          <p>This series is designed for students who want to move beyond repetition and into refinement — understand the "why" behind poses to build confidence, strength and clarity, with care. These immersions will deepen your understanding of biomechanics, interoception, and sustainable progression. You'll leave with newfound strength, individual feedback and wisdom you can integrate immediately into your classes. Expect fun, anatomical insight and nervous system aware refinements - designed to support your longevity and resilience - in body and mind.</p>
+          <p>If you are a registered yoga teacher, these immersions qualify for 3 Yoga Alliance Continuing Education (CEU) hours each in Anatomy &amp; Teaching Methodology. All are welcome. Join for one, two, or all three!</p>
+        </div>
+
+        <!-- Pricing row 1: individual sessions -->
+        <div class="tt-ky-pricing">
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Inversions</span>
+            <span class="tt-ky-pricing-price">$150</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Advanced Backbends + Binds</span>
+            <span class="tt-ky-pricing-price">$150</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Strength + Standing</span>
+            <span class="tt-ky-pricing-price">$150</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+        </div>
+        <!-- Pricing row 2: bundles -->
+        <div class="tt-ky-pricing" style="margin-top: 2px;">
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Early Bird Bundle (by July 1st)</span>
+            <span class="tt-ky-pricing-price">$395</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Bundle</span>
+            <span class="tt-ky-pricing-price">$420</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+        </div>
+      </div>
+      <div class="tt-fs__img-wrap">
+        <img src="images/Final%20Images/OurTeam/Rebekah.webp" alt="Master Class: Refine with Rebekah" class="tt-fs__img">
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div style="max-width: 1100px; margin: 0 auto var(--space-3xl); padding: 0 var(--space-3xl);">
+      <div style="height: 1px; background: rgba(0, 0, 0, 0.1);"></div>
+    </div>
+
+    <!-- Kids Yoga Teacher Training -->
+    <div class="tt-fs" id="kids-yoga-training">
+      <div class="tt-fs__content" style="justify-content: flex-start; height: auto; gap: var(--space-md);">
+        <h3 class="tt-fs__title">training: kids yoga</h3>
+        <p style="font-size: 1rem; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 0;">with <strong>Amy Bilden</strong></p>
+        <div class="tt-ky-date-box">
+          <span class="tt-ky-date-main">Saturday, August 1st</span>
+          <span class="tt-ky-date-time">12:30–3:30 PM</span>
+        </div>
+        <div class="tt-fs__body">
+          <p>Equip yourself with tools to guide children to build confidence and cultivating kindness.</p>
+          <p>Join the expert educator Amy Bilden for this playful and mindful training, designed to equip teachers, parents and yoga instructors with tools to guide children to build confidence, regulate emotions, cultivate kindness and enhance their focus.</p>
+          <p>Voted "Best Kids Program," Sama Kids brings yoga to life with joy, mastery and heart.</p>
+          <p>This training is for educators, parents and the curious student. No prior certification is needed.</p>
+        </div>
+        <div class="tt-ky-pricing">
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Early Bird (by May 27th)</span>
+            <span class="tt-ky-pricing-price">$350</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+          <div class="tt-ky-pricing-col">
+            <span class="tt-ky-pricing-label">Regular</span>
+            <span class="tt-ky-pricing-price">$450</span>
+            <a href="#" class="btn btn--primary">Register</a>
+          </div>
+        </div>
+      </div>
+      <div class="tt-fs__img-wrap">
+        <img src="images/Final%20Images/Events/KidsYoga.webp" alt="Training: Kids Yoga" class="tt-fs__img">
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+<footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

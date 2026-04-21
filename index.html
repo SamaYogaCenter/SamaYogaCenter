@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sama Yoga Center - Find balance and peace through mindful yoga practice. Offering classes, teacher training, and retreats.">
+  <title>Sama Yoga Center | Mindful Yoga Practice</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .home-wrap {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+    }
+
+    @media (max-width: 768px) {
+      .home-wrap {
+        padding: 0 var(--space-lg) !important;
+      }
+
+      /* Welcome grid: stack vertically */
+      .home-welcome-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-xl) !important;
+        margin-bottom: var(--space-xl) !important;
+      }
+
+      /* Welcome image: give the relative container a real height */
+      .home-welcome-grid > div:last-child {
+        height: 280px;
+      }
+
+      /* Heading: prevent overlap at narrow widths */
+      .home-welcome-grid h2 {
+        font-size: 1.5rem !important;
+      }
+
+      /* Location + Amenities: stack, remove negative margin */
+      .home-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-lg) !important;
+      }
+      .home-card-location,
+      .home-card-amenities {
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        height: auto !important;
+      }
+
+      /* Landing Image 3 needs a real height when flex container has no fixed height */
+      .home-landing-img3 {
+        min-height: 240px;
+        flex: 0 0 240px !important;
+      }
+
+      /* Stack New to Yoga section buttons */
+      .home-wrap .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <!-- Desktop & Mobile Navigation -->
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <!-- Classes with dropdown -->
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+
+          <!-- Pricing -->
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+
+          <!-- Events -->
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+
+          <!-- Teacher Training -->
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+
+          <!-- Our Team -->
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+
+          <!-- Mobile CTA -->
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- CTA Button & Mobile Menu -->
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <video class="hero__video" autoplay muted loop playsinline>
+      <source src="images/Final%20Images/Landing%20Page/Landing_Hero.mp4" type="video/mp4">
+    </video>
+  </section>
+
+  <!-- Welcome Blurb + Location/Amenities -->
+  <section style="background: white; padding: var(--space-2xl) 0 var(--space-4xl);">
+    <div class="home-wrap">
+      <!-- Top: blurb left, image right -->
+      <div class="grid grid--2col home-welcome-grid" style="gap: var(--space-3xl); align-items: stretch; margin-bottom: 30px;">
+        <div>
+          <h2 class="section-title section-title--left" style="margin-bottom: var(--space-2xl);"><span style="background: #e8e2d9; padding: 2px 10px 4px;">welcome to sama yoga center</span></h2>
+          <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-md);">
+            Sama is a Sanskrit word meaning same, equal, equanimity — a reminder that there is more that unites us than divides us. At Sama Yoga Center, this philosophy is at the heart of everything we do. Our studio is a warm, welcoming space for people of all ages, levels, and backgrounds to move, breathe, and grow together.
+          </p>
+          <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-xl);">
+            We believe that there is more that unites us than divides us—the heart of our practice at Sama Yoga Center. Stop by for <a href="schedule.html" style="color: var(--color-primary); text-decoration: underline;">yoga classes</a>, <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: underline;">private sessions</a>, <a href="events.html" style="color: var(--color-primary); text-decoration: underline;">events</a>, and <a href="teacher-training.html" style="color: var(--color-primary); text-decoration: underline;">yoga teacher training</a>.
+          </p>
+          <div style="display: flex; gap: var(--space-md);">
+            <a href="pricing.html" class="btn btn--primary">Purchase Classes</a>
+            <a href="schedule.html" class="btn btn--outline">Book Classes</a>
+          </div>
+        </div>
+        <div style="position: relative; overflow: hidden;">
+          <img src="images/Final%20Images/Landing%20Page/Landing_Image1.webp" alt="Sama Yoga Center" class="home-welcome-img" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
+        </div>
+      </div>
+      <!-- Bottom: location left, amenities right — aligned under their respective columns -->
+      <div class="home-cards-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3xl);">
+        <!-- Our Location card -->
+        <div class="home-card-location" style="background: var(--color-beige); padding: var(--space-xl); height: 460px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h2 class="section-title" style="text-align: left; margin-bottom: var(--space-lg);">Our Location</h2>
+            <p style="font-size: var(--font-size-base); color: var(--color-text-secondary); line-height: var(--line-height-relaxed); margin-bottom: var(--space-xl);">
+              Our studio resides in the heart of New Canaan - fifteen minutes from Norwalk, Stamford, and Darien. We are a two minute walk from the train station. Come visit us!
+            </p>
+            <a href="https://maps.google.com/?q=Sama+Yoga+Center+New+Canaan+CT" target="_blank" class="btn btn--primary" style="display: inline-block;">
+              GET DIRECTIONS
+            </a>
+          </div>
+          <div id="sama-map" style="width: 100%; height: 200px; border-radius: var(--radius-md); overflow: hidden;"></div>
+          <script>
+            function initMap() {
+              var sama = { lat: 41.1468, lng: -73.4951 };
+              var map = new google.maps.Map(document.getElementById('sama-map'), {
+                zoom: 15,
+                center: sama,
+                disableDefaultUI: true,
+                zoomControl: false,
+                styles: [
+                  { elementType: 'geometry', stylers: [{ color: '#f5f5f5' }] },
+                  { elementType: 'labels.text.fill', stylers: [{ color: '#c4c4c4' }] },
+                  { elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }] },
+                  { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+                  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+                  { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },
+                  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+                  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
+                  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#ebebeb' }] },
+                  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
+                  { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#e0e0e0' }] },
+                  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#999999' }] },
+                  { featureType: 'road', elementType: 'labels.text.stroke', stylers: [{ color: '#ffffff' }] },
+                  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#dddddd' }] },
+                  { featureType: 'water', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+                  { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#fafafa' }] },
+                  { featureType: 'administrative', elementType: 'labels.text.fill', stylers: [{ color: '#aaaaaa' }] },
+                  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#888888' }] }
+                ]
+              });
+              new google.maps.Marker({
+                position: sama,
+                map: map,
+                icon: {
+                  path: 'M12 0C7.03 0 3 4.03 3 9c0 6.75 9 15 9 15s9-8.25 9-15c0-4.97-4.03-9-9-9zm0 12.75c-2.07 0-3.75-1.68-3.75-3.75S9.93 5.25 12 5.25s3.75 1.68 3.75 3.75-1.68 3.75-3.75 3.75z',
+                  fillColor: '#333333',
+                  fillOpacity: 1,
+                  strokeWeight: 0,
+                  scale: 1.5,
+                  anchor: new google.maps.Point(12, 24)
+                }
+              });
+            }
+          </script>
+          <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbKPmKu95NqNMXw_gv9lDxJ31SVkAmJkA&callback=initMap"></script>
+        </div>
+        <!-- Our Amenities card -->
+        <div class="home-card-amenities" style="background: var(--color-beige); padding: var(--space-xl); height: 460px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+          <h2 class="section-title" style="text-align: left; margin-bottom: var(--space-md);">Our Amenities</h2>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><path d="M9 8h4a3 3 0 010 6H9V8z" stroke-linejoin="round"/><line x1="9" y1="14" x2="9" y2="17"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Covered Parking</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/><circle cx="12" cy="16" r="1" fill="var(--color-primary)"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Lockers</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 2C12 2 6 9 6 14a6 6 0 0012 0c0-5-6-12-6-12z"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Showers</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 2c0 0-6 6-6 12a6 6 0 0012 0C18 8 12 2 12 2z"/><path d="M12 12c0 0-3 3-3 5a3 3 0 006 0c0-2-3-5-3-5z" fill="var(--color-primary)" stroke="none"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Gently Warmed Floors</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Blocks + Bolsters + Blankets</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="2" y="7" width="20" height="10" rx="2"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Mat Rentals</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Outdoor Garden</span>
+            </li>
+            <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="7" y="2" width="10" height="20" rx="1"/><rect x="9" y="4" width="6" height="16" rx="0.5"/></svg>
+              <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Cubbies &amp; Coat Hooks</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- New to Yoga Section -->
+  <section style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0;">
+    <div class="home-wrap">
+      <div class="grid grid--2col" style="gap: var(--space-3xl); align-items: stretch;">
+        <!-- Left: Blurb + Image3 -->
+        <div style="display: flex; flex-direction: column; gap: var(--space-3xl);">
+          <div style="background: white; padding: var(--space-xl);">
+            <h2 class="section-title" style="text-align: left; margin-bottom: var(--space-lg);">new to yoga?</h2>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-xl);">
+              You belong here. No flexibility or experience necessary. Our Yin flow is a great place to start. Remember, the true advanced practitioner cherishes a beginner's mindset.
+            </p>
+            <div style="display: flex; align-items: center; gap: var(--space-md);">
+              <span style="font-size: 1rem; font-weight: 600; color: var(--color-text-primary);">Still have questions?</span>
+              <a href="contact.html" class="btn btn--primary">Contact Us</a>
+            </div>
+          </div>
+          <img src="images/Final%20Images/Landing%20Page/Landing_Image3.webp" alt="Sama Yoga Center" class="home-landing-img3" style="width: 100%; flex: 1 1 0; min-height: 0; object-fit: cover; object-position: center 70%; display: block;">
+        </div>
+
+        <!-- Right: FAQs -->
+        <div style="background: white; padding: var(--space-2xl);">
+          <h2 class="section-title" style="text-align: left; margin-bottom: var(--space-lg);">FAQs</h2>
+          <!-- FAQ content coming soon -->
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: var(--space-md) 0;">
+            <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-xs);">Do I need to be flexible?</h4>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Not at all! Yoga helps you build flexibility over time. Come as you are.</p>
+          </div>
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: var(--space-md) 0;">
+            <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-xs);">What should I bring?</h4>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Bring yourself and wear comfortable clothing. We provide mats, blocks, bolsters, and blankets.</p>
+          </div>
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: var(--space-md) 0;">
+            <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-xs);">Which class is right for me?</h4>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Beginners are welcome in all of our classes. You may wish to begin with yin flow or open level. Our teachers offer modifications for all levels.</p>
+          </div>
+          <div style="border-bottom: 1px solid rgba(0,0,0,0.08); padding: var(--space-md) 0;">
+            <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-xs);">Do I need to sign up in advance?</h4>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Reserve your spot in advance to ensure a spot in class. Walk-ins are also welcome when space is available.</p>
+          </div>
+          <div style="padding: var(--space-md) 0;">
+            <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: var(--space-xs);">When should I arrive?</h4>
+            <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">The studio opens 15 minutes early to allow you time to put your phone down, clear your mind, and relax before class begins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

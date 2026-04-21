@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kids Yoga at Sama Yoga Center. Award-winning programs for children 7+, private sessions, and family yoga in Westchester.">
+  <title>Sama Kids | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="preconnect" href="https://widgets.mindbodyonline.com">
+  <link rel="preload" href="https://widgets.mindbodyonline.com/javascripts/healcode.js" as="script">
+  <script src="https://widgets.mindbodyonline.com/javascripts/healcode.js" type="text/javascript" async></script>
+
+  <style>
+    .ky-buy-btn .healcode-pricing-option-text-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: white !important;
+      padding: var(--space-md) var(--space-xl);
+      font-size: var(--font-size-base);
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-medium);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border-radius: var(--radius-md);
+      min-height: 44px;
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .ky-buy-btn .healcode-pricing-option-text-link:hover {
+      background-color: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ky-section {
+      background: white;
+      padding: var(--space-4xl) 0;
+    }
+
+    .ky-section--beige {
+      background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px);
+      padding: var(--space-4xl) 0;
+    }
+
+    .ky-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+    }
+
+    .ky-heading {
+      /* extends .section-title--left */
+    }
+
+    /* Intro block: same pattern as private-sessions */
+    .ky-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ky-intro::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: var(--band-h, 200px);
+      left: -100vw;
+      right: -100vw;
+      background-color: var(--color-beige);
+      z-index: 0;
+    }
+
+    .ky-intro img,
+    .ky-intro__text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ky-intro__text {
+      padding: var(--space-xl) var(--space-2xl) var(--space-xl) var(--space-3xl);
+    }
+
+    .ky-intro__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-sm);
+    }
+
+    .ky-intro img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+    }
+
+    /* Allie bio section — band pattern like intro */
+    .ky-bio {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .ky-bio::before {
+      display: none;
+    }
+
+    .ky-bio__img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center top;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ky-bio__text {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-xl) var(--space-3xl) var(--space-xl) var(--space-2xl);
+    }
+
+    .ky-bio__text h3 {
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-transform: lowercase;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-lg);
+      color: var(--color-text-primary);
+    }
+
+    .ky-bio__text .ky-bio__title {
+      font-size: 0.875rem;
+      color: var(--color-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-lg);
+    }
+
+    .ky-bio__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    /* Private sessions info */
+    .ky-privates {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4xl);
+      align-items: center;
+    }
+
+    .ky-privates__text p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      margin-bottom: var(--space-md);
+    }
+
+    .ky-privates__img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* FAQ section */
+    .ky-faq-wrap {
+      display: flex;
+      flex-direction: column;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--space-3xl);
+    }
+
+    .ky-faq-wrap__body {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-4xl);
+      align-items: stretch;
+    }
+
+    .ky-faq-wrap__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ky-faq__title {
+      margin-bottom: 0;
+    }
+
+    .ky-faq__item {
+      padding: var(--space-md) 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .ky-faq__item:last-child {
+      border-bottom: none;
+    }
+
+    .ky-faq__item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .ky-faq__item p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .ky-intro,
+      .ky-bio,
+      .ky-privates {
+        grid-template-columns: 1fr;
+      }
+
+      /* Fix beige band — replace absolute ::before with direct background */
+      .ky-intro::before {
+        display: none;
+      }
+      .ky-intro__text {
+        background-color: var(--color-beige);
+        padding: var(--space-2xl) var(--space-xl);
+      }
+      .ky-intro img {
+        height: 260px;
+      }
+
+      /* Bio: stack image above text — use contain so Allie isn't cropped */
+      .ky-bio__img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        background: white;
+      }
+      .ky-bio__text {
+        padding: var(--space-xl) var(--space-xl);
+      }
+
+      /* Space between intro photo and bio section */
+      .ky-section + .ky-section {
+        padding-top: var(--space-2xl);
+      }
+
+      .ky-container {
+        padding: 0 var(--space-xl);
+      }
+
+      .ky-faq-wrap {
+        padding: 0 var(--space-xl);
+      }
+
+      .ky-faq-wrap__body {
+        grid-template-columns: 1fr;
+      }
+
+      .ky-faq-wrap__img {
+        display: none;
+      }
+
+      .ky-hero {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown nav__link--active">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="kids-yoga.html" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Events</span>
+            <ul class="nav__dropdown">
+              <li><a href="events.html" class="nav__dropdown-link">Upcoming Events</a></li>
+              <li><a href="studio-rentals.html" class="nav__dropdown-link">Studio Rentals</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="pricing.html" class="btn btn--primary btn--full">Purchase Classes</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="pricing.html" class="btn btn--primary hidden-mobile">Purchase Classes</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section class="ky-section" style="padding: 0; overflow: hidden;">
+    <div class="ky-intro" style="--band-h: 345px;">
+      <div class="ky-intro__text">
+        <h2 class="section-title section-title--left ky-heading">sama kids</h2>
+        <p>Our award-winning Kids Yoga Program at Sama fosters community, social skills, and leadership through yoga and meditation practices for children ages 6 and up. At Sama, children discover the tools to regulate and greet the world with a kind heart. Drop off your young yogi <strong>every Wednesday at 4:30 pm</strong> or book a private lesson <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: none;">here</a>.</p>
+        <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Sold as a <strong>10-class package</strong> for use within 3 months. Reserve your spot with purchase now. If you need to miss a class, <strong>you or your child</strong> can make it up with any class on our schedule.</p>
+        <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md); align-items: center; flex-wrap: wrap;">
+          <div class="ky-buy-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10933" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="BUY PACKAGE" /></div>
+          <a href="schedule.html" class="btn btn--outline">View Schedule</a>
+        </div>
+      </div>
+      <img src="images/Final%20Images/Kids%20Yoga/KidsYoga_Image1.webp" alt="Kids Yoga">
+    </div>
+  </section>
+
+  <!-- Meet the Instructor -->
+  <section class="ky-section" style="padding: 0 0 var(--space-3xl) 0; overflow: hidden;">
+    <div class="ky-bio" style="--band-h: 220px;">
+      <img src="images/Final%20Images/Kids%20Yoga/Allie.webp" alt="Allie Muzzio" class="ky-bio__img">
+      <div class="ky-bio__text">
+        <h2 class="section-title section-title--left ky-heading" style="margin-bottom: var(--space-xs);">meet your instructor:</h2>
+        <h3>Allie Muzzio</h3>
+        <p>Allie Muzzio is a licensed Occupational Therapist and registered yoga teacher, completing both the 200-Hour Yoga Teacher Training and Kids Yoga Teacher Training at Sama Academy. She holds a Master's degree in Occupational Therapy with a minor in Psychology, integrating evidence-based OT principles with nervous system support, functional movement, and embodied awareness.</p>
+        <p>With specialized training in Pediatric Yoga & Mindfulness, Allie guides students of all ages in developing tools for safety, confidence, and self-regulation — both on and off the mat. Her approach blends therapeutic insight with accessible movement and breath awareness, helping students meet themselves with curiosity and kindness.</p>
+        <p>She looks forward to supporting you and your children here at Sama!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="ky-section--beige">
+    <div class="ky-faq-wrap">
+      <div class="ky-faq-wrap__body">
+        <div style="background: white; padding: var(--space-2xl);">
+          <h2 class="section-title section-title--left ky-heading" style="margin-bottom: var(--space-lg);">FAQs</h2>
+          <div class="ky-faq__items">
+            <div class="ky-faq__item">
+              <h3>What should my child wear and bring?</h3>
+              <p>We provide mats to borrow, water and props.</p>
+            </div>
+            <div class="ky-faq__item">
+              <h3>What if my child is new to yoga?</h3>
+              <p>Beginners are always welcome. Each class is designed to be accessible no matter where your child is starting from.</p>
+            </div>
+            <div class="ky-faq__item">
+              <h3>What if I miss a class?</h3>
+              <p>No worries! If you need to miss a session, your child (or you) can make up with any class on our schedule.</p>
+            </div>
+            <div class="ky-faq__item">
+              <h3>Should we stay for class or drop off?</h3>
+              <p>Drop your child off, we take care of the rest.</p>
+            </div>
+            <div class="ky-faq__item">
+              <h3>What if my child is energetic?</h3>
+              <p>Our lessons include meditation tools, so the wandering mind is taught how to refocus. Yoga meets kids where they are — energy and all.</p>
+            </div>
+          </div>
+        </div>
+        <img src="images/Final%20Images/Kids%20Yoga/KidsYoga_Image2.webp" alt="Kids Yoga" class="ky-faq-wrap__img">
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
+        <h2 class="section-title">Ready to Practice With Us?</h2>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+<footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__left">
+          <div class="footer__logo">
+            <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+          </div>
+          <div class="footer__nav-columns">
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="schedule.html">Classes</a></p>
+              <a href="schedule.html" class="footer__link">Class Schedule</a>
+              <a href="classes.html" class="footer__link">Class Descriptions</a>
+              <a href="private-sessions.html" class="footer__link">Private Lessons</a>
+              <a href="kids-yoga.html" class="footer__link">Sama Kids</a>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="pricing.html">Pricing</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
+            </div>
+            <div class="footer__nav-col">
+              <p class="footer__nav-heading"><a href="team.html">Our Team</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer__divider"></div>
+        <div class="footer__right">
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Socials</span>
+            <div class="footer__socials">
+              <a href="https://www.facebook.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/samayogacenter/" target="_blank" class="footer__social-icon" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Contact Us</span>
+            <a href="contact.html" class="footer__contact-link">Reach out &rarr;</a>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Join our Newsletter</span>
+            <form class="footer__newsletter" onsubmit="event.preventDefault();">
+              <input type="email" placeholder="Your email">
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
+          </div>
+          <div class="footer__right-row">
+            <span class="footer__right-heading">Download Our App</span>
+            <div class="footer__app-stores">
+              <a href="https://apps.apple.com/us/app/sama-yoga-center/id6759379521" target="_blank" class="footer__app-badge" aria-label="Download on the App Store">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.fitnessmobileapps.samayogacenter&pcampaignid=web_share" target="_blank" class="footer__app-badge" aria-label="Get it on Google Play">
+                <img src="images/google-play.png" alt="Google Play" style="height: 22px; width: auto;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

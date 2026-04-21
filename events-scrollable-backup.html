@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Upcoming events, workshops, and retreats at Sama Yoga Center. Join us for special events focused on wellness, community, and growth.">
+  <title>Events & Workshops | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .events-container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: var(--space-3xl) 0;
+      overflow: hidden;
+    }
+
+    .events-grid {
+      display: flex;
+      gap: var(--space-2xl);
+      margin-bottom: var(--space-3xl);
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 var(--space-2xl) var(--space-lg) var(--space-2xl);
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .events-grid::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .events-grid::-webkit-scrollbar-track {
+      background: var(--color-neutral-200);
+      border-radius: var(--radius-full);
+    }
+
+    .events-grid::-webkit-scrollbar-thumb {
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+    }
+
+    .events-grid::-webkit-scrollbar-thumb:hover {
+      background: var(--color-primary-dark);
+    }
+
+    .event-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-width: 350px;
+      max-width: 350px;
+      flex-shrink: 0;
+    }
+
+    .event-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+
+    .event-card__header {
+      padding: var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .event-card__badges {
+      display: flex;
+      gap: var(--space-xs);
+      flex-wrap: wrap;
+    }
+
+    .event-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--color-neutral-200);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+
+    .event-card__type {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-md);
+      background: white;
+      border: 1px solid var(--color-neutral-300);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    .event-card__title {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-tight);
+      margin-bottom: var(--space-xs);
+      padding: 0 var(--space-lg);
+    }
+
+    .event-card__instructor {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-normal);
+      padding: 0 var(--space-lg);
+      margin-bottom: var(--space-sm);
+    }
+
+    .event-card__description {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+      padding: 0 var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .event-card__image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      margin: 0 var(--space-lg) var(--space-lg);
+      width: calc(100% - var(--space-2xl));
+    }
+
+    .event-card__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .event-card__read-more {
+      position: absolute;
+      bottom: var(--space-md);
+      right: var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition-base);
+      text-decoration: none;
+    }
+
+    .event-card__read-more:hover {
+      background: var(--color-primary);
+      transform: scale(1.1);
+    }
+
+    .event-card__read-more svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--color-text-primary);
+      transition: fill var(--transition-base);
+    }
+
+    .event-card__read-more:hover svg {
+      fill: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="classes.html#kids" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item">
+            <a href="events.html" class="nav__link">Events</a>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="schedule.html" class="btn btn--primary btn--full">Book a Class</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="schedule.html" class="btn btn--primary hidden-mobile">Book a Class</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="section" style="background: linear-gradient(135deg, var(--color-secondary-light), var(--color-secondary)); padding-top: var(--space-2xl); padding-bottom: var(--space-2xl);">
+    <div class="container text-center">
+      <h1 class="page-heading" style="color: white; margin-bottom: 0;">events</h1>
+    </div>
+  </section>
+
+  <!-- Events Grid -->
+  <section class="events-container">
+    <div class="events-grid">
+
+      <!-- Event 1: Women's Health Through Habit -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">1/25/2026</span>
+            <span class="event-card__badge">12 PM – 2 PM</span>
+          </div>
+          <span class="event-card__type">Mini Retreat</span>
+        </div>
+        <h2 class="event-card__title">Women's Health Through Habit</h2>
+        <div class="event-card__instructor">with Dr. Katie Takayasu, MD</div>
+        <p class="event-card__description">
+          Explore how daily habits influence wellness.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/Women'sHealththroughHabit.webp" alt="Women's Health Through Habit" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10922" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Event 2: Pelvic Floor Health -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">2/8/2026</span>
+            <span class="event-card__badge">1 PM – 3 PM</span>
+          </div>
+          <span class="event-card__type">Mini Retreat</span>
+        </div>
+        <h2 class="event-card__title">Pelvic Floor Health</h2>
+        <div class="event-card__instructor">with Dr. Laura Costello</div>
+        <p class="event-card__description">
+          Understand pelvic floor health through guidance and gentle movement.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/pelvicfloorhealth.png" alt="Pelvic Floor Health" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10918" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Event 3: Create & Connect -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">2/14/2026</span>
+            <span class="event-card__badge">1 PM – 3 PM</span>
+          </div>
+          <span class="event-card__type">Community Event</span>
+        </div>
+        <h2 class="event-card__title">Create & Connect</h2>
+        <div class="event-card__instructor">with Megan Yee, Psychotherapist</div>
+        <p class="event-card__description">
+          Craft meaningful art and love notes in this creative gathering.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/createandconnect.webp" alt="Create & Connect" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10925" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Event 4: Tea & Tranquility -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">3/8/2026</span>
+            <span class="event-card__badge">1 PM – 3 PM</span>
+          </div>
+          <span class="event-card__type">Mini Retreat</span>
+        </div>
+        <h2 class="event-card__title">Tea & Tranquility</h2>
+        <div class="event-card__instructor">with Melissa Lemieux & Rebekah Jacobs</div>
+        <p class="event-card__description">
+          Relaxation with curated tea, Reiki sessions, and restorative yoga.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/tea&tranquility.webp" alt="Tea & Tranquility" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10917" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Event 5: Spring Cleaning for Your Gut -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">4/11/2026</span>
+            <span class="event-card__badge">1 PM – 3 PM</span>
+          </div>
+          <span class="event-card__type">Mini Retreat</span>
+        </div>
+        <h2 class="event-card__title">Spring Cleaning for Your Gut</h2>
+        <div class="event-card__instructor">with Elisabeth DiDonato, RD</div>
+        <p class="event-card__description">
+          Learn sustainable habits for digestive health and hormonal balance.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/springcleaning.webp" alt="Spring Cleaning for Your Gut" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10916" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Event 6: Kids Yoga Teacher Training -->
+      <div class="event-card">
+        <div class="event-card__header">
+          <div class="event-card__badges">
+            <span class="event-card__badge">6/27/2026</span>
+            <span class="event-card__badge">12:30 PM – 3:30 PM</span>
+          </div>
+          <span class="event-card__type">Teacher Training</span>
+        </div>
+        <h2 class="event-card__title">Kids Yoga Teacher Training</h2>
+        <div class="event-card__instructor">with Rebekah Jacobs</div>
+        <p class="event-card__description">
+          Equip yourself with tools to guide children in confidence and kindness.
+        </p>
+        <div class="event-card__image-container">
+          <img src="assets/kidsyoga.webp" alt="Kids Yoga Teacher Training" class="event-card__image">
+          <a href="https://clients.mindbodyonline.com/classic/ws?pMode=4&reSchedule=&origId=&recType=&recNum=" target="_blank" class="event-card__read-more">
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <h2 class="section-title">Ready to Practice With Us?</h2>
+      <p class="section-subtitle">
+        Join our community and experience the transformative power of yoga
+      </p>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__logo">
+          <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+        </div>
+
+        <nav class="footer__nav">
+          <a href="team.html" class="footer__link">Our Team</a>
+          <a href="schedule.html" class="footer__link">Class Schedule</a>
+          <a href="pricing.html" class="footer__link">Pricing</a>
+          <a href="events.html" class="footer__link">Events</a>
+          <a href="teacher-training.html" class="footer__link">Teacher Training</a>
+        </nav>
+
+        <div class="footer__contact">
+          <p style="color: var(--color-neutral-300); margin-bottom: var(--space-xs);">
+            <strong>Phone:</strong> (555) 123-4567
+          </p>
+          <p style="color: var(--color-neutral-300);">
+            <strong>Email:</strong> hello@samayoga.com
+          </p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>

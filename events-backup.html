@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Upcoming events, workshops, and retreats at Sama Yoga Center. Join us for special events focused on wellness, community, and growth.">
+  <title>Events & Workshops | Sama Yoga Center</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .events-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-3xl) var(--space-lg);
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3xl);
+      margin-bottom: var(--space-3xl);
+    }
+
+    @media (max-width: 1024px) {
+      .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .event-card {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      perspective: 2000px;
+      height: 600px;
+    }
+
+    .event-card__inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .event-card:hover .event-card__inner {
+      transform: rotateY(180deg);
+    }
+
+    .event-card__front,
+    .event-card__back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      background: white;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: none;
+      transform-style: preserve-3d;
+    }
+
+    .event-card__front {
+      display: flex;
+      flex-direction: column;
+      transform: rotateY(0deg);
+    }
+
+    .event-card__back {
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-card__header {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      padding: var(--space-md);
+      min-height: 40px;
+    }
+
+    .event-card__body {
+      padding: var(--space-lg);
+    }
+
+    .event-card__image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      margin-bottom: var(--space-md);
+    }
+
+    .event-card__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-sm);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .event-card__date {
+      font-weight: var(--font-weight-medium);
+    }
+
+    .event-card__time {
+      font-weight: var(--font-weight-medium);
+    }
+
+    .event-card__title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-tight);
+      margin-bottom: var(--space-xs);
+    }
+
+    .event-card__instructor {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .event-card__back-content {
+      padding: var(--space-lg);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .event-card__back-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-md);
+      line-height: var(--line-height-tight);
+    }
+
+    .event-card__back-description {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+      margin-bottom: var(--space-md);
+    }
+
+    .event-card__back-cta {
+      display: inline-block;
+      padding: var(--space-sm) var(--space-lg);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      color: white;
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      text-align: center;
+      margin-top: var(--space-md);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container header__container">
+      <a href="index.html" class="header__logo">
+        <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center">
+      </a>
+
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--has-dropdown">
+            <span class="nav__link nav__link--dropdown">Classes</span>
+            <ul class="nav__dropdown">
+              <li><a href="schedule.html" class="nav__dropdown-link">Class Schedule</a></li>
+              <li><a href="classes.html" class="nav__dropdown-link">Class Descriptions</a></li>
+              <li><a href="private-sessions.html" class="nav__dropdown-link">Private Lessons</a></li>
+              <li><a href="classes.html#kids" class="nav__dropdown-link">Sama Kids</a></li>
+            </ul>
+          </li>
+          <li class="nav__item">
+            <a href="pricing.html" class="nav__link">Pricing</a>
+          </li>
+          <li class="nav__item">
+            <a href="events.html" class="nav__link">Events</a>
+          </li>
+          <li class="nav__item">
+            <a href="teacher-training.html" class="nav__link">Teacher Training</a>
+          </li>
+          <li class="nav__item">
+            <a href="team.html" class="nav__link">Our Team</a>
+          </li>
+          <li class="nav__item hidden-desktop">
+            <a href="schedule.html" class="btn btn--primary btn--full">Book a Class</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="flex gap-md flex-align-center">
+        <a href="schedule.html" class="btn btn--primary hidden-mobile">Book a Class</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+          <span class="menu-toggle__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="section" style="background: linear-gradient(135deg, var(--color-secondary-light), var(--color-secondary)); padding-top: var(--space-2xl); padding-bottom: var(--space-2xl);">
+    <div class="container text-center">
+      <h1 class="page-heading" style="color: white; margin-bottom: 0;">events</h1>
+    </div>
+  </section>
+
+  <!-- Events Grid -->
+  <section class="events-container">
+    <div class="events-grid">
+
+      <!-- Event 1: Women's Health Through Habit -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Women's Health Through Habit</h2>
+              <img src="assets/Women'sHealththroughHabit.webp" alt="Women's Health Through Habit" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">1/25/2026</span>
+                <span class="event-card__time">12 PM – 2 PM</span>
+              </div>
+              <div class="event-card__instructor">Dr. Katie Takayasu, MD</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Women's Health Through Habit</h3>
+              <p class="event-card__back-description">
+                Featuring Dr. Katie Takayasu, an integrative medicine physician and author. This workshop explores how daily habits, food choices, mindset, stress patterns, and self-care influence wellness. Participants learn about hormonal balance, stress management, mindset benefits, and micro-habits for sustained energy and clarity. Space is limited with advance registration recommended.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">1/25/2026</span>
+                <span class="event-card__time">12 PM – 2 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10922" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 2: Pelvic Floor Health -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Pelvic Floor Health</h2>
+              <img src="assets/pelvicfloorhealth.png" alt="Pelvic Floor Health" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">2/8/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <div class="event-card__instructor">Dr. Laura Costello</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Pelvic Floor Health</h3>
+              <p class="event-card__back-description">
+                Led by Dr. Laura Costello, this compassionate workshop helps attendees understand pelvic floor health through guidance, gentle movement, and conversation. It addresses common symptoms and provides practical strategies. The session includes a themed mini practice, Q&A, and refreshments. Limited spots available.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">2/8/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10918" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 3: Create & Connect -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Create & Connect</h2>
+              <img src="assets/createandconnect.webp" alt="Create & Connect" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">2/14/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <div class="event-card__instructor">Megan Yee, Psychotherapist</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Create & Connect</h3>
+              <p class="event-card__back-description">
+                Facilitated by psychotherapist Megan Yee, this creative gathering focuses on crafting meaningful love notes and creating a piece of art. No yoga practice included; emphasis on presence and creativity. Includes a pop-up shop afterward. Cost: $35 members, $45 non-members.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">2/14/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10925" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 4: Tea & Tranquility -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Tea & Tranquility</h2>
+              <img src="assets/tea&tranquility.webp" alt="Tea & Tranquility" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">3/8/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <div class="event-card__instructor">Melissa Lemieux & Rebekah Jacobs</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Tea & Tranquility</h3>
+              <p class="event-card__back-description">
+                Co-hosted by Melissa Lemieux and Rebekah Jacobs, featuring a curated tea bar, Reiki sessions, and restorative yoga. Designed for relaxation and community connection. Cost: $55 members, $65 non-members.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">3/8/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10917" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 5: Spring Cleaning for Your Gut -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Spring Cleaning for Your Gut</h2>
+              <img src="assets/springcleaning.webp" alt="Spring Cleaning for Your Gut" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">4/11/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <div class="event-card__instructor">Elisabeth DiDonato, RD</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Spring Cleaning for Your Gut</h3>
+              <p class="event-card__back-description">
+                Led by Registered Dietitian Elisabeth DiDonato, covering gut microbiome support, bloating reduction, hormonal balance, and sustainable habits for digestive health.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">4/11/2026</span>
+                <span class="event-card__time">1 PM – 3 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10916" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event 6: Kids Yoga Teacher Training -->
+      <div class="event-card">
+        <div class="event-card__inner">
+          <!-- Front of card -->
+          <div class="event-card__front">
+            <div class="event-card__header"></div>
+            <div class="event-card__body">
+              <h2 class="event-card__title">Kids Yoga Teacher Training</h2>
+              <img src="assets/kidsyoga.webp" alt="Kids Yoga Teacher Training" class="event-card__image">
+              <div class="event-card__meta">
+                <span class="event-card__date">6/27/2026</span>
+                <span class="event-card__time">12:30 PM – 3:30 PM</span>
+              </div>
+              <div class="event-card__instructor">Rebekah Jacobs</div>
+            </div>
+          </div>
+          <!-- Back of card -->
+          <div class="event-card__back">
+            <div class="event-card__header"></div>
+            <div class="event-card__back-content">
+              <h3 class="event-card__back-title">Kids Yoga Teacher Training</h3>
+              <p class="event-card__back-description">
+                Led by Rebekah, this playful training equips teachers with tools to guide children in building confidence, emotional regulation, and kindness. A comprehensive two-day program designed for those who work with children.
+              </p>
+              <div class="event-card__meta">
+                <span class="event-card__date">6/27/2026</span>
+                <span class="event-card__time">12:30 PM – 3:30 PM</span>
+              </div>
+              <a href="https://clients.mindbodyonline.com/classic/ws?pMode=4&reSchedule=&origId=&recType=&recNum=" target="_blank" class="event-card__back-cta">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--cta">
+    <div class="container text-center">
+      <h2 class="section-title">Ready to Practice With Us?</h2>
+      <p class="section-subtitle">
+        Join our community and experience the transformative power of yoga
+      </p>
+      <div class="flex gap-md flex-center flex-wrap">
+        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
+        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__content">
+        <div class="footer__logo">
+          <img src="images/sama-yoga-logo.png" alt="Sama Yoga Center" style="height: 40px; width: auto;">
+        </div>
+
+        <nav class="footer__nav">
+          <a href="team.html" class="footer__link">Our Team</a>
+          <a href="schedule.html" class="footer__link">Class Schedule</a>
+          <a href="pricing.html" class="footer__link">Pricing</a>
+          <a href="events.html" class="footer__link">Events</a>
+          <a href="teacher-training.html" class="footer__link">Teacher Training</a>
+        </nav>
+
+        <div class="footer__contact">
+          <p style="color: var(--color-neutral-300); margin-bottom: var(--space-xs);">
+            <strong>Phone:</strong> (555) 123-4567
+          </p>
+          <p style="color: var(--color-neutral-300);">
+            <strong>Email:</strong> hello@samayoga.com
+          </p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2026 Sama Yoga Center. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="js/navigation.js"></script>
+  <script src="js/animations.js"></script>
+</body>
+</html>
