@@ -1,5 +1,31 @@
 /* Reusable Components - Buttons, Cards, Forms, Navigation */
 
+/* ===== HEALCODE WIDGET (MindBody) BUTTON PLACEHOLDER =====
+   Shows a styled button immediately using the data-inner-html attribute
+   as placeholder text while healcode.js loads in the background.
+   Once the JS loads and inserts the real link, :empty no longer matches
+   and the placeholder disappears automatically. */
+healcode-widget {
+  display: inline-block;
+  cursor: pointer;
+}
+
+healcode-widget:empty::before {
+  content: attr(data-inner-html);
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: white;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  min-height: 44px;
+  line-height: 44px;
+}
+
 /* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
