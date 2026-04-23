@@ -188,6 +188,30 @@
       "image": "/images/Final%20Images/Events/KidsYoga.webp",
       "description": "Equip yourself with tools to guide children to build confidence and cultivating kindness.\n\nJoin the expert educator Amy Bilden for this playful and mindful training, designed to equip teachers, parents and yoga instructors with tools to guide children to build confidence, regulate emotions, cultivate kindness and enhance their focus.\n\nVoted \"Best Kids Program,\" Sama Kids brings yoga to life with joy, mastery and heart.\n\nThis training is for educators, parents and the curious student. No prior certification is needed.",
       "instructor": "Amy Bilden"
+    },
+    {
+      "imagePosition": "center top",
+      "showOnTrainingPage": true,
+      "pricing": [
+        {
+          "link": "#",
+          "label": "Early Bird",
+          "price": "100"
+        },
+        {
+          "link": "#",
+          "label": "Regular",
+          "price": "200"
+        }
+      ],
+      "cardDescription": "this is abby's event",
+      "time": "12:30-3:30PM",
+      "date": "Thursday, April 23rd",
+      "title": "Abby's Event",
+      "id": "abby",
+      "image": "/images/uploads/866696_1180_0046.jpg",
+      "description": "this is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's eventthis is abby's event",
+      "instructor": "ABby Fossati"
     }
   ]
 }
