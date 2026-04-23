@@ -12,105 +12,83 @@
   <link rel="stylesheet" href="css/components.css">
 
   <style>
-    /* ===== HERO ===== */
-    .sr-hero {
+    .sr-section {
+      background-color: white;
+      padding-bottom: var(--space-lg);
+      overflow: hidden;
+    }
+
+    /* Each row: photo + text side by side, constrained width, centered */
+    .sr-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Full-width beige band — centered, shorter than the image */
+    .sr-block::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: var(--band-h, 300px);
+      left: -100vw;
+      right: -100vw;
+      background-color: var(--color-beige);
+      z-index: 0;
+    }
+
+    /* Lift image and text above the band */
+    .sr-block img,
+    .sr-band__text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sr-band__text {
+      padding: var(--space-3xl) var(--space-2xl);
+    }
+
+    /* Images */
+    .sr-block img {
       width: 100%;
       height: 420px;
       object-fit: cover;
-      object-position: center 40%;
+      object-position: center;
       display: block;
     }
 
-    /* ===== INTRO SPLIT ===== */
-    .sr-intro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: stretch;
-      max-width: 1100px;
-      margin: 0 auto;
+    .sr-blurb h2 {
+      margin-bottom: var(--space-sm);
     }
 
-    .sr-intro__text {
-      padding: var(--space-3xl) var(--space-2xl);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .sr-pricing h2 {
+      margin-bottom: var(--space-sm);
     }
 
-    .sr-intro__title {
-      font-size: 2.25rem;
-      font-weight: 600;
-      text-transform: lowercase;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: var(--color-text-primary);
-      margin-bottom: var(--space-xl);
-    }
-
-    .sr-intro__text p {
+    .sr-blurb p,
+    .sr-pricing p {
       font-size: 1rem;
       color: var(--color-text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--space-md);
+      line-height: 1.6;
+      margin-bottom: var(--space-sm);
     }
 
-    .sr-intro__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      min-height: 360px;
-    }
-
-    /* ===== PRICING SPLIT ===== */
-    .sr-pricing-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: stretch;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .sr-pricing-split__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      min-height: 320px;
-    }
-
-    .sr-pricing-box {
-      background: var(--color-beige);
-      padding: var(--space-3xl) var(--space-2xl);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .sr-pricing-box__title {
-      font-size: 2.25rem;
-      font-weight: 600;
-      text-transform: lowercase;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      color: var(--color-text-primary);
-      margin-bottom: var(--space-xl);
-    }
-
-    .sr-pricing-box__rate {
+    .sr-rate {
       font-size: 3rem;
       font-weight: 700;
       color: var(--color-primary);
       line-height: 1;
-      margin-bottom: var(--space-sm);
+      margin: var(--space-md) 0 var(--space-sm);
     }
 
-    .sr-pricing-box__note {
-      font-size: 1rem;
+    .sr-rate span {
+      font-size: 1.25rem;
+      font-weight: 400;
       color: var(--color-text-secondary);
-      line-height: 1.6;
     }
 
     /* ===== INQUIRY FORM ===== */
@@ -191,36 +169,22 @@
     }
 
     @media (max-width: 768px) {
-      .sr-hero {
-        height: 260px;
-      }
-
-      .sr-intro,
-      .sr-pricing-split {
+      .sr-block {
         grid-template-columns: 1fr;
       }
-
-      .sr-intro__img {
-        min-height: 260px;
-        order: -1;
+      .sr-block::before {
+        display: none;
       }
-
-      .sr-intro__text {
+      .sr-band__text {
+        background-color: var(--color-beige);
         padding: var(--space-2xl) var(--space-xl);
       }
-
-      .sr-pricing-split__img {
-        min-height: 240px;
+      .sr-block img {
+        height: 260px;
       }
-
-      .sr-pricing-box {
-        padding: var(--space-2xl) var(--space-xl);
-      }
-
       .sr-form-container {
         padding: 0 var(--space-xl);
       }
-
       .sr-form__row {
         grid-template-columns: 1fr;
       }
@@ -279,39 +243,42 @@
     </div>
   </header>
 
-  <!-- Hero Image -->
-  <img loading="eager" src="images/Final%20Images/Landing%20Page/Landing_Image1.webp" alt="Sama Yoga Studio" class="sr-hero">
+  <section class="sr-section">
 
-  <!-- Intro: text left, photo right -->
-  <section style="background: white; padding: var(--space-4xl) 0;">
-    <div class="sr-intro">
-      <div class="sr-intro__text">
-        <h1 class="sr-intro__title">Rent Our Studio</h1>
-        <p>Life is made of moments, big and small. Sama's spacious, sun-lit studio is the perfect place for any and all of life's events. The studio has soaring ceilings, expansive windows looking into the garden, generous natural light, and hardwood floors.</p>
-        <p>The studio is available for rental by the hour for group classes, workshops, corporate wellness events, private gatherings, and more.</p>
-        <a href="#rental-inquiry" class="btn btn--primary" style="margin-top: var(--space-lg); align-self: flex-start;">Inquire Now</a>
+    <!-- Block 1: text left (beige band), image right -->
+    <div class="sr-block" style="--band-h: 340px;">
+      <div class="sr-band__text">
+        <div class="sr-blurb">
+          <h2 class="section-title section-title--left">rent our studio</h2>
+          <p>Life is made of moments, big and small. Sama's spacious, sun-lit studio is the perfect place for any and all of such events. The studio has soaring ceilings, expansive windows looking into the garden, generous natural light, and hardwood floors.</p>
+          <p>The studio is available for rental by the hour for group classes, workshops, corporate wellness events, private gatherings, and more.</p>
+          <a href="#rental-inquiry" class="btn btn--primary" style="margin-top: var(--space-md);">Inquire Now</a>
+        </div>
       </div>
-      <img loading="lazy" src="images/Final%20Images/Landing%20Page/Landing_Image2.webp" alt="Sama Yoga Studio Interior" class="sr-intro__img">
+      <img loading="eager" src="images/Final%20Images/Studio%20Rentals/StudioRentals_Image3.webp" alt="Sama Yoga Studio Interior" style="object-position: center 25%;">
     </div>
-  </section>
 
-  <!-- Pricing: photo left, beige box right -->
-  <section style="background: var(--color-beige); padding: var(--space-4xl) 0;">
-    <div class="sr-pricing-split">
-      <img loading="lazy" src="images/Final%20Images/Landing%20Page/Landing_Image3.webp" alt="Sama Yoga Studio" class="sr-pricing-split__img">
-      <div class="sr-pricing-box">
-        <h2 class="sr-pricing-box__title">rental prices</h2>
-        <div class="sr-pricing-box__rate">$100 <span style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-secondary);">/ hour</span></div>
-        <p class="sr-pricing-box__note" style="margin-top: var(--space-lg);">Minimum rental of 1 hour. Studio holds up to 25 participants. All rentals include access to props (mats, blocks, bolsters, blankets). Please reach out with any questions about availability.</p>
+    <!-- Block 2: image left, pricing right (beige band) -->
+    <div class="sr-block" style="--band-h: 310px;">
+      <img loading="lazy" src="images/Final%20Images/Studio%20Rentals/StudioRentals_Image2.webp" alt="Sama Yoga Studio">
+      <div class="sr-band__text">
+        <div class="sr-pricing">
+          <h2 class="section-title section-title--left">rental prices</h2>
+          <div class="sr-rate">$100 <span>/ hour</span></div>
+          <p>Minimum rental of 1 hour. Studio holds up to 25 participants. All rentals include access to props — mats, blocks, bolsters, and blankets.</p>
+          <p>Please reach out with any questions about availability.</p>
+        </div>
       </div>
     </div>
+
   </section>
 
   <!-- Inquiry Form -->
   <section class="sr-form-section" id="rental-inquiry">
     <div class="sr-form-container">
       <h2 class="sr-form__title">studio rental inquiry</h2>
-      <form class="sr-form" onsubmit="event.preventDefault();">
+      <form id="rentalForm" class="sr-form" name="studio-rental" netlify data-netlify="true">
+        <input type="hidden" name="form-name" value="studio-rental">
 
         <div class="sr-form__row">
           <div class="form-group">
@@ -336,19 +303,6 @@
         </div>
 
         <div class="form-group">
-          <label for="sr-purpose" class="form-label">Purpose of Rental *</label>
-          <select id="sr-purpose" name="purpose" class="form-select" required>
-            <option value="" disabled selected>Select a purpose...</option>
-            <option value="group-class">Group Class or Workshop</option>
-            <option value="corporate">Corporate / Wellness Event</option>
-            <option value="birthday">Birthday or Private Party</option>
-            <option value="photography">Photography or Film</option>
-            <option value="retreat">Retreat or Immersion</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div class="form-group">
           <label for="sr-dates" class="form-label">Preferred Dates &amp; Times</label>
           <input type="text" id="sr-dates" name="dates" class="form-input" placeholder="e.g. Saturday June 14, 10am–12pm">
         </div>
@@ -360,21 +314,13 @@
 
         <button type="submit" class="btn btn--primary">Submit Inquiry</button>
       </form>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="section section--cta">
-    <div class="container text-center">
-      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
-        <h2 class="section-title">Ready to Practice With Us?</h2>
-        <div class="flex gap-md flex-center flex-wrap">
-          <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
-          <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
-        </div>
+      <div id="rentalSuccess" style="display:none; margin-top: var(--space-lg); padding: var(--space-lg) var(--space-xl); background: var(--color-beige); border-left: 3px solid var(--color-primary);">
+        <p style="font-weight: 600; color: var(--color-text-primary); margin-bottom: var(--space-xs);">Inquiry received!</p>
+        <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Thank you for your interest in renting our studio. We'll be in touch soon.</p>
       </div>
     </div>
   </section>
+
 
   <!-- Footer -->
   <footer class="footer">
@@ -397,6 +343,7 @@
             </div>
             <div class="footer__nav-col">
               <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+              <a href="events.html" class="footer__link">Upcoming Events</a>
               <a href="studio-rentals.html" class="footer__link">Studio Rentals</a>
             </div>
             <div class="footer__nav-col">
@@ -452,5 +399,27 @@
 
   <script src="js/navigation.js"></script>
   <script src="js/animations.js"></script>
+  <script>
+    document.getElementById('rentalForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        form.style.display = 'none';
+        document.getElementById('rentalSuccess').style.display = 'block';
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Submit Inquiry';
+        alert('Something went wrong. Please try again or contact us directly.');
+      }
+    });
+  </script>
 </body>
 </html>

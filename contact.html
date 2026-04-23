@@ -232,7 +232,8 @@
       <!-- Left: Contact Form -->
       <div>
         <h3 class="contact-form__title">send us a message</h3>
-        <form id="contactForm" class="contact-form" onsubmit="event.preventDefault();">
+        <form id="contactForm" class="contact-form" name="contact" netlify data-netlify="true">
+          <input type="hidden" name="form-name" value="contact">
           <div class="contact-form__row">
             <div class="form-group">
               <label for="firstName" class="form-label">First Name *</label>
@@ -253,6 +254,10 @@
           </div>
           <button type="submit" class="btn btn--primary">Send Message</button>
         </form>
+        <div id="contactSuccess" style="display:none; margin-top: var(--space-lg); padding: var(--space-lg) var(--space-xl); background: var(--color-beige); border-left: 3px solid var(--color-primary);">
+          <p style="font-weight: 600; color: var(--color-text-primary); margin-bottom: var(--space-xs);">Message sent!</p>
+          <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Thank you for reaching out. We'll get back to you shortly.</p>
+        </div>
       </div>
 
       <!-- Right: Contact Info -->
@@ -280,18 +285,6 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="section section--cta">
-    <div class="container text-center">
-      <div style="display: inline-flex; flex-direction: column; align-items: center; gap: var(--space-xl); border: 2px solid rgba(0,0,0,0.12); padding: var(--space-2xl) var(--space-3xl);">
-        <h2 class="section-title">Ready to Practice With Us?</h2>
-      <div class="flex gap-md flex-center flex-wrap">
-        <a href="schedule.html" class="btn btn--primary btn--large">View Class Schedule</a>
-        <a href="pricing.html#new-student" class="btn btn--outline btn--large">Try Our Intro Offer</a>
-      </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Footer -->
   <footer class="footer">
@@ -314,6 +307,8 @@
             </div>
             <div class="footer__nav-col">
               <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+              <a href="events.html" class="footer__link">Upcoming Events</a>
+              <a href="studio-rentals.html" class="footer__link">Studio Rentals</a>
             </div>
             <div class="footer__nav-col">
               <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
@@ -368,5 +363,27 @@
 
   <script src="js/navigation.js"></script>
   <script src="js/animations.js"></script>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        form.style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'block';
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+        alert('Something went wrong. Please try again or email us directly.');
+      }
+    });
+  </script>
 </body>
 </html>

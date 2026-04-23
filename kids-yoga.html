@@ -60,22 +60,22 @@
       /* extends .section-title--left */
     }
 
-    /* Intro block: same pattern as private-sessions */
+    /* Intro block */
     .ky-intro {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      align-items: center;
+      align-items: stretch;
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
     }
 
+    /* Beige fills the full height of the row, extends edge-to-edge */
     .ky-intro::before {
       content: '';
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      height: var(--band-h, 200px);
+      top: 0;
+      bottom: 0;
       left: -100vw;
       right: -100vw;
       background-color: var(--color-beige);
@@ -89,7 +89,10 @@
     }
 
     .ky-intro__text {
-      padding: var(--space-xl) var(--space-2xl) var(--space-xl) var(--space-3xl);
+      padding: var(--space-2xl) var(--space-2xl) var(--space-2xl) var(--space-3xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .ky-intro__text p {
@@ -101,17 +104,18 @@
 
     .ky-intro img {
       width: 100%;
-      height: 400px;
+      height: 100%;
+      min-height: 400px;
       object-fit: cover;
       object-position: center 40%;
       display: block;
     }
 
-    /* Allie bio section — band pattern like intro */
+    /* Allie bio section — align-items: stretch so image top corner touches intro image bottom corner */
     .ky-bio {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      align-items: center;
+      align-items: stretch;
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
@@ -241,7 +245,6 @@
         grid-template-columns: 1fr;
       }
 
-      /* Fix beige band — replace absolute ::before with direct background */
       .ky-intro::before {
         display: none;
       }
@@ -251,6 +254,7 @@
       }
       .ky-intro img {
         height: 260px;
+        min-height: 260px;
       }
 
       /* Bio: stack image above text — use contain so Allie isn't cropped */
@@ -345,7 +349,7 @@
 
   <!-- Intro -->
   <section class="ky-section" style="padding: 0; overflow: hidden;">
-    <div class="ky-intro" style="--band-h: 345px;">
+    <div class="ky-intro">
       <div class="ky-intro__text">
         <h2 class="section-title section-title--left ky-heading">sama kids</h2>
         <p>Our award-winning Kids Yoga Program at Sama fosters community, social skills, and leadership through yoga and meditation practices for children ages 6 and up. At Sama, children discover the tools to regulate and greet the world with a kind heart. Drop off your young yogi <strong>every Wednesday at 4:30 pm</strong> or book a private lesson <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: none;">here</a>.</p>
@@ -441,6 +445,8 @@
             </div>
             <div class="footer__nav-col">
               <p class="footer__nav-heading"><a href="events.html">Events</a></p>
+              <a href="events.html" class="footer__link">Upcoming Events</a>
+              <a href="studio-rentals.html" class="footer__link">Studio Rentals</a>
             </div>
             <div class="footer__nav-col">
               <p class="footer__nav-heading"><a href="teacher-training.html">Teacher Training</a></p>
