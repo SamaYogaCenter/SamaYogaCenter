@@ -10,21 +10,6 @@ healcode-widget {
   cursor: pointer;
 }
 
-healcode-widget:empty::before {
-  content: attr(data-inner-html);
-  display: inline-block;
-  background-color: var(--color-primary);
-  color: white;
-  padding: var(--space-md) var(--space-xl);
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  min-height: 44px;
-  line-height: 44px;
-}
 
 /* ===== BUTTONS ===== */
 .btn {

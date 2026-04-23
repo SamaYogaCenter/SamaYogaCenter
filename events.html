@@ -15,6 +15,28 @@
   <script src="https://widgets.mindbodyonline.com/javascripts/healcode.js" type="text/javascript" async></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
   <style>
+    /* Placeholder button — mirrors .event-card__button .healcode-pricing-option-text-link exactly */
+    .hc-placeholder {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: white;
+      padding: 6px 14px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      min-height: 44px;
+      line-height: 1;
+      text-decoration: none;
+      cursor: default;
+      pointer-events: none;
+    }
+
     .events-section {
       background-color: white;
       padding: var(--space-2xl) 0;
@@ -370,10 +392,7 @@
             A gentle pause created just for you with <strong>Caroline Reilly</strong>. Restorative yoga, breathwork, and rest.
           </p>
           <a href="#moms-replenish" class="event-card__learn-more">Learn more &rarr;</a>
-          <div style="display: flex; gap: 8px; align-self: flex-start; flex-wrap: wrap;">
-            <div style="padding: 0;"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10946" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="EARLY BIRD" /></div>
-            <div style="padding: 0;"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10945" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="REGULAR" /></div>
-          </div>
+          <div class="event-card__button" style="align-self: flex-start; padding: 0;"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10945" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="REGISTER" /></div>
         </div>
       </div>
 
@@ -651,6 +670,71 @@
     </div>
   </footer>
 
+  <!-- Healcode placeholder buttons -->
+  <script>
+    (function () {
+      var stylesCopied = false;
+
+      // Once the first real healcode button renders, copy its exact computed styles
+      // to every still-visible placeholder so they match pixel-perfectly
+      function syncStylesToReal(realAnchor) {
+        if (stylesCopied) return;
+        stylesCopied = true;
+        var cs = getComputedStyle(realAnchor);
+        document.querySelectorAll('.hc-placeholder').forEach(function (ph) {
+          ph.style.fontSize       = cs.fontSize;
+          ph.style.fontWeight     = cs.fontWeight;
+          ph.style.letterSpacing  = cs.letterSpacing;
+          ph.style.lineHeight     = cs.lineHeight;
+          ph.style.paddingTop     = cs.paddingTop;
+          ph.style.paddingBottom  = cs.paddingBottom;
+          ph.style.paddingLeft    = cs.paddingLeft;
+          ph.style.paddingRight   = cs.paddingRight;
+          ph.style.minHeight      = cs.minHeight;
+          ph.style.borderRadius   = cs.borderRadius;
+        });
+      }
+
+      function initPlaceholders() {
+        document.querySelectorAll('healcode-widget').forEach(function (widget) {
+          var label = widget.getAttribute('data-inner-html') || 'REGISTER';
+
+          var btn = document.createElement('a');
+          btn.className = 'hc-placeholder';
+          btn.textContent = label;
+          btn.setAttribute('aria-hidden', 'true');
+          btn.setAttribute('tabindex', '-1');
+          btn.setAttribute('href', '#');
+          btn.addEventListener('click', function (e) { e.preventDefault(); });
+          widget.parentNode.insertBefore(btn, widget);
+
+          function check() {
+            var realA = widget.querySelector('a');
+            if (realA) {
+              syncStylesToReal(realA);
+              btn.style.display = 'none';
+              return true;
+            }
+            return false;
+          }
+
+          if (!check()) {
+            var observer = new MutationObserver(function () {
+              if (check()) observer.disconnect();
+            });
+            observer.observe(widget, { childList: true, subtree: true, characterData: true });
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPlaceholders);
+      } else {
+        initPlaceholders();
+      }
+    })();
+  </script>
+
   <!-- JavaScript -->
   <script src="js/navigation.js"></script>
   <script src="js/animations.js"></script>
@@ -751,22 +835,13 @@
 
     async function renderEvents() {
       try {
-        const res = await fetch('/data/events.json');
+        const res = await fetch('data/events.json');
         const data = await res.json();
         const events = data.events;
 
-        // Render carousel cards (appended after the static Teacher Training card)
-        const carousel = document.getElementById('events-carousel');
-        events.forEach(event => {
-          carousel.insertAdjacentHTML('beforeend', renderCard(event));
-        });
-
-        // Render detail sections
+        // Render detail sections only (carousel cards are already static HTML)
         const detailSection = document.getElementById('ev-detail-section');
         detailSection.innerHTML = events.map((event, i) => renderDetail(event, i)).join('');
-
-        // Re-init carousel arrows now that cards are loaded
-        updateEvArrows();
       } catch (err) {
         console.error('Could not load events:', err);
       }
