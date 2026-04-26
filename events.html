@@ -778,13 +778,18 @@
     }
 
     function renderPricing(pricing) {
-      return pricing.map(p => `
+      return pricing.map(p => {
+        const btn = p.serviceId
+          ? `<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="${p.serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register"></healcode-widget>`
+          : `<a href="${p.link || '#'}" class="btn btn--primary">Register</a>`;
+        return `
         <div class="ev-event__pricing-col">
           <span class="ev-event__pricing-label">${p.label}</span>
           <span class="ev-event__pricing-price">${p.price}</span>
-          <a href="${p.link || '#'}" class="btn btn--primary">Register</a>
+          ${btn}
         </div>
-      `).join('');
+      `;
+      }).join('');
     }
 
     function renderCard(event) {
@@ -837,7 +842,22 @@
       try {
         const res = await fetch('data/events.json');
         const data = await res.json();
-        const events = data.events;
+        const today = new Date(); today.setHours(0,0,0,0);
+
+        // Filter out hidden events and past events (using dateISO if present)
+        const events = data.events.filter(e => {
+          if (e.hidden) return false;
+          if (e.dateISO) {
+            const d = new Date(e.dateISO + 'T00:00:00');
+            if (d < today) return false;
+          }
+          return true;
+        }).sort((a, b) => {
+          if (!a.dateISO && !b.dateISO) return 0;
+          if (!a.dateISO) return 1;
+          if (!b.dateISO) return -1;
+          return new Date(a.dateISO) - new Date(b.dateISO);
+        });
 
         // Render detail sections only (carousel cards are already static HTML)
         const detailSection = document.getElementById('ev-detail-section');

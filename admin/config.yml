@@ -21,8 +21,10 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Instructor", name: "instructor", widget: "string", required: false, hint: "e.g. with Dr. Katie Takayasu" }
-              - { label: "Date", name: "date", widget: "string", hint: "e.g. Saturday, May 9th, 2026" }
+              - { label: "Date (display)", name: "date", widget: "string", hint: "e.g. Saturday, May 9th, 2026" }
+              - { label: "Date (ISO — for auto-hide)", name: "dateISO", widget: "string", required: false, hint: "YYYY-MM-DD format, e.g. 2026-05-09. Past events are automatically hidden from the site." }
               - { label: "Time", name: "time", widget: "string", hint: "e.g. 1:00–3:00 PM" }
+              - { label: "Hidden (archive)", name: "hidden", widget: "boolean", default: false, required: false, hint: "Toggle on to hide this event from the site without deleting it." }
               - { label: "Anchor ID", name: "id", widget: "string", hint: "Lowercase, no spaces, e.g. womens-health. Used for 'learn more' links." }
               - { label: "Event Image", name: "image", widget: "image" }
               - { label: "Image Position", name: "imagePosition", widget: "string", default: "center top", required: false, hint: "CSS object-position, e.g. center top, center bottom, center 60%" }
@@ -36,4 +38,5 @@ collections:
                 fields:
                   - { label: "Label", name: "label", widget: "string", hint: "e.g. Early Bird, Member, General, Master Class Bundle" }
                   - { label: "Price", name: "price", widget: "string", hint: "e.g. $95" }
-                  - { label: "Register Link", name: "link", widget: "string", default: "#", required: false }
+                  - { label: "MindBody Service ID", name: "serviceId", widget: "string", required: false, hint: "Service ID from MindBody for the Register button. Overrides the link field when present." }
+                  - { label: "Register Link (fallback)", name: "link", widget: "string", default: "#", required: false, hint: "Used only if no Service ID is set above." }
