@@ -93,25 +93,32 @@
   <script>
     /* ── 1. Fade out the loading screen once CMS has rendered ─── */
     (function () {
+      var hidden = false;
       function hideLoader() {
+        if (hidden) return;
+        hidden = true;
         var loader = document.getElementById('sama-loading');
         if (!loader) return;
         loader.classList.add('fade-out');
-        setTimeout(function () { loader.remove(); }, 600);
+        setTimeout(function () { if (loader.parentNode) loader.remove(); }, 600);
       }
 
-      // Watch for Decap's root to appear
+      // Watch for Decap's #nc-root to gain any child elements
       var observer = new MutationObserver(function (mutations, obs) {
-        // Decap mounts a header/nav once the app is ready
-        if (document.querySelector('[class*="AppHeader"], [class*="app-header"], nav[class]')) {
-          hideLoader();
+        var root = document.getElementById('nc-root');
+        if (root && root.children.length > 0) {
+          // Give the app one extra tick to paint before fading
+          setTimeout(hideLoader, 200);
           obs.disconnect();
         }
       });
       observer.observe(document.body, { childList: true, subtree: true });
 
-      // Hard fallback: hide after 5 s no matter what
-      setTimeout(hideLoader, 5000);
+      // Hard fallback: hide after 2.5 s no matter what
+      setTimeout(hideLoader, 2500);
+
+      // Click-to-dismiss: if Rebekah clicks anywhere, it disappears
+      document.addEventListener('click', hideLoader, { once: true });
     })();
 
 

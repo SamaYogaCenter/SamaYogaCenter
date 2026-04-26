@@ -9,8 +9,7 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "events"
-    label: "📅 Upcoming Events"
-    description: "Add, edit, or archive events. Changes publish to the site automatically."
+    label: "Upcoming Events"
     files:
       - name: "events"
         label: "Events List"
