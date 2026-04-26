@@ -840,7 +840,7 @@
 
     async function renderEvents() {
       try {
-        const res = await fetch('data/events.json');
+        const res = await fetch('data/events.json?v=' + Date.now());
         const data = await res.json();
         const today = new Date(); today.setHours(0,0,0,0);
 

@@ -6,6 +6,9 @@
   <meta name="description" content="Sama Yoga Center - Find balance and peace through mindful yoga practice. Offering classes, teacher training, and retreats.">
   <title>Sama Yoga Center | Mindful Yoga Practice</title>
 
+  <!-- Netlify Identity — required for CMS login redirects -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
   <!-- Preload hero poster so it shows instantly -->
   <link rel="preload" as="image" href="images/Final%20Images/Landing%20Page/Landing_Image1.webp">
   <!-- Stylesheets -->
@@ -146,7 +149,7 @@
       <!-- Top: blurb left, image right -->
       <div class="grid grid--2col home-welcome-grid" style="gap: var(--space-3xl); align-items: stretch; margin-bottom: 30px;">
         <div>
-          <h2 class="section-title section-title--left" style="margin-bottom: var(--space-2xl);"><span style="background: #e8e2d9; padding: 2px 10px 4px;">welcome to sama yoga center</span></h2>
+          <h2 class="section-title section-title--left" style="margin-bottom: var(--space-2xl); font-size: clamp(1.35rem, 4.5vw, 2.25rem); white-space: nowrap;"><span style="background: #e8e2d9; padding: 2px 10px 4px;">welcome to sama yoga center</span></h2>
           <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-md);">
             Our award-winning studio, academy, teachers, and children's programs reflect a refined standard of care—authentic, experienced, and professional to support your strength, recovery and lasting well-being.
           </p>
@@ -408,5 +411,16 @@
   <!-- JavaScript -->
   <script src="js/navigation.js"></script>
   <script src="js/animations.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', user => {
+        if (!user) {
+          window.netlifyIdentity.on('login', () => {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+    }
+  </script>
 </body>
 </html>
