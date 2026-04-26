@@ -91,35 +91,20 @@
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <script>
-    /* ── 1. Fade out the loading screen once CMS has rendered ─── */
-    (function () {
-      var hidden = false;
-      function hideLoader() {
-        if (hidden) return;
-        hidden = true;
-        var loader = document.getElementById('sama-loading');
-        if (!loader) return;
-        loader.classList.add('fade-out');
-        setTimeout(function () { if (loader.parentNode) loader.remove(); }, 600);
-      }
-
-      // Watch for Decap's #nc-root to gain any child elements
-      var observer = new MutationObserver(function (mutations, obs) {
-        var root = document.getElementById('nc-root');
-        if (root && root.children.length > 0) {
-          // Give the app one extra tick to paint before fading
-          setTimeout(hideLoader, 200);
-          obs.disconnect();
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-
-      // Hard fallback: hide after 2.5 s no matter what
-      setTimeout(hideLoader, 2500);
-
-      // Click-to-dismiss: if Rebekah clicks anywhere, it disappears
-      document.addEventListener('click', hideLoader, { once: true });
-    })();
+    /* ── 1. Fade out the loading screen ──────────────────────── */
+    var _loaderDone = false;
+    function hideLoader() {
+      if (_loaderDone) return;
+      _loaderDone = true;
+      var el = document.getElementById('sama-loading');
+      if (!el) return;
+      el.classList.add('fade-out');
+      setTimeout(function () { if (el.parentNode) el.remove(); }, 600);
+    }
+    // Decap CMS finishes mounting async after this script — 1.5 s is plenty
+    setTimeout(hideLoader, 1500);
+    // Click anywhere on the screen also dismisses it immediately
+    document.addEventListener('click', hideLoader, { once: true });
 
 
     /* ── 2. Preview pane: register brand CSS ──────────────────── */

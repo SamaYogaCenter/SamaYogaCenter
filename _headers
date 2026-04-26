@@ -12,3 +12,7 @@
 # No cache for CMS-editable data — always serve fresh after publish
 /data/*
   Cache-Control: no-cache, no-store, must-revalidate
+
+# No cache for admin files — always serve the latest version
+/admin/*
+  Cache-Control: no-cache, no-store, must-revalidate
