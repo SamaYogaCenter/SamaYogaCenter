@@ -1,12 +1,265 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sama Yoga | Content Manager</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Page base ─────────────────────────────────────────────── */
+    html, body {
+      background: #f5f0e8;
+      font-family: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #2d2520;
+      min-height: 100vh;
+    }
+
+    /* ── Branded loading screen ────────────────────────────────── */
+    #sama-loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: #f5f0e8;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    #sama-loading img {
+      width: 150px;
+      height: auto;
+      opacity: 0.9;
+    }
+
+    #sama-loading .sama-loading__tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      color: #7a6e67;
+      letter-spacing: 0.04em;
+    }
+
+    #sama-loading .sama-loading__sub {
+      font-size: 0.75rem;
+      color: #a89e98;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #sama-loading .sama-loading__dot {
+      display: inline-block;
+      animation: dot-pulse 1.4s infinite;
+    }
+    #sama-loading .sama-loading__dot:nth-child(2) { animation-delay: 0.2s; }
+    #sama-loading .sama-loading__dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dot-pulse {
+      0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+      40%            { opacity: 1;   transform: translateY(-4px); }
+    }
+
+    #sama-loading.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Branded loading screen — fades out once Decap CMS has mounted -->
+  <div id="sama-loading">
+    <img src="/images/sama-yoga-logo.webp" alt="Sama Yoga Center">
+    <p class="sama-loading__tagline">Content Manager</p>
+    <p class="sama-loading__sub">
+      Loading
+      <span class="sama-loading__dot">.</span>
+      <span class="sama-loading__dot">.</span>
+      <span class="sama-loading__dot">.</span>
+    </p>
+  </div>
+
+  <!-- Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <script>
+    /* ── 1. Fade out the loading screen once CMS has rendered ─── */
+    (function () {
+      function hideLoader() {
+        var loader = document.getElementById('sama-loading');
+        if (!loader) return;
+        loader.classList.add('fade-out');
+        setTimeout(function () { loader.remove(); }, 600);
+      }
+
+      // Watch for Decap's root to appear
+      var observer = new MutationObserver(function (mutations, obs) {
+        // Decap mounts a header/nav once the app is ready
+        if (document.querySelector('[class*="AppHeader"], [class*="app-header"], nav[class]')) {
+          hideLoader();
+          obs.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Hard fallback: hide after 5 s no matter what
+      setTimeout(hideLoader, 5000);
+    })();
+
+
+    /* ── 2. Preview pane: register brand CSS ──────────────────── */
+    CMS.registerPreviewStyle(`
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500;600&display=swap');
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Jost', sans-serif;
+        background: #f5f0e8;
+        padding: 28px 20px;
+        color: #2d2520;
+      }
+
+      .preview-heading {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2d2520;
+        margin-bottom: 20px;
+        text-align: center;
+        letter-spacing: -0.01em;
+      }
+
+      .preview-hint {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #a89e98;
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .preview-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+        background: white;
+      }
+
+      .preview-table th {
+        background: #2d2520;
+        color: white;
+        text-align: left;
+        padding: 10px 14px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 500;
+      }
+
+      .preview-table td {
+        padding: 10px 14px;
+        border-bottom: 1px solid #ede8e0;
+        color: #2d2520;
+        vertical-align: top;
+        line-height: 1.4;
+      }
+
+      .preview-table tr:last-child td { border-bottom: none; }
+      .preview-table tr:hover td     { background: #faf8f4; }
+
+      .preview-status {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 2px 8px;
+        border-radius: 99px;
+      }
+      .preview-status--live   { background: #d4edda; color: #1a6630; }
+      .preview-status--hidden { background: #f5e0d0; color: #a04020; }
+
+      .preview-price {
+        font-weight: 600;
+        color: #c0392b;
+      }
+
+      .preview-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: #a89e98;
+        font-style: italic;
+      }
+    `);
+
+
+    /* ── 3. Preview template — shows an event summary table ───── */
+    (function () {
+      if (typeof React === 'undefined' || typeof CMS === 'undefined') return;
+
+      var e = React.createElement;
+
+      function EventsPreview(props) {
+        var eventsRaw = props.entry.getIn(['data', 'events']);
+        if (!eventsRaw || eventsRaw.size === 0) {
+          return e('p', { className: 'preview-empty' }, 'No events added yet.');
+        }
+
+        var rows = eventsRaw.map(function (ev, i) {
+          var title   = ev.get('title', '—');
+          var date    = ev.get('date', '—');
+          var time    = ev.get('time', '');
+          var hidden  = ev.get('hidden', false);
+          var pricing = ev.get('pricing');
+          var firstPrice = pricing && pricing.size > 0
+            ? pricing.getIn([0, 'price'], '')
+            : '';
+
+          return e('tr', { key: i },
+            e('td', null, e('strong', null, title)),
+            e('td', null, date, time ? e('br', null), e('span', { style: { color: '#a89e98', fontSize: '0.8em' } }, time) : null),
+            e('td', null, firstPrice ? e('span', { className: 'preview-price' }, firstPrice) : '—'),
+            e('td', null,
+              e('span', {
+                className: 'preview-status ' + (hidden ? 'preview-status--hidden' : 'preview-status--live')
+              }, hidden ? 'Hidden' : 'Live')
+            )
+          );
+        }).toArray();
+
+        return e('div', null,
+          e('p', { className: 'preview-heading' }, 'sama yoga events'),
+          e('p', { className: 'preview-hint' }, 'Live preview of your events list'),
+          e('table', { className: 'preview-table' },
+            e('thead', null,
+              e('tr', null,
+                e('th', null, 'Event'),
+                e('th', null, 'Date & Time'),
+                e('th', null, 'From'),
+                e('th', null, 'Status')
+              )
+            ),
+            e('tbody', null, rows)
+          )
+        );
+      }
+
+      try {
+        CMS.registerPreviewTemplate('events', EventsPreview);
+      } catch (err) {
+        console.warn('Sama Admin: could not register preview template.', err);
+      }
+    })();
+  </script>
+
 </body>
 </html>
