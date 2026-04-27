@@ -757,6 +757,10 @@ healcode-widget {
   .footer__newsletter {
     max-width: 100%;
   }
+
+  .footer__newsletter input {
+    flex: 1 1 auto;
+  }
 }
 
 /* ===== HERO SECTION ===== */

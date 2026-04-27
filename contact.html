@@ -288,7 +288,9 @@
 
 
   <!-- Flodesk Newsletter Form -->
+  <div style="padding: var(--space-4xl) 0;">
   <div id="fd-form-5fd7e232cdc0407803122537"></div>
+  </div>
   <script>
     (function(w,d,t,h,s,n){w.FlodeskObject=n;var fn=function(){(w[n].q=w[n].q||[]).push(arguments)};w[n]=w[n]||fn;var f=d.getElementsByTagName(t)[0];var v='?v='+Math.floor(new Date().getTime()/(120*1000))*60;var sm=d.createElement(t);sm.async=true;sm.type='module';sm.src=h+s+'.mjs'+v;f.parentNode.insertBefore(sm,f);var sn=d.createElement(t);sn.async=true;sn.noModule=true;sn.src=h+s+'.js'+v;f.parentNode.insertBefore(sn,f)})(window,document,'script','https://assets.flodesk.com','/universal','fd');
     window.fd('form',{formId:'5fd7e232cdc0407803122537',containerEl:'#fd-form-5fd7e232cdc0407803122537'});
@@ -345,7 +347,7 @@
           </div>
           <div class="footer__right-row">
             <span class="footer__right-heading">Join our Newsletter</span>
-            <form class="footer__newsletter" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form class="footer__newsletter" name="newsletter" data-netlify="true" data-netlify-honeypot="bot-field">
               <input type="hidden" name="form-name" value="newsletter">
               <p hidden><input name="bot-field"></p>
               <div class="footer__newsletter-fields">

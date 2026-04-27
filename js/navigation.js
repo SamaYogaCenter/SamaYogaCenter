@@ -150,18 +150,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Footer newsletter form — AJAX submit with inline Thank you!
+  // Footer newsletter form — AJAX submit with inline Thank you! (no redirect)
   const newsletterForm = document.querySelector('.footer__newsletter');
   if (newsletterForm) {
+    // Use capture:true so this fires before any other handler
     newsletterForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      e.stopPropagation();
+
       const fields = newsletterForm.querySelector('.footer__newsletter-fields');
       const btn = newsletterForm.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
 
-      fetch('/', {
+      // Build form payload manually so fetch sends as POST to Netlify
+      const payload = new URLSearchParams({
+        'form-name': 'newsletter',
+        'name': (newsletterForm.querySelector('input[name="name"]') || {}).value || '',
+        'email': (newsletterForm.querySelector('input[name="email"]') || {}).value || ''
+      });
+
+      fetch(window.location.pathname, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(newsletterForm)).toString()
+        body: payload.toString()
       })
       .then(function() {
         if (fields) fields.style.display = 'none';
@@ -175,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (btn) { btn.textContent = '↺ Try again'; btn.disabled = false; }
       });
 
-      if (btn) { btn.disabled = true; btn.textContent = '...'; }
-    });
+      return false;
+    }, true); // capture phase
   }
 });
