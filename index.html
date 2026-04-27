@@ -7,7 +7,12 @@
   <title>Sama Yoga Center</title>
 
   <!-- Netlify Identity — required for CMS login redirects -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+  <!-- DNS prefetch for external services -->
+  <link rel="dns-prefetch" href="//assets.flodesk.com">
+  <link rel="dns-prefetch" href="//widgets.mindbodyonline.com">
+  <link rel="dns-prefetch" href="//s3.amazonaws.com">
+  <link rel="preconnect" href="https://assets.flodesk.com" crossorigin>
 
   <!-- Preload hero poster so it shows instantly -->
   <link rel="preload" as="image" href="images/Landing%20Page/Landing_Image1.webp" fetchpriority="high">
@@ -424,8 +429,8 @@
   </footer>
 
   <!-- JavaScript -->
-  <script src="js/navigation.js"></script>
-  <script src="js/animations.js"></script>
+  <script src="js/navigation.js" defer></script>
+  <script src="js/animations.js" defer></script>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on('init', user => {
