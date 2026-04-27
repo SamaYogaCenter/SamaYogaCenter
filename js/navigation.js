@@ -149,4 +149,33 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+
+  // Footer newsletter form — AJAX submit with inline Thank you!
+  const newsletterForm = document.querySelector('.footer__newsletter');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fields = newsletterForm.querySelector('.footer__newsletter-fields');
+      const btn = newsletterForm.querySelector('button[type="submit"]');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(newsletterForm)).toString()
+      })
+      .then(function() {
+        if (fields) fields.style.display = 'none';
+        if (btn) btn.style.display = 'none';
+        const thanks = document.createElement('span');
+        thanks.textContent = 'Thank you!';
+        thanks.style.cssText = 'font-size: 0.875rem; color: var(--color-text-primary); padding: 6px 4px; display: inline-block;';
+        newsletterForm.appendChild(thanks);
+      })
+      .catch(function() {
+        if (btn) { btn.textContent = '↺ Try again'; btn.disabled = false; }
+      });
+
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
+    });
+  }
 });
