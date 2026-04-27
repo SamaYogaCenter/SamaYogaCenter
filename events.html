@@ -39,7 +39,7 @@
     }
 
     .events-section {
-      background-color: white;
+      background-color: var(--color-beige);
       padding: var(--space-2xl) 0;
     }
 
@@ -113,7 +113,7 @@
     .event-card {
       flex-shrink: 0;
       width: 220px;
-      background: var(--color-beige);
+      background: white;
       border: none;
       border-radius: 0;
       padding: var(--space-sm) var(--space-sm) var(--space-md);
@@ -129,6 +129,7 @@
       object-position: center top;
       border-radius: 0;
       margin-bottom: var(--space-sm);
+      filter: grayscale(100%);
     }
 
     .event-card__image[alt="Tea & Tranquility"] {
@@ -294,7 +295,7 @@
   <!-- Banner -->
   <section style="background: var(--color-beige); padding: var(--space-lg) 0;">
     <div class="container">
-      <h2 class="section-title" style="margin-bottom: 0; text-align: center;">upcoming events at a glance</h2>
+      <h2 class="section-title" style="margin-bottom: 0; text-align: center;"><span style="background: white; padding: 2px 12px 4px;">upcoming events</span></h2>
     </div>
   </section>
 
@@ -330,9 +331,9 @@
 
   <!-- Dive Deeper -->
   <div style="border-top: 1px solid rgba(0,0,0,0.12);"></div>
-  <section style="background: var(--color-beige); padding: var(--space-lg) 0;">
+  <section style="background: white; padding: var(--space-lg) 0;">
     <div class="container">
-      <h2 class="section-title" style="margin-bottom: 0; text-align: center;">learn more below</h2>
+      <h2 class="section-title" style="margin-bottom: 0; text-align: center;">interested? learn more below</h2>
     </div>
   </section>
 
