@@ -33,7 +33,7 @@
         {
           "label": "Early Bird (by May 14th)",
           "price": "$98",
-          "serviceId": "10939",
+          "serviceId": "10947",
           "link": "#"
         },
         {
@@ -116,7 +116,7 @@
         {
           "label": "Early Bird (by July 1st)",
           "price": "$95",
-          "serviceId": "10946",
+          "serviceId": "10945",
           "link": "#"
         },
         {
@@ -220,32 +220,6 @@
       "image": "/images/Events/KidsYoga.webp",
       "description": "Equip yourself with tools to guide children to build confidence and cultivating kindness.\n\nJoin the expert educator Amy Bilden for this playful and mindful training, designed to equip teachers, parents and yoga instructors with tools to guide children to build confidence, regulate emotions, cultivate kindness and enhance their focus.\n\nVoted \"Best Kids Program,\" Sama Kids brings yoga to life with joy, mastery and heart.\n\nThis training is for educators, parents and the curious student. No prior certification is needed.",
       "instructor": "Amy Bilden"
-    },
-    {
-      "imagePosition": "center top",
-      "showOnTrainingPage": true,
-      "pricing": [
-        {
-          "link": "#",
-          "label": "early",
-          "price": "55"
-        },
-        {
-          "link": "#",
-          "label": "not",
-          "price": "65"
-        }
-      ],
-      "hidden": false,
-      "cardDescription": "adasjfmdaljfsm",
-      "time": "1:00-3:00 PM",
-      "date": "Sunday, May 10th",
-      "dateISO": "2026-05-10",
-      "title": "abby's test two",
-      "id": "abby",
-      "image": "/images/uploads/screenshot-2026-04-27-at-12.05.55 pm.png",
-      "description": "asdjkaslkdlasldllkas",
-      "instructor": "abby fossati"
     }
   ]
 }
