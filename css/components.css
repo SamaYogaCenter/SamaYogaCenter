@@ -618,70 +618,22 @@ healcode-widget {
 
 .footer__newsletter {
   display: flex;
+  flex-direction: row;
+  align-items: stretch;
   gap: 0;
-  max-width: 220px;
+  max-width: 280px;
 }
 
-/* Compact Flodesk footer embed — horizontal, no extra whitespace */
-#fd-form-69efaea71155edfe06a7436f {
-  zoom: 0.65;
-}
-
-/* Collapse every wrapper div between container and form */
-#fd-form-69efaea71155edfe06a7436f > div,
-#fd-form-69efaea71155edfe06a7436f > div > div {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* Force form into a single horizontal row */
-#fd-form-69efaea71155edfe06a7436f form {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  flex-wrap: nowrap !important;
-  gap: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-/* All direct children of the form: strip spacing */
-#fd-form-69efaea71155edfe06a7436f form > * {
-  margin: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* First direct child (input section) stretches to fill */
-#fd-form-69efaea71155edfe06a7436f form > *:first-child {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
-}
-
-/* Last direct child (button or its wrapper) stays compact */
-#fd-form-69efaea71155edfe06a7436f form > *:last-child {
-  flex: 0 0 auto !important;
-}
-
-/* Email input fills its container fully */
-#fd-form-69efaea71155edfe06a7436f input[type="email"] {
-  width: 100% !important;
-  margin: 0 !important;
-  display: block !important;
-  box-sizing: border-box !important;
-}
-
-/* Button sits inline */
-#fd-form-69efaea71155edfe06a7436f button[type="submit"] {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-  margin: 0 !important;
-  display: inline-flex !important;
-  align-items: center !important;
+.footer__newsletter-fields {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 0;
 }
 
 .footer__newsletter input {
-  flex: 1;
+  flex: 0 0 95px;
+  min-width: 0;
   padding: 6px var(--space-sm);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-right: none;
@@ -689,6 +641,7 @@ healcode-widget {
   outline: none;
   background: white;
   color: var(--color-text-primary);
+  box-sizing: border-box;
 }
 
 .footer__newsletter input::placeholder {
@@ -703,6 +656,8 @@ healcode-widget {
   cursor: pointer;
   font-size: 0.875rem;
   transition: background var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .footer__newsletter button:hover {

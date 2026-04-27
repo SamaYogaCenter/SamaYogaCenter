@@ -463,7 +463,7 @@
           <p>This training is for you. <strong>You don't need to intend to teach.</strong> Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as <strong>a retreat you return to every weekend</strong> — immersive, personal, and transformative.</p>
           <div class="tt-register-btn" style="margin-top: var(--space-md);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
         </div>
-        <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image2.webp" alt="Yoga Teacher Training" class="tt-intro__img" style="object-position: 30% 60%;">
+        <img loading="eager" src="images/Teacher%20Training/TeacherTraining_Image2.webp" alt="Yoga Teacher Training" class="tt-intro__img" style="object-position: 30% 60%;">
       </div>
     </div>
   </section>
@@ -785,7 +785,6 @@
       justify-content: center;
     }
     .tt-ce-row__text h3 {
-      white-space: nowrap;
       font-size: 1.75rem;
       font-weight: 600;
       text-transform: lowercase;
@@ -843,7 +842,7 @@
 
   <div class="tt-pink-bar">
     <h2 class="tt-heading tt-heading--large" style="color: white; margin-bottom: 0;">Can't get enough? Join us for further education:</h2>
-    <p style="color: white; font-size: 1.25rem; font-weight: 300; margin-top: var(--space-sm); white-space: nowrap;">Continue your education or drop in and expand your knowledge. Open to both graduates and non-graduates.</p>
+    <p style="color: white; font-size: 1.25rem; font-weight: 300; margin-top: var(--space-sm);">Continue your education or drop in and expand your knowledge. Open to both graduates and non-graduates.</p>
   </div>
 
   <section class="tt-ce-section">
@@ -881,7 +880,6 @@
         height: 100%;
       }
       .tt-fs__title {
-        white-space: nowrap;
         font-size: 1.75rem;
         font-weight: 600;
         text-transform: lowercase;
@@ -980,7 +978,6 @@
         font-size: 1rem;
         font-weight: 700;
         color: var(--color-primary);
-        white-space: nowrap;
       }
       .tt-fs__pricing-link {
         color: var(--color-primary);
@@ -1162,7 +1159,15 @@
           </div>
           <div class="footer__right-row">
             <span class="footer__right-heading">Join our Newsletter</span>
-            <div id="fd-form-69efaea71155edfe06a7436f"></div>
+            <form class="footer__newsletter" name="newsletter" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="newsletter">
+              <p hidden><input name="bot-field"></p>
+              <div class="footer__newsletter-fields">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email" required>
+              </div>
+              <button type="submit" aria-label="Subscribe">&rarr;</button>
+            </form>
           </div>
           <div class="footer__right-row">
             <span class="footer__right-heading">Download Our App</span>
@@ -1333,79 +1338,6 @@
       }
 
       renderTTAdditional();
-    })();
-  </script>
-  <!-- Flodesk: footer newsletter form -->
-  <script>
-    (function() {
-      if (!document.querySelector('script[src*="flodesk"]')) {
-        (function(w,d,t,h,s,n){w.FlodeskObject=n;var fn=function(){(w[n].q=w[n].q||[]).push(arguments)};w[n]=w[n]||fn;var f=d.getElementsByTagName(t)[0];var v='?v='+Math.floor(new Date().getTime()/(120*1000))*60;var sm=d.createElement(t);sm.async=true;sm.type='module';sm.src=h+s+'.mjs'+v;f.parentNode.insertBefore(sm,f);var sn=d.createElement(t);sn.async=true;sn.noModule=true;sn.src=h+s+'.js'+v;f.parentNode.insertBefore(sn,f)})(window,document,'script','https://assets.flodesk.com','/universal','fd');
-      }
-      window.fd('form', {
-        formId: '69efaea71155edfe06a7436f',
-        containerEl: '#fd-form-69efaea71155edfe06a7436f'
-      });
-
-      // Restructure Flodesk footer form into a single horizontal row
-      function applyFooterLayout() {
-        var container = document.getElementById('fd-form-69efaea71155edfe06a7436f');
-        if (!container) return false;
-        var form = container.querySelector('form');
-        if (!form) return false;
-        var inp = form.querySelector('input[type="email"]');
-        var btn = form.querySelector('button[type="submit"]');
-        if (!inp || !btn) return false;
-        if (form.dataset.compacted === '1') return true;
-        form.dataset.compacted = '1';
-
-        // Build a flex row and physically move inp + btn into it
-        var row = document.createElement('div');
-        row.style.cssText = 'display:flex;flex-direction:row;align-items:stretch;width:100%;gap:0;';
-
-        var inpBox = document.createElement('div');
-        inpBox.style.cssText = 'flex:1 1 auto;min-width:0;display:flex;';
-        inp.style.setProperty('width', '100%', 'important');
-        inp.style.setProperty('flex', '1', 'important');
-        inp.style.setProperty('margin', '0', 'important');
-        inp.style.setProperty('box-sizing', 'border-box', 'important');
-        inpBox.appendChild(inp);
-
-        var btnBox = document.createElement('div');
-        btnBox.style.cssText = 'flex:0 0 auto;display:flex;align-items:center;';
-        btn.style.setProperty('white-space', 'nowrap', 'important');
-        btn.style.setProperty('flex-shrink', '0', 'important');
-        btn.style.setProperty('margin', '0', 'important');
-        btnBox.appendChild(btn);
-
-        row.appendChild(inpBox);
-        row.appendChild(btnBox);
-
-        // Clear form children and inject our row (preserves form-level event listeners)
-        while (form.firstChild) form.removeChild(form.firstChild);
-        form.appendChild(row);
-        form.style.setProperty('padding', '0', 'important');
-        form.style.setProperty('margin', '0', 'important');
-
-        // Collapse wrapper divs around the form
-        Array.from(container.querySelectorAll('div')).forEach(function(el) {
-          if (el !== row && el !== inpBox && el !== btnBox) {
-            el.style.setProperty('padding', '0', 'important');
-            el.style.setProperty('margin', '0', 'important');
-          }
-        });
-
-        return true;
-      }
-
-      // Poll until Flodesk has rendered the form, then restructure
-      var tries = 0;
-      var poll = setInterval(function() {
-        if (applyFooterLayout() || ++tries > 30) clearInterval(poll);
-      }, 300);
-      window.addEventListener('load', function() {
-        setTimeout(applyFooterLayout, 800);
-        setTimeout(applyFooterLayout, 2000);
-      });
     })();
   </script>
   <!-- Messenger[ai] chat widget -->
