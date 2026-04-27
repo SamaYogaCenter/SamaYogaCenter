@@ -6,13 +6,13 @@
         {
           "label": "Member",
           "price": "$55",
-          "serviceId": "10922",
+          "serviceId": "10963",
           "link": "#"
         },
         {
           "label": "Non-Member",
           "price": "$65",
-          "serviceId": "10922",
+          "serviceId": "10964",
           "link": "#"
         }
       ],
@@ -32,7 +32,7 @@
       "pricing": [
         {
           "label": "Early Bird (by May 14th)",
-          "price": "$98",
+          "price": "$95",
           "serviceId": "10947",
           "link": "#"
         },
@@ -61,7 +61,7 @@
         {
           "label": "Early Bird (by May 27th)",
           "price": "$350",
-          "serviceId": "10940",
+          "serviceId": "10965",
           "link": "#"
         },
         {
@@ -116,7 +116,7 @@
         {
           "label": "Early Bird (by July 1st)",
           "price": "$95",
-          "serviceId": "10945",
+          "serviceId": "10946",
           "link": "#"
         },
         {
@@ -200,13 +200,13 @@
         {
           "label": "Early Bird (by May 27th)",
           "price": "$350",
-          "serviceId": "10912",
+          "serviceId": "10966",
           "link": "#"
         },
         {
           "label": "Regular",
           "price": "$450",
-          "serviceId": "10912",
+          "serviceId": "10948",
           "link": "#"
         }
       ],
