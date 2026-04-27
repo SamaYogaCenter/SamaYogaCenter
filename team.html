@@ -516,7 +516,7 @@
             <span class="founder-text__title">CPT, E-RYT® 500, YACEP®<br>Founder &amp; Owner — Sama Yoga Center and Academy</span>
           </div>
           <p>Rebekah Jacobs is a certified personal trainer (CPT), E-RYT® 500, YACEP®, and AMI Montessori Assistant Teacher with nearly two decades of experience in the yoga and wellness space. She has been teaching for 18 years, managing studio operations for just as long, and has owned and grown Sama Yoga Center for over 10 years. She is also the founder of Sama Yoga Academy, a nationally accredited Yoga Alliance® training program. Rebekah's commitment to excellence has been recognized with multiple honors, including the Mindbody Visionary Award, Best Yoga Studio by Best of the Gold Coast and Local Love Award, and the 2023 "Brilliant Woman" award from Grown Brilliance.</p>
-          <p>Rebekah has trained with some of the most respected teachers in the field. Her studies include <strong>Judith Hanson Lasater, PhD, PT</strong>, a pioneer of Restorative Yoga and anatomy education; <strong>Ross Rayburn</strong>, celebrated master teacher of Hatha and therapeutic yoga; <strong>Sally Kempton</strong>, a leading voice in meditation and yoga philosophy; and <strong>Leslie Kaminoff</strong>, author of <em>Yoga Anatomy</em> and founder of The Breathing Project. She has also studied with Livia Cohen-Shapiro, M.A., Physical Mind, Mary Barnes, Jennifer Pettit, and Christine McArdle-Oquendo.</p>
+          <p>Rebekah has trained with some of the most respected teachers in the field, including <strong>Judith Hanson Lasater, PhD, PT</strong>, the pioneer of Restorative Yoga and anatomy education; <strong>Ross Rayburn</strong>, celebrated master teacher of Hatha and therapeutic yoga of Peloton fame; <strong>Sally Kempton</strong>, the late influential voice in meditation and yoga philosophy; and <strong>Leslie Kaminoff</strong>, author of <em>Yoga Anatomy</em> and founder of The Breathing Project. She has also studied applied psychology with Livia Cohen-Shapiro, M.A., Pilates with Physical Mind, prenatal yoga with Mary Barnes and Jennifer Pettit, and kids yoga with Christine McArdle-Oquendo.</p>
           <p>Sama means same, equal, equanimity — a reminder that there's more that unites us than divides us. Rebekah founded Sama to offer space to move and rest, to process and let go. She invites you to carve out time for yourself and join the community, because we get stronger together, one breath at a time.</p>
         </div>
       </div>
@@ -979,6 +979,50 @@
         updateArrowVisibility('weekly');
         updateArrowVisibility('subs');
       }, 100);
+    });
+  </script>
+  <!-- Flodesk: load script globally for footer form -->
+  <script>
+    (function() {
+      if (!document.querySelector('script[src*="flodesk"]')) {
+        (function(w,d,t,h,s,n){w.FlodeskObject=n;var fn=function(){(w[n].q=w[n].q||[]).push(arguments)};w[n]=w[n]||fn;var f=d.getElementsByTagName(t)[0];var v='?v='+Math.floor(new Date().getTime()/(120*1000))*60;var sm=d.createElement(t);sm.async=true;sm.type='module';sm.src=h+s+'.mjs'+v;f.parentNode.insertBefore(sm,f);var sn=d.createElement(t);sn.async=true;sn.noModule=true;sn.src=h+s+'.js'+v;f.parentNode.insertBefore(sn,f)})(window,document,'script','https://assets.flodesk.com','/universal','fd');
+      }
+    })();
+
+    // Wire footer newsletter form to Flodesk
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.querySelector('.footer__newsletter');
+      if (!form) return;
+      var input = form.querySelector('input[type="email"]');
+      var btn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = input.value.trim();
+        if (!email) return;
+
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        function trySubscribe(attempts) {
+          if (typeof window.fd === 'function') {
+            window.fd('subscribe', {
+              formId: '5fd7e232cdc0407803122537',
+              email: email
+            });
+            input.value = '';
+            input.placeholder = 'You\'re subscribed!';
+            btn.textContent = '\u2713';
+          } else if (attempts > 0) {
+            setTimeout(function() { trySubscribe(attempts - 1); }, 400);
+          } else {
+            input.placeholder = 'Try again';
+            btn.textContent = '\u2192';
+            btn.disabled = false;
+          }
+        }
+        trySubscribe(10);
+      });
     });
   </script>
   <!-- Messenger[ai] chat widget -->

@@ -685,7 +685,7 @@
         </div>
       </div>
       <div class="tt-review-card">
-        <img loading="lazy" src="images/Teacher%20Training/Jen%20D..webp" alt="Jennifer D." class="tt-review-card__avatar">
+        <img loading="lazy" src="images/Teacher%20Training/Jen%20D.jpg" alt="Jennifer D." class="tt-review-card__avatar">
         <div class="tt-review-card__body">
           <p class="tt-review-card__quote">&ldquo;The program was an absolutely joy. Rebekah is the consummate teacher, I couldn&rsquo;t have asked for a better experience. It has opened doors to new paths personally and professionally. I am eternally grateful and would recommend anyone who is curious about this training and/or Sama&rsquo;s practice to not delay and reach out, you won&rsquo;t be disappointed.&rdquo;</p>
           <span class="tt-review-card__author">-Jennifer D.</span>
@@ -1021,6 +1021,30 @@
       .tt-ky-pricing-col:last-child {
         border-right: none;
       }
+      .tt-ky-pricing-col .healcode-pricing-option-text-link,
+      .tt-ky-pricing-col .btn--primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-primary);
+        color: white !important;
+        padding: var(--space-sm) var(--space-lg);
+        font-size: var(--font-size-sm);
+        font-family: var(--font-body);
+        font-weight: var(--font-weight-medium);
+        text-decoration: none;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border-radius: var(--radius-md);
+        min-height: 44px;
+        transition: background-color var(--transition-base);
+        cursor: pointer;
+        border: none;
+      }
+      .tt-ky-pricing-col .healcode-pricing-option-text-link:hover,
+      .tt-ky-pricing-col .btn--primary:hover {
+        background-color: var(--color-primary-dark);
+      }
       .tt-ky-pricing-label {
         font-size: 0.875rem;
         color: var(--color-text-secondary);
@@ -1179,10 +1203,13 @@
 
       function renderPricingCols(pricing) {
         return (pricing || []).map(function (p) {
+          var btn = p.serviceId
+            ? '<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="' + escapeHtml(p.serviceId) + '" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register"></healcode-widget>'
+            : '<a href="' + escapeHtml(p.link || '#') + '" class="btn btn--primary">Register</a>';
           return '<div class="tt-ky-pricing-col">' +
             '<span class="tt-ky-pricing-label">' + escapeHtml(p.label) + '</span>' +
             '<span class="tt-ky-pricing-price">' + escapeHtml(p.price) + '</span>' +
-            '<a href="' + escapeHtml(p.link || '#') + '" class="btn btn--primary">Register</a>' +
+            btn +
             '</div>';
         }).join('');
       }
@@ -1231,12 +1258,15 @@
 
         var individualCols = events.map(function (e) {
           var shortTitle = e.title.replace(/^Master Class:\s*/i, '');
-          var price = (e.pricing && e.pricing[0]) ? e.pricing[0].price : '$150';
-          var link = (e.pricing && e.pricing[0]) ? (e.pricing[0].link || '#') : '#';
+          var p0 = (e.pricing && e.pricing[0]) ? e.pricing[0] : {};
+          var price = p0.price || '$150';
+          var btn = p0.serviceId
+            ? '<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="' + escapeHtml(p0.serviceId) + '" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register"></healcode-widget>'
+            : '<a href="' + escapeHtml(p0.link || '#') + '" class="btn btn--primary">Register</a>';
           return '<div class="tt-ky-pricing-col">' +
             '<span class="tt-ky-pricing-label">' + escapeHtml(shortTitle) + '</span>' +
             '<span class="tt-ky-pricing-price">' + escapeHtml(price) + '</span>' +
-            '<a href="' + escapeHtml(link) + '" class="btn btn--primary">Register</a>' +
+            btn +
             '</div>';
         }).join('');
 
@@ -1307,6 +1337,50 @@
 
       renderTTAdditional();
     })();
+  </script>
+  <!-- Flodesk: load script globally for footer form -->
+  <script>
+    (function() {
+      if (!document.querySelector('script[src*="flodesk"]')) {
+        (function(w,d,t,h,s,n){w.FlodeskObject=n;var fn=function(){(w[n].q=w[n].q||[]).push(arguments)};w[n]=w[n]||fn;var f=d.getElementsByTagName(t)[0];var v='?v='+Math.floor(new Date().getTime()/(120*1000))*60;var sm=d.createElement(t);sm.async=true;sm.type='module';sm.src=h+s+'.mjs'+v;f.parentNode.insertBefore(sm,f);var sn=d.createElement(t);sn.async=true;sn.noModule=true;sn.src=h+s+'.js'+v;f.parentNode.insertBefore(sn,f)})(window,document,'script','https://assets.flodesk.com','/universal','fd');
+      }
+    })();
+
+    // Wire footer newsletter form to Flodesk
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.querySelector('.footer__newsletter');
+      if (!form) return;
+      var input = form.querySelector('input[type="email"]');
+      var btn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = input.value.trim();
+        if (!email) return;
+
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        function trySubscribe(attempts) {
+          if (typeof window.fd === 'function') {
+            window.fd('subscribe', {
+              formId: '5fd7e232cdc0407803122537',
+              email: email
+            });
+            input.value = '';
+            input.placeholder = 'You\'re subscribed!';
+            btn.textContent = '\u2713';
+          } else if (attempts > 0) {
+            setTimeout(function() { trySubscribe(attempts - 1); }, 400);
+          } else {
+            input.placeholder = 'Try again';
+            btn.textContent = '\u2192';
+            btn.disabled = false;
+          }
+        }
+        trySubscribe(10);
+      });
+    });
   </script>
   <!-- Messenger[ai] chat widget -->
   <script>(function(t,i,o,n,w,a,e){t["bowtieDataToken"]=w;t[w]=t[w]||function(){(t[w].i=t[w].i||[]).push(arguments)};t[w].o=1*new Date;a=i.createElement(o);e=i.getElementsByTagName(o)[0];a.async=1;a.src=n;e.parentNode.insertBefore(a,e)})(window,document,"script","https://s3.amazonaws.com/bowtie.ai/bowtieJS/bowtie_widget.js","sama_yoga_center");</script>
