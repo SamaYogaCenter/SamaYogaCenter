@@ -6,11 +6,11 @@
   <meta name="description" content="Upcoming events, workshops, and retreats at Sama Yoga Center. Join us for special events focused on wellness, community, and growth.">
   <title>Sama Yoga Center</title>
 
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/variables.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="icon" href="images/PinkEnzo.png" type="image/png">
+  <link rel="stylesheet" href="css/reset.css?v=2">
+  <link rel="stylesheet" href="css/variables.css?v=2">
+  <link rel="stylesheet" href="css/layout.css?v=2">
+  <link rel="stylesheet" href="css/components.css?v=2">
   <link rel="preconnect" href="https://widgets.mindbodyonline.com">
   <link rel="preload" href="https://widgets.mindbodyonline.com/javascripts/healcode.js" as="script">
   <script src="https://widgets.mindbodyonline.com/javascripts/healcode.js" type="text/javascript" async></script>
@@ -441,6 +441,39 @@
     .ev-event__register {
       align-self: flex-start;
     }
+
+    /* Register buttons inside detail pricing columns */
+    .ev-event__pricing-col .healcode-pricing-option-text-link,
+    .ev-event__pricing-col .btn--primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-primary);
+      color: white !important;
+      padding: 10px 24px;
+      font-size: 0.875rem;
+      font-family: var(--font-body);
+      font-weight: var(--font-weight-medium);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: var(--radius-md);
+      min-height: 44px;
+      transition: background-color var(--transition-base);
+      cursor: pointer;
+      border: none;
+    }
+    .ev-event__pricing-col .healcode-pricing-option-text-link:hover,
+    .ev-event__pricing-col .btn--primary:hover {
+      background-color: var(--color-primary-dark);
+    }
+    /* Placeholder button in detail pricing columns */
+    .ev-event__pricing-col .hc-placeholder {
+      padding: 10px 24px;
+      font-size: 0.875rem;
+      min-height: 44px;
+      border-radius: var(--radius-md);
+    }
     .ev-divider {
       max-width: 1100px;
       margin: 0 auto var(--space-3xl);
@@ -666,8 +699,8 @@
     function renderPricing(pricing) {
       return pricing.map(p => {
         const btn = p.serviceId
-          ? `<healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="${p.serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register"></healcode-widget>`
-          : `<a href="${p.link || '#'}" class="btn btn--primary">Register</a>`;
+          ? `<div style="display:inline-flex;"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="${p.serviceId}" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="REGISTER"></healcode-widget></div>`
+          : `<a href="${p.link || '#'}" class="btn btn--primary">REGISTER</a>`;
         return `
         <div class="ev-event__pricing-col">
           <span class="ev-event__pricing-label">${p.label}</span>

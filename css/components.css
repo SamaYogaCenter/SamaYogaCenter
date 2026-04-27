@@ -879,3 +879,9 @@ healcode-widget {
   background-color: var(--color-primary);
   margin: var(--space-lg) auto;
 }
+
+/* Bowtie / Messenger[ai] chat widget — scale down */
+#bowtie-container {
+  transform: scale(0.75);
+  transform-origin: bottom right;
+}
