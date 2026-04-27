@@ -220,32 +220,6 @@
       "image": "/images/Events/KidsYoga.webp",
       "description": "Equip yourself with tools to guide children to build confidence and cultivating kindness.\n\nJoin the expert educator Amy Bilden for this playful and mindful training, designed to equip teachers, parents and yoga instructors with tools to guide children to build confidence, regulate emotions, cultivate kindness and enhance their focus.\n\nVoted \"Best Kids Program,\" Sama Kids brings yoga to life with joy, mastery and heart.\n\nThis training is for educators, parents and the curious student. No prior certification is needed.",
       "instructor": "Amy Bilden"
-    },
-    {
-      "imagePosition": "center top",
-      "showOnTrainingPage": true,
-      "pricing": [
-        {
-          "link": "#",
-          "label": "Member",
-          "price": "65"
-        },
-        {
-          "link": "#",
-          "label": "Non Member",
-          "price": "76"
-        }
-      ],
-      "hidden": false,
-      "cardDescription": "Aidjiasjdiasldjasdj",
-      "time": "1:00-3:00",
-      "date": "Sunday, May 9th, 2026",
-      "dateISO": "2026-05-10",
-      "title": "Abby's Test",
-      "id": "abby",
-      "image": "/images/uploads/866696_1181_0012.jpg",
-      "description": "AidjiasjdiasldjasdjAidjia sjdiasldj asdjAidjiasjdiasldjas djAidjiasjdiasldjasdjAidjias jdiasldjasdjAidjiasjdiasldjasdjAidjiasjdiasldjasdjAidjiasjdiasldjasdjAidjiasjdiasldjasdjAidjiasjdiasldja sdjAidjiasjdiasldjasdjAidjiasjdiasldjasdj",
-      "instructor": "Abby Fossati"
     }
   ]
 }
