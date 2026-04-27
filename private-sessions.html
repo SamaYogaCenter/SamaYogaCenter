@@ -328,6 +328,67 @@
         formId: '69efaea71155edfe06a7436f',
         containerEl: '#fd-form-69efaea71155edfe06a7436f'
       });
+
+      // Restructure Flodesk footer form into a single horizontal row
+      function applyFooterLayout() {
+        var container = document.getElementById('fd-form-69efaea71155edfe06a7436f');
+        if (!container) return false;
+        var form = container.querySelector('form');
+        if (!form) return false;
+        var inp = form.querySelector('input[type="email"]');
+        var btn = form.querySelector('button[type="submit"]');
+        if (!inp || !btn) return false;
+        if (form.dataset.compacted === '1') return true;
+        form.dataset.compacted = '1';
+
+        // Build a flex row and physically move inp + btn into it
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;flex-direction:row;align-items:stretch;width:100%;gap:0;';
+
+        var inpBox = document.createElement('div');
+        inpBox.style.cssText = 'flex:1 1 auto;min-width:0;display:flex;';
+        inp.style.setProperty('width', '100%', 'important');
+        inp.style.setProperty('flex', '1', 'important');
+        inp.style.setProperty('margin', '0', 'important');
+        inp.style.setProperty('box-sizing', 'border-box', 'important');
+        inpBox.appendChild(inp);
+
+        var btnBox = document.createElement('div');
+        btnBox.style.cssText = 'flex:0 0 auto;display:flex;align-items:center;';
+        btn.style.setProperty('white-space', 'nowrap', 'important');
+        btn.style.setProperty('flex-shrink', '0', 'important');
+        btn.style.setProperty('margin', '0', 'important');
+        btnBox.appendChild(btn);
+
+        row.appendChild(inpBox);
+        row.appendChild(btnBox);
+
+        // Clear form children and inject our row (preserves form-level event listeners)
+        while (form.firstChild) form.removeChild(form.firstChild);
+        form.appendChild(row);
+        form.style.setProperty('padding', '0', 'important');
+        form.style.setProperty('margin', '0', 'important');
+
+        // Collapse wrapper divs around the form
+        Array.from(container.querySelectorAll('div')).forEach(function(el) {
+          if (el !== row && el !== inpBox && el !== btnBox) {
+            el.style.setProperty('padding', '0', 'important');
+            el.style.setProperty('margin', '0', 'important');
+          }
+        });
+
+        return true;
+      }
+
+      // Poll until Flodesk has rendered the form, then restructure
+      var tries = 0;
+      var poll = setInterval(function() {
+        if (applyFooterLayout() || ++tries > 30) clearInterval(poll);
+      }, 300);
+      window.addEventListener('load', function() {
+        setTimeout(applyFooterLayout, 800);
+        setTimeout(applyFooterLayout, 2000);
+      });
     })();
   </script>
   <!-- Messenger[ai] chat widget -->
