@@ -4,14 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Sama Yoga Center - Find balance and peace through mindful yoga practice. Offering classes, teacher training, and retreats.">
-  <title>Sama Yoga Center | Mindful Yoga Practice</title>
+  <title>Sama Yoga Center</title>
 
   <!-- Netlify Identity — required for CMS login redirects -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
   <!-- Preload hero poster so it shows instantly -->
-  <link rel="preload" as="image" href="images/Final%20Images/Landing%20Page/Landing_Image1.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="images/Landing%20Page/Landing_Image1.webp" fetchpriority="high">
   <!-- Stylesheets -->
+  <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -138,8 +139,8 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <video class="hero__video" autoplay muted loop playsinline poster="images/Final%20Images/Landing%20Page/Landing_Image1.webp">
-      <source src="images/Final%20Images/Landing%20Page/LandingPage_HeroVid.mp4" type="video/mp4">
+    <video class="hero__video" autoplay muted loop playsinline poster="images/Landing%20Page/Landing_Image1.webp">
+      <source src="images/Landing%20Page/LandingPage_HeroVid.mp4" type="video/mp4">
     </video>
   </section>
 
@@ -157,7 +158,7 @@
             Sama is a Sanskrit word meaning same, equal, equanimity - a reminder that there is more that unites us than divides us. This philosophy is at the heart of everything we do. Our studio is a warm, welcoming space where people of all ages and experience levels come to move, breathe, and grow
           </p>
           <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-md);">
-            Stop by for <a href="schedule.html" style="color: inherit; text-decoration: underline;">yoga classes</a>, <a href="private-sessions.html" style="color: inherit; text-decoration: underline;">private sessions</a>, <a href="events.html" style="color: inherit; text-decoration: underline;">events</a> and <a href="teacher-training.html" style="color: inherit; text-decoration: underline;">yoga teacher training</a>.
+            Stop by for <a href="schedule.html" style="color: var(--color-primary); text-decoration: underline;">yoga classes</a>, <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: underline;">private sessions</a>, <a href="events.html" style="color: var(--color-primary); text-decoration: underline;">events</a> and <a href="teacher-training.html" style="color: var(--color-primary); text-decoration: underline;">yoga teacher training</a>.
           </p>
           <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.8; margin-bottom: var(--space-xl);">
             We are here - for you.
@@ -168,7 +169,7 @@
           </div>
         </div>
         <div style="position: relative; overflow: hidden;">
-          <img loading="eager" src="images/Final%20Images/Landing%20Page/Landing_Image1.webp" alt="Sama Yoga Center" class="home-welcome-img" width="1280" height="853" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
+          <img loading="eager" src="images/Landing%20Page/Landing_Image1.webp" alt="Sama Yoga Center" class="home-welcome-img" width="1280" height="853" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;">
         </div>
       </div>
       <!-- Bottom: location left, amenities right — aligned under their respective columns -->
@@ -243,7 +244,7 @@
               <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Lockers</span>
             </li>
             <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><polygon points="5,3 16,6 5,14"/><line x1="13" y1="8" x2="17" y2="13" stroke-dasharray="2 2"/><line x1="10" y1="10" x2="14" y2="15" stroke-dasharray="2 2"/><line x1="8" y1="12" x2="12" y2="17" stroke-dasharray="2 2"/></svg>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M12 2C9 7 5 12 5 16a7 7 0 0 0 14 0C19 12 15 7 12 2z"/></svg>
               <span style="font-size: var(--font-size-base); color: var(--color-text-primary);">Showers</span>
             </li>
             <li style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-sm) 0; border-bottom: var(--border-width) solid var(--border-color);">
@@ -288,7 +289,7 @@
               <a href="contact.html" class="btn btn--primary">Contact Us</a>
             </div>
           </div>
-          <img loading="lazy" src="images/Final%20Images/Landing%20Page/Landing_Image3.webp" alt="Sama Yoga Center" class="home-landing-img3" width="1280" height="853" style="width: 100%; flex: 1 1 0; min-height: 0; object-fit: cover; object-position: center 70%; display: block;">
+          <img loading="lazy" src="images/Landing%20Page/Landing_Image3.webp" alt="Sama Yoga Center" class="home-landing-img3" width="1280" height="853" style="width: 100%; flex: 1 1 0; min-height: 0; object-fit: cover; object-position: center 70%; display: block;">
         </div>
 
         <!-- Right: FAQs -->
@@ -422,5 +423,7 @@
       });
     }
   </script>
+  <!-- Messenger[ai] chat widget -->
+  <script>(function(t,i,o,n,w,a,e){t["bowtieDataToken"]=w;t[w]=t[w]||function(){(t[w].i=t[w].i||[]).push(arguments)};t[w].o=1*new Date;a=i.createElement(o);e=i.getElementsByTagName(o)[0];a.async=1;a.src=n;e.parentNode.insertBefore(a,e)})(window,document,"script","https://s3.amazonaws.com/bowtie.ai/bowtieJS/bowtie_widget.js","sama_yoga_center");</script>
 </body>
 </html>
