@@ -31,7 +31,7 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Early Bird (by May 14th)",
+          "label": "Early Bird (by 5/14)",
           "price": "$95",
           "serviceId": "10947",
           "link": "#"
@@ -59,7 +59,7 @@
       "showOnTrainingPage": true,
       "pricing": [
         {
-          "label": "Early Bird (by May 27th)",
+          "label": "Early Bird (by 5/27)",
           "price": "$350",
           "serviceId": "10965",
           "link": "#"
@@ -114,7 +114,7 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Early Bird (by July 1st)",
+          "label": "Early Bird (by 7/1)",
           "price": "$95",
           "serviceId": "10946",
           "link": "#"
@@ -198,7 +198,7 @@
       "showOnTrainingPage": true,
       "pricing": [
         {
-          "label": "Early Bird (by May 27th)",
+          "label": "Early Bird (by 5/27)",
           "price": "$350",
           "serviceId": "10966",
           "link": "#"

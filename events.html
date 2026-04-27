@@ -572,10 +572,7 @@
           </div>
           <div class="footer__right-row">
             <span class="footer__right-heading">Join our Newsletter</span>
-            <form class="footer__newsletter" onsubmit="event.preventDefault();">
-              <input type="email" placeholder="Your email">
-              <button type="submit" aria-label="Subscribe">&rarr;</button>
-            </form>
+            <div id="fd-form-69efaea71155edfe06a7436f"></div>
           </div>
           <div class="footer__right-row">
             <span class="footer__right-heading">Download Our App</span>
@@ -808,49 +805,17 @@
 
     renderEvents();
   </script>
-  <!-- Flodesk: load script globally for footer form -->
+  <!-- Flodesk: footer newsletter form -->
   <script>
     (function() {
       if (!document.querySelector('script[src*="flodesk"]')) {
         (function(w,d,t,h,s,n){w.FlodeskObject=n;var fn=function(){(w[n].q=w[n].q||[]).push(arguments)};w[n]=w[n]||fn;var f=d.getElementsByTagName(t)[0];var v='?v='+Math.floor(new Date().getTime()/(120*1000))*60;var sm=d.createElement(t);sm.async=true;sm.type='module';sm.src=h+s+'.mjs'+v;f.parentNode.insertBefore(sm,f);var sn=d.createElement(t);sn.async=true;sn.noModule=true;sn.src=h+s+'.js'+v;f.parentNode.insertBefore(sn,f)})(window,document,'script','https://assets.flodesk.com','/universal','fd');
       }
-    })();
-
-    // Wire footer newsletter form to Flodesk
-    document.addEventListener('DOMContentLoaded', function() {
-      var form = document.querySelector('.footer__newsletter');
-      if (!form) return;
-      var input = form.querySelector('input[type="email"]');
-      var btn = form.querySelector('button[type="submit"]');
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var email = input.value.trim();
-        if (!email) return;
-
-        btn.disabled = true;
-        btn.textContent = '...';
-
-        function trySubscribe(attempts) {
-          if (typeof window.fd === 'function') {
-            window.fd('subscribe', {
-              formId: '5fd7e232cdc0407803122537',
-              email: email
-            });
-            input.value = '';
-            input.placeholder = 'You\'re subscribed!';
-            btn.textContent = '\u2713';
-          } else if (attempts > 0) {
-            setTimeout(function() { trySubscribe(attempts - 1); }, 400);
-          } else {
-            input.placeholder = 'Try again';
-            btn.textContent = '\u2192';
-            btn.disabled = false;
-          }
-        }
-        trySubscribe(10);
+      window.fd('form', {
+        formId: '69efaea71155edfe06a7436f',
+        containerEl: '#fd-form-69efaea71155edfe06a7436f'
       });
-    });
+    })();
   </script>
   <!-- Messenger[ai] chat widget -->
   <script>(function(t,i,o,n,w,a,e){t["bowtieDataToken"]=w;t[w]=t[w]||function(){(t[w].i=t[w].i||[]).push(arguments)};t[w].o=1*new Date;a=i.createElement(o);e=i.getElementsByTagName(o)[0];a.async=1;a.src=n;e.parentNode.insertBefore(a,e)})(window,document,"script","https://s3.amazonaws.com/bowtie.ai/bowtieJS/bowtie_widget.js","sama_yoga_center");</script>
