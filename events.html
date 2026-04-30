@@ -236,6 +236,26 @@
     .event-card__learn-more:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 768px) {
+      /* Remove side margins so first card left edge aligns with title */
+      .events-carousel-container {
+        margin: 0;
+      }
+      /* Match left padding to container padding (= title left edge) */
+      .events-carousel {
+        padding-left: var(--container-padding);
+        padding-right: var(--space-3xl);
+      }
+      /* Wide cards so next card peeks ~50px on the right */
+      .event-card {
+        width: 80vw;
+      }
+      /* Hide arrows — mobile users swipe */
+      .events-carousel-arrow {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
