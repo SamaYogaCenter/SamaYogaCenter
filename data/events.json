@@ -4,33 +4,6 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Member",
-          "price": "$55",
-          "serviceId": "10963",
-          "link": "#"
-        },
-        {
-          "label": "Non-Member",
-          "price": "$65",
-          "serviceId": "10964",
-          "link": "#"
-        }
-      ],
-      "hidden": false,
-      "cardDescription": "An inspirational afternoon with Dr. Katie Takayasu on how daily habits shape hormonal balance, mood, and long-term vitality.",
-      "time": "1:00-3:00 PM",
-      "date": "Saturday, May 9th, 2026",
-      "dateISO": "2026-05-09",
-      "title": "Mini Retreat: Live Your Priorities + Shape Your Health",
-      "id": "womens-health",
-      "image": "/images/Events/Women%27sHealthThroughHabit%20copy.webp",
-      "description": "Join **Sama Yoga Center** and **Wellness Insights Integrative Medicine** for a thoughtful afternoon centered on women’s wellness, intentional living, and whole-body healing.\n\n**Live Your Priorities + Shape Your Health** is a mini retreat designed to help women better understand the connection between daily habits, hormone health, stress, mindset, and long-term vitality. The event will begin with time to mingle and enjoy nourishing bites and tea, followed by an introduction from **Rebekah Jacobs, Founder and Lead Educator of Sama Yoga Center**, and a featured talk from **Integrative Medicine Physician Dr. Katie Takayasu**.\n\nIn this conversation, Dr. Katie will share how small, consistent choices can have a powerful impact on hormonal balance, metabolic health, inflammation, mood, and energy. Attendees will walk away with practical, empowering tools rooted in integrative medicine that can be applied to everyday life.\n\nThis experience is designed for women who want to feel more connected to their bodies, more informed about their health, and more intentional about the routines that shape their well-being.\n\nGuests will also have the opportunity to enter a special giveaway featuring a **$100 gift certificate to Wellness Insights Integrative Medicine**, **a day of Nourish meals by Chef Lisa**, and **one month of unlimited classes at Sama Yoga Center.**",
-      "instructor": "Dr. Katie Takayasu"
-    },
-    {
-      "imagePosition": "center top",
-      "pricing": [
-        {
           "label": "Early Bird (by 5/14)",
           "price": "$95",
           "serviceId": "10947",
