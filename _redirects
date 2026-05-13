@@ -1,0 +1,5 @@
+# Serve teacher-training.html at SEO-friendly URL
+/200-hour-yoga-teacher-training-westchester  /teacher-training.html  200
+
+# Redirect old URL to new SEO-friendly URL
+/teacher-training.html  /200-hour-yoga-teacher-training-westchester  301
