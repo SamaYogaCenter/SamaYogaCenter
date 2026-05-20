@@ -1,0 +1,52 @@
+name: Sync Events to Eventbrite
+
+# Runs automatically whenever events.json is updated on the main branch
+# (i.e. every time someone saves a change in the Decap CMS admin panel).
+# Can also be triggered manually from the Actions tab in GitHub.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/events.json'
+  workflow_dispatch:   # Manual trigger — useful for testing or a full re-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    # Needs write permission so it can commit the updated eventbrite-ids.json back
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Sync events to Eventbrite
+        run: node scripts/sync-eventbrite.js
+        env:
+          # ── Add these two values as GitHub Secrets ──────────────────────────
+          # Repo Settings → Secrets and variables → Actions → New repository secret
+          #
+          #   EVENTBRITE_TOKEN        → your Eventbrite private token
+          #                             (eventbrite.com/platform/api-keys)
+          #
+          #   EVENTBRITE_ORGANIZER_ID → your Eventbrite organizer ID
+          #                             (visible in your Eventbrite account URL,
+          #                              or in Account → Organizer page)
+          # ────────────────────────────────────────────────────────────────────
+          EVENTBRITE_TOKEN:        ${{ secrets.EVENTBRITE_TOKEN }}
+          EVENTBRITE_ORGANIZER_ID: ${{ secrets.EVENTBRITE_ORGANIZER_ID }}
+
+      - name: Commit updated Eventbrite IDs
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/eventbrite-ids.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: update Eventbrite event IDs [skip ci]"
+            git push
+          else
+            echo "No changes to eventbrite-ids.json — nothing to commit."
+          fi
