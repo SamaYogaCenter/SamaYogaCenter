@@ -142,6 +142,7 @@
 
     .class-row__image-wrap {
       flex: 0 0 240px;
+      overflow: hidden;
     }
 
     .class-row__image {
@@ -237,7 +238,7 @@
         var html = visible.map(function(cls, i) {
           return '<section class="class-row class-row--' + colors[i % 2] + '">' +
             '<div class="class-row__image-wrap">' +
-              '<img loading="lazy" src="' + cls.image + '" alt="' + (cls.imageAlt || cls.title) + '" class="class-row__image">' +
+              '<img loading="lazy" src="' + cls.image + '" alt="' + (cls.imageAlt || cls.title) + '" class="class-row__image"' + (cls.imageStyle ? ' style="' + cls.imageStyle + '"' : '') + '>' +
             '</div>' +
             '<div class="class-row__content">' +
               '<h3 class="class-row__title">' + cls.title + '</h3>' +

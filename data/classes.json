@@ -26,6 +26,7 @@
       "description": "Slow and steady. Breath work, supported poses and sometimes longer holds to restore and stimulate the relaxation response. Much of Yin is done seated or prone.",
       "image": "/images/Class%20Descriptions/Yinflow%20copy.webp",
       "imageAlt": "Yin Flow",
+      "imageStyle": "object-position: 72% center",
       "hidden": false
     },
     {
@@ -33,6 +34,7 @@
       "description": "Strengthen from within. Focused core work through mindful movement and breath to support stability, posture, and a resilient, balanced body.",
       "image": "/images/Class%20Descriptions/SamaCore.webp",
       "imageAlt": "Sama Core",
+      "imageStyle": "object-position: center 57%",
       "hidden": false
     },
     {
@@ -40,6 +42,7 @@
       "description": "Lengthen and release. Gentle, intentional movement to improve mobility, reduce tension, and create a sense of lightness and freedom in the body.",
       "image": "/images/Class%20Descriptions/SamaStretch.webp",
       "imageAlt": "Sama Stretch",
+      "imageStyle": "object-position: 22% 88%; transform: scale(1.5); transform-origin: left bottom",
       "hidden": false
     },
     {
@@ -47,6 +50,7 @@
       "description": "Build and empower. Controlled, functional strength training to increase muscle, support bone health, and enhance confidence in how you move and live.",
       "image": "/images/Class%20Descriptions/SamaStrength.webp",
       "imageAlt": "Sama Strength",
+      "imageStyle": "transform: scale(1.15); transform-origin: right bottom",
       "hidden": false
     },
     {
