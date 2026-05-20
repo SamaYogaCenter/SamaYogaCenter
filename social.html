@@ -248,6 +248,20 @@
       repeating-linear-gradient(-45deg, transparent, transparent 24px, rgba(80,55,30,.06) 24px, rgba(80,55,30,.06) 25px);
   }
 
+  /* ── Animation keyframes (10-second clip preview) ─────── */
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes photo1Fade {
+    0%,44%  { opacity: 1; }
+    56%,100%{ opacity: 0; }
+  }
+  @keyframes photo2Fade {
+    0%,44%  { opacity: 0; }
+    56%,100%{ opacity: 1; }
+  }
+
   </style>
 </head>
 <body>
@@ -287,6 +301,7 @@
     </div>
     <div id="dl-bar">
       <button class="btn-pink" id="dl-btn" onclick="download()">⬇&nbsp; Download PNG</button>
+      <button class="btn-pink" id="vid-btn" onclick="downloadVideo()" style="display:none;background:#5a2c5a">▶&nbsp; Download Video (10s)</button>
       <span id="dl-info"></span>
     </div>
   </div>
@@ -350,7 +365,7 @@ const S = {
   tpl: 'event-post',
   // event
   eventIdx: 0,
-  photo: null, bgPhoto: null, mainPhoto: null,
+  photo: null, photo2: null, bgPhoto: null, mainPhoto: null,
   title: '', date: '', time: '', instructor: '', desc: '',
   pinkWords: '', cta: 'Join us this weekend!',
   // instructor / meet
@@ -452,6 +467,8 @@ function pickTpl(id) {
   updatePreview();
   const t = TMPLS.find(x=>x.id===id)||TMPLS[0];
   document.getElementById('dl-info').textContent = `${t.w} × ${t.h} px`;
+  document.getElementById('vid-btn').style.display =
+    ['event-post','event-story','event-card'].includes(id) ? '' : 'none';
 }
 
 // ── Options panel ────────────────────────────────────────
@@ -461,12 +478,8 @@ function renderOpts() {
 
   if (['event-post','event-story','event-card'].includes(t)) {
     h += oEvent();
-    if (t === 'event-card') {
-      h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
-      h += oPhoto('photo','Event Photo (inside card)',S.photo);
-    } else {
-      h += oPhoto('photo','Photo',S.photo);
-    }
+    h += oPhoto('photo', t==='event-card' ? 'Event Photo (inside card)' : 'Main Photo', S.photo);
+    h += oPhoto('photo2', 'Second Photo (crossfade at 5 s)', S.photo2);
     if (t === 'event-post') {
       h += `<hr class="odiv">` + oPink();
     }
@@ -698,6 +711,35 @@ function brush(style) {
   </svg>`;
 }
 
+// ── Animation helpers ─────────────────────────────────────
+// animT: undefined = live CSS animation; 'static' = no anim (PNG export); number = computed frame (video)
+
+/** Returns style string for text float-in effect. */
+function animFi(animT, delay, dur) {
+  dur = dur || 0.9;
+  if (animT === undefined) return `animation:floatIn ${dur}s ${delay}s ease both`;
+  if (animT === 'static')  return 'opacity:1;transform:none';
+  const p = Math.min(1, Math.max(0, (animT - delay) / dur));
+  const y  = (26 * (1 - p)).toFixed(1);
+  return `opacity:${p.toFixed(3)};transform:translateY(${y}px)`;
+}
+
+/** Style string for photo slot 1 (shows first 5 s, fades out). */
+function animP1(animT) {
+  if (animT === undefined) return 'animation:photo1Fade 10s linear both';
+  if (animT === 'static')  return 'opacity:1';
+  const o = animT < 4.5 ? 1 : animT > 5.5 ? 0 : +(1 - (animT - 4.5)).toFixed(3);
+  return `opacity:${o}`;
+}
+
+/** Style string for photo slot 2 (fades in at 5 s). */
+function animP2(animT) {
+  if (animT === undefined) return 'animation:photo2Fade 10s linear both';
+  if (animT === 'static')  return 'opacity:0';
+  const o = animT < 4.5 ? 0 : animT > 5.5 ? 1 : +((animT - 4.5)).toFixed(3);
+  return `opacity:${o}`;
+}
+
 // ── Preview ──────────────────────────────────────────────
 function updatePreview() {
   document.getElementById('tpl-full').innerHTML = render();
@@ -721,11 +763,11 @@ function scalePreview() {
 window.addEventListener('resize', scalePreview);
 
 // ── Template dispatcher ──────────────────────────────────
-function render() {
+function render(animT) {
   switch (S.tpl) {
-    case 'event-post':  return tEventPost();
-    case 'event-story': return tEventStory();
-    case 'event-card':  return tEventCard();
+    case 'event-post':  return tEventPost(animT);
+    case 'event-story': return tEventStory(animT);
+    case 'event-card':  return tEventCard(animT);
     case 'monthly':     return tMonthly();
     case 'get-to-know': return tGetToKnow();
     case 'meet':        return tMeet();
@@ -740,59 +782,89 @@ function render() {
 // TEMPLATE RENDERERS  (all at 1080 px wide)
 // ════════════════════════════════════════════════════════
 
-// ── 1. Event Post — beige (1080 × 1350) ─────────────────
-function tEventPost() {
+// ── 1. Event Post — branded background (1080 × 1350) ────
+//    Background photo covers "Canva" watermark at center (y≈675).
+function tEventPost(animT) {
   const dateHtml = ord(x(S.date));
   const descHtml = pink(x(S.desc), S.pinkWords);
-  const byLine   = S.instructor ? `<div style="font-family:'Nunito',sans-serif;font-size:32px;color:#6b6b6b;margin-bottom:30px">with ${x(S.instructor)}</div>` : '';
+  const byLine = S.instructor
+    ? `<div style="font-family:'Nunito',sans-serif;font-size:30px;color:#6b5040;margin-top:6px;${animFi(animT,.4)}">with ${x(S.instructor)}</div>`
+    : '';
   return `
-<div class="tpl tpl-beige" style="height:1350px">
-  ${brush('right:-10px;top:0;width:140px;height:680px')}
-  <div style="padding:72px 80px 80px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#9a9a9a;margin-bottom:10px;letter-spacing:.02em">${dateHtml}</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>30?'76':'90'}px;font-weight:400;color:${PINK};line-height:1.0;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
+<div class="tpl" style="height:1350px;background:url('/images/Social%20Media/background.png') center/cover no-repeat">
+  <!-- date + title + instructor → animate in together -->
+  <div style="position:absolute;left:80px;right:80px;top:80px;${animFi(animT,0)}">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#8a7060;letter-spacing:.02em;margin-bottom:4px">${dateHtml}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>28?'70':'84'}px;font-weight:400;color:${PINK};line-height:1.0">${x(S.title)||'Event Title'}</div>
     ${byLine}
-    <div style="width:920px;height:490px;border-radius:6px;overflow:hidden;${bg(S.photo)};margin-bottom:44px"></div>
-    <div style="font-family:'Nunito',sans-serif;font-size:33px;color:#4a4a4a;line-height:1.65;padding-right:40px">${descHtml||'<span style="color:#ccc">Description appears here…</span>'}</div>
   </div>
-  <div style="position:absolute;bottom:52px;right:72px">${samyLogo()}</div>
+  <!-- Center photo — always covers the "Canva" watermark (y=355–995, center y=675) -->
+  <div style="position:absolute;left:80px;right:80px;top:355px;height:640px;border-radius:6px;overflow:hidden;${animFi(animT,.2,.8)}">
+    <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
+    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
+  </div>
+  <!-- Description below photo -->
+  <div style="position:absolute;left:80px;right:80px;top:1022px;bottom:96px;overflow:hidden;${animFi(animT,.6)}">
+    <div style="font-family:'Nunito',sans-serif;font-size:29px;color:#3a2010;line-height:1.65">${descHtml||'<span style="color:#bbb">Description appears here…</span>'}</div>
+  </div>
+  <div style="position:absolute;bottom:42px;right:68px;${animFi(animT,1.0)}">${samyLogo()}</div>
 </div>`;
 }
 
-// ── 2. Event Story — beige (1080 × 1920) ────────────────
-function tEventStory() {
+// ── 2. Retreat Story — story background (1080 × 1920) ───
+//    Photo covers "Canva" watermark at center (y≈960).
+function tEventStory(animT) {
   const dateHtml = ord(x(S.date));
   return `
-<div class="tpl tpl-beige" style="height:1920px">
-  ${brush('right:40px;top:160px;width:120px;height:500px;opacity:.7')}
-  <div style="display:flex;flex-direction:column;align-items:center;padding:130px 80px 100px;height:100%">
-    <div style="font-family:'Dancing Script',cursive;font-size:80px;font-weight:600;color:${PINK};text-align:center;margin-bottom:24px;line-height:1.1">${x(S.cta)||'Join us this weekend!'}</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>30?'78':'92'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:36px">${x(S.title)||'Event Title'}</div>
-    <div style="font-family:'Montserrat',sans-serif;font-size:38px;font-weight:700;color:#2d2d2d;letter-spacing:.05em;text-align:center;text-transform:uppercase">${dateHtml}</div>
-    <div style="font-family:'Montserrat',sans-serif;font-size:34px;font-weight:300;color:#6b6b6b;letter-spacing:.04em;text-align:center;margin-top:10px;margin-bottom:64px">${x(S.time)}</div>
-    <div style="width:840px;height:840px;border-radius:10px;overflow:hidden;${bg(S.photo)};flex-shrink:0"></div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:44px;font-style:italic;color:#5a5a5a;text-align:center;margin-top:64px;letter-spacing:.02em;flex:1;display:flex;align-items:center">Click the link to reserve your spot now</div>
+<div class="tpl" style="height:1920px;background:url('/images/Social%20Media/story%20background.png') center/cover no-repeat">
+  <!-- Top text block (fits above photo at y=530) -->
+  <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
+    <div style="font-family:'Dancing Script',cursive;font-size:76px;font-weight:600;color:${PINK};text-align:center;line-height:1.1;margin-bottom:14px;${animFi(animT,0)}">${x(S.cta)||'Join us this weekend!'}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>28?'74':'86'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:22px;${animFi(animT,.25)}">${x(S.title)||'Event Title'}</div>
+    <div style="${animFi(animT,.45)};text-align:center">
+      <div style="font-family:'Montserrat',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d;letter-spacing:.05em;text-transform:uppercase">${dateHtml}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:30px;font-weight:300;color:#6b6b6b;letter-spacing:.04em;margin-top:6px">${x(S.time)}</div>
+    </div>
   </div>
-  <div style="position:absolute;bottom:72px;left:50%;transform:translateX(-50%)">${samyLogo()}</div>
+  <!-- Center photo — covers "Canva" watermark (y=530–1370, center y=950) -->
+  <div style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;${animFi(animT,.2,.8)}">
+    <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
+    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
+  </div>
+  <!-- Footer text -->
+  <div style="position:absolute;left:72px;right:72px;top:1410px;bottom:130px;display:flex;align-items:center;justify-content:center;${animFi(animT,.7)}">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em">Click the link to reserve your spot now</div>
+  </div>
+  <div style="position:absolute;bottom:68px;left:50%;transform:translateX(-50%);${animFi(animT,.9)}">${samyLogo()}</div>
 </div>`;
 }
 
-// ── 3. Event Story — Card on Photo (1080 × 1920) ─────────
-function tEventCard() {
+// ── 3. Mini Retreat Post — Card on background (1080 × 1920) ─
+//    White card covers the "Canva" watermark at center of background.
+function tEventCard(animT) {
   const dateHtml = ord(x(S.date));
   const descHtml = pink(x(S.desc), S.pinkWords);
   return `
-<div class="tpl" style="height:1920px;${bg(S.bgPhoto,'center')}">
-  <div style="position:absolute;inset:0;background:rgba(0,0,0,.22)"></div>
-  <div style="position:absolute;left:72px;right:72px;top:240px;bottom:160px;background:white;border-radius:28px;padding:56px 56px 48px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;display:flex;flex-direction:column">
-    <div style="width:100%;height:520px;border-radius:14px;overflow:hidden;${bg(S.photo)};flex-shrink:0;margin-bottom:40px"></div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:22px">${x(S.title)||'Event Title'}</div>
-    <div style="font-family:'Montserrat',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d;text-align:center;letter-spacing:.07em;text-transform:uppercase">${dateHtml}</div>
-    <div style="font-family:'Montserrat',sans-serif;font-size:30px;font-weight:300;color:#6b6b6b;text-align:center;letter-spacing:.04em;margin-top:8px;margin-bottom:28px">${x(S.time)}</div>
-    <div style="font-family:'Nunito',sans-serif;font-size:29px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1">${descHtml||x(S.desc)}</div>
+<div class="tpl" style="height:1920px;background:url('/images/Social%20Media/background.png') center/cover no-repeat">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>
+  <!-- White card — covers center of background where "Canva" appears -->
+  <div style="position:absolute;left:60px;right:60px;top:200px;bottom:140px;background:white;border-radius:28px;padding:52px 52px 44px;box-shadow:0 24px 64px rgba(0,0,0,.26);overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
+    <!-- Event photo with crossfade -->
+    <div style="position:relative;width:100%;height:490px;border-radius:14px;overflow:hidden;flex-shrink:0;margin-bottom:36px;${animFi(animT,.15,.8)}">
+      <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
+      ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
+    </div>
+    <div style="${animFi(animT,.35)}">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:68px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:18px">${x(S.title)||'Event Title'}</div>
+    </div>
+    <div style="${animFi(animT,.5)}">
+      <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:700;color:#2d2d2d;text-align:center;letter-spacing:.07em;text-transform:uppercase">${dateHtml}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:300;color:#6b6b6b;text-align:center;letter-spacing:.04em;margin-top:7px;margin-bottom:24px">${x(S.time)}</div>
+    </div>
+    <div style="font-family:'Nunito',sans-serif;font-size:27px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1;overflow:hidden;${animFi(animT,.65)}">${descHtml||x(S.desc)||'<span style="color:#ccc">Description…</span>'}</div>
   </div>
-  <div style="position:absolute;bottom:58px;left:80px">${samyHandle('#ffffff')}</div>
-  <div style="position:absolute;bottom:30px;left:80px;font-family:'Montserrat',sans-serif;font-size:18px;color:rgba(255,255,255,.7);letter-spacing:.04em">samayogacenter.com</div>
+  <div style="position:absolute;bottom:52px;left:76px;${animFi(animT,.8)}">${samyHandle('rgba(255,255,255,.88)')}</div>
+  <div style="position:absolute;bottom:26px;left:76px;font-family:'Montserrat',sans-serif;font-size:17px;color:rgba(255,255,255,.6);letter-spacing:.04em;${animFi(animT,.85)}">samayogacenter.com</div>
 </div>`;
 }
 
@@ -909,7 +981,94 @@ function tTestimonial() {
 </div>`;
 }
 
-// ── Download ─────────────────────────────────────────────
+// ── Download Video (animated 10-second WebM) ─────────────
+async function downloadVideo() {
+  const tplDef = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
+  const FPS      = 10;        // 10 fps — good balance of quality vs. render time
+  const DURATION = 10;        // seconds
+  const total    = FPS * DURATION; // 100 frames
+
+  const vidBtn = document.getElementById('vid-btn');
+  vidBtn.disabled = true;
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = tplDef.w;
+  canvas.height = tplDef.h;
+  const ctx = canvas.getContext('2d');
+
+  // Off-screen render container — positioned way off-screen but still in DOM so html2canvas can capture it
+  const wrap = document.createElement('div');
+  wrap.style.cssText = `position:fixed;left:${-(tplDef.w + 200)}px;top:0;width:${tplDef.w}px;height:${tplDef.h}px;overflow:hidden`;
+  document.body.appendChild(wrap);
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 200));
+
+  const frames = [];
+  try {
+    // ── Phase 1: render every frame ─────────────────────────
+    for (let f = 0; f <= total; f++) {
+      const t = (f / total) * DURATION;
+      wrap.innerHTML = render(t);
+
+      // Let the browser paint before capturing
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      const fc = await html2canvas(wrap, {
+        scale: 1, useCORS: true, allowTaint: false,
+        width: tplDef.w, height: tplDef.h, logging: false,
+      });
+      frames.push(fc);
+
+      const pct = Math.round((f / total) * 100);
+      if (f % 4 === 0) vidBtn.textContent = `Rendering… ${pct}%`;
+    }
+    document.body.removeChild(wrap);
+
+    // ── Phase 2: play frames back at correct speed → record ─
+    vidBtn.textContent = 'Recording video…';
+    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+      ? 'video/webm;codecs=vp9' : 'video/webm';
+
+    const stream   = canvas.captureStream(0); // 0 = manual requestFrame
+    const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 8_000_000 });
+    const chunks   = [];
+    recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+    recorder.start();
+
+    await new Promise(resolve => {
+      let idx = 0;
+      const iv = setInterval(() => {
+        if (idx < frames.length) {
+          ctx.drawImage(frames[idx++], 0, 0);
+          stream.requestFrame();
+        } else {
+          clearInterval(iv);
+          recorder.stop();
+        }
+      }, Math.round(1000 / FPS)); // e.g. 100 ms per frame
+      recorder.onstop = resolve;
+    });
+
+    // ── Download the blob ───────────────────────────────────
+    const blob = new Blob(chunks, { type: mimeType });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.download = `sama-${S.tpl}-${Date.now()}.webm`;
+    a.href = url;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 8000);
+
+  } catch (err) {
+    if (document.body.contains(wrap)) document.body.removeChild(wrap);
+    alert('Video download failed: ' + err.message);
+    console.error(err);
+  }
+
+  vidBtn.disabled = false;
+  vidBtn.textContent = '▶  Download Video (10s)';
+}
+
+// ── Download PNG ──────────────────────────────────────────
 async function download() {
   const btn = document.getElementById('dl-btn');
   btn.disabled = true;
@@ -917,10 +1076,10 @@ async function download() {
   try {
     const t = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
 
-    // Render full-size into an off-screen container
+    // Render full-size into an off-screen container (static mode = no CSS animations, fully visible)
     const wrap = document.createElement('div');
     wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${t.w}px;height:${t.h}px;overflow:hidden;z-index:-1`;
-    wrap.innerHTML = render();
+    wrap.innerHTML = render('static');
     document.body.appendChild(wrap);
 
     // Wait for fonts and images
