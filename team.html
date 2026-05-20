@@ -617,7 +617,7 @@
       <!-- Teacher 4 -->
       <div class="teacher-card">
         <div class="teacher-card__image-wrapper">
-          <img loading="lazy" src="images/OurTeam/Denise.webp" alt="Denise" class="teacher-card__image">
+          <img loading="lazy" src="images/OurTeam/DeniseNew.webp" alt="Denise" class="teacher-card__image">
           <div class="teacher-card__overlay">
             <div class="teacher-card__plus">+</div>
           </div>
@@ -902,8 +902,20 @@
   <script src="js/navigation.js" defer></script>
   <script src="js/animations.js" defer></script>
   <script>
-    // Teacher data with exact bios
-    const teacherData = {
+    // Teacher bio data — populated from data/team.json
+    window.teamDataMap = {};
+
+    function renderTeacherCard(teacher) {
+      return '<div class="teacher-card">' +
+        '<div class="teacher-card__image-wrapper">' +
+          '<img loading="lazy" src="' + teacher.image + '" alt="' + teacher.name + '" class="teacher-card__image" style="object-position: ' + (teacher.imagePosition || 'center top') + '">' +
+          '<div class="teacher-card__overlay"><div class="teacher-card__plus">+</div></div>' +
+        '</div>' +
+        '<h3 class="teacher-card__name">' + teacher.name + '</h3>' +
+      '</div>';
+    }
+
+    var _teacherDataPlaceholder = {
       'Allie': { bio: 'Allie Muzzio is a licensed Occupational Therapist and registered yoga teacher, completing both the 200-Hour Yoga Teacher Training and Kids Yoga Teacher Training at Sama Academy. She holds a Master\'s degree in Occupational Therapy with a minor in Psychology, integrating evidence-based OT principles with nervous system support, functional movement, and embodied awareness.\n\nWith specialized training in Pediatric Yoga & Mindfulness, Allie guides students of all ages in developing tools for safety, confidence, and self-regulation—both on and off the mat. Her approach blends therapeutic insight with accessible movement and breath awareness, helping students meet themselves with curiosity and kindness. She looks forward to supporting you here at Sama!' },
       'Amber': { bio: 'Amber is thrilled to be with you. She is a New Canaan resident, native of the Netherlands, mom of 3, avid learner and proud graduate of Sama Academy\'s 200 hr Yoga Teacher Training Program. Amber\'s signature classes offer steady and easeful sequences to set you on your wonderful day ahead. Welcome to Sama!' },
       'Amy': { bio: 'Amy is a leader in our community, serving as art educator and lead at a private school in Greenwich. She is a graduate of Sama Yoga Academy\'s YTT-200-hour and Restorative Teacher Training programs and a mentor for Sama Academy. Amy\'s experience and steady presence guide us into harmony.\n\nIn 2020 Amy founded bilden farmacy, hand-poured candles available here at Sama that offer rituals from the mat to your home. She is an artist, art educator and marathon runner and can not wait to welcome you.' },
@@ -925,15 +937,15 @@
 
     // Open teacher modal
     function openTeacherModal(name, imageSrc) {
-      const modal = document.getElementById('teacherModal');
-      const modalImage = document.getElementById('modalImage');
-      const modalName = document.getElementById('modalName');
-      const modalBio = document.getElementById('modalBio');
+      var modal = document.getElementById('teacherModal');
+      var modalImage = document.getElementById('modalImage');
+      var modalName = document.getElementById('modalName');
+      var modalBio = document.getElementById('modalBio');
 
       modalImage.src = imageSrc;
       modalImage.alt = name;
       modalName.textContent = name;
-      modalBio.textContent = teacherData[name]?.bio || 'Add bio here...';
+      modalBio.textContent = (window.teamDataMap[name] && window.teamDataMap[name].bio) || 'Bio coming soon.';
 
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -941,32 +953,39 @@
 
     // Close teacher modal
     function closeTeacherModal() {
-      const modal = document.getElementById('teacherModal');
+      var modal = document.getElementById('teacherModal');
       modal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
     // Close modal when clicking outside
     document.getElementById('teacherModal').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeTeacherModal();
+      if (e.target === this) closeTeacherModal();
+    });
+
+    // Event delegation for teacher card clicks — works for dynamically rendered cards
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest && e.target.closest('.teacher-card');
+      if (card) {
+        var name = card.querySelector('.teacher-card__name').textContent;
+        var imageSrc = card.querySelector('.teacher-card__image').src;
+        openTeacherModal(name, imageSrc);
       }
     });
 
     function updateArrowVisibility(carouselId) {
-      const carousel = document.getElementById(carouselId + '-carousel');
-      const leftArrow = carousel.parentElement.querySelector('.carousel-arrow--left');
-      const rightArrow = carousel.parentElement.querySelector('.carousel-arrow--right');
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+      var carousel = document.getElementById(carouselId + '-carousel');
+      if (!carousel) return;
+      var leftArrow = carousel.parentElement.querySelector('.carousel-arrow--left');
+      var rightArrow = carousel.parentElement.querySelector('.carousel-arrow--right');
+      var maxScroll = carousel.scrollWidth - carousel.clientWidth;
 
-      // Show left arrow if scrolled away from start (accounting for 30px padding)
       if (carousel.scrollLeft > 35) {
         leftArrow.classList.add('visible');
       } else {
         leftArrow.classList.remove('visible');
       }
 
-      // Hide right arrow if at the end
       if (carousel.scrollLeft >= maxScroll - 10) {
         rightArrow.style.opacity = '0';
         rightArrow.style.pointerEvents = 'none';
@@ -977,54 +996,68 @@
     }
 
     function scrollCarousel(carouselId, direction) {
-      const carousel = document.getElementById(carouselId + '-carousel');
-      const cardWidth = 240; // Width of teacher card
-      const gap = 30; // Gap between cards
-      const scrollAmount = cardWidth + gap;
-
-      // Scroll the carousel
-      carousel.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
-      });
-
-      // Update arrow visibility after scroll
-      setTimeout(() => {
-        updateArrowVisibility(carouselId);
-      }, 300);
+      var carousel = document.getElementById(carouselId + '-carousel');
+      carousel.scrollBy({ left: direction * (240 + 30), behavior: 'smooth' });
+      setTimeout(function() { updateArrowVisibility(carouselId); }, 300);
     }
 
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-      // Move modal to body to escape stacking context
-      const modal = document.getElementById('teacherModal');
-      if (modal && modal.parentElement.tagName !== 'BODY') {
-        document.body.appendChild(modal);
-      }
+    // Fetch team data, populate bios, and render carousels
+    fetch('data/team.json?v=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        // Build bio lookup map
+        var allTeachers = (data.weekly || []).concat(data.substitutes || []);
+        allTeachers.forEach(function(t) { window.teamDataMap[t.name] = t; });
 
-      // Add click handlers to teacher cards
-      document.querySelectorAll('.teacher-card').forEach(card => {
-        card.addEventListener('click', function() {
-          const name = this.querySelector('.teacher-card__name').textContent;
-          const imageSrc = this.querySelector('.teacher-card__image').src;
-          openTeacherModal(name, imageSrc);
+        // Render weekly carousel
+        var weeklyCarousel = document.getElementById('weekly-carousel');
+        if (weeklyCarousel && data.weekly) {
+          weeklyCarousel.innerHTML = data.weekly
+            .filter(function(t) { return !t.hidden; })
+            .map(renderTeacherCard).join('');
+        }
+
+        // Render subs carousel
+        var subsCarousel = document.getElementById('subs-carousel');
+        if (subsCarousel && data.substitutes) {
+          subsCarousel.innerHTML = data.substitutes
+            .filter(function(t) { return !t.hidden; })
+            .map(renderTeacherCard).join('');
+        }
+
+        // Move modal to body to escape stacking context
+        var modal = document.getElementById('teacherModal');
+        if (modal && modal.parentElement.tagName !== 'BODY') {
+          document.body.appendChild(modal);
+        }
+
+        // Scroll listeners + initial arrow state
+        ['weekly', 'subs'].forEach(function(id) {
+          var el = document.getElementById(id + '-carousel');
+          if (el) el.addEventListener('scroll', function() { updateArrowVisibility(id); });
         });
+        setTimeout(function() {
+          updateArrowVisibility('weekly');
+          updateArrowVisibility('subs');
+        }, 100);
+      })
+      .catch(function(err) {
+        console.error('team.json failed to load — falling back to static cards', err);
+        // Fallback: static cards get click handlers
+        document.querySelectorAll('.teacher-card').forEach(function(card) {
+          card.addEventListener('click', function() {
+            var name = this.querySelector('.teacher-card__name').textContent;
+            var imageSrc = this.querySelector('.teacher-card__image').src;
+            openTeacherModal(name, imageSrc);
+          });
+        });
+        var modal = document.getElementById('teacherModal');
+        if (modal && modal.parentElement.tagName !== 'BODY') document.body.appendChild(modal);
+        setTimeout(function() {
+          updateArrowVisibility('weekly');
+          updateArrowVisibility('subs');
+        }, 100);
       });
-
-      // Add scroll listeners to update arrow visibility
-      document.getElementById('weekly-carousel').addEventListener('scroll', () => {
-        updateArrowVisibility('weekly');
-      });
-      document.getElementById('subs-carousel').addEventListener('scroll', () => {
-        updateArrowVisibility('subs');
-      });
-
-      // Set initial arrow visibility
-      setTimeout(() => {
-        updateArrowVisibility('weekly');
-        updateArrowVisibility('subs');
-      }, 100);
-    });
   </script>
   <!-- Messenger[ai] chat widget -->
   <script>(function(t,i,o,n,w,a,e){t["bowtieDataToken"]=w;t[w]=t[w]||function(){(t[w].i=t[w].i||[]).push(arguments)};t[w].o=1*new Date;a=i.createElement(o);e=i.getElementsByTagName(o)[0];a.async=1;a.src=n;e.parentNode.insertBefore(a,e)})(window,document,"script","https://s3.amazonaws.com/bowtie.ai/bowtieJS/bowtie_widget.js","sama_yoga_center");</script>

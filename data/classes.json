@@ -1,0 +1,60 @@
+{
+  "classes": [
+    {
+      "title": "sama vinyasa",
+      "description": "A traditional flow with focus and fun. Sun salutations, a little heat, a lot of heart. Tap back into a sense of play with our signature flow.",
+      "image": "/images/Class%20Descriptions/vinyasa.webp",
+      "imageAlt": "Vinyasa",
+      "hidden": false
+    },
+    {
+      "title": "sama open",
+      "description": "A mindful pace to open and stretch. Movement, breathwork, meditation with expert adaptations offered for a myriad of levels.",
+      "image": "/images/Class%20Descriptions/Open.webp",
+      "imageAlt": "Open",
+      "hidden": false
+    },
+    {
+      "title": "sama sculpt",
+      "description": "Using ergonomic, light weights and a yoga flow, we refine, define, stretch and tone. Get in your best shape with Sama Sculpt!",
+      "image": "/images/Class%20Descriptions/Sculpt%20copy.webp",
+      "imageAlt": "Sculpt",
+      "hidden": false
+    },
+    {
+      "title": "sama yin flow",
+      "description": "Slow and steady. Breath work, supported poses and sometimes longer holds to restore and stimulate the relaxation response. Much of Yin is done seated or prone.",
+      "image": "/images/Class%20Descriptions/Yinflow%20copy.webp",
+      "imageAlt": "Yin Flow",
+      "hidden": false
+    },
+    {
+      "title": "sama core",
+      "description": "Strengthen from within. Focused core work through mindful movement and breath to support stability, posture, and a resilient, balanced body.",
+      "image": "/images/Class%20Descriptions/SamaCore.webp",
+      "imageAlt": "Sama Core",
+      "hidden": false
+    },
+    {
+      "title": "sama stretch",
+      "description": "Lengthen and release. Gentle, intentional movement to improve mobility, reduce tension, and create a sense of lightness and freedom in the body.",
+      "image": "/images/Class%20Descriptions/SamaStretch.webp",
+      "imageAlt": "Sama Stretch",
+      "hidden": false
+    },
+    {
+      "title": "sama strength",
+      "description": "Build and empower. Controlled, functional strength training to increase muscle, support bone health, and enhance confidence in how you move and live.",
+      "image": "/images/Class%20Descriptions/SamaStrength.webp",
+      "imageAlt": "Sama Strength",
+      "hidden": false
+    },
+    {
+      "title": "sama restore",
+      "description": "Rest and renew. Supported poses, breathwork, and stillness to deeply calm the nervous system, replenish energy, and invite lasting restoration.",
+      "image": "/images/Class%20Descriptions/SamaRestore.webp",
+      "imageAlt": "Sama Restore",
+      "hidden": false
+    }
+  ]
+}

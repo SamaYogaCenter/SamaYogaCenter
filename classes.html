@@ -225,70 +225,30 @@
   <!-- Class Types Section -->
   <div style="padding-top: var(--space-3xl);"></div>
 
-  <!-- Vinyasa — beige -->
-  <section class="class-row class-row--beige">
-    <div class="class-row__image-wrap">
-      <img loading="lazy" src="images/Class%20Descriptions/vinyasa.webp" alt="Vinyasa" class="class-row__image">
-    </div>
-    <div class="class-row__content">
-      <h3 class="class-row__title">sama vinyasa</h3>
-      <p class="class-row__description">
-        A traditional flow with focus and fun. Sun salutations, a little heat, a lot of heart. Tap back into a sense of play with our signature flow.
-      </p>
-    </div>
-  </section>
+  <!-- Class rows rendered from data/classes.json -->
+  <div id="classes-list"></div>
 
-  <!-- Open — white -->
-  <section class="class-row class-row--white">
-    <div class="class-row__image-wrap">
-      <img loading="lazy" src="images/Class%20Descriptions/Open.webp" alt="Open" class="class-row__image">
-    </div>
-    <div class="class-row__content">
-      <h3 class="class-row__title">sama open</h3>
-      <p class="class-row__description">
-        A mindful pace to open and stretch. Movement, breathwork, meditation with expert adaptations offered for a myriad of levels.
-      </p>
-    </div>
-  </section>
-
-  <!-- Sculpt — beige -->
-  <section class="class-row class-row--beige">
-    <div class="class-row__image-wrap">
-      <img loading="lazy" src="images/Class%20Descriptions/Sculpt%20copy.webp" alt="Sculpt" class="class-row__image">
-    </div>
-    <div class="class-row__content">
-      <h3 class="class-row__title">sama sculpt</h3>
-      <p class="class-row__description">
-        Using ergonomic, light weights and a yoga flow, we refine, define, stretch and tone. Get in your best shape with Sama Sculpt!
-      </p>
-    </div>
-  </section>
-
-  <!-- Yin Flow — white -->
-  <section class="class-row class-row--white">
-    <div class="class-row__image-wrap">
-      <img loading="lazy" src="images/Class%20Descriptions/Yinflow%20copy.webp" alt="Yin Flow" class="class-row__image">
-    </div>
-    <div class="class-row__content">
-      <h3 class="class-row__title">sama yin flow</h3>
-      <p class="class-row__description">
-        Slow and steady. Breath work, supported poses and sometimes longer holds to restore and stimulate the relaxation response. Much of Yin is done seated or prone.
-      </p>
-    </div>
-  </section>
-
-  <!-- Kids Yoga — beige -->
-  <section class="class-row class-row--beige">
-    <div class="class-row__image-wrap">
-      <img loading="lazy" src="images/Class%20Descriptions/kidsyoga.webp" alt="Kids Yoga" class="class-row__image">
-    </div>
-    <div class="class-row__content">
-      <h3 class="class-row__title">sama kids</h3>
-      <p class="class-row__description">
-        Award-winning programs fostering connection, awareness, social skills and resilience. Children discover tools to regulate and greet the world with a kind heart. This class is sold as a package series.
-      </p>
-    </div>
-  </section>
+  <script>
+    fetch('data/classes.json?v=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var visible = data.classes.filter(function(c) { return !c.hidden; });
+        var colors = ['beige', 'white'];
+        var html = visible.map(function(cls, i) {
+          return '<section class="class-row class-row--' + colors[i % 2] + '">' +
+            '<div class="class-row__image-wrap">' +
+              '<img loading="lazy" src="' + cls.image + '" alt="' + (cls.imageAlt || cls.title) + '" class="class-row__image">' +
+            '</div>' +
+            '<div class="class-row__content">' +
+              '<h3 class="class-row__title">' + cls.title + '</h3>' +
+              '<p class="class-row__description">' + cls.description + '</p>' +
+            '</div>' +
+          '</section>';
+        }).join('');
+        document.getElementById('classes-list').innerHTML = html;
+      })
+      .catch(function(err) { console.error('classes.json failed to load', err); });
+  </script>
 
   <!-- CTA Section -->
   <section class="section section--cta" style="margin-top: 80px;">

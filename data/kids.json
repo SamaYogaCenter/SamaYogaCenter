@@ -1,0 +1,35 @@
+{
+  "heading": "sama kids",
+  "intro1": "Our award-winning Kids Yoga Program at Sama fosters community, social skills, and leadership through yoga and meditation practices for children ages 6 and up. At Sama, children discover the tools to regulate and greet the world with a kind heart. Drop off your young yogi <strong>every Wednesday at 4:30 pm</strong> or book a private lesson <a href=\"private-sessions.html\" style=\"color: var(--color-primary); text-decoration: none;\">here</a>.",
+  "intro2": "Sold as a <strong>10-class package</strong> for use within 3 months. Reserve your spot with purchase now. If you need to miss a class, <strong>you or your child</strong> can make it up with any class on our schedule.",
+  "mindbodyServiceId": "10933",
+  "photo1": "/images/Kids%20Yoga/KidsYoga_Image1.webp",
+  "instructorName": "Allie Muzzio",
+  "instructorPhoto": "/images/Kids%20Yoga/Allie.webp",
+  "instructorBio1": "Allie Muzzio is a licensed Occupational Therapist and registered yoga teacher, completing both the 200-Hour Yoga Teacher Training and Kids Yoga Teacher Training at Sama Academy. She holds a Master's degree in Occupational Therapy with a minor in Psychology, integrating evidence-based OT principles with nervous system support, functional movement, and embodied awareness.",
+  "instructorBio2": "With specialized training in Pediatric Yoga & Mindfulness, Allie guides students of all ages in developing tools for safety, confidence, and self-regulation — both on and off the mat. Her approach blends therapeutic insight with accessible movement and breath awareness, helping students meet themselves with curiosity and kindness.",
+  "instructorBio3": "She looks forward to supporting you and your children here at Sama!",
+  "photo2": "/images/Kids%20Yoga/KidsYoga_Image2.webp",
+  "faqs": [
+    {
+      "question": "What should my child wear and bring?",
+      "answer": "We provide mats to borrow, water and props."
+    },
+    {
+      "question": "What if my child is new to yoga?",
+      "answer": "Beginners are always welcome. Each class is designed to be accessible no matter where your child is starting from."
+    },
+    {
+      "question": "What if I miss a class?",
+      "answer": "No worries! If you need to miss a session, your child (or you) can make up with any class on our schedule."
+    },
+    {
+      "question": "Should we stay for class or drop off?",
+      "answer": "Drop your child off, we take care of the rest."
+    },
+    {
+      "question": "What if my child is energetic?",
+      "answer": "Our lessons include meditation tools, so the wandering mind is taught how to refocus. Yoga meets kids where they are — energy and all."
+    }
+  ]
+}

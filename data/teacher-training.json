@@ -1,0 +1,62 @@
+{
+  "scheduleTime": "weekends, 12:30–3:30pm",
+  "scheduleDates": [
+    {"date": "April 18–19"},
+    {"date": "April 25–26"},
+    {"date": "May 2–3"},
+    {"date": "May 16–17"},
+    {"date": "May 30–31"}
+  ],
+  "graduationDate": "June 6–7",
+  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
+  "graduationRequirements": [
+    {"requirement": "Attend training modules or watch recordings"},
+    {"requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"},
+    {"requirement": "Submit and teach a prepared sequence"},
+    {"requirement": "Complete an open-book exam at your own pace"}
+  ],
+  "costFullProgram": "$3,500",
+  "costPaymentPlan": "contact for details",
+  "reviews": [
+    {
+      "avatar": "/images/OurTeam/Megan.webp",
+      "author": "Megan",
+      "quote": "I joined this YTT with the intention of deepening my personal practice, and I ended up gaining so much more than I expected. Beyond learning about yoga, the training offered meaningful opportunities for self-reflection and growth that extended into other areas of my life. I felt genuinely supported by both the instructors and my fellow trainees, and appreciated how flexible and accessible the program was. It provided a strong foundation in yoga philosophy, cueing, and thoughtful sequencing, with a clear emphasis on creating classes that are inclusive, welcoming, and responsive to different bodies and experiences. Over the course of the training, I began to see potential in myself as a teacher that I hadn’t anticipated when I first started. I now feel equipped with both the confidence and the practical tools to share this practice with others in a way that feels authentic and grounded."
+    },
+    {
+      "avatar": "/images/OurTeam/Laura.webp",
+      "author": "Laura",
+      "quote": "A truly transformative experience. Fascinating, deeply instructive, and held in a beautiful, welcoming, and supportive environment. Rebekah is an exceptional teacher and leader. She guided us with such grace and care, creating space for our own individual journeys to unfold naturally. I highly recommend this yoga academy to anyone looking to deepen their practice."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Nathalie.YTT.webp",
+      "author": "Nathalie",
+      "quote": "I loved my teacher training program at Sama with Rebekah! It is so informative and she makes the material digestible as it is A LOT. I appreciate the booklet she creates for the teacher training; it is very clear. I also appreciate her help in continuing my learning with a mentor and opportunities to practice teach. I highly recommend the program!"
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Jen%20D.jpg",
+      "author": "Jennifer D.",
+      "quote": "The program was an absolutely joy. Rebekah is the consummate teacher, I couldn’t have asked for a better experience. It has opened doors to new paths personally and professionally. I am eternally grateful and would recommend anyone who is curious about this training and/or Sama’s practice to not delay and reach out, you won’t be disappointed."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Mayela.webp",
+      "author": "Mayela",
+      "quote": "The material, guidance and heartfelt empathy provided by Sama Yoga Center and specially by Rebekah, made this experience truly invaluable and deeply transformative."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Kari.webp",
+      "author": "Kari",
+      "quote": "This training was incredibly organized, comprehensive, and heartfelt. I learned more than I could have ever hoped. I couldn’t recommend Sama enough."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Becky.webp",
+      "author": "Becky",
+      "quote": "The program includes opportunities for take-home readings and self-practice, complemented by in-studio discussions, peer connections, and co-teaching experiences. Enrolling in the program gives you access to a comprehensive handbook, unlimited classes at Sama, and an online library of additional content, including text and videos. It’s a balanced and supportive approach to learning, fostering both personal and professional growth as a yoga instructor."
+    },
+    {
+      "avatar": "/images/OurTeam/Zach.webp",
+      "author": "Zach",
+      "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
+    }
+  ]
+}

@@ -644,8 +644,8 @@
         <div style="text-align: center; background: white; padding: var(--space-2xl);">
           <h2 class="tt-heading" style="margin-bottom: var(--space-xs);">schedule</h2>
           <div class="tt-schedule">
-            <p style="font-size: 1.25rem; margin-bottom: var(--space-lg);"><strong>weekends, 12:30–3:30pm</strong></p>
-            <div class="tt-schedule-dates">
+            <p style="font-size: 1.25rem; margin-bottom: var(--space-lg);" id="tt-schedule-time"><strong>weekends, 12:30–3:30pm</strong></p>
+            <div class="tt-schedule-dates" id="tt-schedule-dates">
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 18–19</span>
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 25–26</span>
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 2–3</span>
@@ -658,10 +658,10 @@
 
         <!-- Right: Graduation Requirements Card + Photo -->
         <div class="tt-grad-area">
-          <img loading="lazy" src="images/Teacher%20Training/L1130392%201.webp" alt="Yoga Teacher Training" class="tt-grad-img">
+          <img loading="lazy" src="images/Teacher%20Training/L1130392%201.webp" alt="Yoga Teacher Training" class="tt-grad-img" id="tt-grad-photo">
           <div class="tt-grad-card">
             <h2 class="tt-heading">graduation requirements</h2>
-            <ul class="tt-list">
+            <ul class="tt-list" id="tt-grad-list">
               <li>Attend training modules or watch recordings</li>
               <li>Complete 50 yoga or meditation sessions (at least 30 with Sama)</li>
               <li>Submit and teach a prepared sequence</li>
@@ -683,7 +683,7 @@
           <p style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a 200-Hour Yoga Alliance&reg; Certified Yoga Teacher and immerse in your own well-being.</p>
           <div style="background: white; padding: var(--space-lg) var(--space-2xl); width: 100%; max-width: 380px;">
             <h2 class="tt-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
-            <div class="tt-pricing-box">
+            <div class="tt-pricing-box" id="tt-pricing-box">
               <div class="tt-pricing-row">
                 <span class="tt-pricing-row__label">Full Program</span>
                 <span class="tt-pricing-row__price">$3,500</span>
@@ -793,7 +793,7 @@
       <h2 class="tt-heading" style="text-align: center;">what our graduates say</h2>
       <p style="max-width: 800px; margin: 0 auto var(--space-lg); text-align: center; font-size: 1rem; color: var(--color-text-secondary); line-height: 1.7;">Our Yoga Teacher Trainings are registered with Yoga Alliance&reg; and recognized nationwide for their exceptional quality. We take pride in our five-star reviews, a testament to our commitment to excellence.</p>
     </div>
-    <div class="tt-reviews__grid">
+    <div class="tt-reviews__grid" id="tt-reviews-grid">
       <div class="tt-review-card">
         <img loading="lazy" src="images/OurTeam/Megan.webp" alt="Megan" class="tt-review-card__avatar">
         <div class="tt-review-card__body">
@@ -851,6 +851,84 @@
         </div>
       </div>
     </div>
+  <script>
+    fetch('data/teacher-training.json?v=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        // Schedule time
+        var timeEl = document.getElementById('tt-schedule-time');
+        if (timeEl) timeEl.innerHTML = '<strong>' + d.scheduleTime + '</strong>';
+
+        // Schedule date pills
+        var datesEl = document.getElementById('tt-schedule-dates');
+        if (datesEl && d.scheduleDates) {
+          var pillStyle = 'background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;';
+          var pills = d.scheduleDates.map(function(item) {
+            var dt = (typeof item === 'string') ? item : (item.date || '');
+            return '<span style="' + pillStyle + '">' + dt + '</span>';
+          });
+          if (d.graduationDate) {
+            pills.push('<span style="' + pillStyle + ' font-weight: 700;">Graduation: ' + d.graduationDate + '</span>');
+          }
+          datesEl.innerHTML = pills.join('');
+        }
+
+        // Schedule image
+        var gradPhoto = document.getElementById('tt-grad-photo');
+        if (gradPhoto && d.scheduleImage) gradPhoto.src = d.scheduleImage;
+
+        // Graduation requirements
+        var gradList = document.getElementById('tt-grad-list');
+        if (gradList && d.graduationRequirements) {
+          gradList.innerHTML = d.graduationRequirements.map(function(item) {
+            var req = (typeof item === 'string') ? item : (item.requirement || '');
+            return '<li>' + req + '</li>';
+          }).join('');
+        }
+
+        // Pricing
+        var pricingBox = document.getElementById('tt-pricing-box');
+        if (pricingBox) {
+          var rowHTML = '';
+          if (d.costFullProgram) {
+            rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">Full Program</span><span class="tt-pricing-row__price">' + d.costFullProgram + '</span></div>';
+          }
+          if (d.costPaymentPlan) {
+            rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">Payment Plan</span><span class="tt-pricing-row__price">' + d.costPaymentPlan + '</span></div>';
+          }
+          if (rowHTML) pricingBox.innerHTML = rowHTML;
+        }
+
+        // Reviews
+        var reviewsGrid = document.getElementById('tt-reviews-grid');
+        if (reviewsGrid && d.reviews) {
+          reviewsGrid.innerHTML = d.reviews.map(function(rev) {
+            var card = document.createElement('div');
+            card.className = 'tt-review-card';
+            var body = document.createElement('div');
+            body.className = 'tt-review-card__body';
+            var quote = document.createElement('p');
+            quote.className = 'tt-review-card__quote';
+            quote.textContent = '“' + rev.quote + '”';
+            var author = document.createElement('span');
+            author.className = 'tt-review-card__author';
+            author.textContent = '-' + rev.author;
+            body.appendChild(quote);
+            body.appendChild(author);
+            var img = document.createElement('img');
+            img.loading = 'lazy';
+            img.src = rev.avatar;
+            img.alt = rev.author;
+            img.className = 'tt-review-card__avatar';
+            card.appendChild(img);
+            card.appendChild(body);
+            return card.outerHTML;
+          }).join('');
+        }
+      })
+      .catch(function(err) { console.error('teacher-training.json failed to load', err); });
+  </script>
+
     <div style="text-align: center;">
       <a href="https://app.yogaalliance.org/schoolprofilereviews?id=0013g000002pjihAAA&sid=0013g000002npBIAAY" class="btn btn--primary" target="_blank">More Reviews on Yoga Alliance&reg;</a>
       <div class="tt-reviews__badges">

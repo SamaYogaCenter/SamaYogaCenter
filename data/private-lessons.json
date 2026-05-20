@@ -1,0 +1,11 @@
+{
+  "image1": "/images/Private%20Lessons/PrivateLessons_Image1.webp",
+  "image2": "/images/Private%20Lessons/PrivateLessons_Image2.webp",
+  "blurb": "One-on-one instruction tailored entirely to you — your body, your goals, your pace. Whether you're new to yoga, working through an injury, or deepening an existing practice, our private yoga and personal training sessions create the space for real, lasting progress.",
+  "pricing": [
+    { "label": "Single Lesson",  "price": "$190 / lesson" },
+    { "label": "5 Lesson Pack",  "price": "$180 / lesson" },
+    { "label": "10 Lesson Pack", "price": "$175 / lesson" },
+    { "label": "20 Lesson Pack", "price": "$170 / lesson" }
+  ]
+}

@@ -224,11 +224,11 @@
   <section class="ps-section">
     <!-- Block 1: image left, blurb right -->
     <div class="ps-block" style="--band-h: 270px;">
-      <img loading="lazy" src="images/Private%20Lessons/PrivateLessons_Image1.webp" alt="Private session" style="filter: brightness(1.08) saturate(0.88) contrast(0.95);">
+      <img loading="lazy" src="images/Private%20Lessons/PrivateLessons_Image1.webp" alt="Private session" id="ps-image-1" style="filter: brightness(1.08) saturate(0.88) contrast(0.95);">
       <div class="ps-band__text">
         <div class="ps-blurb">
           <h2 class="section-title section-title--left">private lessons</h2>
-          <p>One-on-one instruction tailored entirely to you — your body, your goals, your pace. Whether you're new to yoga, working through an injury, or deepening an existing practice, our private yoga and personal training sessions create the space for real, lasting progress.</p>
+          <p id="ps-blurb-text">One-on-one instruction tailored entirely to you — your body, your goals, your pace. Whether you're new to yoga, working through an injury, or deepening an existing practice, our private yoga and personal training sessions create the space for real, lasting progress.</p>
           <a href="pricing.html#private-sessions" class="btn btn--primary" style="margin-top: var(--space-md);">PURCHASE</a>
         </div>
       </div>
@@ -239,7 +239,7 @@
       <div class="ps-band__text">
         <div class="ps-pricing">
           <h2 class="section-title section-title--left">pricing</h2>
-          <table class="ps-pricing-table">
+          <table class="ps-pricing-table" id="ps-pricing-table">
             <tr>
               <td>Single Lesson</td>
               <td>$190 / lesson</td>
@@ -259,9 +259,29 @@
           </table>
         </div>
       </div>
-      <img loading="lazy" src="images/Private%20Lessons/PrivateLessons_Image2.webp" alt="Private session">
+      <img loading="lazy" src="images/Private%20Lessons/PrivateLessons_Image2.webp" alt="Private session" id="ps-image-2">
     </div>
   </section>
+
+  <script>
+    fetch('data/private-lessons.json?v=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var img1 = document.getElementById('ps-image-1');
+        var img2 = document.getElementById('ps-image-2');
+        var blurb = document.getElementById('ps-blurb-text');
+        var table = document.getElementById('ps-pricing-table');
+        if (img1)   img1.src = d.image1;
+        if (img2)   img2.src = d.image2;
+        if (blurb)  blurb.innerHTML = d.blurb;
+        if (table && d.pricing) {
+          table.innerHTML = d.pricing.map(function(row) {
+            return '<tr><td>' + row.label + '</td><td>' + row.price + '</td></tr>';
+          }).join('');
+        }
+      })
+      .catch(function(err) { console.error('private-lessons.json failed to load', err); });
+  </script>
 
   <!-- Booking Widget -->
   <section class="section" style="background-color: var(--color-bg-primary); padding-top: var(--space-lg);">

@@ -391,24 +391,24 @@
   <!-- Intro -->
   <section class="ky-section" style="padding: 0; overflow: hidden;">
     <div class="ky-intro">
-      <div class="ky-intro__text">
-        <h2 class="section-title section-title--left ky-heading">sama kids</h2>
-        <p>Our award-winning Kids Yoga Program at Sama fosters community, social skills, and leadership through yoga and meditation practices for children ages 6 and up. At Sama, children discover the tools to regulate and greet the world with a kind heart. Drop off your young yogi <strong>every Wednesday at 4:30 pm</strong> or book a private lesson <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: none;">here</a>.</p>
-        <p style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Sold as a <strong>10-class package</strong> for use within 3 months. Reserve your spot with purchase now. If you need to miss a class, <strong>you or your child</strong> can make it up with any class on our schedule.</p>
+      <div class="ky-intro__text" id="ky-intro-text">
+        <h2 class="section-title section-title--left ky-heading" id="ky-heading">sama kids</h2>
+        <p id="ky-intro-p1">Our award-winning Kids Yoga Program at Sama fosters community, social skills, and leadership through yoga and meditation practices for children ages 6 and up. At Sama, children discover the tools to regulate and greet the world with a kind heart. Drop off your young yogi <strong>every Wednesday at 4:30 pm</strong> or book a private lesson <a href="private-sessions.html" style="color: var(--color-primary); text-decoration: none;">here</a>.</p>
+        <p id="ky-intro-p2" style="font-size: 1rem; color: var(--color-text-secondary); line-height: 1.6;">Sold as a <strong>10-class package</strong> for use within 3 months. Reserve your spot with purchase now. If you need to miss a class, <strong>you or your child</strong> can make it up with any class on our schedule.</p>
         <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md); align-items: center; flex-wrap: wrap;">
           <div class="ky-buy-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10933" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="BUY PACKAGE" /></div>
           <a href="schedule.html" class="btn btn--outline">View Schedule</a>
         </div>
       </div>
-      <img loading="eager" src="images/Kids%20Yoga/KidsYoga_Image1.webp" alt="Kids Yoga">
+      <img loading="eager" src="images/Kids%20Yoga/KidsYoga_Image1.webp" alt="Kids Yoga" id="ky-photo-1">
     </div>
   </section>
 
   <!-- Meet the Instructor -->
   <section class="ky-section" style="padding: 0 0 var(--space-3xl) 0; overflow: hidden;">
     <div class="ky-bio" style="--band-h: 220px;">
-      <img loading="lazy" src="images/Kids%20Yoga/Allie.webp" alt="Allie Muzzio" class="ky-bio__img">
-      <div class="ky-bio__text">
+      <img loading="lazy" src="images/Kids%20Yoga/Allie.webp" alt="Allie Muzzio" class="ky-bio__img" id="ky-bio-img">
+      <div class="ky-bio__text" id="ky-bio-text-wrap">
         <h2 class="section-title section-title--left ky-heading" style="margin-bottom: var(--space-xs);">meet your instructor:</h2>
         <h3>Allie Muzzio</h3>
         <p>Allie Muzzio is a licensed Occupational Therapist and registered yoga teacher, completing both the 200-Hour Yoga Teacher Training and Kids Yoga Teacher Training at Sama Academy. She holds a Master's degree in Occupational Therapy with a minor in Psychology, integrating evidence-based OT principles with nervous system support, functional movement, and embodied awareness.</p>
@@ -424,7 +424,7 @@
       <div class="ky-faq-wrap__body">
         <div style="background: white; padding: var(--space-2xl);">
           <h2 class="section-title section-title--left ky-heading" style="margin-bottom: var(--space-lg);">FAQs</h2>
-          <div class="ky-faq__items">
+          <div class="ky-faq__items" id="ky-faq-items">
             <div class="ky-faq__item">
               <h3>What should my child wear and bring?</h3>
               <p>We provide mats to borrow, water and props.</p>
@@ -447,10 +447,50 @@
             </div>
           </div>
         </div>
-        <img loading="lazy" src="images/Kids%20Yoga/KidsYoga_Image2.webp" alt="Kids Yoga" class="ky-faq-wrap__img">
+        <img loading="lazy" src="images/Kids%20Yoga/KidsYoga_Image2.webp" alt="Kids Yoga" class="ky-faq-wrap__img" id="ky-photo-2">
       </div>
     </div>
   </section>
+
+  <script>
+    fetch('data/kids.json?v=' + Date.now())
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        // Intro section — update text and photo, but leave the healcode-widget untouched
+        var heading  = document.getElementById('ky-heading');
+        var introP1  = document.getElementById('ky-intro-p1');
+        var introP2  = document.getElementById('ky-intro-p2');
+        var photo1   = document.getElementById('ky-photo-1');
+        if (heading)  heading.textContent = d.heading;
+        if (introP1)  introP1.innerHTML   = d.intro1;
+        if (introP2)  introP2.innerHTML   = d.intro2;
+        if (photo1)   photo1.src          = d.photo1;
+
+        // Bio section
+        var bioImg  = document.getElementById('ky-bio-img');
+        var bioText = document.getElementById('ky-bio-text-wrap');
+        if (bioImg) { bioImg.src = d.instructorPhoto; bioImg.alt = d.instructorName; }
+        if (bioText) {
+          bioText.innerHTML =
+            '<h2 class="section-title section-title--left ky-heading" style="margin-bottom: var(--space-xs);">meet your instructor:</h2>' +
+            '<h3>' + d.instructorName + '</h3>' +
+            '<p>' + d.instructorBio1 + '</p>' +
+            '<p>' + d.instructorBio2 + '</p>' +
+            '<p>' + d.instructorBio3 + '</p>';
+        }
+
+        // FAQs
+        var faqItems = document.getElementById('ky-faq-items');
+        var photo2   = document.getElementById('ky-photo-2');
+        if (faqItems && d.faqs) {
+          faqItems.innerHTML = d.faqs.map(function(faq) {
+            return '<div class="ky-faq__item"><h3>' + faq.question + '</h3><p>' + faq.answer + '</p></div>';
+          }).join('');
+        }
+        if (photo2) photo2.src = d.photo2;
+      })
+      .catch(function(err) { console.error('kids.json failed to load', err); });
+  </script>
 
   <!-- CTA Section -->
   <section class="section section--cta">

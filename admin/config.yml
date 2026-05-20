@@ -43,3 +43,142 @@ collections:
                   - { label: "Price", name: "price", widget: "string", hint: "e.g. $95" }
                   - { label: "MindBody Service ID", name: "serviceId", widget: "string", required: false, hint: "The Service ID from MindBody for this pricing tier — powers the Register button. Ask Abby if unsure." }
                   - { label: "Register Link (fallback)", name: "link", widget: "string", default: "#", required: false, hint: "Only needed if there is no MindBody Service ID above." }
+
+  - name: "classes"
+    label: "Class Descriptions"
+    files:
+      - name: "classes"
+        label: "Class List"
+        file: "data/classes.json"
+        fields:
+          - name: "classes"
+            label: "Classes"
+            label_singular: "Class"
+            widget: "list"
+            summary: "{{fields.title}}"
+            hint: "Drag to reorder. Use 'Hide this class' to remove from the site without deleting."
+            fields:
+              - { label: "Class Title", name: "title", widget: "string", hint: "e.g. sama vinyasa  (use lowercase)" }
+              - { label: "Description", name: "description", widget: "text", hint: "1–2 sentences shown on the class page." }
+              - { label: "Photo", name: "image", widget: "image", hint: "Upload or select the class photo." }
+              - { label: "Photo Alt Text", name: "imageAlt", widget: "string", required: false, hint: "Short description of the photo for screen readers (e.g. Vinyasa)." }
+              - { label: "Hide this class", name: "hidden", widget: "boolean", default: false, required: false, hint: "Turn on to remove this class from the site without deleting it." }
+
+  - name: "team"
+    label: "Our Team"
+    files:
+      - name: "team"
+        label: "Team Members"
+        file: "data/team.json"
+        fields:
+          - name: "weekly"
+            label: "Weekly Instructors"
+            label_singular: "Instructor"
+            widget: "list"
+            summary: "{{fields.name}}"
+            hint: "Drag to reorder. These appear in the 'weekly instructors' carousel."
+            fields:
+              - { label: "Name", name: "name", widget: "string", hint: "First name only, e.g. Allie" }
+              - { label: "Photo", name: "image", widget: "image" }
+              - { label: "Photo Focus Point", name: "imagePosition", widget: "string", default: "center top", required: false, hint: "Controls which part of the photo is visible. Options: center top · 50% 20% · 50% 30% — leave blank to use center top." }
+              - { label: "Hide this instructor", name: "hidden", widget: "boolean", default: false, required: false, hint: "Turn on to remove from the site without deleting." }
+              - { label: "Bio", name: "bio", widget: "text", hint: "Use two blank lines to create paragraph breaks." }
+          - name: "substitutes"
+            label: "Substitute & Guest Instructors"
+            label_singular: "Instructor"
+            widget: "list"
+            summary: "{{fields.name}}"
+            hint: "Drag to reorder. These appear in the 'substitute & guest instructors' carousel."
+            fields:
+              - { label: "Name", name: "name", widget: "string", hint: "First name only, e.g. Anna" }
+              - { label: "Photo", name: "image", widget: "image" }
+              - { label: "Photo Focus Point", name: "imagePosition", widget: "string", default: "center top", required: false, hint: "Controls which part of the photo is visible. Options: center top · 50% 20% · 50% 30% — leave blank to use center top." }
+              - { label: "Hide this instructor", name: "hidden", widget: "boolean", default: false, required: false, hint: "Turn on to remove from the site without deleting." }
+              - { label: "Bio", name: "bio", widget: "text", hint: "Use two blank lines to create paragraph breaks." }
+
+  - name: "private-lessons"
+    label: "Private Lessons"
+    files:
+      - name: "private-lessons"
+        label: "Private Lessons Page"
+        file: "data/private-lessons.json"
+        fields:
+          - { label: "Top Photo", name: "image1", widget: "image", hint: "Photo shown on the left in the top block." }
+          - { label: "Introduction Text", name: "blurb", widget: "text", hint: "1–2 sentences describing private lessons." }
+          - { label: "Bottom Photo", name: "image2", widget: "image", hint: "Photo shown on the right in the pricing block." }
+          - name: "pricing"
+            label: "Pricing Tiers"
+            label_singular: "Pricing Tier"
+            widget: "list"
+            summary: "{{fields.label}}: {{fields.price}}"
+            hint: "Add one row per pricing tier. Drag to reorder."
+            fields:
+              - { label: "Label", name: "label", widget: "string", hint: "e.g. Single Lesson" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $190 / lesson" }
+
+  - name: "teacher-training"
+    label: "Teacher Training"
+    files:
+      - name: "teacher-training"
+        label: "Teacher Training Page"
+        file: "data/teacher-training.json"
+        fields:
+          - { label: "Schedule Time", name: "scheduleTime", widget: "string", hint: "e.g. weekends, 12:30–3:30pm  (use an em dash –)" }
+          - name: "scheduleDates"
+            label: "Weekend Training Dates"
+            label_singular: "Date"
+            widget: "list"
+            summary: "{{fields.date}}"
+            hint: "Add one entry per weekend session. Drag to reorder."
+            fields:
+              - { label: "Date Range", name: "date", widget: "string", hint: "e.g. April 18–19  (use an em dash –)" }
+          - { label: "Graduation Date", name: "graduationDate", widget: "string", hint: "e.g. June 6–7" }
+          - { label: "Schedule Photo", name: "scheduleImage", widget: "image", hint: "Photo shown beside the schedule and graduation requirements." }
+          - name: "graduationRequirements"
+            label: "Graduation Requirements"
+            label_singular: "Requirement"
+            widget: "list"
+            summary: "{{fields.requirement}}"
+            hint: "Add one entry per requirement. Drag to reorder."
+            fields:
+              - { label: "Requirement", name: "requirement", widget: "string" }
+          - { label: "Cost — Full Program", name: "costFullProgram", widget: "string", hint: "e.g. $3,500" }
+          - { label: "Cost — Payment Plan", name: "costPaymentPlan", widget: "string", hint: "e.g. contact for details" }
+          - name: "reviews"
+            label: "Graduate Reviews"
+            label_singular: "Review"
+            widget: "list"
+            summary: "{{fields.author}}"
+            hint: "Drag to reorder. Each review shows a photo, quote, and author name."
+            fields:
+              - { label: "Photo", name: "avatar", widget: "image", hint: "Headshot of the reviewer — shown as a circle." }
+              - { label: "Author Name", name: "author", widget: "string", hint: "e.g. Megan  or  Jennifer D." }
+              - { label: "Quote", name: "quote", widget: "text", hint: "The review text — do not include quotation marks, they are added automatically." }
+
+  - name: "kids"
+    label: "Sama Kids"
+    files:
+      - name: "kids"
+        label: "Sama Kids Page"
+        file: "data/kids.json"
+        fields:
+          - { label: "Page Heading", name: "heading", widget: "string", hint: "e.g. sama kids  (use lowercase)" }
+          - { label: "Intro Paragraph 1", name: "intro1", widget: "text", hint: "Main intro paragraph. Basic HTML allowed for bold (<strong>) and links (<a>)." }
+          - { label: "Intro Paragraph 2 (Pricing note)", name: "intro2", widget: "text", hint: "Shown below the first intro paragraph. Basic HTML allowed for bold (<strong>)." }
+          - { label: "MindBody Service ID", name: "mindbodyServiceId", widget: "string", hint: "The MindBody service ID for the 'BUY PACKAGE' button. Contact Abby if you need to change this." }
+          - { label: "Intro Photo", name: "photo1", widget: "image", hint: "Photo shown in the intro section (right side)." }
+          - { label: "Instructor Name", name: "instructorName", widget: "string", hint: "e.g. Allie Muzzio" }
+          - { label: "Instructor Photo", name: "instructorPhoto", widget: "image", hint: "Photo shown in the 'meet your instructor' section." }
+          - { label: "Instructor Bio — Paragraph 1", name: "instructorBio1", widget: "text" }
+          - { label: "Instructor Bio — Paragraph 2", name: "instructorBio2", widget: "text" }
+          - { label: "Instructor Bio — Paragraph 3", name: "instructorBio3", widget: "text" }
+          - { label: "FAQ Photo", name: "photo2", widget: "image", hint: "Photo shown beside the FAQ section." }
+          - name: "faqs"
+            label: "FAQs"
+            label_singular: "FAQ"
+            widget: "list"
+            summary: "{{fields.question}}"
+            hint: "Drag to reorder. Add or remove FAQ items as needed."
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - { label: "Answer", name: "answer", widget: "text" }
