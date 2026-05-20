@@ -28,7 +28,7 @@ const path  = require('path');
 // ─── ✏️  Fill this in before first run ───────────────────────────────────────
 const VENUE_ADDRESS = {
   name:        'Sama Yoga Center',
-  address_1:   '',            // ← ADD STREET ADDRESS HERE  e.g. '160 Main Street'
+  address_1:   '45 Grove Street',
   city:        'New Canaan',
   region:      'CT',
   postal_code: '06840',
