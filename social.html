@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sama Social Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+
+  <style>
+  /* ── Reset ───────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Tool UI ─────────────────────────────────────────── */
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #f0ede8;
+    color: #2d2d2d;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Lock Screen */
+  #lock {
+    position: fixed; inset: 0;
+    background: #ece8e2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 18px; z-index: 1000;
+  }
+  #lock-logo { height: 54px; object-fit: contain; }
+  #lock h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400;
+    letter-spacing: .06em; color: #2d2d2d;
+  }
+  #lock-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: .18em;
+    text-transform: uppercase; color: #bbb;
+  }
+  .lock-row { display: flex; gap: 8px; margin-top: 6px; }
+  #lock-pw {
+    padding: 10px 16px;
+    border: 1px solid #ccc; border-radius: 4px;
+    font-family: 'Nunito', sans-serif; font-size: 15px;
+    background: white; outline: none; width: 180px;
+  }
+  #lock-pw:focus { border-color: #b03060; }
+  #lock-err { color: #b03060; font-size: 12px; height: 16px; }
+
+  /* Buttons */
+  .btn-pink {
+    background: #b03060; color: white; border: none;
+    padding: 10px 22px; border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; cursor: pointer;
+  }
+  .btn-pink:hover { background: #932852; }
+  .btn-pink:disabled { background: #ccc; cursor: default; }
+
+  /* Studio */
+  #studio { display: none; height: 100vh; }
+  #studio.on { display: flex; }
+
+  /* ── Sidebar ─────────────────────────────────────────── */
+  #sidebar {
+    width: 276px; min-width: 276px;
+    background: white; border-right: 1px solid #e0dbd4;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  #sb-head {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+  }
+  #sb-head img { height: 28px; }
+  #sb-head span {
+    display: block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .18em; color: #bbb;
+    text-transform: uppercase; margin-top: 5px;
+  }
+  #tpl-section { padding: 12px 14px 8px; border-bottom: 1px solid #eee; flex-shrink: 0; }
+  #tpl-section > label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .15em; color: #bbb;
+    text-transform: uppercase; display: block; margin-bottom: 8px;
+  }
+  .tpl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .tpl-btn {
+    background: #f7f5f2; border: 1.5px solid transparent;
+    border-radius: 6px; padding: 7px 4px 6px;
+    cursor: pointer; text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: 10px; color: #777; line-height: 1.3;
+    transition: all .15s;
+  }
+  .tpl-btn .ico { font-size: 16px; display: block; margin-bottom: 2px; }
+  .tpl-btn:hover { border-color: #d0a0b5; }
+  .tpl-btn.active { border-color: #b03060; background: #fdf0f5; color: #b03060; font-weight: 700; }
+
+  /* Options panel */
+  #options { flex: 1; overflow-y: auto; padding: 14px; }
+  .og { margin-bottom: 14px; }
+  .ol {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .12em; color: #bbb;
+    text-transform: uppercase; display: block; margin-bottom: 5px;
+  }
+  .oi, .os, .ota {
+    width: 100%; padding: 7px 10px;
+    border: 1px solid #ddd; border-radius: 4px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; background: white;
+    color: #2d2d2d; outline: none;
+  }
+  .oi:focus, .os:focus, .ota:focus { border-color: #b03060; }
+  .ota { resize: vertical; min-height: 64px; line-height: 1.5; }
+  .hint { font-size: 11px; color: #bbb; margin-top: 4px; }
+  .odiv { border: none; border-top: 1px solid #eee; margin: 12px 0; }
+  .oradio { display: flex; gap: 10px; }
+  .oradio label {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 13px; cursor: pointer;
+  }
+
+  /* Photo picker button */
+  .ppbtn {
+    width: 100%; padding: 7px 10px;
+    border: 1.5px dashed #ccc; border-radius: 5px;
+    background: #fafafa; cursor: pointer;
+    display: flex; align-items: center; gap: 9px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px; color: #999; transition: border-color .15s;
+  }
+  .ppbtn:hover { border-color: #b03060; }
+  .ppthumb { width: 40px; height: 40px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+  .ppempty {
+    width: 40px; height: 40px; background: #eee;
+    border-radius: 3px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
+  /* ── Preview Area ────────────────────────────────────── */
+  #preview-area {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; gap: 18px; overflow: hidden;
+  }
+  #preview-wrap {
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+    border-radius: 2px; overflow: hidden;
+    background: #ccc; flex-shrink: 0;
+  }
+  #tpl-full { transform-origin: top left; width: 1080px; position: relative; }
+  #dl-bar { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  #dl-btn {
+    background: #b03060; color: white; border: none;
+    padding: 11px 28px; border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .1em; cursor: pointer; text-transform: uppercase;
+  }
+  #dl-btn:hover { background: #932852; }
+  #dl-btn:disabled { background: #ccc; cursor: default; }
+  #dl-info {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; letter-spacing: .08em;
+    color: #bbb; text-transform: uppercase;
+  }
+
+  /* ── Photo Modal ─────────────────────────────────────── */
+  #photo-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 600; display: none;
+    align-items: center; justify-content: center;
+  }
+  #photo-modal.open { display: flex; }
+  #pm-inner {
+    background: white; border-radius: 8px;
+    width: 580px; max-height: 78vh;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  #pm-hdr {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px; border-bottom: 1px solid #eee;
+  }
+  #pm-hdr h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+  }
+  #pm-close {
+    background: none; border: none;
+    font-size: 20px; cursor: pointer; color: #888;
+  }
+  .pm-tabs { display: flex; border-bottom: 1px solid #eee; }
+  .pm-tab {
+    padding: 9px 20px; background: none; border: none;
+    border-bottom: 2px solid transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; cursor: pointer; color: #999;
+  }
+  .pm-tab.active { color: #b03060; border-bottom-color: #b03060; font-weight: 700; }
+  #pm-body { flex: 1; overflow-y: auto; padding: 16px; }
+  .pm-pane { display: none; }
+  .pm-pane.active { display: block; }
+  #upload-zone {
+    border: 2px dashed #ddd; border-radius: 8px;
+    padding: 36px; text-align: center; cursor: pointer;
+  }
+  #upload-zone:hover { border-color: #b03060; }
+  #upload-zone input { display: none; }
+  .uz-ico { font-size: 36px; color: #ccc; }
+  #upload-zone p { font-size: 13px; color: #aaa; margin-top: 8px; }
+  .photos-grid {
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 7px;
+  }
+  .photos-grid img {
+    width: 100%; aspect-ratio: 1; object-fit: cover;
+    border-radius: 4px; cursor: pointer;
+    border: 2px solid transparent; transition: border-color .15s;
+  }
+  .photos-grid img:hover { border-color: #b03060; }
+
+  /* ══════════════════════════════════════════════════════
+     TEMPLATE STYLES — all measured at 1080px canvas width
+     ══════════════════════════════════════════════════════ */
+
+  .tpl { position: relative; width: 1080px; overflow: hidden; }
+
+  /* Beige diamond-crosshatch background */
+  .tpl-beige {
+    background-color: #ece8e2;
+    background-image:
+      repeating-linear-gradient( 45deg, transparent, transparent 24px, rgba(80,55,30,.06) 24px, rgba(80,55,30,.06) 25px),
+      repeating-linear-gradient(-45deg, transparent, transparent 24px, rgba(80,55,30,.06) 24px, rgba(80,55,30,.06) 25px);
+  }
+
+  </style>
+</head>
+<body>
+
+<!-- ── Lock Screen ───────────────────────────────────────── -->
+<div id="lock">
+  <img id="lock-logo" src="/images/sama-yoga-logo.webp" alt="Sama Yoga" onerror="this.style.display='none'">
+  <h1>Social Studio</h1>
+  <p id="lock-sub">Internal Tool · Sama Yoga Center</p>
+  <div class="lock-row">
+    <input id="lock-pw" type="password" placeholder="Password" autocomplete="off">
+    <button class="btn-pink" onclick="unlock()">Enter</button>
+  </div>
+  <div id="lock-err"></div>
+</div>
+
+<!-- ── Studio ────────────────────────────────────────────── -->
+<div id="studio">
+
+  <div id="sidebar">
+    <div id="sb-head">
+      <img src="/images/sama-yoga-logo.webp" alt="Sama Yoga" onerror="this.style.display='none'">
+      <span>Social Studio</span>
+    </div>
+
+    <div id="tpl-section">
+      <label>Template</label>
+      <div class="tpl-grid" id="tpl-grid"></div>
+    </div>
+
+    <div id="options"></div>
+  </div>
+
+  <div id="preview-area">
+    <div id="preview-wrap">
+      <div id="tpl-full"></div>
+    </div>
+    <div id="dl-bar">
+      <button class="btn-pink" id="dl-btn" onclick="download()">⬇&nbsp; Download PNG</button>
+      <span id="dl-info"></span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Photo Picker Modal ─────────────────────────────────── -->
+<div id="photo-modal">
+  <div id="pm-inner">
+    <div id="pm-hdr">
+      <h3>Choose Photo</h3>
+      <button id="pm-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="pm-tabs">
+      <button class="pm-tab active" onclick="pmTab('upload',this)">Upload</button>
+      <button class="pm-tab"        onclick="pmTab('site',this)">Site Photos</button>
+    </div>
+    <div id="pm-body">
+      <div id="pm-upload" class="pm-pane active">
+        <label id="upload-zone">
+          <div class="uz-ico">📷</div>
+          <p>Click to upload from your device</p>
+          <input type="file" accept="image/*" onchange="handleUpload(event)">
+        </label>
+      </div>
+      <div id="pm-site" class="pm-pane">
+        <div class="photos-grid" id="site-grid">
+          <p style="font-size:13px;color:#aaa;grid-column:1/-1;padding:8px 0">Loading…</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Script ─────────────────────────────────────────────── -->
+<script>
+'use strict';
+
+// ════════════════════════════════════════════════════════
+// CONFIG  ← change PASSWORD to your chosen one-word password
+// ════════════════════════════════════════════════════════
+const PASSWORD = 'sama';       // ← change this
+const PINK     = '#b03060';
+const LOGO_URL = '/images/sama-yoga-logo.webp';
+
+// ── Templates registry ───────────────────────────────────
+const TMPLS = [
+  { id:'event-post',   label:'Event Post',      ico:'📅', w:1080, h:1350 },
+  { id:'event-story',  label:'Event Story',     ico:'🌅', w:1080, h:1920 },
+  { id:'event-card',   label:'Story + Card',    ico:'🃏', w:1080, h:1920 },
+  { id:'monthly',      label:'Monthly Events',  ico:'📆', w:1080, h:1350 },
+  { id:'get-to-know',  label:'Get to Know',     ico:'👋', w:1080, h:1350 },
+  { id:'meet',         label:'Meet Instructor', ico:'🤝', w:1080, h:1350 },
+  { id:'tips',         label:"Rebekah's Tips",  ico:'💡', w:1080, h:1080 },
+  { id:'behind-pose',  label:'Behind the Pose', ico:'🧘', w:1080, h:1080 },
+  { id:'testimonial',  label:'Testimonial',     ico:'💬', w:1080, h:1080 },
+];
+
+// ── App state ────────────────────────────────────────────
+const S = {
+  tpl: 'event-post',
+  // event
+  eventIdx: 0,
+  photo: null, bgPhoto: null, mainPhoto: null,
+  title: '', date: '', time: '', instructor: '', desc: '',
+  pinkWords: '', cta: 'Join us this weekend!',
+  // instructor / meet
+  instIdx: 0,
+  instPhoto: null,
+  q1:'', a1:'', q2:'', a2:'', q3:'', a3:'', q4:'', a4:'', q5:'', a5:'',
+  // monthly
+  monthLabel: '', monthIdxs: [],
+  // tips
+  tipsType: 'cover', tipsMonth: '', tipsTheme: '', tipsTxt: '', tipsBg: null,
+  // behind pose
+  poseBg: null, poseSanskrit: '', poseEnglish: '',
+  // testimonial
+  quoteBg: null, quote: '', quoteAuthor: '',
+};
+
+const DEFAULT_QS = [
+  'What are your hobbies outside of yoga?',
+  'What is your favorite song right now?',
+  'What is your favorite thing about Sama?',
+  'How long have you been practicing yoga?',
+  'Favorite yoga pose:',
+];
+
+// ── Data ─────────────────────────────────────────────────
+let events = [];
+let instructors = [];
+let sitePhotos = [];
+
+// ── Lock ─────────────────────────────────────────────────
+function unlock() {
+  const v = document.getElementById('lock-pw').value.trim().toLowerCase();
+  if (v === PASSWORD.toLowerCase()) {
+    document.getElementById('lock').style.display = 'none';
+    document.getElementById('studio').classList.add('on');
+    init();
+  } else {
+    document.getElementById('lock-err').textContent = 'Incorrect password.';
+  }
+}
+document.getElementById('lock-pw').addEventListener('keydown', e => { if (e.key==='Enter') unlock(); });
+
+// ── Init ─────────────────────────────────────────────────
+async function init() {
+  buildGrid();
+  pickTpl('event-post');
+
+  // Load data
+  try {
+    const d = await fetch('data/events.json?v='+Date.now()).then(r=>r.json());
+    events = (d.events||[]).filter(e=>!e.hidden);
+  } catch(e) {}
+  try {
+    const d = await fetch('data/team.json?v='+Date.now()).then(r=>r.json());
+    instructors = [
+      ...(d.weekly||[]).filter(i=>!i.hidden).map(i=>({...i,grp:'Weekly'})),
+      ...(d.substitutes||[]).filter(i=>!i.hidden).map(i=>({...i,grp:'Substitute & Guest'})),
+    ];
+  } catch(e) {}
+
+  // Collect site photo URLs
+  const imgs = new Set();
+  events.forEach(e=>{ if(e.image) imgs.add(e.image); });
+  instructors.forEach(i=>{ if(i.image) imgs.add(i.image); });
+  try {
+    const d = await fetch('data/classes.json?v='+Date.now()).then(r=>r.json());
+    (d.classes||[]).forEach(c=>{ if(c.image) imgs.add(c.image); });
+  } catch(e) {}
+  sitePhotos = [...imgs];
+  buildSiteGrid();
+
+  // Set defaults
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  S.tipsMonth  = months[new Date().getMonth()];
+  S.monthLabel = months[new Date().getMonth()].toUpperCase();
+  DEFAULT_QS.forEach((q,i)=>{ S['q'+(i+1)] = q; });
+
+  if (events.length) selectEvent(0);
+  if (instructors.length) selectInst(0);
+  renderOpts();
+  updatePreview();
+}
+
+// ── Template grid ────────────────────────────────────────
+function buildGrid() {
+  document.getElementById('tpl-grid').innerHTML = TMPLS.map(t =>
+    `<button class="tpl-btn" id="tb-${t.id}" onclick="pickTpl('${t.id}')">
+       <span class="ico">${t.ico}</span>${t.label}
+     </button>`
+  ).join('');
+}
+
+function pickTpl(id) {
+  S.tpl = id;
+  document.querySelectorAll('.tpl-btn').forEach(b=>b.classList.remove('active'));
+  const b = document.getElementById('tb-'+id);
+  if (b) b.classList.add('active');
+  renderOpts();
+  updatePreview();
+  const t = TMPLS.find(x=>x.id===id)||TMPLS[0];
+  document.getElementById('dl-info').textContent = `${t.w} × ${t.h} px`;
+}
+
+// ── Options panel ────────────────────────────────────────
+function renderOpts() {
+  const t = S.tpl;
+  let h = '';
+
+  if (['event-post','event-story','event-card'].includes(t)) {
+    h += oEvent();
+    if (t === 'event-card') {
+      h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
+      h += oPhoto('photo','Event Photo (inside card)',S.photo);
+    } else {
+      h += oPhoto('photo','Photo',S.photo);
+    }
+    if (t === 'event-post') {
+      h += `<hr class="odiv">` + oPink();
+    }
+    if (t === 'event-story') {
+      h += `<hr class="odiv">
+      <div class="og"><label class="ol">Opening Line</label>
+        <input class="oi" value="${x(S.cta)}" oninput="set('cta',this.value)">
+      </div>`;
+    }
+  }
+
+  else if (t === 'monthly') {
+    h += `<div class="og"><label class="ol">Month Label</label>
+      <input class="oi" value="${x(S.monthLabel)}" oninput="set('monthLabel',this.value)">
+    </div>`;
+    h += oPhoto('mainPhoto','Main Photo',S.mainPhoto);
+    h += `<hr class="odiv"><div class="og"><label class="ol">Events to Feature</label>`;
+    if (!events.length) h += `<p class="hint">No events loaded.</p>`;
+    else h += events.map((e,i) =>
+      `<label style="display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:5px;cursor:pointer">
+        <input type="checkbox" ${S.monthIdxs.includes(i)?'checked':''} onchange="toggleMonthEv(${i},this.checked)">
+        ${x(e.title)} · ${x(e.date.split(',')[1]||e.date)}
+      </label>`).join('');
+    h += `</div>`;
+  }
+
+  else if (t === 'get-to-know') {
+    h += oInst();
+    h += oPhoto('instPhoto','Photo (overrides team photo)',S.instPhoto);
+  }
+
+  else if (t === 'meet') {
+    h += oInst();
+    h += oPhoto('instPhoto','Instructor Photo',S.instPhoto);
+    h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
+    h += `<hr class="odiv">`;
+    [1,2,3,4,5].forEach(i => {
+      h += `<div class="og">
+        <label class="ol">Q${i}</label>
+        <input class="oi" style="margin-bottom:4px" value="${x(S['q'+i])}" oninput="set('q${i}',this.value)">
+        <input class="oi" placeholder="Answer…" value="${x(S['a'+i])}" oninput="set('a${i}',this.value)">
+      </div>`;
+    });
+  }
+
+  else if (t === 'tips') {
+    h += `<div class="og"><label class="ol">Slide Type</label>
+      <div class="oradio">
+        <label><input type="radio" name="tt" value="cover" ${S.tipsType==='cover'?'checked':''} onchange="set('tipsType','cover');renderOpts();updatePreview()"> Cover</label>
+        <label><input type="radio" name="tt" value="content" ${S.tipsType==='content'?'checked':''} onchange="set('tipsType','content');renderOpts();updatePreview()"> Content</label>
+      </div></div>`;
+    h += `<div class="og"><label class="ol">Month</label>
+      <input class="oi" value="${x(S.tipsMonth)}" oninput="set('tipsMonth',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">Theme / Big Word</label>
+      <input class="oi" value="${x(S.tipsTheme)}" placeholder="e.g. to renew" oninput="set('tipsTheme',this.value)">
+    </div>`;
+    if (S.tipsType === 'content') {
+      h += `<div class="og"><label class="ol">Tip Text</label>
+        <textarea class="ota" oninput="set('tipsTxt',this.value)">${x(S.tipsTxt)}</textarea>
+      </div>`;
+    }
+    h += oPhoto('tipsBg','Background Photo',S.tipsBg);
+  }
+
+  else if (t === 'behind-pose') {
+    h += oPhoto('poseBg','Studio Photo',S.poseBg);
+    h += `<div class="og"><label class="ol">Sanskrit Name</label>
+      <input class="oi" value="${x(S.poseSanskrit)}" placeholder="e.g. Naṭarājāsana" oninput="set('poseSanskrit',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">English Name</label>
+      <input class="oi" value="${x(S.poseEnglish)}" placeholder="e.g. Dancer Pose" oninput="set('poseEnglish',this.value)">
+    </div>`;
+  }
+
+  else if (t === 'testimonial') {
+    h += oPhoto('quoteBg','Background Photo',S.quoteBg);
+    h += `<div class="og"><label class="ol">Quote</label>
+      <textarea class="ota" oninput="set('quote',this.value)">${x(S.quote)}</textarea>
+    </div>`;
+    h += `<div class="og"><label class="ol">Author</label>
+      <input class="oi" value="${x(S.quoteAuthor)}" placeholder="e.g. Becky" oninput="set('quoteAuthor',this.value)">
+    </div>`;
+  }
+
+  document.getElementById('options').innerHTML = h;
+}
+
+// Options helpers
+function oEvent() {
+  if (!events.length) return `<div class="og"><p class="hint">No events found.</p></div>`;
+  return `<div class="og"><label class="ol">Event</label>
+    <select class="os" onchange="selectEvent(+this.value)">
+      ${events.map((e,i)=>`<option value="${i}" ${S.eventIdx===i?'selected':''}>${x(e.title)}</option>`).join('')}
+    </select></div>`;
+}
+function oInst() {
+  if (!instructors.length) return `<div class="og"><p class="hint">No instructors found.</p></div>`;
+  return `<div class="og"><label class="ol">Instructor</label>
+    <select class="os" onchange="selectInst(+this.value)">
+      ${instructors.map((inst,i)=>`<option value="${i}" ${S.instIdx===i?'selected':''}>${x(inst.name)} (${inst.grp})</option>`).join('')}
+    </select></div>`;
+}
+function oPhoto(key, label, val) {
+  return `<div class="og"><label class="ol">${label}</label>
+    <button class="ppbtn" onclick="openModal('${key}')">
+      ${val
+        ? `<img class="ppthumb" src="${val}" alt="">`
+        : `<div class="ppempty">🖼</div>`}
+      <span>${val ? 'Change photo' : 'Choose photo…'}</span>
+    </button></div>`;
+}
+function oPink() {
+  return `<div class="og">
+    <label class="ol">Pink Keywords</label>
+    <input class="oi" value="${x(S.pinkWords)}" placeholder="e.g. habits, hormonal balance" oninput="set('pinkWords',this.value)">
+    <p class="hint">Comma-separated — these words turn pink in the description</p>
+  </div>`;
+}
+
+// ── State ────────────────────────────────────────────────
+function set(k, v) { S[k] = v; updatePreview(); }
+
+function selectEvent(idx) {
+  S.eventIdx = idx;
+  const e = events[idx]; if (!e) return;
+  S.title = e.title||'';
+  S.date  = e.date||'';
+  S.time  = e.time||'';
+  S.instructor = e.instructor||'';
+  S.desc  = e.cardDescription||'';
+  if (!S.photo && e.image) S.photo = e.image;
+  renderOpts(); updatePreview();
+}
+
+function selectInst(idx) {
+  S.instIdx = idx;
+  const inst = instructors[idx]; if (!inst) return;
+  if (!S.instPhoto && inst.image) S.instPhoto = inst.image;
+  renderOpts(); updatePreview();
+}
+
+function toggleMonthEv(idx, checked) {
+  S.monthIdxs = checked
+    ? [...new Set([...S.monthIdxs, idx])]
+    : S.monthIdxs.filter(i=>i!==idx);
+  updatePreview();
+}
+
+// ── Photo modal ──────────────────────────────────────────
+let photoTarget = null;
+
+function openModal(key) {
+  photoTarget = key;
+  document.getElementById('photo-modal').classList.add('open');
+  pmTab('upload', document.querySelector('.pm-tab'));
+}
+function closeModal() {
+  document.getElementById('photo-modal').classList.remove('open');
+}
+document.getElementById('photo-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('photo-modal')) closeModal();
+});
+
+function pmTab(id, btn) {
+  document.querySelectorAll('.pm-tab').forEach((t,i)=>t.classList.toggle('active',(id==='upload'&&i===0)||(id==='site'&&i===1)));
+  document.querySelectorAll('.pm-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pm-'+id).classList.add('active');
+}
+
+function handleUpload(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => { S[photoTarget] = ev.target.result; renderOpts(); updatePreview(); closeModal(); };
+  r.readAsDataURL(f);
+}
+
+function buildSiteGrid() {
+  const g = document.getElementById('site-grid');
+  if (!sitePhotos.length) { g.innerHTML = `<p style="font-size:13px;color:#aaa;grid-column:1/-1">No site photos found.</p>`; return; }
+  g.innerHTML = sitePhotos.map(u =>
+    `<img src="${u}" loading="lazy" onerror="this.style.display='none'" onclick="pickSitePhoto('${u}')">`
+  ).join('');
+}
+
+function pickSitePhoto(url) {
+  S[photoTarget] = url;
+  renderOpts(); updatePreview(); closeModal();
+}
+
+// ── Utilities ────────────────────────────────────────────
+function x(s) {  // html-escape for attributes/text
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function bg(url, pos) {
+  return url
+    ? `background:url('${url.replace(/'/g,"\\'")}') ${pos||'center'}/cover no-repeat`
+    : `background:#d0ccc6`;
+}
+function ord(s) {  // superscript ordinal suffixes
+  return String(s||'').replace(/(\d+)(st|nd|rd|th)\b/gi,'$1<sup style="font-size:.55em;vertical-align:super">$2</sup>');
+}
+function pink(text, words) {
+  if (!words||!words.trim()) return text;
+  let out = text;
+  words.split(',').map(w=>w.trim()).filter(Boolean).forEach(w => {
+    const safe = w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    out = out.replace(new RegExp(`(${safe})`,'gi'), `<span style="color:${PINK}">$1</span>`);
+  });
+  return out;
+}
+function inst() { return instructors[S.instIdx]||{}; }
+
+// Sama logo/handle markup used in templates
+function samyLogo(filter) {
+  const f = filter||'none';
+  return `<img src="${LOGO_URL}" style="height:54px;object-fit:contain;filter:${f}" alt="Sama Yoga Center" crossorigin="anonymous">`;
+}
+function samyHandle(col) {
+  col = col||'#2d2d2d';
+  return `<span style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:400;letter-spacing:.06em;color:${col}">@samayogacenter</span>`;
+}
+
+// Decorative brush-stroke SVG
+function brush(style) {
+  return `<svg style="position:absolute;pointer-events:none;${style||''}" viewBox="0 0 140 560" xmlns="http://www.w3.org/2000/svg">
+    <path d="M70,10 C120,80 20,180 90,290 C150,380 25,460 80,550" stroke="rgba(55,42,30,.16)" stroke-width="28" fill="none" stroke-linecap="round"/>
+    <path d="M45,0 C100,70 10,160 72,270 C130,360 18,440 65,540"   stroke="rgba(55,42,30,.09)" stroke-width="14" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+// ── Preview ──────────────────────────────────────────────
+function updatePreview() {
+  document.getElementById('tpl-full').innerHTML = render();
+  scalePreview();
+}
+
+function scalePreview() {
+  const t   = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
+  const area = document.getElementById('preview-area');
+  const wrap = document.getElementById('preview-wrap');
+  const full = document.getElementById('tpl-full');
+  const maxW = area.clientWidth  - 48;
+  const maxH = area.clientHeight - 80;
+  const scale = Math.min(maxW/t.w, maxH/t.h, 1);
+  full.style.width  = t.w + 'px';
+  full.style.height = t.h + 'px';
+  full.style.transform = `scale(${scale})`;
+  wrap.style.width  = Math.round(t.w * scale) + 'px';
+  wrap.style.height = Math.round(t.h * scale) + 'px';
+}
+window.addEventListener('resize', scalePreview);
+
+// ── Template dispatcher ──────────────────────────────────
+function render() {
+  switch (S.tpl) {
+    case 'event-post':  return tEventPost();
+    case 'event-story': return tEventStory();
+    case 'event-card':  return tEventCard();
+    case 'monthly':     return tMonthly();
+    case 'get-to-know': return tGetToKnow();
+    case 'meet':        return tMeet();
+    case 'tips':        return tTips();
+    case 'behind-pose': return tBehindPose();
+    case 'testimonial': return tTestimonial();
+    default: return '';
+  }
+}
+
+// ════════════════════════════════════════════════════════
+// TEMPLATE RENDERERS  (all at 1080 px wide)
+// ════════════════════════════════════════════════════════
+
+// ── 1. Event Post — beige (1080 × 1350) ─────────────────
+function tEventPost() {
+  const dateHtml = ord(x(S.date));
+  const descHtml = pink(x(S.desc), S.pinkWords);
+  const byLine   = S.instructor ? `<div style="font-family:'Nunito',sans-serif;font-size:32px;color:#6b6b6b;margin-bottom:30px">with ${x(S.instructor)}</div>` : '';
+  return `
+<div class="tpl tpl-beige" style="height:1350px">
+  ${brush('right:-10px;top:0;width:140px;height:680px')}
+  <div style="padding:72px 80px 80px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#9a9a9a;margin-bottom:10px;letter-spacing:.02em">${dateHtml}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>30?'76':'90'}px;font-weight:400;color:${PINK};line-height:1.0;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
+    ${byLine}
+    <div style="width:920px;height:490px;border-radius:6px;overflow:hidden;${bg(S.photo)};margin-bottom:44px"></div>
+    <div style="font-family:'Nunito',sans-serif;font-size:33px;color:#4a4a4a;line-height:1.65;padding-right:40px">${descHtml||'<span style="color:#ccc">Description appears here…</span>'}</div>
+  </div>
+  <div style="position:absolute;bottom:52px;right:72px">${samyLogo()}</div>
+</div>`;
+}
+
+// ── 2. Event Story — beige (1080 × 1920) ────────────────
+function tEventStory() {
+  const dateHtml = ord(x(S.date));
+  return `
+<div class="tpl tpl-beige" style="height:1920px">
+  ${brush('right:40px;top:160px;width:120px;height:500px;opacity:.7')}
+  <div style="display:flex;flex-direction:column;align-items:center;padding:130px 80px 100px;height:100%">
+    <div style="font-family:'Dancing Script',cursive;font-size:80px;font-weight:600;color:${PINK};text-align:center;margin-bottom:24px;line-height:1.1">${x(S.cta)||'Join us this weekend!'}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>30?'78':'92'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:36px">${x(S.title)||'Event Title'}</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:38px;font-weight:700;color:#2d2d2d;letter-spacing:.05em;text-align:center;text-transform:uppercase">${dateHtml}</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:34px;font-weight:300;color:#6b6b6b;letter-spacing:.04em;text-align:center;margin-top:10px;margin-bottom:64px">${x(S.time)}</div>
+    <div style="width:840px;height:840px;border-radius:10px;overflow:hidden;${bg(S.photo)};flex-shrink:0"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:44px;font-style:italic;color:#5a5a5a;text-align:center;margin-top:64px;letter-spacing:.02em;flex:1;display:flex;align-items:center">Click the link to reserve your spot now</div>
+  </div>
+  <div style="position:absolute;bottom:72px;left:50%;transform:translateX(-50%)">${samyLogo()}</div>
+</div>`;
+}
+
+// ── 3. Event Story — Card on Photo (1080 × 1920) ─────────
+function tEventCard() {
+  const dateHtml = ord(x(S.date));
+  const descHtml = pink(x(S.desc), S.pinkWords);
+  return `
+<div class="tpl" style="height:1920px;${bg(S.bgPhoto,'center')}">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.22)"></div>
+  <div style="position:absolute;left:72px;right:72px;top:240px;bottom:160px;background:white;border-radius:28px;padding:56px 56px 48px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;display:flex;flex-direction:column">
+    <div style="width:100%;height:520px;border-radius:14px;overflow:hidden;${bg(S.photo)};flex-shrink:0;margin-bottom:40px"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:22px">${x(S.title)||'Event Title'}</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d;text-align:center;letter-spacing:.07em;text-transform:uppercase">${dateHtml}</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:30px;font-weight:300;color:#6b6b6b;text-align:center;letter-spacing:.04em;margin-top:8px;margin-bottom:28px">${x(S.time)}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:29px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1">${descHtml||x(S.desc)}</div>
+  </div>
+  <div style="position:absolute;bottom:58px;left:80px">${samyHandle('#ffffff')}</div>
+  <div style="position:absolute;bottom:30px;left:80px;font-family:'Montserrat',sans-serif;font-size:18px;color:rgba(255,255,255,.7);letter-spacing:.04em">samayogacenter.com</div>
+</div>`;
+}
+
+// ── 4. Monthly Events Roundup (1080 × 1350) ─────────────
+function tMonthly() {
+  const sel = S.monthIdxs.map(i=>events[i]).filter(Boolean);
+  const rows = sel.length ? sel.map((e,i) => `
+    ${i>0?`<div style="border-top:1.5px solid ${PINK};margin:22px 0"></div>`:''}
+    <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:300;color:#9a9a9a;letter-spacing:.04em">${ord(x(e.date))} &nbsp;·&nbsp; ${x(e.time)}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:30px;font-weight:700;color:#2d2d2d;margin-top:6px">${x(e.title)}</div>`).join('')
+    : `<div style="font-size:24px;color:#bbb;font-style:italic">Select events in the sidebar…</div>`;
+  return `
+<div class="tpl tpl-beige" style="height:1350px">
+  ${brush('right:30px;top:30px;width:130px;height:380px;opacity:.65')}
+  <div style="padding:64px 0 0 72px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:112px;font-weight:400;color:${PINK};line-height:.88;letter-spacing:-.01em">${x(S.monthLabel)||'JUNE'}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;color:${PINK};line-height:1.1">SAMA</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;color:${PINK};line-height:1.1">EXPERIENCES</div>
+  </div>
+  <div style="position:absolute;left:72px;right:72px;top:430px;height:430px;border-radius:4px;overflow:hidden;${bg(S.mainPhoto)}"></div>
+  <div style="position:absolute;left:120px;right:72px;top:830px;background:white;border:1.5px solid #ddd;border-radius:4px;padding:36px 40px">
+    ${rows}
+  </div>
+  <div style="position:absolute;bottom:40px;right:72px;text-align:right">
+    ${samyHandle()}
+    <div style="font-family:'Montserrat',sans-serif;font-size:19px;color:#aaa;letter-spacing:.04em;margin-top:4px">samayogacenter.com</div>
+  </div>
+</div>`;
+}
+
+// ── 5. Get to Know Sama (1080 × 1350) ───────────────────
+function tGetToKnow() {
+  const i    = inst();
+  const photo = S.instPhoto || i.image || null;
+  const name  = i.name || 'Instructor';
+  return `
+<div class="tpl" style="height:1350px;${bg(photo,'center top')}">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.08) 100%)"></div>
+  <div style="position:absolute;top:66px;left:66px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:600;letter-spacing:.22em;color:rgba(255,255,255,.92);text-shadow:0 1px 10px rgba(0,0,0,.5)">GET TO KNOW SAMA</div>
+  <div style="position:absolute;top:320px;left:0;right:120px">
+    <div style="background:white;border-radius:0 56px 56px 0;padding:34px 64px 34px 66px;display:inline-block">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── 6. Meet [Instructor] (1080 × 1350) ──────────────────
+function tMeet() {
+  const i    = inst();
+  const photo = S.instPhoto || i.image || null;
+  const name  = i.name || 'Instructor';
+  const qa = [1,2,3,4,5].map(n => {
+    const q = S['q'+n], a = S['a'+n];
+    if (!q && !a) return '';
+    return `<div style="margin-bottom:26px">
+      <div style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:700;color:#2d2d2d">${x(q)}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:26px;color:#5a5a5a;margin-top:3px">${x(a)||'&nbsp;'}</div>
+    </div>`;
+  }).join('');
+  return `
+<div class="tpl" style="height:1350px;${bg(S.bgPhoto||photo,'center')}">
+  <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
+  <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:#f2ede6;border-radius:10px;padding:52px 60px;overflow:hidden">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;margin-bottom:34px">Meet ${x(name)}</div>
+    <div style="width:100%;height:320px;border-radius:6px;overflow:hidden;${bg(photo)};margin-bottom:40px"></div>
+    ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
+  </div>
+</div>`;
+}
+
+// ── 7. Rebekah's Tips (1080 × 1080) ─────────────────────
+function tTips() {
+  const month = (S.tipsMonth||'April').toUpperCase();
+  const theme = S.tipsTheme || (S.tipsType==='cover' ? 'to renew' : 'renew your breath');
+  return `
+<div class="tpl" style="height:1080px;${bg(S.tipsBg,'center')}">
+  <div style="position:absolute;inset:0;background:rgba(28,22,18,.34)"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 100px;gap:0;text-align:center">
+    <div style="display:flex;align-items:center;gap:22px;width:100%;margin-bottom:14px">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.55)"></div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:600;letter-spacing:.24em;color:rgba(255,255,255,.92);white-space:nowrap">REBEKAH'S TIPS</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.55)"></div>
+    </div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:21px;font-weight:400;letter-spacing:.22em;color:rgba(255,255,255,.68);margin-bottom:48px">FOR ${x(month)}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${S.tipsType==='cover'?'104':'80'}px;font-weight:300;color:white;line-height:1.1;margin-bottom:${S.tipsTxt?'38':'0'}px">${x(theme)}</div>
+    ${S.tipsTxt ? `<div style="font-family:'Cormorant Garamond',serif;font-size:43px;font-weight:300;font-style:italic;color:rgba(255,255,255,.86);line-height:1.55">${x(S.tipsTxt)}</div>` : ''}
+  </div>
+  <div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.82)')}</div>
+</div>`;
+}
+
+// ── 8. Behind the Pose (1080 × 1080) ────────────────────
+function tBehindPose() {
+  return `
+<div class="tpl" style="height:1080px;${bg(S.poseBg,'center')}">
+  <div style="position:absolute;bottom:76px;right:76px;width:470px;background:rgba(255,255,255,.84);backdrop-filter:blur(14px);border-radius:24px;padding:44px 48px">
+    <div style="font-family:'Dancing Script',cursive;font-size:66px;font-weight:600;color:${PINK};line-height:1;margin-bottom:12px">Behind The Pose</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-style:italic;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.poseSanskrit)||'Sanskrit Name'}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:300;color:#4a4a4a">${x(S.poseEnglish)||'English Name'}</div>
+  </div>
+</div>`;
+}
+
+// ── 9. Testimonial / Quote (1080 × 1080) ────────────────
+function tTestimonial() {
+  return `
+<div class="tpl" style="height:1080px;${bg(S.quoteBg,'center')}">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.28)"></div>
+  <div style="position:absolute;left:76px;right:76px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.84);backdrop-filter:blur(12px);border-radius:24px;padding:60px 64px;text-align:center">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;color:#2d2d2d;line-height:1.65;margin-bottom:34px">&ldquo;${x(S.quote)||'Quote goes here…'}&rdquo;</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:${PINK}">— ${x(S.quoteAuthor)||'Name'}</div>
+  </div>
+</div>`;
+}
+
+// ── Download ─────────────────────────────────────────────
+async function download() {
+  const btn = document.getElementById('dl-btn');
+  btn.disabled = true;
+  btn.textContent = 'Generating…';
+  try {
+    const t = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
+
+    // Render full-size into an off-screen container
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${t.w}px;height:${t.h}px;overflow:hidden;z-index:-1`;
+    wrap.innerHTML = render();
+    document.body.appendChild(wrap);
+
+    // Wait for fonts and images
+    await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 200));
+
+    const canvas = await html2canvas(wrap, {
+      scale: 1,
+      useCORS: true,
+      allowTaint: false,
+      width: t.w,
+      height: t.h,
+      logging: false,
+    });
+
+    document.body.removeChild(wrap);
+
+    const a = document.createElement('a');
+    a.download = `sama-${S.tpl}-${Date.now()}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch (err) {
+    alert('Download failed: ' + err.message);
+    console.error(err);
+  }
+  btn.disabled = false;
+  btn.textContent = '⬇ Download PNG';
+}
+</script>
+</body>
+</html>
