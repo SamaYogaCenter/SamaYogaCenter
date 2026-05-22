@@ -346,18 +346,20 @@
 const PASSWORD = 'sama';       // ← change this
 const PINK     = '#b03060';
 const LOGO_URL = '/images/sama-yoga-logo.webp';
+const ENZO_BG  = '/images/PinkEnzo.png';
 
 // ── Templates registry ───────────────────────────────────
 const TMPLS = [
-  { id:'event-post',   label:'Event Post',      ico:'📅', w:1080, h:1350 },
-  { id:'event-story',  label:'Event Story',     ico:'🌅', w:1080, h:1920 },
-  { id:'event-card',   label:'Story + Card',    ico:'🃏', w:1080, h:1920 },
-  { id:'monthly',      label:'Monthly Events',  ico:'📆', w:1080, h:1350 },
-  { id:'get-to-know',  label:'Get to Know',     ico:'👋', w:1080, h:1350 },
-  { id:'meet',         label:'Meet Instructor', ico:'🤝', w:1080, h:1350 },
-  { id:'tips',         label:"Rebekah's Tips",  ico:'💡', w:1080, h:1080 },
-  { id:'behind-pose',  label:'Behind the Pose', ico:'🧘', w:1080, h:1080 },
-  { id:'testimonial',  label:'Testimonial',     ico:'💬', w:1080, h:1080 },
+  { id:'event-post',    label:'Event Post',              ico:'📅', w:1080, h:1350 },
+  { id:'event-story',   label:'Event Story',             ico:'🌅', w:1080, h:1920 },
+  { id:'event-card',    label:'Event Card',              ico:'🃏', w:1080, h:1350 },
+  { id:'monthly',       label:'Monthly Events Post',     ico:'📆', w:1080, h:1350 },
+  { id:'monthly-story', label:'Monthly Events Story',    ico:'📖', w:1080, h:1920 },
+  { id:'get-to-know',   label:'Instructor Post Cover',   ico:'👤', w:1080, h:1350 },
+  { id:'meet',          label:'Instructor Post Content', ico:'🤝', w:1080, h:1350 },
+  { id:'tips',          label:"Rebekah's Tips",          ico:'💡', w:1080, h:1080 },
+  { id:'behind-pose',   label:'Behind the Pose',         ico:'🧘', w:1080, h:1080 },
+  { id:'testimonial',   label:'Teacher Training Post',   ico:'💬', w:1080, h:1080 },
 ];
 
 // ── App state ────────────────────────────────────────────
@@ -365,9 +367,10 @@ const S = {
   tpl: 'event-post',
   // event
   eventIdx: 0,
-  photo: null, photo2: null, bgPhoto: null, mainPhoto: null,
+  photo: null, photo2: null, bgPhoto: null, mainPhoto: null, cardBg: null,
   title: '', date: '', time: '', instructor: '', desc: '',
   pinkWords: '', cta: 'Join us this weekend!',
+  storyFooter: 'Click the link to reserve your spot now',
   // instructor / meet
   instIdx: 0,
   instPhoto: null,
@@ -378,8 +381,10 @@ const S = {
   tipsType: 'cover', tipsMonth: '', tipsTheme: '', tipsTxt: '', tipsBg: null,
   // behind pose
   poseBg: null, poseSanskrit: '', poseEnglish: '',
-  // testimonial
+  behindBoxLeft: null, behindBoxTop: null,
+  // teacher training / testimonial
   quoteBg: null, quote: '', quoteAuthor: '',
+  quoteBoxLeft: null, quoteBoxTop: null,
 };
 
 const DEFAULT_QS = [
@@ -480,6 +485,9 @@ function renderOpts() {
     h += oEvent();
     h += oPhoto('photo', t==='event-card' ? 'Event Photo (inside card)' : 'Main Photo', S.photo);
     h += oPhoto('photo2', 'Second Photo (crossfade at 5 s)', S.photo2);
+    if (t === 'event-card') {
+      h += oPhoto('cardBg', 'Background Photo (optional)', S.cardBg);
+    }
     if (t === 'event-post') {
       h += `<hr class="odiv">` + oPink();
     }
@@ -487,15 +495,19 @@ function renderOpts() {
       h += `<hr class="odiv">
       <div class="og"><label class="ol">Opening Line</label>
         <input class="oi" value="${x(S.cta)}" oninput="set('cta',this.value)">
+      </div>
+      <div class="og"><label class="ol">Footer Text</label>
+        <input class="oi" value="${x(S.storyFooter)}" oninput="set('storyFooter',this.value)">
+        <p class="hint">Auto-links to this event's section on the website</p>
       </div>`;
     }
   }
 
-  else if (t === 'monthly') {
+  else if (t === 'monthly' || t === 'monthly-story') {
     h += `<div class="og"><label class="ol">Month Label</label>
       <input class="oi" value="${x(S.monthLabel)}" oninput="set('monthLabel',this.value)">
     </div>`;
-    h += oPhoto('mainPhoto','Main Photo',S.mainPhoto);
+    h += oPhoto('mainPhoto','Optional Photo Overlay',S.mainPhoto);
     h += `<hr class="odiv"><div class="og"><label class="ol">Events to Feature</label>`;
     if (!events.length) h += `<p class="hint">No events loaded.</p>`;
     else h += events.map((e,i) =>
@@ -553,6 +565,7 @@ function renderOpts() {
     h += `<div class="og"><label class="ol">English Name</label>
       <input class="oi" value="${x(S.poseEnglish)}" placeholder="e.g. Dancer Pose" oninput="set('poseEnglish',this.value)">
     </div>`;
+    h += `<p class="hint" style="margin-top:2px">💡 Drag the info box in the preview to reposition it</p>`;
   }
 
   else if (t === 'testimonial') {
@@ -563,6 +576,7 @@ function renderOpts() {
     h += `<div class="og"><label class="ol">Author</label>
       <input class="oi" value="${x(S.quoteAuthor)}" placeholder="e.g. Becky" oninput="set('quoteAuthor',this.value)">
     </div>`;
+    h += `<p class="hint" style="margin-top:2px">💡 Drag the quote box in the preview to reposition it</p>`;
   }
 
   document.getElementById('options').innerHTML = h;
@@ -711,6 +725,65 @@ function brush(style) {
   </svg>`;
 }
 
+// ── Texture constants ─────────────────────────────────────
+// Gentle pink plaid for Instructor Post Cover text panel
+const PLAID_BG = [
+  'repeating-linear-gradient(0deg,transparent,transparent 22px,rgba(176,48,96,.055) 22px,rgba(176,48,96,.055) 23px)',
+  'repeating-linear-gradient(90deg,transparent,transparent 22px,rgba(176,48,96,.055) 22px,rgba(176,48,96,.055) 23px)',
+  'white',
+].join(',');
+
+// Warm paper texture for Instructor Post Content
+const PAPER_BG = [
+  'background-color:#f5f0e8',
+  'background-image:repeating-linear-gradient(45deg,rgba(55,30,10,.02) 0,rgba(55,30,10,.02) 1px,transparent 0,transparent 50%),repeating-linear-gradient(-45deg,rgba(55,30,10,.02) 0,rgba(55,30,10,.02) 1px,transparent 0,transparent 50%)',
+  'background-size:5px 5px',
+].join(';');
+
+// ── Draggable boxes ───────────────────────────────────────
+// Certain template boxes (behind-pose, teacher training) can be repositioned
+// by dragging them in the preview. Mouse coords are converted to template
+// space by dividing by the current scale factor.
+
+let _drag = null;
+
+function _getScale() {
+  const tpl = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
+  const area = document.getElementById('preview-area');
+  return Math.min((area.clientWidth-48)/tpl.w, (area.clientHeight-80)/tpl.h, 1);
+}
+
+document.getElementById('preview-wrap').addEventListener('mousedown', e => {
+  const el = e.target.closest('[data-drag]');
+  if (!el) return;
+  _drag = {
+    key:     el.dataset.drag,
+    scale:   _getScale(),
+    startX:  e.clientX,
+    startY:  e.clientY,
+    origLeft: parseFloat(el.style.left) || 0,
+    origTop:  parseFloat(el.style.top)  || 0,
+  };
+  el.style.cursor = 'grabbing';
+  e.preventDefault();
+});
+document.addEventListener('mousemove', e => {
+  if (!_drag) return;
+  const newLeft = _drag.origLeft + (e.clientX - _drag.startX) / _drag.scale;
+  const newTop  = _drag.origTop  + (e.clientY - _drag.startY) / _drag.scale;
+  S[_drag.key + 'Left'] = newLeft;
+  S[_drag.key + 'Top']  = newTop;
+  const el = document.querySelector(`[data-drag="${_drag.key}"]`);
+  if (el) { el.style.left = newLeft+'px'; el.style.top = newTop+'px'; }
+});
+document.addEventListener('mouseup', () => {
+  if (_drag) {
+    const el = document.querySelector(`[data-drag="${_drag.key}"]`);
+    if (el) el.style.cursor = 'grab';
+    _drag = null;
+  }
+});
+
 // ── Animation helpers ─────────────────────────────────────
 // animT: undefined = live CSS animation; 'static' = no anim (PNG export); number = computed frame (video)
 
@@ -765,15 +838,16 @@ window.addEventListener('resize', scalePreview);
 // ── Template dispatcher ──────────────────────────────────
 function render(animT) {
   switch (S.tpl) {
-    case 'event-post':  return tEventPost(animT);
-    case 'event-story': return tEventStory(animT);
-    case 'event-card':  return tEventCard(animT);
-    case 'monthly':     return tMonthly();
-    case 'get-to-know': return tGetToKnow();
-    case 'meet':        return tMeet();
-    case 'tips':        return tTips();
-    case 'behind-pose': return tBehindPose();
-    case 'testimonial': return tTestimonial();
+    case 'event-post':    return tEventPost(animT);
+    case 'event-story':   return tEventStory(animT);
+    case 'event-card':    return tEventCard(animT);
+    case 'monthly':       return tMonthly();
+    case 'monthly-story': return tMonthlyStory();
+    case 'get-to-know':   return tGetToKnow();
+    case 'meet':          return tMeet();
+    case 'tips':          return tTips();
+    case 'behind-pose':   return tBehindPose();
+    case 'testimonial':   return tTestimonial();
     default: return '';
   }
 }
@@ -811,13 +885,18 @@ function tEventPost(animT) {
 </div>`;
 }
 
-// ── 2. Retreat Story — story background (1080 × 1920) ───
+// ── 2. Event Story (1080 × 1920) ─────────────────────────
 //    Photo covers "Canva" watermark at center (y≈960).
+//    Footer text is editable and auto-links to the event page.
 function tEventStory(animT) {
-  const dateHtml = ord(x(S.date));
+  const dateHtml  = ord(x(S.date));
+  const eventId   = (events[S.eventIdx]||{}).id || '';
+  const eventLink = eventId
+    ? `https://samayogacenter.com/events.html#${eventId}`
+    : 'https://samayogacenter.com/events.html';
+  const footerTxt = S.storyFooter || 'Click the link to reserve your spot now';
   return `
 <div class="tpl" style="height:1920px;background:url('/images/Social%20Media/story%20background.png') center/cover no-repeat">
-  <!-- Top text block (fits above photo at y=530) -->
   <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
     <div style="font-family:'Dancing Script',cursive;font-size:76px;font-weight:600;color:${PINK};text-align:center;line-height:1.1;margin-bottom:14px;${animFi(animT,0)}">${x(S.cta)||'Join us this weekend!'}</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>28?'74':'86'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:22px;${animFi(animT,.25)}">${x(S.title)||'Event Title'}</div>
@@ -826,66 +905,72 @@ function tEventStory(animT) {
       <div style="font-family:'Montserrat',sans-serif;font-size:30px;font-weight:300;color:#6b6b6b;letter-spacing:.04em;margin-top:6px">${x(S.time)}</div>
     </div>
   </div>
-  <!-- Center photo — covers "Canva" watermark (y=530–1370, center y=950) -->
   <div style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;${animFi(animT,.2,.8)}">
     <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
     ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
   </div>
-  <!-- Footer text -->
   <div style="position:absolute;left:72px;right:72px;top:1410px;bottom:130px;display:flex;align-items:center;justify-content:center;${animFi(animT,.7)}">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em">Click the link to reserve your spot now</div>
+    <a href="${eventLink}" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em;text-decoration:none">${x(footerTxt)}</a>
   </div>
   <div style="position:absolute;bottom:68px;left:50%;transform:translateX(-50%);${animFi(animT,.9)}">${samyLogo()}</div>
 </div>`;
 }
 
-// ── 3. Mini Retreat Post — Card on background (1080 × 1920) ─
-//    White card covers the "Canva" watermark at center of background.
+// ── 3. Event Card (1080 × 1350) ──────────────────────────
+//    Post format (not story). Optional custom background; defaults to background.png.
 function tEventCard(animT) {
   const dateHtml = ord(x(S.date));
   const descHtml = pink(x(S.desc), S.pinkWords);
+  const bgSrc    = S.cardBg || '/images/Social%20Media/background.png';
   return `
-<div class="tpl" style="height:1920px;background:url('/images/Social%20Media/background.png') center/cover no-repeat">
+<div class="tpl" style="height:1350px;background:url('${bgSrc.replace(/'/g,"\\'")}') center/cover no-repeat">
   <div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>
-  <!-- White card — covers center of background where "Canva" appears -->
-  <div style="position:absolute;left:60px;right:60px;top:200px;bottom:140px;background:white;border-radius:28px;padding:52px 52px 44px;box-shadow:0 24px 64px rgba(0,0,0,.26);overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
-    <!-- Event photo with crossfade -->
-    <div style="position:relative;width:100%;height:490px;border-radius:14px;overflow:hidden;flex-shrink:0;margin-bottom:36px;${animFi(animT,.15,.8)}">
+  <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;box-shadow:0 20px 56px rgba(0,0,0,.24);overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
+    <div style="position:relative;width:100%;height:380px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;${animFi(animT,.15,.8)}">
       <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
       ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
     </div>
     <div style="${animFi(animT,.35)}">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:68px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:18px">${x(S.title)||'Event Title'}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
     </div>
     <div style="${animFi(animT,.5)}">
-      <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:700;color:#2d2d2d;text-align:center;letter-spacing:.07em;text-transform:uppercase">${dateHtml}</div>
-      <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:300;color:#6b6b6b;text-align:center;letter-spacing:.04em;margin-top:7px;margin-bottom:24px">${x(S.time)}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:28px;font-weight:700;color:#2d2d2d;text-align:center;letter-spacing:.07em;text-transform:uppercase">${dateHtml}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:300;color:#6b6b6b;text-align:center;letter-spacing:.04em;margin-top:6px;margin-bottom:18px">${x(S.time)}</div>
     </div>
-    <div style="font-family:'Nunito',sans-serif;font-size:27px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1;overflow:hidden;${animFi(animT,.65)}">${descHtml||x(S.desc)||'<span style="color:#ccc">Description…</span>'}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:24px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1;overflow:hidden;${animFi(animT,.65)}">${descHtml||x(S.desc)||'<span style="color:#ccc">Description…</span>'}</div>
   </div>
-  <div style="position:absolute;bottom:52px;left:76px;${animFi(animT,.8)}">${samyHandle('rgba(255,255,255,.88)')}</div>
-  <div style="position:absolute;bottom:26px;left:76px;font-family:'Montserrat',sans-serif;font-size:17px;color:rgba(255,255,255,.6);letter-spacing:.04em;${animFi(animT,.85)}">samayogacenter.com</div>
+  <div style="position:absolute;bottom:28px;left:76px;${animFi(animT,.8)}">${samyHandle('rgba(255,255,255,.88)')}</div>
 </div>`;
 }
 
 // ── 4. Monthly Events Roundup (1080 × 1350) ─────────────
-function tMonthly() {
-  const sel = S.monthIdxs.map(i=>events[i]).filter(Boolean);
-  const rows = sel.length ? sel.map((e,i) => `
-    ${i>0?`<div style="border-top:1.5px solid ${PINK};margin:22px 0"></div>`:''}
-    <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:300;color:#9a9a9a;letter-spacing:.04em">${ord(x(e.date))} &nbsp;·&nbsp; ${x(e.time)}</div>
-    <div style="font-family:'Nunito',sans-serif;font-size:30px;font-weight:700;color:#2d2d2d;margin-top:6px">${x(e.title)}</div>`).join('')
-    : `<div style="font-size:24px;color:#bbb;font-style:italic">Select events in the sidebar…</div>`;
+// ── Monthly shared layout helper ─────────────────────────
+function _tMonthlyLayout(h) {
+  const isStory = h === 1920;
+  const sel  = S.monthIdxs.map(i => events[i]).filter(Boolean);
+  const dividerMargin = isStory ? 28 : 20;
+  const dateFontSize  = isStory ? 28 : 24;
+  const titleFontSize = isStory ? 36 : 30;
+  const rows = sel.length
+    ? sel.map((e,i) => `
+        ${i > 0 ? `<div style="border-top:1.5px solid ${PINK};margin:${dividerMargin}px 0"></div>` : ''}
+        <div style="font-family:'Montserrat',sans-serif;font-size:${dateFontSize}px;font-weight:300;color:#9a9a9a;letter-spacing:.04em">${ord(x(e.date))} &nbsp;·&nbsp; ${x(e.time)}</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:${titleFontSize}px;font-weight:700;color:#2d2d2d;margin-top:6px">${x(e.title)}</div>`).join('')
+    : `<div style="font-size:${dateFontSize}px;color:#bbb;font-style:italic">Select events in the sidebar…</div>`;
+  const monthFontSize = isStory ? 140 : 112;
+  const samaFontSize  = isStory ? 80  : 64;
+  const topPad        = isStory ? 80  : 64;
+  const eventsTop     = isStory ? 460 : 360;
   return `
-<div class="tpl tpl-beige" style="height:1350px">
-  ${brush('right:30px;top:30px;width:130px;height:380px;opacity:.65')}
-  <div style="padding:64px 0 0 72px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:112px;font-weight:400;color:${PINK};line-height:.88;letter-spacing:-.01em">${x(S.monthLabel)||'JUNE'}</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;color:${PINK};line-height:1.1">SAMA</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;color:${PINK};line-height:1.1">EXPERIENCES</div>
+<div class="tpl" style="height:${h}px;background:url('${ENZO_BG}') center/cover no-repeat">
+  ${S.mainPhoto ? `<div style="position:absolute;inset:0;${bg(S.mainPhoto)};opacity:.32"></div>` : ''}
+  <div style="position:absolute;inset:0;background:rgba(255,245,240,.08)"></div>
+  <div style="padding:${topPad}px 0 0 72px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${monthFontSize}px;font-weight:400;color:${PINK};line-height:.88;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(255,255,255,.6)">${x(S.monthLabel)||'JUNE'}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${samaFontSize}px;font-weight:400;color:${PINK};line-height:1.1;text-shadow:0 2px 14px rgba(255,255,255,.5)">SAMA</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${samaFontSize}px;font-weight:400;color:${PINK};line-height:1.1;text-shadow:0 2px 14px rgba(255,255,255,.5)">EXPERIENCES</div>
   </div>
-  <div style="position:absolute;left:72px;right:72px;top:430px;height:430px;border-radius:4px;overflow:hidden;${bg(S.mainPhoto)}"></div>
-  <div style="position:absolute;left:120px;right:72px;top:830px;background:white;border:1.5px solid #ddd;border-radius:4px;padding:36px 40px">
+  <div style="position:absolute;left:72px;right:72px;top:${eventsTop}px;background:rgba(255,255,255,.82);border-radius:12px;padding:40px 44px">
     ${rows}
   </div>
   <div style="position:absolute;bottom:40px;right:72px;text-align:right">
@@ -895,42 +980,54 @@ function tMonthly() {
 </div>`;
 }
 
-// ── 5. Get to Know Sama (1080 × 1350) ───────────────────
+function tMonthly() {
+  return _tMonthlyLayout(1350);
+}
+
+function tMonthlyStory() {
+  return _tMonthlyLayout(1920);
+}
+
+// ── 5. Instructor Post Cover (1080 × 1350) ───────────────
 function tGetToKnow() {
   const i    = inst();
   const photo = S.instPhoto || i.image || null;
   const name  = i.name || 'Instructor';
+  const namePx = name.length > 20 ? 72 : name.length > 14 ? 90 : 108;
   return `
 <div class="tpl" style="height:1350px;${bg(photo,'center top')}">
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.08) 100%)"></div>
-  <div style="position:absolute;top:66px;left:66px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:600;letter-spacing:.22em;color:rgba(255,255,255,.92);text-shadow:0 1px 10px rgba(0,0,0,.5)">GET TO KNOW SAMA</div>
-  <div style="position:absolute;top:320px;left:0;right:120px">
-    <div style="background:white;border-radius:0 56px 56px 0;padding:34px 64px 34px 66px;display:inline-block">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
+  <div style="position:absolute;top:310px;left:0;right:120px">
+    <div style="background:${PLAID_BG};border-radius:0 56px 56px 0;padding:22px 64px 34px 66px;display:inline-block">
+      <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;letter-spacing:.22em;color:rgba(176,48,96,.72);text-transform:uppercase;margin-bottom:10px">Get to Know Sama</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:${namePx}px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
     </div>
   </div>
 </div>`;
 }
 
-// ── 6. Meet [Instructor] (1080 × 1350) ──────────────────
+// ── 6. Instructor Post Content (1080 × 1350) ────────────
 function tMeet() {
-  const i    = inst();
+  const i     = inst();
   const photo = S.instPhoto || i.image || null;
   const name  = i.name || 'Instructor';
   const qa = [1,2,3,4,5].map(n => {
     const q = S['q'+n], a = S['a'+n];
     if (!q && !a) return '';
-    return `<div style="margin-bottom:26px">
-      <div style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:700;color:#2d2d2d">${x(q)}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:26px;color:#5a5a5a;margin-top:3px">${x(a)||'&nbsp;'}</div>
+    return `<div style="margin-bottom:22px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:27px;font-style:italic;font-weight:400;color:#7a5c40;line-height:1.3">${x(q)}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:400;color:#3d3d3d;margin-top:5px;line-height:1.4">${x(a)||'&nbsp;'}</div>
     </div>`;
   }).join('');
   return `
 <div class="tpl" style="height:1350px;${bg(S.bgPhoto||photo,'center')}">
   <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
-  <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:#f2ede6;border-radius:10px;padding:52px 60px;overflow:hidden">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;margin-bottom:34px">Meet ${x(name)}</div>
-    <div style="width:100%;height:320px;border-radius:6px;overflow:hidden;${bg(photo)};margin-bottom:40px"></div>
+  <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;${PAPER_BG};border-radius:10px;padding:48px 60px;overflow:hidden">
+    <div style="margin-bottom:28px">
+      <span style="font-family:'Dancing Script',cursive;font-size:68px;font-weight:600;color:${PINK};line-height:1">Meet</span>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:76px;font-weight:400;color:#2d2d2d;line-height:1"> ${x(name)}</span>
+    </div>
+    <div style="width:100%;height:300px;border-radius:6px;overflow:hidden;${bg(photo)};margin-bottom:32px;flex-shrink:0"></div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
 </div>`;
@@ -959,24 +1056,28 @@ function tTips() {
 
 // ── 8. Behind the Pose (1080 × 1080) ────────────────────
 function tBehindPose() {
+  const left = S.behindBoxLeft != null ? S.behindBoxLeft : 534;
+  const top  = S.behindBoxTop  != null ? S.behindBoxTop  : 730;
   return `
 <div class="tpl" style="height:1080px;${bg(S.poseBg,'center')}">
-  <div style="position:absolute;bottom:76px;right:76px;width:470px;background:rgba(255,255,255,.84);backdrop-filter:blur(14px);border-radius:24px;padding:44px 48px">
-    <div style="font-family:'Dancing Script',cursive;font-size:66px;font-weight:600;color:${PINK};line-height:1;margin-bottom:12px">Behind The Pose</div>
+  <div data-drag="behindBox" style="position:absolute;left:${left}px;top:${top}px;width:470px;background:rgba(255,255,255,.52);backdrop-filter:blur(14px);border-radius:24px;padding:44px 48px;cursor:grab;text-align:center">
+    <div style="font-family:'Dancing Script',cursive;font-size:66px;font-weight:600;color:${PINK};line-height:1;margin-bottom:12px;white-space:nowrap">Behind the Pose</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-style:italic;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.poseSanskrit)||'Sanskrit Name'}</div>
     <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:300;color:#4a4a4a">${x(S.poseEnglish)||'English Name'}</div>
   </div>
 </div>`;
 }
 
-// ── 9. Testimonial / Quote (1080 × 1080) ────────────────
+// ── 9. Teacher Training Post (1080 × 1080) ──────────────
 function tTestimonial() {
+  const left = S.quoteBoxLeft != null ? S.quoteBoxLeft : 76;
+  const top  = S.quoteBoxTop  != null ? S.quoteBoxTop  : 350;
   return `
 <div class="tpl" style="height:1080px;${bg(S.quoteBg,'center')}">
   <div style="position:absolute;inset:0;background:rgba(0,0,0,.28)"></div>
-  <div style="position:absolute;left:76px;right:76px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.84);backdrop-filter:blur(12px);border-radius:24px;padding:60px 64px;text-align:center">
+  <div data-drag="quoteBox" style="position:absolute;left:${left}px;top:${top}px;width:928px;background:rgba(255,255,255,.52);backdrop-filter:blur(12px);border-radius:24px;padding:60px 64px;text-align:center;cursor:grab">
     <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;color:#2d2d2d;line-height:1.65;margin-bottom:34px">&ldquo;${x(S.quote)||'Quote goes here…'}&rdquo;</div>
-    <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:${PINK}">— ${x(S.quoteAuthor)||'Name'}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d">– ${x(S.quoteAuthor)||'Name'}</div>
   </div>
 </div>`;
 }
