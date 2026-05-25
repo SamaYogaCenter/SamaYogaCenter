@@ -399,6 +399,10 @@ const S = {
   yttPhoto: null,
   yttQuestion: "What are students saying about Sama Yoga Center's 200-hour Yoga Teacher Training?",
   yttBoxLeft: null, yttBoxTop: null,
+  // instructor post cover (get to know)
+  instrNameLeft: null, instrNameTop: null,
+  // instructor post content (meet)
+  meetPhotoPct: 50,
   // newsletter
   nlCoverPhoto: null,
   nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
@@ -543,11 +547,15 @@ function renderOpts() {
   else if (t === 'get-to-know') {
     h += oInst();
     h += oPhoto('instPhoto','Photo (overrides team photo)',S.instPhoto);
+    h += `<p class="hint" style="margin-top:2px">💡 Drag the name box in the preview to reposition it</p>`;
   }
 
   else if (t === 'meet') {
     h += oInst();
     h += oPhoto('instPhoto','Instructor Photo',S.instPhoto);
+    h += `<div class="og"><label class="ol">Photo Crop (top → bottom)</label>
+      <input type="range" min="0" max="100" value="${S.meetPhotoPct!=null?S.meetPhotoPct:50}" oninput="set('meetPhotoPct',+this.value)" style="width:100%;margin-top:4px">
+    </div>`;
     h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
     h += `<hr class="odiv">`;
     [1,2,3,4,5].forEach(i => {
@@ -978,15 +986,19 @@ function tEventStory(animT) {
 }
 
 // ── 3. Event Card (1080 × 1350) ──────────────────────────
-//    Post format (not story). Optional custom background; defaults to background.png.
+//    Post format. No background = plain card only (no photo behind).
 function tEventCard(animT) {
   const dateHtml = ord(x(S.date));
   const descHtml = pink(x(S.desc), S.pinkWords);
-  const bgSrc    = S.cardBg || '/images/Social%20Media/background.png';
+  const hasBg    = !!S.cardBg;
+  const outerStyle = hasBg
+    ? `height:1350px;background:url('${S.cardBg.replace(/'/g,"\\'")}') center/cover no-repeat`
+    : `height:1350px;background:#f8f5f0`;
+  const cardShadow = hasBg ? 'box-shadow:0 20px 56px rgba(0,0,0,.24)' : 'box-shadow:0 4px 20px rgba(0,0,0,.08)';
   return `
-<div class="tpl" style="height:1350px;background:url('${bgSrc.replace(/'/g,"\\'")}') center/cover no-repeat">
-  <div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>
-  <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;box-shadow:0 20px 56px rgba(0,0,0,.24);overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
+<div class="tpl" style="${outerStyle}">
+  ${hasBg ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>` : ''}
+  <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;${cardShadow};overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
     <div style="position:relative;width:100%;height:380px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;${animFi(animT,.15,.8)}">
       <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
       ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
@@ -1000,7 +1012,7 @@ function tEventCard(animT) {
     </div>
     <div style="font-family:'Nunito',sans-serif;font-size:24px;color:#4a4a4a;text-align:center;line-height:1.6;flex:1;overflow:hidden;${animFi(animT,.65)}">${descHtml||x(S.desc)||'<span style="color:#ccc">Description…</span>'}</div>
   </div>
-  <div style="position:absolute;bottom:28px;left:76px;${animFi(animT,.8)}">${samyHandle('rgba(255,255,255,.88)')}</div>
+  ${hasBg ? `<div style="position:absolute;bottom:28px;left:76px;${animFi(animT,.8)}">${samyHandle('rgba(255,255,255,.88)')}</div>` : ''}
 </div>`;
 }
 
@@ -1051,16 +1063,18 @@ function tMonthlyStory() {
 
 // ── 5. Instructor Post Cover (1080 × 1350) ───────────────
 function tGetToKnow() {
-  const i    = inst();
-  const photo = S.instPhoto || i.image || null;
-  const name  = i.name || 'Instructor';
+  const i      = inst();
+  const photo  = S.instPhoto || i.image || null;
+  const name   = i.name || 'Instructor';
   const namePx = name.length > 20 ? 72 : name.length > 14 ? 90 : 108;
+  const left   = S.instrNameLeft != null ? S.instrNameLeft : 0;
+  const top    = S.instrNameTop  != null ? S.instrNameTop  : 290;
   return `
 <div class="tpl" style="height:1350px;${bg(photo,'center top')}">
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.08) 100%)"></div>
-  <div style="position:absolute;top:310px;left:0;right:120px">
-    <div style="background:${PLAID_BG};border-radius:0 56px 56px 0;padding:22px 64px 34px 66px;display:inline-block">
-      <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;letter-spacing:.22em;color:rgba(176,48,96,.72);text-transform:uppercase;margin-bottom:10px">Get to Know Sama</div>
+  <div data-drag="instrName" style="position:absolute;left:${left}px;top:${top}px;cursor:grab">
+    <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;letter-spacing:.22em;color:white;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5);margin-bottom:14px;padding-left:66px">GET TO KNOW SAMA</div>
+    <div style="background:white;border-radius:0 56px 56px 0;padding:26px 72px 32px 66px;display:inline-block">
       <div style="font-family:'Cormorant Garamond',serif;font-size:${namePx}px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
     </div>
   </div>
@@ -1072,23 +1086,24 @@ function tMeet() {
   const i     = inst();
   const photo = S.instPhoto || i.image || null;
   const name  = i.name || 'Instructor';
+  const pct   = S.meetPhotoPct != null ? S.meetPhotoPct : 50;
+  const photoStyle = photo
+    ? `background:url('${photo.replace(/'/g,"\\'")}') center ${pct}%/cover no-repeat`
+    : 'background:#d0ccc6';
   const qa = [1,2,3,4,5].map(n => {
     const q = S['q'+n], a = S['a'+n];
     if (!q && !a) return '';
-    return `<div style="margin-bottom:22px">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:27px;font-style:italic;font-weight:400;color:#7a5c40;line-height:1.3">${x(q)}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:400;color:#3d3d3d;margin-top:5px;line-height:1.4">${x(a)||'&nbsp;'}</div>
+    return `<div style="margin-bottom:20px">
+      <div style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:700;color:#2d2d2d;line-height:1.3">${x(q)}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:25px;font-weight:400;color:#555;margin-top:3px;line-height:1.45">${x(a)||'&nbsp;'}</div>
     </div>`;
   }).join('');
   return `
 <div class="tpl" style="height:1350px;${bg(S.bgPhoto||photo,'center')}">
   <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
-  <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;${PAPER_BG};border-radius:10px;padding:48px 60px;overflow:hidden">
-    <div style="margin-bottom:28px">
-      <span style="font-family:'Dancing Script',cursive;font-size:68px;font-weight:600;color:${PINK};line-height:1">Meet</span>
-      <span style="font-family:'Cormorant Garamond',serif;font-size:76px;font-weight:400;color:#2d2d2d;line-height:1"> ${x(name)}</span>
-    </div>
-    <div style="width:100%;height:300px;border-radius:6px;overflow:hidden;${bg(photo)};margin-bottom:32px;flex-shrink:0"></div>
+  <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:url('/images/Social%20Media/paper.png') center/cover no-repeat;border-radius:10px;padding:48px 60px;overflow:hidden">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;line-height:1;margin-bottom:28px">Meet ${x(name)}</div>
+    <div style="width:100%;height:370px;border-radius:6px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
 </div>`;
@@ -1121,7 +1136,7 @@ function tBehindPose() {
   const top  = S.behindBoxTop  != null ? S.behindBoxTop  : 730;
   return `
 <div class="tpl" style="height:1080px;${bg(S.poseBg,'center')}">
-  <div data-drag="behindBox" style="position:absolute;left:${left}px;top:${top}px;width:470px;background:rgba(255,255,255,.52);backdrop-filter:blur(14px);border-radius:24px;padding:44px 48px;cursor:grab;text-align:center">
+  <div data-drag="behindBox" style="position:absolute;left:${left}px;top:${top}px;width:470px;background:rgba(255,255,255,.52);border-radius:24px;padding:44px 48px;cursor:grab;text-align:center">
     <div style="font-family:'Dancing Script',cursive;font-size:66px;font-weight:600;color:${PINK};line-height:1;margin-bottom:12px;white-space:nowrap">Behind the Pose</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:52px;font-style:italic;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.poseSanskrit)||'Sanskrit Name'}</div>
     <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:300;color:#4a4a4a">${x(S.poseEnglish)||'English Name'}</div>
@@ -1136,7 +1151,7 @@ function tTestimonial() {
   return `
 <div class="tpl" style="height:1080px;${bg(S.quoteBg,'center')}">
   <div style="position:absolute;inset:0;background:rgba(0,0,0,.28)"></div>
-  <div data-drag="quoteBox" style="position:absolute;left:${left}px;top:${top}px;width:928px;background:rgba(255,255,255,.52);backdrop-filter:blur(12px);border-radius:24px;padding:60px 64px;text-align:center;cursor:grab">
+  <div data-drag="quoteBox" style="position:absolute;left:${left}px;top:${top}px;width:928px;background:rgba(255,255,255,.52);border-radius:24px;padding:60px 64px;text-align:center;cursor:grab">
     <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;color:#2d2d2d;line-height:1.65;margin-bottom:34px">&ldquo;${x(S.quote)||'Quote goes here…'}&rdquo;</div>
     <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d">– ${x(S.quoteAuthor)||'Name'}</div>
   </div>
@@ -1151,8 +1166,8 @@ function tYttCover() {
   return `
 <div class="tpl" style="height:1350px;${bg(S.yttPhoto,'center top')}">
   <div style="position:absolute;inset:0;background:rgba(0,0,0,.06)"></div>
-  <div data-drag="yttBox" style="position:absolute;left:${left}px;top:${top}px;width:690px;background:rgba(255,255,255,.93);border-radius:26px;padding:38px 46px;cursor:grab;text-align:center;box-shadow:0 6px 32px rgba(0,0,0,.13)">
-    <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:600;color:#2d2d2d;line-height:1.58">${x(q)}</div>
+  <div data-drag="yttBox" style="position:absolute;left:${left}px;top:${top}px;width:690px;background:rgba(255,255,255,.60);border-radius:26px;padding:38px 46px;cursor:grab;text-align:center">
+    <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:400;color:#2d2d2d;line-height:1.58">${x(q)}</div>
   </div>
 </div>`;
 }
