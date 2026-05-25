@@ -365,6 +365,7 @@ const TMPLS = [
   { id:'tips',          label:"Rebekah's Tips",          ico:'💡', w:1080, h:1080 },
   { id:'behind-pose',   label:'Behind the Pose',         ico:'🧘', w:1080, h:1080 },
   { id:'testimonial',   label:'Teacher Training Post',   ico:'💬', w:1080, h:1080 },
+  { id:'ytt-cover',     label:'YTT Cover',               ico:'🎓', w:1080, h:1350 },
   // ── Newsletter ───────────────────────────────────────────
   { id:'nl-cover',       label:'Cover Image',       ico:'📰', w:1200, h:560 },
   { id:'nl-event-pink',  label:'Event Card Pink',   ico:'🌸', w:1200, h:480 },
@@ -394,6 +395,10 @@ const S = {
   // teacher training / testimonial
   quoteBg: null, quote: '', quoteAuthor: '',
   quoteBoxLeft: null, quoteBoxTop: null,
+  // ytt testimonial cover
+  yttPhoto: null,
+  yttQuestion: "What are students saying about Sama Yoga Center's 200-hour Yoga Teacher Training?",
+  yttBoxLeft: null, yttBoxTop: null,
   // newsletter
   nlCoverPhoto: null,
   nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
@@ -594,6 +599,14 @@ function renderOpts() {
       <input class="oi" value="${x(S.quoteAuthor)}" placeholder="e.g. Becky" oninput="set('quoteAuthor',this.value)">
     </div>`;
     h += `<p class="hint" style="margin-top:2px">💡 Drag the quote box in the preview to reposition it</p>`;
+  }
+
+  else if (t === 'ytt-cover') {
+    h += oPhoto('yttPhoto', 'Background Photo', S.yttPhoto);
+    h += `<div class="og"><label class="ol">Question Text</label>
+      <textarea class="ota" oninput="set('yttQuestion',this.value)">${x(S.yttQuestion)}</textarea>
+    </div>`;
+    h += `<p class="hint" style="margin-top:2px">💡 Drag the text box in the preview to reposition it</p>`;
   }
 
   else if (t === 'nl-cover') {
@@ -892,6 +905,7 @@ function render(animT) {
     case 'tips':          return tTips();
     case 'behind-pose':   return tBehindPose();
     case 'testimonial':   return tTestimonial();
+    case 'ytt-cover':     return tYttCover();
     case 'nl-cover':       return tNlCover();
     case 'nl-event-pink':  return tNlEventPink();
     case 'nl-event-white': return tNlEventWhite();
@@ -1125,6 +1139,20 @@ function tTestimonial() {
   <div data-drag="quoteBox" style="position:absolute;left:${left}px;top:${top}px;width:928px;background:rgba(255,255,255,.52);backdrop-filter:blur(12px);border-radius:24px;padding:60px 64px;text-align:center;cursor:grab">
     <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;color:#2d2d2d;line-height:1.65;margin-bottom:34px">&ldquo;${x(S.quote)||'Quote goes here…'}&rdquo;</div>
     <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d">– ${x(S.quoteAuthor)||'Name'}</div>
+  </div>
+</div>`;
+}
+
+// ── 10. YTT Testimonial Cover (1080 × 1350) ─────────────
+function tYttCover() {
+  const left = S.yttBoxLeft != null ? S.yttBoxLeft : 348;
+  const top  = S.yttBoxTop  != null ? S.yttBoxTop  : 118;
+  const q    = S.yttQuestion || "What are students saying about Sama Yoga Center’s 200-hour Yoga Teacher Training?";
+  return `
+<div class="tpl" style="height:1350px;${bg(S.yttPhoto,'center top')}">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.06)"></div>
+  <div data-drag="yttBox" style="position:absolute;left:${left}px;top:${top}px;width:690px;background:rgba(255,255,255,.93);border-radius:26px;padding:38px 46px;cursor:grab;text-align:center;box-shadow:0 6px 32px rgba(0,0,0,.13)">
+    <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:600;color:#2d2d2d;line-height:1.58">${x(q)}</div>
   </div>
 </div>`;
 }
