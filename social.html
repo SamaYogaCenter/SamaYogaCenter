@@ -238,7 +238,7 @@
      TEMPLATE STYLES — all measured at 1080px canvas width
      ══════════════════════════════════════════════════════ */
 
-  .tpl { position: relative; width: 1080px; overflow: hidden; }
+  .tpl { position: relative; width: 100%; overflow: hidden; }
 
   /* Beige diamond-crosshatch background */
   .tpl-beige {
@@ -288,8 +288,13 @@
     </div>
 
     <div id="tpl-section">
-      <label>Template</label>
+      <label>Social Posts</label>
       <div class="tpl-grid" id="tpl-grid"></div>
+    </div>
+
+    <div id="nl-section" style="padding:10px 14px 8px;border-bottom:1px solid #eee;flex-shrink:0">
+      <label style="font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:.15em;color:#bbb;text-transform:uppercase;display:block;margin-bottom:8px">Newsletter</label>
+      <div class="tpl-grid" id="nl-grid"></div>
     </div>
 
     <div id="options"></div>
@@ -360,6 +365,10 @@ const TMPLS = [
   { id:'tips',          label:"Rebekah's Tips",          ico:'💡', w:1080, h:1080 },
   { id:'behind-pose',   label:'Behind the Pose',         ico:'🧘', w:1080, h:1080 },
   { id:'testimonial',   label:'Teacher Training Post',   ico:'💬', w:1080, h:1080 },
+  // ── Newsletter ───────────────────────────────────────────
+  { id:'nl-cover',       label:'Cover Image',       ico:'📰', w:1200, h:560 },
+  { id:'nl-event-pink',  label:'Event Card Pink',   ico:'🌸', w:1200, h:480 },
+  { id:'nl-event-white', label:'Event Card White',  ico:'📋', w:1200, h:480 },
 ];
 
 // ── App state ────────────────────────────────────────────
@@ -385,6 +394,11 @@ const S = {
   // teacher training / testimonial
   quoteBg: null, quote: '', quoteAuthor: '',
   quoteBoxLeft: null, quoteBoxTop: null,
+  // newsletter
+  nlCoverPhoto: null,
+  nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
+  nlEventPhoto: null,
+  nlButtonText: 'RESERVE YOUR SPOT',
 };
 
 const DEFAULT_QS = [
@@ -456,11 +470,14 @@ async function init() {
 
 // ── Template grid ────────────────────────────────────────
 function buildGrid() {
-  document.getElementById('tpl-grid').innerHTML = TMPLS.map(t =>
+  const toBtn = t =>
     `<button class="tpl-btn" id="tb-${t.id}" onclick="pickTpl('${t.id}')">
        <span class="ico">${t.ico}</span>${t.label}
-     </button>`
-  ).join('');
+     </button>`;
+  document.getElementById('tpl-grid').innerHTML =
+    TMPLS.filter(t => !t.id.startsWith('nl-')).map(toBtn).join('');
+  document.getElementById('nl-grid').innerHTML =
+    TMPLS.filter(t =>  t.id.startsWith('nl-')).map(toBtn).join('');
 }
 
 function pickTpl(id) {
@@ -577,6 +594,33 @@ function renderOpts() {
       <input class="oi" value="${x(S.quoteAuthor)}" placeholder="e.g. Becky" oninput="set('quoteAuthor',this.value)">
     </div>`;
     h += `<p class="hint" style="margin-top:2px">💡 Drag the quote box in the preview to reposition it</p>`;
+  }
+
+  else if (t === 'nl-cover') {
+    h += oPhoto('nlCoverPhoto', 'Background Photo', S.nlCoverPhoto);
+    h += `<div class="og"><label class="ol">Subtitle Text</label>
+      <textarea class="ota" oninput="set('nlSubtitle',this.value)">${x(S.nlSubtitle)}</textarea>
+    </div>`;
+  }
+
+  else if (t === 'nl-event-pink' || t === 'nl-event-white') {
+    h += oEvent();
+    h += oPhoto('nlEventPhoto', 'Speaker / Headshot Photo', S.nlEventPhoto);
+    h += `<div class="og"><label class="ol">Event Title</label>
+      <input class="oi" value="${x(S.title)}" oninput="set('title',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">Date</label>
+      <input class="oi" value="${x(S.date)}" oninput="set('date',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">Time</label>
+      <input class="oi" value="${x(S.time)}" oninput="set('time',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">Description</label>
+      <textarea class="ota" oninput="set('desc',this.value)">${x(S.desc)}</textarea>
+    </div>`;
+    h += `<div class="og"><label class="ol">Button Text</label>
+      <input class="oi" value="${x(S.nlButtonText)}" oninput="set('nlButtonText',this.value)">
+    </div>`;
   }
 
   document.getElementById('options').innerHTML = h;
@@ -848,6 +892,9 @@ function render(animT) {
     case 'tips':          return tTips();
     case 'behind-pose':   return tBehindPose();
     case 'testimonial':   return tTestimonial();
+    case 'nl-cover':       return tNlCover();
+    case 'nl-event-pink':  return tNlEventPink();
+    case 'nl-event-white': return tNlEventWhite();
     default: return '';
   }
 }
@@ -1079,6 +1126,65 @@ function tTestimonial() {
     <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-style:italic;color:#2d2d2d;line-height:1.65;margin-bottom:34px">&ldquo;${x(S.quote)||'Quote goes here…'}&rdquo;</div>
     <div style="font-family:'Nunito',sans-serif;font-size:34px;font-weight:700;color:#2d2d2d">– ${x(S.quoteAuthor)||'Name'}</div>
   </div>
+</div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// NEWSLETTER RENDERERS  (all at 1200 px wide)
+// ════════════════════════════════════════════════════════
+
+// ── NL 1. Cover Image (1200 × 560) ───────────────────────
+function tNlCover() {
+  const subtitle = S.nlSubtitle || 'Your serene space for studio updates, class insights, and mindful musings';
+  return `
+<div class="tpl" style="height:560px;${bg(S.nlCoverPhoto,'center')}">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.10) 45%,rgba(0,0,0,.60) 100%)"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:28px 60px 40px">
+    ${samyLogo('brightness(0) invert(1)')}
+    <div style="text-align:center">
+      <div style="font-family:'Montserrat',sans-serif;font-size:180px;font-weight:900;color:${PINK};line-height:0.80;letter-spacing:-.01em;text-shadow:0 3px 32px rgba(0,0,0,.22)">THE MAT</div>
+      <div style="font-family:'Dancing Script',cursive;font-size:156px;font-weight:700;color:white;line-height:0.86;margin-top:-8px;text-shadow:0 2px 20px rgba(0,0,0,.30)">monthly</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:white;letter-spacing:.04em;margin-top:22px;text-shadow:0 1px 10px rgba(0,0,0,.4)">${x(subtitle)}</div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ── NL 2. Event Card — Pink background (1200 × 480) ──────
+function tNlEventPink() {
+  const photo = S.nlEventPhoto || null;
+  return `
+<div class="tpl" style="height:480px;display:flex;background:${PINK}">
+  <div style="flex:0 0 56%;padding:48px 52px 48px 64px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
+    <div style="min-height:0">
+      <div style="font-family:'Montserrat',sans-serif;font-size:46px;font-weight:800;color:white;line-height:1.15;margin-bottom:12px">${x(S.title)||'Event Title'}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:29px;font-style:italic;font-weight:700;color:rgba(255,255,255,.92);margin-bottom:18px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:25px;color:rgba(255,255,255,.88);line-height:1.55;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden">${x(S.desc)||'Event description goes here.'}</div>
+    </div>
+    <div style="flex-shrink:0;padding-top:24px">
+      <div style="display:inline-block;background:white;color:${PINK};font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 36px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+    </div>
+  </div>
+  <div style="flex:0 0 44%;${photo ? bg(photo,'center top') : 'background:#c85888'}"></div>
+</div>`;
+}
+
+// ── NL 3. Event Card — White background (1200 × 480) ─────
+function tNlEventWhite() {
+  const photo = S.nlEventPhoto || null;
+  return `
+<div class="tpl" style="height:480px;display:flex;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
+  <div style="flex:0 0 56%;padding:48px 52px 48px 64px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
+    <div style="min-height:0">
+      <div style="font-family:'Montserrat',sans-serif;font-size:46px;font-weight:800;color:#2d2d2d;line-height:1.15;margin-bottom:12px">${x(S.title)||'Event Title'}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:29px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:18px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:25px;color:#555;line-height:1.55;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden">${x(S.desc)||'Event description goes here.'}</div>
+    </div>
+    <div style="flex-shrink:0;padding-top:24px">
+      <div style="display:inline-block;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 36px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+    </div>
+  </div>
+  <div style="flex:0 0 44%;${photo ? bg(photo,'center top') : 'background:#f0e6ec'}"></div>
 </div>`;
 }
 
