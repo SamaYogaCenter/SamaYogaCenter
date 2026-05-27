@@ -1231,91 +1231,151 @@ function tNlEventWhite() {
 </div>`;
 }
 
-// ── Download Video (animated 10-second WebM) ─────────────
+// ── Download Video (10-second MP4) ───────────────────────
+// Priority: 1) MediaRecorder+MP4 (Chrome 130+/macOS)
+//           2) WebCodecs + mp4-muxer → H.264 MP4 (Chrome 94+)
+//           3) WebM fallback
 async function downloadVideo() {
   const tplDef = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
-  const FPS      = 10;        // 10 fps — good balance of quality vs. render time
-  const DURATION = 10;        // seconds
-  const total    = FPS * DURATION; // 100 frames
+  const FPS = 10, DURATION = 10, total = FPS * DURATION;
 
   const vidBtn = document.getElementById('vid-btn');
   vidBtn.disabled = true;
 
   const canvas = document.createElement('canvas');
-  canvas.width  = tplDef.w;
-  canvas.height = tplDef.h;
+  canvas.width = tplDef.w; canvas.height = tplDef.h;
   const ctx = canvas.getContext('2d');
 
-  // Off-screen render container — positioned way off-screen but still in DOM so html2canvas can capture it
   const wrap = document.createElement('div');
-  wrap.style.cssText = `position:fixed;left:${-(tplDef.w + 200)}px;top:0;width:${tplDef.w}px;height:${tplDef.h}px;overflow:hidden`;
+  wrap.style.cssText = `position:fixed;left:${-(tplDef.w+200)}px;top:0;width:${tplDef.w}px;height:${tplDef.h}px;overflow:hidden`;
   document.body.appendChild(wrap);
   await document.fonts.ready;
   await new Promise(r => setTimeout(r, 200));
 
   const frames = [];
   try {
-    // ── Phase 1: render every frame ─────────────────────────
+    // ── Phase 1: render every frame ──────────────────────
     for (let f = 0; f <= total; f++) {
-      const t = (f / total) * DURATION;
-      wrap.innerHTML = render(t);
-
-      // Let the browser paint before capturing
+      wrap.innerHTML = render((f / total) * DURATION);
       await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-      const fc = await html2canvas(wrap, {
+      frames.push(await html2canvas(wrap, {
         scale: 1, useCORS: true, allowTaint: false,
         width: tplDef.w, height: tplDef.h, logging: false,
-      });
-      frames.push(fc);
-
-      const pct = Math.round((f / total) * 100);
-      if (f % 4 === 0) vidBtn.textContent = `Rendering… ${pct}%`;
+      }));
+      if (f % 4 === 0) vidBtn.textContent = `Rendering… ${Math.round((f/total)*100)}%`;
     }
     document.body.removeChild(wrap);
 
-    // ── Phase 2: play frames back at correct speed → record ─
-    vidBtn.textContent = 'Recording video…';
-    const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
-      ? 'video/webm;codecs=vp9' : 'video/webm';
+    // ── Phase 2: encode ───────────────────────────────────
+    let blob, ext;
 
-    const stream   = canvas.captureStream(0); // 0 = manual requestFrame
+    // Try 1 — MediaRecorder native MP4 (Chrome 130+ / macOS)
+    const nativeMp4 = ['video/mp4;codecs=avc1', 'video/mp4']
+      .find(m => MediaRecorder.isTypeSupported(m));
+    if (nativeMp4) {
+      vidBtn.textContent = 'Encoding MP4…';
+      blob = await _mrBlob(frames, canvas, ctx, FPS, nativeMp4);
+      ext  = 'mp4';
+
+    // Try 2 — WebCodecs + mp4-muxer → H.264 MP4 (Chrome 94+)
+    } else if (window.VideoEncoder) {
+      vidBtn.textContent = 'Encoding MP4…';
+      try {
+        blob = await _wcBlob(frames, tplDef, FPS, vidBtn);
+        ext  = 'mp4';
+      } catch (e2) {
+        console.warn('WebCodecs failed, using WebM fallback:', e2);
+        blob = await _mrBlob(frames, canvas, ctx, FPS,
+          MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm');
+        ext  = 'webm';
+      }
+
+    // Fallback — WebM
+    } else {
+      vidBtn.textContent = 'Encoding…';
+      blob = await _mrBlob(frames, canvas, ctx, FPS,
+        MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm');
+      ext  = 'webm';
+    }
+
+    const a = Object.assign(document.createElement('a'), {
+      download: `sama-${S.tpl}-${Date.now()}.${ext}`,
+      href:     URL.createObjectURL(blob),
+    });
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+
+  } catch (err) {
+    if (document.body.contains(wrap)) document.body.removeChild(wrap);
+    alert('Video export failed: ' + err.message);
+    console.error(err);
+  }
+  vidBtn.disabled = false;
+  vidBtn.textContent = '▶  Download Video (10s)';
+}
+
+// ── MediaRecorder encode helper ───────────────────────────
+function _mrBlob(frames, canvas, ctx, FPS, mimeType) {
+  return new Promise(resolve => {
+    const stream   = canvas.captureStream(0);
     const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 8_000_000 });
     const chunks   = [];
     recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
     recorder.start();
+    let idx = 0;
+    const iv = setInterval(() => {
+      if (idx < frames.length) {
+        ctx.drawImage(frames[idx++], 0, 0);
+        stream.requestFrame();
+      } else {
+        clearInterval(iv);
+        recorder.stop();
+      }
+    }, Math.round(1000 / FPS));
+    recorder.onstop = () => resolve(new Blob(chunks, { type: mimeType }));
+  });
+}
 
-    await new Promise(resolve => {
-      let idx = 0;
-      const iv = setInterval(() => {
-        if (idx < frames.length) {
-          ctx.drawImage(frames[idx++], 0, 0);
-          stream.requestFrame();
-        } else {
-          clearInterval(iv);
-          recorder.stop();
-        }
-      }, Math.round(1000 / FPS)); // e.g. 100 ms per frame
-      recorder.onstop = resolve;
-    });
+// ── WebCodecs + mp4-muxer encode helper → H.264 MP4 ──────
+async function _wcBlob(frames, tplDef, FPS, vidBtn) {
+  // Loaded on demand — no extra cost at page load
+  const { Muxer, ArrayBufferTarget } =
+    await import('https://cdn.jsdelivr.net/npm/mp4-muxer/+esm');
 
-    // ── Download the blob ───────────────────────────────────
-    const blob = new Blob(chunks, { type: mimeType });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.download = `sama-${S.tpl}-${Date.now()}.webm`;
-    a.href = url;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 8000);
+  const target = new ArrayBufferTarget();
+  const muxer  = new Muxer({
+    target,
+    video: { codec: 'avc', width: tplDef.w, height: tplDef.h },
+    fastStart: 'in-memory',
+  });
 
-  } catch (err) {
-    if (document.body.contains(wrap)) document.body.removeChild(wrap);
-    alert('Video download failed: ' + err.message);
-    console.error(err);
+  // Pick best supported H.264 profile: High → Main → Baseline
+  let codecStr;
+  for (const c of ['avc1.640028', 'avc1.4d0028', 'avc1.42001f']) {
+    try {
+      const cfg = { codec: c, width: tplDef.w, height: tplDef.h, bitrate: 8_000_000, framerate: FPS };
+      if ((await VideoEncoder.isConfigSupported(cfg)).supported) { codecStr = c; break; }
+    } catch (_) {}
   }
+  if (!codecStr) throw new Error('No H.264 codec available in this browser');
 
-  vidBtn.disabled = false;
-  vidBtn.textContent = '▶  Download Video (10s)';
+  const encoder = new VideoEncoder({
+    output: (chunk, meta) => muxer.addVideoChunk(chunk, meta),
+    error:  e => { throw e; },
+  });
+  encoder.configure({ codec: codecStr, width: tplDef.w, height: tplDef.h, bitrate: 8_000_000, framerate: FPS });
+
+  for (let i = 0; i < frames.length; i++) {
+    if (i % 5 === 0) vidBtn.textContent = `Encoding… ${Math.round((i / frames.length) * 100)}%`;
+    const bm = await createImageBitmap(frames[i]);
+    const vf = new VideoFrame(bm, { timestamp: Math.round(i * 1_000_000 / FPS) });
+    encoder.encode(vf, { keyFrame: i % (FPS * 2) === 0 });
+    vf.close(); bm.close();
+  }
+  await encoder.flush();
+  encoder.close();
+  muxer.finalize();
+  return new Blob([target.buffer], { type: 'video/mp4' });
 }
 
 // ── Download PNG ──────────────────────────────────────────
