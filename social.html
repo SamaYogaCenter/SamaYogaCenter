@@ -279,6 +279,26 @@
   .cal-sb-legend {
     margin-top: 16px;
   }
+  .cal-custom-item {
+    display: flex; align-items: flex-start; gap: 6px;
+    margin-bottom: 5px; font-size: 11px;
+  }
+  .cal-custom-item-text {
+    flex: 1; color: #333; line-height: 1.35;
+  }
+  .cal-custom-item-day {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    color: #b03060; white-space: nowrap; flex-shrink: 0;
+    padding-top: 1px;
+  }
+  .cal-custom-del {
+    background: none; border: none; color: #ccc;
+    cursor: pointer; font-size: 13px; line-height: 1;
+    padding: 0; flex-shrink: 0;
+  }
+  .cal-custom-del:hover { color: #b03060; }
+
   .cal-sb-chip {
     display: inline-block; padding: 3px 10px;
     border-radius: 4px; font-size: 10px; font-weight: 700;
@@ -460,6 +480,22 @@
           <label class="ol">Year</label>
           <input class="oi" id="cal-year-inp" type="number" value="2026" min="2024" max="2030" oninput="updateCalendar()">
         </div>
+      </div>
+      <!-- ── Custom key dates ──────────────────────────── -->
+      <div id="cal-custom-section" style="padding:10px 14px 8px;border-bottom:1px solid #eee;flex-shrink:0">
+        <span class="cal-sb-heading">Add Key Date</span>
+        <div style="display:flex;gap:5px;align-items:stretch;margin-bottom:8px">
+          <input class="oi" id="cal-custom-name" placeholder="Event name…"
+                 style="flex:1;margin-bottom:0"
+                 onkeydown="if(event.key==='Enter')addCalCustomEvent()">
+          <input class="oi" id="cal-custom-day" type="number" min="1" max="31"
+                 placeholder="Day"
+                 style="flex:0 0 52px;margin-bottom:0;text-align:center"
+                 onkeydown="if(event.key==='Enter')addCalCustomEvent()">
+          <button class="btn-pink" onclick="addCalCustomEvent()"
+                  style="padding:6px 10px;font-size:11px;letter-spacing:.04em;flex-shrink:0">+</button>
+        </div>
+        <div id="cal-custom-list"></div>
       </div>
       <div id="cal-key-sidebar"></div>
     </div>
@@ -1743,10 +1779,32 @@ function eventsInMonth(y, m) {
   }).filter(Boolean).sort((a, b) => a._day - b._day);
 }
 
-// Short title (≤28 chars)
-function shortTitle(t, max) {
-  max = max || 28;
-  return t.length > max ? t.slice(0, max - 1) + '…' : t;
+// ── Custom key dates (user-entered per month) ────────
+// Stored as "YYYY-M" → [{name, day, id}]
+const calCustomEvents = {};
+function calKey(y, m) { return y + '-' + m; }
+
+function addCalCustomEvent() {
+  const nameEl = document.getElementById('cal-custom-name');
+  const dayEl  = document.getElementById('cal-custom-day');
+  const name   = nameEl.value.trim();
+  const day    = parseInt(dayEl.value);
+  if (!name || isNaN(day) || day < 1 || day > 31) {
+    nameEl.focus(); return;
+  }
+  const y = parseInt(document.getElementById('cal-year-inp').value);
+  const m = parseInt(document.getElementById('cal-month-sel').value);
+  const k = calKey(y, m);
+  calCustomEvents[k] = calCustomEvents[k] || [];
+  calCustomEvents[k].push({ name, day, id: Date.now() });
+  nameEl.value = ''; dayEl.value = '';
+  updateCalendar();
+}
+
+function removeCalCustomEvent(k, id) {
+  if (calCustomEvents[k])
+    calCustomEvents[k] = calCustomEvents[k].filter(e => e.id !== id);
+  updateCalendar();
 }
 
 // ── Schedule generator ────────────────────────────────
@@ -1801,20 +1859,18 @@ function generateSchedule(y, m) {
   const thisMonth = eventsInMonth(y, m);
   thisMonth.forEach(ev => {
     const ed   = ev._day;
-    const name = shortTitle(ev.title, 26);
-
     // Announcement: ~10 days before (weekday)
     const aDayRaw = ed - 10;
     if (aDayRaw >= 1) {
       const aDay = toWeekday(y, m, aDayRaw);
-      if (aDay) add(aDay, name, 'carousel');
+      if (aDay) add(aDay, ev.title, 'carousel');
     }
 
     // "This weekend" / reminder: 2 days before (or Fri if event on Sat/Sun)
     const ewd = new Date(y, m, ed).getDay();
     const remDay = (ewd === 6) ? ed - 1 : (ewd === 0) ? ed - 2 : ed - 2;
     if (remDay >= 1 && remDay < ed) {
-      const rLabel = (ed - remDay === 1) ? name + ' tomorrow' : name + ' this weekend';
+      const rLabel = (ed - remDay === 1) ? ev.title + ' tomorrow' : ev.title + ' this weekend';
       add(remDay, rLabel, 'story');
     }
   });
@@ -1829,12 +1885,30 @@ function generateSchedule(y, m) {
   const teaseCandidates = nextMonth.filter(ev => ev._day <= 18);
   teaseCandidates.slice(0, 2).forEach((ev, i) => {
     const tDay = lastFri ? lastFri - i * 3 : dim - i * 3;
-    const name = shortTitle(ev.title, 22);
-    add(tDay, `${name} ${nm + 1}/${ev._day}`, 'reel');
+    add(tDay, `${ev.title} — ${nm + 1}/${ev._day}`, 'reel');
   });
 
   // January special
   if (m === 0) add(1, 'Happy New Year from Sama', 'carousel');
+
+  // ── Custom key dates added by user ─────────────────
+  const customEvs = calCustomEvents[calKey(y, m)] || [];
+  customEvs.forEach(ev => {
+    const ed = Math.min(ev.day, dim);
+    // Announcement ~10 days before
+    const aDayRaw = ed - 10;
+    if (aDayRaw >= 1) {
+      const aDay = toWeekday(y, m, aDayRaw);
+      if (aDay) add(aDay, ev.name, 'carousel');
+    }
+    // Reminder 2 days before
+    const ewd = new Date(y, m, ed).getDay();
+    const remDay = (ewd === 6) ? ed - 1 : ed - 2;
+    if (remDay >= 1 && remDay < ed) {
+      const rLabel = (ed - remDay === 1) ? ev.name + ' tomorrow' : ev.name + ' this weekend';
+      add(remDay, rLabel, 'story');
+    }
+  });
 
   return out;
 }
@@ -1869,13 +1943,31 @@ function renderCalendar(y, m) {
     ${legendRows}
   `;
 
-  // ── Sidebar key dates (in sidebar panel) ─────────
+  // ── Sidebar key dates panel ──────────────────────────
+  const customs = calCustomEvents[calKey(y, m)] || [];
+  // Render custom events list
+  document.getElementById('cal-custom-list').innerHTML = customs.length
+    ? customs.map(ev =>
+        `<div class="cal-custom-item">
+           <span class="cal-custom-item-day">${ev.day}</span>
+           <span class="cal-custom-item-text">${ev.name}</span>
+           <button class="cal-custom-del" onclick="removeCalCustomEvent('${calKey(y,m)}',${ev.id})" title="Remove">✕</button>
+         </div>`
+      ).join('')
+    : '<div style="font-size:10.5px;color:#ccc;margin-bottom:4px">None added yet</div>';
+
+  // Build combined key-dates list (website events + custom)
+  const allKeyDates = [
+    ...thisMonthEvs.map(ev => ({ day: ev._day, text: ev.title, sub: ev.time || '' })),
+    ...customs.map(ev => ({ day: ev.day, text: ev.name, sub: '' })),
+  ].sort((a, b) => a.day - b.day);
+
   document.getElementById('cal-key-sidebar').innerHTML = `
     <span class="cal-sb-heading">Key Dates/Events</span>
-    ${thisMonthEvs.length
-      ? thisMonthEvs.map(ev => `<div class="cal-sb-event">
-          <strong>${CAL_MONTHS[m].slice(0,3)} ${ev._day}:</strong> ${ev.title}
-          ${ev.time ? '<br><span style="color:#aaa">'+ev.time+'</span>' : ''}
+    ${allKeyDates.length
+      ? allKeyDates.map(kd => `<div class="cal-sb-event">
+          <strong>${CAL_MONTHS[m].slice(0,3)} ${kd.day}:</strong> ${kd.text}
+          ${kd.sub ? '<br><span style="color:#aaa">'+kd.sub+'</span>' : ''}
         </div>`).join('')
       : '<div class="cal-sb-event" style="color:#bbb">No events this month</div>'}
     <div class="cal-sb-legend">
