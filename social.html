@@ -351,7 +351,15 @@
 const PASSWORD = 'sama';       // ← change this
 const PINK     = '#b03060';
 const LOGO_URL = '/images/sama-yoga-logo.webp';
-const ENZO_BG  = '/images/Social%20Media/background.png';
+// Clean CSS backgrounds replacing Canva watermark files
+// Plaid grid: fine (28px) + wide (84px) intersecting lines on cream base
+const ENZO_BG = [
+  'repeating-linear-gradient(0deg,transparent 0,transparent 28px,rgba(176,48,96,.065) 28px,rgba(176,48,96,.065) 29px)',
+  'repeating-linear-gradient(90deg,transparent 0,transparent 28px,rgba(176,48,96,.065) 28px,rgba(176,48,96,.065) 29px)',
+  'repeating-linear-gradient(0deg,transparent 0,transparent 84px,rgba(176,48,96,.04) 84px,rgba(176,48,96,.04) 88px)',
+  'repeating-linear-gradient(90deg,transparent 0,transparent 84px,rgba(176,48,96,.04) 84px,rgba(176,48,96,.04) 88px)',
+  '#f4eaf0',
+].join(',');
 
 // ── Templates registry ───────────────────────────────────
 const TMPLS = [
@@ -370,6 +378,7 @@ const TMPLS = [
   { id:'nl-cover',       label:'Cover Image',       ico:'📰', w:1200, h:840 },
   { id:'nl-event-pink',  label:'Event Card Pink',   ico:'🌸', w:1200, h:700 },
   { id:'nl-event-white', label:'Event Card White',  ico:'📋', w:1200, h:700 },
+  { id:'nl-event-photo',  label:'Event Card Photo',  ico:'📷', w:1200, h:700 },
 ];
 
 // ── App state ────────────────────────────────────────────
@@ -624,7 +633,7 @@ function renderOpts() {
     </div>`;
   }
 
-  else if (t === 'nl-event-pink' || t === 'nl-event-white') {
+  else if (t === 'nl-event-pink' || t === 'nl-event-white' || t === 'nl-event-photo') {
     h += oEvent();
     h += oPhoto('nlEventPhoto', 'Speaker / Headshot Photo', S.nlEventPhoto);
     h += `<div class="og"><label class="ol">Event Title</label>
@@ -691,6 +700,7 @@ function selectEvent(idx) {
   S.instructor = e.instructor||'';
   S.desc  = e.cardDescription||'';
   if (!S.photo && e.image) S.photo = e.image;
+  if (e.image) S.nlEventPhoto = e.image;
   renderOpts(); updatePreview();
 }
 
@@ -787,6 +797,13 @@ function brush(style) {
   return `<svg style="position:absolute;pointer-events:none;${style||''}" viewBox="0 0 140 560" xmlns="http://www.w3.org/2000/svg">
     <path d="M70,10 C120,80 20,180 90,290 C150,380 25,460 80,550" stroke="rgba(55,42,30,.16)" stroke-width="28" fill="none" stroke-linecap="round"/>
     <path d="M45,0 C100,70 10,160 72,270 C130,360 18,440 65,540"   stroke="rgba(55,42,30,.09)" stroke-width="14" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+
+// Zen enso circle — positioned centered, used in plaid-background templates
+function enso() {
+  return `<svg style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:620px;height:620px;pointer-events:none;opacity:1" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+    <path d="M400,100 A300,300 0 1,1 382,103" fill="none" stroke="rgba(130,100,110,.32)" stroke-width="54" stroke-linecap="round"/>
   </svg>`;
 }
 
@@ -917,6 +934,7 @@ function render(animT) {
     case 'nl-cover':       return tNlCover();
     case 'nl-event-pink':  return tNlEventPink();
     case 'nl-event-white': return tNlEventWhite();
+    case 'nl-event-photo':  return tNlEventPhoto();
     default: return '';
   }
 }
@@ -934,7 +952,8 @@ function tEventPost(animT) {
     ? `<div style="font-family:'Nunito',sans-serif;font-size:30px;color:#6b5040;margin-top:6px;${animFi(animT,.4)}">with ${x(S.instructor)}</div>`
     : '';
   return `
-<div class="tpl" style="height:1350px;background:url('/images/Social%20Media/background.png') center/cover no-repeat">
+<div class="tpl" style="height:1350px;background:${ENZO_BG}">
+  ${enso()}
   <!-- date + title + instructor → animate in together -->
   <div style="position:absolute;left:80px;right:80px;top:80px;${animFi(animT,0)}">
     <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#8a7060;letter-spacing:.02em;margin-bottom:4px">${dateHtml}</div>
@@ -965,7 +984,8 @@ function tEventStory(animT) {
     : 'https://samayogacenter.com/events.html';
   const footerTxt = S.storyFooter || 'Click the link to reserve your spot now';
   return `
-<div class="tpl" style="height:1920px;background:url('/images/Social%20Media/story%20background.png') center/cover no-repeat">
+<div class="tpl" style="height:1920px;background:${ENZO_BG}">
+  ${enso()}
   <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
     <div style="font-family:'Dancing Script',cursive;font-size:76px;font-weight:600;color:${PINK};text-align:center;line-height:1.1;margin-bottom:14px;${animFi(animT,0)}">${x(S.cta)||'Join us this weekend!'}</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>28?'74':'86'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:22px;${animFi(animT,.25)}">${x(S.title)||'Event Title'}</div>
@@ -999,7 +1019,7 @@ function tEventCard(animT) {
 <div class="tpl" style="${outerStyle}">
   ${hasBg ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>` : ''}
   <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;${cardShadow};overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
-    <div style="position:relative;width:100%;height:380px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;${animFi(animT,.15,.8)}">
+    <div style="position:relative;width:100%;height:520px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;${animFi(animT,.15,.8)}">
       <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
       ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
     </div>
@@ -1035,7 +1055,8 @@ function _tMonthlyLayout(h) {
   const topPad        = isStory ? 80  : 64;
   const eventsTop     = isStory ? 460 : 360;
   return `
-<div class="tpl" style="height:${h}px;background:url('${ENZO_BG}') center/cover no-repeat">
+<div class="tpl" style="height:${h}px;background:${ENZO_BG}">
+  ${enso()}
   ${S.mainPhoto ? `<div style="position:absolute;inset:0;${bg(S.mainPhoto)};opacity:.32"></div>` : ''}
   <div style="position:absolute;inset:0;background:rgba(255,245,240,.08)"></div>
   <div style="padding:${topPad}px 0 0 72px">
@@ -1103,7 +1124,7 @@ function tMeet() {
   <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
   <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:url('/images/Social%20Media/paper.png') center/cover no-repeat;border-radius:10px;padding:48px 60px;overflow:hidden">
     <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;line-height:1;margin-bottom:28px">Meet ${x(name)}</div>
-    <div style="width:100%;height:370px;border-radius:6px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
+    <div style="width:100%;height:500px;border-radius:6px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
 </div>`;
@@ -1183,10 +1204,10 @@ function tNlCover() {
 <div class="tpl" style="height:840px;${bg(S.nlCoverPhoto,'center')}">
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.06) 40%,rgba(0,0,0,.68) 100%)"></div>
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:36px 60px 56px">
-    ${samyLogo('brightness(0) invert(1)')}
+    ${samyLogo('drop-shadow(0 0 4px rgba(255,255,255,.9)) drop-shadow(0 0 14px rgba(255,255,255,.55))')}
     <div style="text-align:center">
-      <div style="font-family:'Montserrat',sans-serif;font-size:196px;font-weight:900;color:${PINK};line-height:0.80;letter-spacing:-.01em;text-shadow:0 3px 32px rgba(0,0,0,.22)">THE MAT</div>
-      <div style="font-family:'Dancing Script',cursive;font-size:170px;font-weight:700;color:white;line-height:0.86;margin-top:-8px;text-shadow:0 2px 20px rgba(0,0,0,.30)">monthly</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:156px;font-weight:900;color:${PINK};line-height:0.80;letter-spacing:-.01em;text-shadow:0 3px 32px rgba(0,0,0,.22)">THE MAT</div>
+      <div style="font-family:'Dancing Script',cursive;font-size:138px;font-weight:700;color:white;line-height:0.86;margin-top:-8px;text-shadow:0 2px 20px rgba(0,0,0,.30)">monthly</div>
       <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;color:white;letter-spacing:.04em;margin-top:28px;text-shadow:0 1px 10px rgba(0,0,0,.4)">${x(subtitle)}</div>
     </div>
   </div>
@@ -1197,7 +1218,7 @@ function tNlCover() {
 function tNlEventPink() {
   const photo = S.nlEventPhoto || null;
   return `
-<div class="tpl" style="height:700px;display:flex;background:${PINK}">
+<div class="tpl" style="height:700px;display:flex;background:${PINK};border-radius:12px;overflow:hidden">
   <div style="flex:0 0 54%;padding:56px 52px 56px 68px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
     <div style="min-height:0">
       <div style="font-family:'Montserrat',sans-serif;font-size:50px;font-weight:800;color:white;line-height:1.15;margin-bottom:16px">${x(S.title)||'Event Title'}</div>
@@ -1228,6 +1249,21 @@ function tNlEventWhite() {
     </div>
   </div>
   <div style="flex:0 0 46%;${photo ? bg(photo,'center top') : 'background:#f0e6ec'}"></div>
+</div>`;
+}
+
+// ── NL 4. Event Card — Photo top (1200 × 700) ──────────
+function tNlEventPhoto() {
+  const photo = S.nlEventPhoto || null;
+  return `
+<div class="tpl" style="height:700px;display:flex;flex-direction:column;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
+  <div style="flex:0 0 330px;${photo ? bg(photo,'center') : 'background:#f0e6ec'}"></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 56px 32px;text-align:center;min-height:0">
+    <div style="font-family:'Montserrat',sans-serif;font-size:42px;font-weight:800;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.title)||'Event Title'}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:29px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:12px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:26px;color:#555;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:18px">${x(S.desc)||'Event description goes here.'}</div>
+    <div style="display:inline-block;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 34px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+  </div>
 </div>`;
 }
 
@@ -1315,23 +1351,26 @@ async function downloadVideo() {
 }
 
 // ── MediaRecorder encode helper ───────────────────────────
+// Uses captureStream(FPS) so the browser captures at the correct frame rate.
+// Frames are drawn at the right interval; a short tail delay flushes the last chunk.
 function _mrBlob(frames, canvas, ctx, FPS, mimeType) {
-  return new Promise(resolve => {
-    const stream   = canvas.captureStream(0);
+  return new Promise((resolve, reject) => {
+    const stream   = canvas.captureStream(FPS);
     const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 8_000_000 });
     const chunks   = [];
     recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
-    recorder.start();
+    recorder.onerror = e => reject(e.error || new Error('MediaRecorder error'));
+    recorder.start(100);   // collect data every 100 ms for reliable chunking
     let idx = 0;
+    const ms = Math.round(1000 / FPS);
     const iv = setInterval(() => {
       if (idx < frames.length) {
         ctx.drawImage(frames[idx++], 0, 0);
-        stream.requestFrame();
       } else {
         clearInterval(iv);
-        recorder.stop();
+        setTimeout(() => recorder.stop(), ms * 3);  // let last frames flush
       }
-    }, Math.round(1000 / FPS));
+    }, ms);
     recorder.onstop = () => resolve(new Blob(chunks, { type: mimeType }));
   });
 }
@@ -1368,7 +1407,7 @@ async function _wcBlob(frames, tplDef, FPS, vidBtn) {
   for (let i = 0; i < frames.length; i++) {
     if (i % 5 === 0) vidBtn.textContent = `Encoding… ${Math.round((i / frames.length) * 100)}%`;
     const bm = await createImageBitmap(frames[i]);
-    const vf = new VideoFrame(bm, { timestamp: Math.round(i * 1_000_000 / FPS) });
+    const vf = new VideoFrame(bm, { timestamp: Math.round(i * 1_000_000 / FPS), duration: Math.round(1_000_000 / FPS) });
     encoder.encode(vf, { keyFrame: i % (FPS * 2) === 0 });
     vf.close(); bm.close();
   }
