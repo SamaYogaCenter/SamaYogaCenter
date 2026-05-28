@@ -585,7 +585,9 @@
 const PASSWORD = 'sama';       // ← change this
 const PINK     = '#b03060';
 const LOGO_URL = '/images/sama-yoga-logo.webp';
-const ENZO_BG = '/images/Social%20Media/background.png';
+const _V       = '?v=' + Date.now();   // cache-buster — forces fresh image on every page load
+const ENZO_BG  = '/images/Social%20Media/background.png'  + _V;
+const STORY_BG = '/images/Social%20Media/storybackground.png' + _V;
 
 // ── Templates registry ───────────────────────────────────
 const TMPLS = [
@@ -1172,7 +1174,7 @@ function tEventPost(animT) {
     ? `<div style="font-family:'Nunito',sans-serif;font-size:30px;color:#6b5040;margin-top:6px;${animFi(animT,.4)}">with ${x(S.instructor)}</div>`
     : '';
   return `
-<div class="tpl" style="height:1350px;background:url('/images/Social%20Media/background.png') center/cover no-repeat">
+<div class="tpl" style="height:1350px;background:url('${ENZO_BG}') center/cover no-repeat">
   <!-- date + title + instructor → animate in together -->
   <div style="position:absolute;left:80px;right:80px;top:80px;${animFi(animT,0)}">
     <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:#8a7060;letter-spacing:.02em;margin-bottom:4px">${dateHtml}</div>
@@ -1203,7 +1205,7 @@ function tEventStory(animT) {
     : 'https://samayogacenter.com/events.html';
   const footerTxt = S.storyFooter || 'Click the link to reserve your spot now';
   return `
-<div class="tpl" style="height:1920px;background:url('/images/Social%20Media/storybackground.png') center/cover no-repeat">
+<div class="tpl" style="height:1920px;background:url('${STORY_BG}') center/cover no-repeat">
   <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
     <div style="font-family:'Dancing Script',cursive;font-size:76px;font-weight:600;color:${PINK};text-align:center;line-height:1.1;margin-bottom:14px;${animFi(animT,0)}">${x(S.cta)||'Join us this weekend!'}</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:${S.title.length>28?'74':'86'}px;font-weight:400;color:#2d2d2d;text-align:center;line-height:1.05;margin-bottom:22px;${animFi(animT,.25)}">${x(S.title)||'Event Title'}</div>
