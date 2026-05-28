@@ -234,6 +234,156 @@
   }
   .photos-grid img:hover { border-color: #b03060; }
 
+
+  /* ── Mode Tabs (Studio / Calendar) ──────────────────── */
+  #mode-tabs {
+    display: flex; flex-shrink: 0;
+    border-bottom: 1px solid #eee;
+  }
+  .mode-tab {
+    flex: 1; padding: 9px 6px; border: none;
+    background: none; cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .10em; text-transform: uppercase;
+    color: #bbb; transition: color .15s;
+    border-bottom: 2px solid transparent;
+  }
+  .mode-tab:hover { color: #b03060; }
+  .mode-tab.active { color: #b03060; border-bottom-color: #b03060; }
+
+  /* ── Calendar sidebar ────────────────────────────────── */
+  #cal-controls {
+    display: none; flex-direction: column;
+    flex: 1; overflow: hidden;
+  }
+  #cal-picker {
+    padding: 10px 14px 8px; border-bottom: 1px solid #eee; flex-shrink: 0;
+    display: flex; gap: 7px; align-items: flex-end;
+  }
+  #cal-picker .og { margin-bottom: 0; flex: 1; }
+  #cal-picker .og:last-child { flex: 0 0 70px; }
+  #cal-key-sidebar {
+    flex: 1; overflow-y: auto; padding: 14px 14px 10px;
+    font-family: 'Nunito', sans-serif; font-size: 11.5px;
+  }
+  .cal-sb-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    color: #bbb; margin-bottom: 8px; display: block;
+  }
+  .cal-sb-event {
+    color: #444; margin-bottom: 7px; line-height: 1.35;
+  }
+  .cal-sb-legend {
+    margin-top: 16px;
+  }
+  .cal-sb-chip {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 4px; font-size: 10px; font-weight: 700;
+    margin: 2px 2px 0 0;
+  }
+
+  /* ── Calendar main area ──────────────────────────────── */
+  #cal-area {
+    display: none; flex: 1; overflow: auto;
+    padding: 28px 32px 24px;
+    background: #f7f5f2;
+    flex-direction: column;
+  }
+  #cal-canvas {
+    background: white; border-radius: 12px;
+    padding: 30px 32px 28px;
+    box-shadow: 0 2px 18px rgba(0,0,0,.07);
+    min-width: 800px;
+  }
+  .cal-hdr {
+    display: flex; align-items: baseline;
+    gap: 18px; margin-bottom: 22px; flex-wrap: wrap;
+  }
+  .cal-hdr-month {
+    font-family: 'Nunito', sans-serif;
+    font-size: 52px; font-weight: 900;
+    color: #0d1a3e; line-height: 1; flex-shrink: 0;
+  }
+  .cal-hdr-year {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px; font-weight: 300;
+    color: #0d1a3e; flex-shrink: 0;
+  }
+  .cal-hdr-brand {
+    margin-left: auto;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400;
+    color: #0d1a3e; white-space: nowrap;
+  }
+  .cal-body-wrap {
+    display: flex; gap: 20px;
+  }
+  .cal-left {
+    width: 170px; flex-shrink: 0;
+  }
+  .cal-left-heading {
+    font-family: 'Nunito', sans-serif;
+    font-size: 12px; font-weight: 800;
+    color: #0d1a3e; margin-bottom: 10px;
+  }
+  .cal-left-divider {
+    border: none; border-top: 1px solid #ddd; margin: 12px 0;
+  }
+  .cal-left-event {
+    font-family: 'Nunito', sans-serif;
+    font-size: 11px; color: #444;
+    margin-bottom: 8px; line-height: 1.38;
+  }
+  .cal-platform-label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 800;
+    color: #0d1a3e; margin-bottom: 10px;
+  }
+  .cal-legend-chip {
+    display: block; padding: 4px 10px;
+    border-radius: 4px; font-size: 10.5px;
+    font-weight: 700; margin-bottom: 5px;
+    text-align: center;
+  }
+  .cal-grid-wrap { flex: 1; }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    border-left: 1.5px solid #d4d0db;
+    border-top: 1.5px solid #d4d0db;
+  }
+  .cal-col-hdr {
+    border-right: 1.5px solid #d4d0db;
+    border-bottom: 1.5px solid #d4d0db;
+    padding: 7px 4px; text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 600;
+    color: #2d3a6a;
+  }
+  .cal-cell {
+    border-right: 1.5px solid #d4d0db;
+    border-bottom: 1.5px solid #d4d0db;
+    padding: 7px 7px 8px;
+    min-height: 90px; vertical-align: top;
+  }
+  .cal-cell-num {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: #2d3a6a; display: block; margin-bottom: 4px;
+  }
+  .cal-cell-num.dim { color: #ccc; }
+  .cal-chip {
+    display: block; font-size: 9.5px; font-weight: 700;
+    padding: 3px 6px; border-radius: 3px;
+    margin-bottom: 3px; line-height: 1.35;
+    text-align: center;
+  }
+  #cal-dl-bar {
+    margin-top: 16px; text-align: center; flex-shrink: 0;
+  }
+
   /* ══════════════════════════════════════════════════════
      TEMPLATE STYLES — all measured at 1080px canvas width
      ══════════════════════════════════════════════════════ */
@@ -287,6 +437,33 @@
       <span>Social Studio</span>
     </div>
 
+    <div id="mode-tabs">
+      <button class="mode-tab active" id="tab-studio" onclick="setMode('studio')">🎨 Studio</button>
+      <button class="mode-tab" id="tab-calendar" onclick="setMode('calendar')">📅 Calendar</button>
+    </div>
+
+    <!-- ── Calendar sidebar controls ───────────────────── -->
+    <div id="cal-controls">
+      <div id="cal-picker">
+        <div class="og">
+          <label class="ol">Month</label>
+          <select class="os" id="cal-month-sel" onchange="updateCalendar()">
+            <option value="0">January</option><option value="1">February</option>
+            <option value="2">March</option><option value="3">April</option>
+            <option value="4">May</option><option value="5">June</option>
+            <option value="6">July</option><option value="7">August</option>
+            <option value="8">September</option><option value="9">October</option>
+            <option value="10">November</option><option value="11">December</option>
+          </select>
+        </div>
+        <div class="og">
+          <label class="ol">Year</label>
+          <input class="oi" id="cal-year-inp" type="number" value="2026" min="2024" max="2030" oninput="updateCalendar()">
+        </div>
+      </div>
+      <div id="cal-key-sidebar"></div>
+    </div>
+
     <div id="tpl-section">
       <label>Social Posts</label>
       <div class="tpl-grid" id="tpl-grid"></div>
@@ -309,6 +486,27 @@
       <button class="btn-pink" id="vid-btn" onclick="downloadVideo()" style="display:none;background:#5a2c5a">▶&nbsp; Download Video (10s)</button>
       <span id="dl-info"></span>
     </div>
+
+    <!-- ── Calendar view (shown in Calendar mode) ──────── -->
+    <div id="cal-area">
+      <div id="cal-canvas">
+        <div class="cal-hdr">
+          <div class="cal-hdr-month" id="cal-hdr-m"></div>
+          <div class="cal-hdr-year"  id="cal-hdr-y"></div>
+          <div class="cal-hdr-brand">Business Content Calendar ♦</div>
+        </div>
+        <div class="cal-body-wrap">
+          <div class="cal-left" id="cal-left-col"></div>
+          <div class="cal-grid-wrap">
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+        </div>
+      </div>
+      <div id="cal-dl-bar">
+        <button class="btn-pink" onclick="downloadCalendar()">⬇&nbsp; Download Calendar PNG</button>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -1457,6 +1655,292 @@ async function download() {
   btn.disabled = false;
   btn.textContent = '⬇ Download PNG';
 }
+
+
+// ════════════════════════════════════════════════════════
+// CONTENT CALENDAR
+// ════════════════════════════════════════════════════════
+
+// ── Post types (colors match examples) ───────────────
+const PTYPES = {
+  story:    { label:'Static Story',  bg:'#b8eef5', color:'#0d3240' },
+  vstory:   { label:'Video Story',   bg:'#ead6f5', color:'#320d40' },
+  reel:     { label:'Reel',          bg:'#fce9a2', color:'#3a2c00' },
+  carousel: { label:'Carousel',      bg:'#c8edb8', color:'#0d2a00' },
+  post:     { label:'Static Post',   bg:'#f8cece', color:'#3a0d0d' },
+};
+
+const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const CAL_DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// ── Mode switching ────────────────────────────────────
+function setMode(mode) {
+  const isCal = (mode === 'calendar');
+  ['tpl-section','nl-section','options'].forEach(id => {
+    document.getElementById(id).style.display = isCal ? 'none' : '';
+  });
+  document.getElementById('cal-controls').style.display  = isCal ? 'flex' : 'none';
+  document.getElementById('preview-wrap').style.display  = isCal ? 'none' : '';
+  document.getElementById('dl-bar').style.display        = isCal ? 'none' : '';
+  document.getElementById('cal-area').style.display      = isCal ? 'flex' : 'none';
+  document.getElementById('tab-studio').classList.toggle('active',   !isCal);
+  document.getElementById('tab-calendar').classList.toggle('active',  isCal);
+  if (isCal) updateCalendar();
+}
+
+function updateCalendar() {
+  const m = parseInt(document.getElementById('cal-month-sel').value  || 0);
+  const y = parseInt(document.getElementById('cal-year-inp').value   || 2026);
+  if (!isNaN(m) && !isNaN(y)) renderCalendar(y, m);
+}
+
+// ── Date helpers ──────────────────────────────────────
+function daysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
+
+// Returns the day-of-month (1-based) for the n-th occurrence (1=first) of weekday in month
+function nthWeekday(y, m, wd, n) {
+  let count = 0;
+  for (let d = 1, dim = daysInMonth(y, m); d <= dim; d++) {
+    if (new Date(y, m, d).getDay() === wd) { if (++count === n) return d; }
+  }
+  return null;
+}
+
+// Returns nearest weekday (Mon-Fri) at or after given day (clamped to month)
+function toWeekday(y, m, day) {
+  const dim = daysInMonth(y, m);
+  for (let d = Math.max(1, day); d <= dim; d++) {
+    const wd = new Date(y, m, d).getDay();
+    if (wd > 0 && wd < 6) return d;
+  }
+  return null;
+}
+
+// Parse "Saturday, June 14th, 2026" → { year, month (0-based), day } or null
+function parseEventDate(str) {
+  if (!str) return null;
+  const m = str.match(/(\w+)\s+(\d+)(?:st|nd|rd|th)?,\s+(\d{4})/);
+  if (!m) {
+    // fallback: "June 14th"
+    const m2 = str.match(/(\w+)\s+(\d+)/);
+    if (!m2) return null;
+    const mo = CAL_MONTHS.findIndex(n => n.toLowerCase() === m2[1].toLowerCase());
+    return mo === -1 ? null : { year: null, month: mo, day: parseInt(m2[2]) };
+  }
+  const mo = CAL_MONTHS.findIndex(n => n.toLowerCase() === m[1].toLowerCase());
+  if (mo === -1) return null;
+  return { year: parseInt(m[3]), month: mo, day: parseInt(m[2]) };
+}
+
+// Get events that fall in a specific year+month
+function eventsInMonth(y, m) {
+  return events.map(e => {
+    const pd = parseEventDate(e.date);
+    if (!pd) return null;
+    if (pd.month !== m) return null;
+    if (pd.year && pd.year !== y) return null;
+    return { ...e, _day: pd.day };
+  }).filter(Boolean).sort((a, b) => a._day - b._day);
+}
+
+// Short title (≤28 chars)
+function shortTitle(t, max) {
+  max = max || 28;
+  return t.length > max ? t.slice(0, max - 1) + '…' : t;
+}
+
+// ── Schedule generator ────────────────────────────────
+function generateSchedule(y, m) {
+  const out = {};   // day → [{text, type}]
+  const dim = daysInMonth(y, m);
+  const add = (day, text, type) => {
+    day = Math.round(day);
+    if (!day || day < 1 || day > dim) return;
+    (out[day] = out[day] || []).push({ text, type });
+  };
+
+  const monthName = CAL_MONTHS[m];
+  const instrName = instructors.length
+    ? instructors[(m + y) % instructors.length].name.split(' ')[0]
+    : 'Teacher';
+
+  // ── Recurring content ──────────────────────────────
+  // Rebekah monthly reel — first Mon (fall back to day 1 if none in first week)
+  const fMon = nthWeekday(y, m, 1, 1);
+  add(fMon || 1, `Rebekah ${monthName} Reel`, 'reel');
+
+  // Rebekah's Tips — first Wed
+  const fWed = nthWeekday(y, m, 3, 1);
+  if (fWed) add(fWed, "Rebekah's Tips", 'carousel');
+
+  // Students/studio — 3rd Mon
+  const sMon3 = nthWeekday(y, m, 1, 3);
+  if (sMon3) add(sMon3, 'Students/studio', 'carousel');
+
+  // Pose highlight — 3rd Wed
+  const sWed3 = nthWeekday(y, m, 3, 3);
+  if (sWed3) add(sWed3, 'Pose highlight connecting to theme', 'carousel');
+
+  // Teacher Q&A — 2nd Tue
+  const sTue2 = nthWeekday(y, m, 2, 2);
+  if (sTue2) add(sTue2, instrName + ' Q&A', 'carousel');
+
+  // Second Rebekah reel — 4th Mon (mid-month casual)
+  const sMon4 = nthWeekday(y, m, 1, 4);
+  if (sMon4) {
+    const midLabels = [
+      'Rebekah Q&A Reel',
+      'Founder Series Reel',
+      'Behind-the-Scenes Reel',
+      'Monthly Theme Reel',
+    ];
+    add(sMon4, midLabels[m % midLabels.length], 'reel');
+  }
+
+  // ── Events this month ──────────────────────────────
+  const thisMonth = eventsInMonth(y, m);
+  thisMonth.forEach(ev => {
+    const ed   = ev._day;
+    const name = shortTitle(ev.title, 26);
+
+    // Announcement: ~10 days before (weekday)
+    const aDayRaw = ed - 10;
+    if (aDayRaw >= 1) {
+      const aDay = toWeekday(y, m, aDayRaw);
+      if (aDay) add(aDay, name, 'carousel');
+    }
+
+    // "This weekend" / reminder: 2 days before (or Fri if event on Sat/Sun)
+    const ewd = new Date(y, m, ed).getDay();
+    const remDay = (ewd === 6) ? ed - 1 : (ewd === 0) ? ed - 2 : ed - 2;
+    if (remDay >= 1 && remDay < ed) {
+      const rLabel = (ed - remDay === 1) ? name + ' tomorrow' : name + ' this weekend';
+      add(remDay, rLabel, 'story');
+    }
+  });
+
+  // ── Next month's events (teasers in last week) ──────
+  const nm = (m + 1) % 12;
+  const ny = m === 11 ? y + 1 : y;
+  const nextMonth = eventsInMonth(ny, nm);
+  // Find last Fri of current month
+  let lastFri = null;
+  for (let d = dim; d >= 1; d--) { if (new Date(y, m, d).getDay() === 5) { lastFri = d; break; } }
+  const teaseCandidates = nextMonth.filter(ev => ev._day <= 18);
+  teaseCandidates.slice(0, 2).forEach((ev, i) => {
+    const tDay = lastFri ? lastFri - i * 3 : dim - i * 3;
+    const name = shortTitle(ev.title, 22);
+    add(tDay, `${name} ${nm + 1}/${ev._day}`, 'reel');
+  });
+
+  // January special
+  if (m === 0) add(1, 'Happy New Year from Sama', 'carousel');
+
+  return out;
+}
+
+// ── Calendar renderer ─────────────────────────────────
+function renderCalendar(y, m) {
+  const schedule  = generateSchedule(y, m);
+  const thisMonthEvs = eventsInMonth(y, m);
+  const dim       = daysInMonth(y, m);
+  const firstWd   = new Date(y, m, 1).getDay();      // weekday of day-1
+  const prevDim   = daysInMonth(m === 0 ? y - 1 : y, m === 0 ? 11 : m - 1);
+  const totalCells= Math.ceil((firstWd + dim) / 7) * 7;
+
+  // ── Header ────────────────────────────────────────
+  document.getElementById('cal-hdr-m').textContent = CAL_MONTHS[m];
+  document.getElementById('cal-hdr-y').textContent = y;
+
+  // ── Left column ───────────────────────────────────
+  const keyRows = thisMonthEvs.length
+    ? thisMonthEvs.map(ev => `<div class="cal-left-event"><strong>${CAL_MONTHS[m].slice(0,3)} ${ev._day}:</strong> ${ev.title}${ev.time ? '<br><span style="color:#888">' + ev.time + '</span>' : ''}</div>`).join('')
+    : '<div class="cal-left-event" style="color:#bbb">No events this month</div>';
+
+  const legendRows = Object.entries(PTYPES).map(([k, v]) =>
+    `<div class="cal-legend-chip" style="background:${v.bg};color:${v.color}">${v.label}</div>`
+  ).join('');
+
+  document.getElementById('cal-left-col').innerHTML = `
+    <div class="cal-left-heading">Key Dates/Events</div>
+    ${keyRows}
+    <hr class="cal-left-divider">
+    <div class="cal-platform-label">Platform</div>
+    ${legendRows}
+  `;
+
+  // ── Sidebar key dates (in sidebar panel) ─────────
+  document.getElementById('cal-key-sidebar').innerHTML = `
+    <span class="cal-sb-heading">Key Dates/Events</span>
+    ${thisMonthEvs.length
+      ? thisMonthEvs.map(ev => `<div class="cal-sb-event">
+          <strong>${CAL_MONTHS[m].slice(0,3)} ${ev._day}:</strong> ${ev.title}
+          ${ev.time ? '<br><span style="color:#aaa">'+ev.time+'</span>' : ''}
+        </div>`).join('')
+      : '<div class="cal-sb-event" style="color:#bbb">No events this month</div>'}
+    <div class="cal-sb-legend">
+      <span class="cal-sb-heading">Platform</span>
+      ${Object.entries(PTYPES).map(([k,v]) =>
+        `<span class="cal-sb-chip" style="background:${v.bg};color:${v.color}">${v.label}</span>`
+      ).join('')}
+    </div>
+  `;
+
+  // ── Grid ──────────────────────────────────────────
+  const colHeaders = CAL_DAYS.map(d =>
+    `<div class="cal-col-hdr">${d}</div>`
+  ).join('');
+
+  let cells = '';
+  // Prev-month filler
+  for (let i = 0; i < firstWd; i++) {
+    const d = prevDim - (firstWd - 1 - i);
+    cells += `<div class="cal-cell"><span class="cal-cell-num dim">${d}</span></div>`;
+  }
+  // This month
+  for (let d = 1; d <= dim; d++) {
+    const posts = schedule[d] || [];
+    const chips = posts.map(p => {
+      const t = PTYPES[p.type];
+      return `<span class="cal-chip" style="background:${t.bg};color:${t.color}">${p.text}</span>`;
+    }).join('');
+    cells += `<div class="cal-cell"><span class="cal-cell-num">${d}</span>${chips}</div>`;
+  }
+  // Next-month filler
+  let nd = 1;
+  for (let i = firstWd + dim; i < totalCells; i++, nd++) {
+    cells += `<div class="cal-cell"><span class="cal-cell-num dim">${nd}</span></div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = colHeaders + cells;
+}
+
+// ── Calendar PNG download ─────────────────────────────
+async function downloadCalendar() {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = 'Generating…';
+  try {
+    const node = document.getElementById('cal-canvas');
+    const canvas = await html2canvas(node, {
+      scale: 2, useCORS: true, allowTaint: false, logging: false,
+      backgroundColor: '#ffffff',
+    });
+    const a = document.createElement('a');
+    a.download = `sama-calendar-${document.getElementById('cal-hdr-m').textContent}-${document.getElementById('cal-hdr-y').textContent}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch (err) { alert('Download failed: ' + err.message); }
+  btn.disabled = false; btn.textContent = '⬇\xa0 Download Calendar PNG';
+}
+
+// Initialise month selector to current month
+(function initCalSelector() {
+  const sel = document.getElementById('cal-month-sel');
+  if (sel) sel.value = new Date().getMonth();
+  const yInp = document.getElementById('cal-year-inp');
+  if (yInp) yInp.value = new Date().getFullYear();
+})();
+
 </script>
 </body>
 </html>
