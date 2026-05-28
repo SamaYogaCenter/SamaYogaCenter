@@ -1328,7 +1328,7 @@ function tGetToKnow() {
 <div class="tpl" style="height:1350px;${bg(photo,'center top')}">
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.08) 100%)"></div>
   <div data-drag="instrName" style="position:absolute;left:${left}px;top:${top}px;cursor:grab">
-    <div style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;letter-spacing:.22em;color:white;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5);margin-bottom:14px;padding-left:66px">GET TO KNOW SAMA</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;letter-spacing:.22em;color:white;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5);margin-bottom:14px;padding-left:0">GET TO KNOW SAMA</div>
     <div style="background:white;border-radius:0 56px 56px 0;padding:26px 72px 32px 66px;display:inline-block">
       <div style="font-family:'Cormorant Garamond',serif;font-size:${namePx}px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
     </div>
@@ -1358,7 +1358,7 @@ function tMeet() {
   <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
   <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:url('/images/Social%20Media/paper.png') center/cover no-repeat;border-radius:10px;padding:48px 60px;overflow:hidden">
     <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;line-height:1;margin-bottom:28px">Meet ${x(name)}</div>
-    <div style="width:100%;height:500px;border-radius:6px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
+    <div style="width:100%;height:500px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
 </div>`;
