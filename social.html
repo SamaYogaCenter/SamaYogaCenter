@@ -1823,9 +1823,8 @@ function generateSchedule(y, m) {
     : 'Teacher';
 
   // ── Recurring content ──────────────────────────────
-  // Rebekah monthly reel — first Mon (fall back to day 1 if none in first week)
-  const fMon = nthWeekday(y, m, 1, 1);
-  add(fMon || 1, `Rebekah ${monthName} Reel`, 'reel');
+  // Rebekah monthly reel — always day 1 of the month
+  add(1, `Rebekah ${monthName} Reel`, 'reel');
 
   // Rebekah's Tips — first Wed
   const fWed = nthWeekday(y, m, 3, 1);
