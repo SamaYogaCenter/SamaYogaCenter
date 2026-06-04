@@ -7,7 +7,7 @@
           "label": "1 Ticket",
           "price": "$30",
           "serviceId": "",
-          "link": "#https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=43&prodid=10976"
+          "link": "https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=43&prodid=10976"
         }
       ],
       "hidden": false,
