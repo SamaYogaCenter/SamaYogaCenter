@@ -4,28 +4,22 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Early Bird (by 5/14)",
-          "price": "$95",
-          "serviceId": "10947",
-          "link": "#"
-        },
-        {
-          "label": "Regular",
-          "price": "$125",
-          "serviceId": "10939",
-          "link": "#"
+          "label": "1 Ticket",
+          "price": "$30",
+          "serviceId": "",
+          "link": "#https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=43&prodid=10976"
         }
       ],
       "hidden": false,
-      "cardDescription": "A curated mini retreat with breathwork, grounding, and floral design with Rachael Grace, Thistle & Grace Florals.",
-      "time": "1:00-3:00 PM",
+      "cardDescription": "Light bites, a flower bar, and social hour - includes your own hand crafted bouquet and a Sama Yoga Sculpt class - appropriate for every level. ",
+      "time": "11:00 AM-1:00 PM",
       "date": "Sunday, June 14th, 2026",
       "dateISO": "2026-06-14",
-      "title": "Mini Retreat: Breathe & Bloom",
-      "id": "breathe-bloom",
-      "image": "/images/Events/Breathe%26Bloom.webp",
-      "description": "Work with your hands and feel more rooted. Create a seasonal floral arrangement under expert guidance and support. Practice presence, shape something living to remember that beauty and joy lie within the process. This experience will reconnect you with your breath, your creativity, and the steady serenity of being.\n\nCome work with your hands, develop creative confidence, and reset for daily life.\n\n**Expect:**\n- Guided breathwork + gentle grounding\n- Seasonal floral education and design experience\n- Time to clear your mind, create, and reconnect\n\n**Leave With:**\n- Your own handcrafted floral arrangement\n- A sense of calm centeredness and creative renewal\n- A connection with yourself and the present moment\n\nBreathe deeply, create freely, and reconnect to the quiet beauty within you.",
-      "instructor": "Rachael Grace, Thistle & Grace Florals"
+      "title": "Summer Solstice Social",
+      "id": "summer-solstice-yoga-social",
+      "image": "/images/uploads/dsc_0229.jpg",
+      "description": "Join us for a feel-good morning of movement, wellness and community featuring Sama Sculpt classes, local wellness vendors, refreshing drinks + bites, raffles and time to connect on Sama's outdoor patio. Your ticket includes entry to the event plus one sculpt class! It's the perfect way to kick off summer feeling energized, grounded and connected. \n\n**Ticket Includes:**\n\n* Entry to the Summer Solstice Event\n* 1 Sama Sculpt Class\n* Access to local wellness vendors\n* Refreshing drinks + light bites\n* Entry into our wellness raffle prizes (for a free class, a guest pass and merch)\n\n**What to bring:**\n\n* Bring your yoga mat, or borrow\n* Sunglasses + sunscreen for the patio\n* Comfy workout clothes\n* A connection with yourself and the present moment\n\nWe can't wait to celebrate the official beginning of summer with you!",
+      "instructor": "City Girls Who Walk"
     },
     {
       "imagePosition": "center bottom",
