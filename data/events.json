@@ -4,28 +4,22 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Early Bird (by 5/14)",
-          "price": "$95",
-          "serviceId": "10947",
-          "link": "#"
-        },
-        {
-          "label": "Regular",
-          "price": "$125",
-          "serviceId": "10939",
-          "link": "#"
+          "label": "1 Ticket",
+          "price": "$30",
+          "serviceId": "10976",
+          "link": "https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=43&prodid=10976"
         }
       ],
       "hidden": false,
-      "cardDescription": "A curated mini retreat with breathwork, grounding, and floral design with Rachael Grace, Thistle & Grace Florals.",
-      "time": "1:00-3:00 PM",
+      "cardDescription": "Light bites and social hour - includes a Sama Yoga Sculpt class - appropriate for every level. ",
+      "time": "11:00 AM-1:00 PM",
       "date": "Sunday, June 14th, 2026",
       "dateISO": "2026-06-14",
-      "title": "Mini Retreat: Breathe & Bloom",
-      "id": "breathe-bloom",
-      "image": "/images/Events/Breathe%26Bloom.webp",
-      "description": "Work with your hands and feel more rooted. Create a seasonal floral arrangement under expert guidance and support. Practice presence, shape something living to remember that beauty and joy lie within the process. This experience will reconnect you with your breath, your creativity, and the steady serenity of being.\n\nCome work with your hands, develop creative confidence, and reset for daily life.\n\n**Expect:**\n- Guided breathwork + gentle grounding\n- Seasonal floral education and design experience\n- Time to clear your mind, create, and reconnect\n\n**Leave With:**\n- Your own handcrafted floral arrangement\n- A sense of calm centeredness and creative renewal\n- A connection with yourself and the present moment\n\nBreathe deeply, create freely, and reconnect to the quiet beauty within you.",
-      "instructor": "Rachael Grace, Thistle & Grace Florals"
+      "title": "Summer Solstice Social",
+      "id": "summer-solstice-yoga-social",
+      "image": "/images/uploads/l1240328-1.jpg",
+      "description": "Join us for a feel-good morning of movement, wellness and community featuring Sama Sculpt classes, refreshing drinks + bites, raffles and time to connect at Sama. Your ticket includes entry to the event plus one sculpt class! It's the perfect way to kick off summer feeling energized, grounded and connected. For women 20's - 30's!\n\n**Ticket Includes:**\n\n* Entry to the Summer Solstice Event\n* 1 Sama Sculpt Class\n* Refreshing drinks + light bites\n* Entry into our wellness raffle prizes (for a free class, a guest pass and merch)\n\n**What to bring:**\n\n* Bring your yoga mat, or borrow\n* Comfy workout clothes\n* A connection with yourself and the present moment\n\nWe can't wait to celebrate the official beginning of summer with you!",
+      "instructor": "City Girls Who Walk"
     },
     {
       "imagePosition": "center bottom",
@@ -52,7 +46,7 @@
       "title": "Training: Pregnancy In Practice",
       "id": "prenatal-training",
       "image": "/images/Events/PregnancyandPractice.webp",
-      "description": "A Prenatal Yoga Training for Teachers & Expectant Students\n\nThis one-day immersive is designed to support you to meet the changing body with clarity, confidence, and care.\n\nWhether you are a yoga teacher or moving through pregnancy yourself, this 3-hour experience offers a grounded, intelligent approach to supporting the prenatal body — to ease discomfort, strengthen the mind & body and prepare for birth.\n\n**You'll learn to:**\n- Teach and practice with safety, awareness, and responsiveness\n- Adapt movement, flow and shapes skillfully for each trimester\n- Use breathing techniques as a foundation for regulation\n- Offer grounding tools that cultivate presence and ease\n- Understand key anatomy and create truly supportive rest\n\nIf you are a Registered Yoga Teacher (RYT), this training is eligible for 5 Yoga Alliance Continuing Education hours.\n\nA refined approach to supporting pregnancy with steadiness, skill, and presence.",
+      "description": "A Prenatal Yoga Training for Yoga Teachers\n\nThis one-day immersive is designed to support yoga teachers to meet the changing body with clarity, confidence, and care.\n\nThis 3-hour experience offers a grounded, intelligent approach to supporting the prenatal body — to ease discomfort, strengthen the mind & body and prepare for birth.\n\n**You'll learn to:**\n\n* Teach and practice with safety, awareness, and responsiveness\n* Adapt movement, flow and shapes skillfully for each trimester\n* Use breathing techniques as a foundation for regulation\n* Offer grounding tools that cultivate presence and ease\n* Understand key anatomy and create truly supportive rest\n\nIf you are a Registered Yoga Teacher (RYT), this training is eligible for 5 Yoga Alliance Continuing Education hours. Includes pre-natal sequences for each trimester and level. \n\nA refined approach to supporting pregnancy with steadiness, skill, and presence.",
       "instructor": "Rebekah Jacobs"
     },
     {
@@ -193,6 +187,34 @@
       "image": "/images/Events/KidsYoga.webp",
       "description": "Equip yourself with tools to guide children to build confidence and cultivating kindness.\n\nJoin the expert educator Amy Bilden for this playful and mindful training, designed to equip teachers, parents and yoga instructors with tools to guide children to build confidence, regulate emotions, cultivate kindness and enhance their focus.\n\nVoted \"Best Kids Program,\" Sama Kids brings yoga to life with joy, mastery and heart.\n\nThis training is for educators, parents and the curious student. No prior certification is needed.",
       "instructor": "Amy Bilden"
+    },
+    {
+      "imagePosition": "center top",
+      "showOnTrainingPage": false,
+      "pricing": [
+        {
+          "link": "#https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=25&prodId=10977",
+          "price": "$65",
+          "label": "Member",
+          "serviceId": "10977"
+        },
+        {
+          "link": "#",
+          "label": "Regular Admission Ticket",
+          "price": "$75",
+          "serviceId": "10978"
+        }
+      ],
+      "hidden": false,
+      "cardDescription": "Experience the soothing vibrations of crystal singing bowls to quiet the mind, relax the body, and restore balance before the rhythms of a new season begin.",
+      "time": "5:30-7:00 PM",
+      "date": "Sunday, August 23rd, 2026",
+      "dateISO": "2026-08-24",
+      "title": "Summer Sound Bath",
+      "id": "sound bath-healing-meditation",
+      "image": "/images/uploads/img_9040.jpeg",
+      "description": "Join us for an immersive sound bath featuring crystal singing bowls designed to calm your nervous system, quiet your mind, and restore your body.  \n\nTake these moments, immersed in healing sounds, to reflect and reconnect before the rhythms of a new season begin. Leave feeling centered, restored, and prepared for the shifts ahead.",
+      "instructor": "Natalia Aristizabal"
     }
   ]
 }
