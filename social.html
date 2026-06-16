@@ -867,15 +867,19 @@ function renderOpts() {
     h += `<div class="og"><label class="ol">Event Title</label>
       <input class="oi" value="${x(S.title)}" oninput="set('title',this.value)">
     </div>`;
-    h += `<div class="og"><label class="ol">Date</label>
-      <input class="oi" value="${x(S.date)}" oninput="set('date',this.value)">
+    h += `<div class="og"><label class="ol">Date(s)</label>
+      <textarea class="ota" style="min-height:54px" oninput="set('date',this.value)">${x(S.date)}</textarea>
+      <p class="hint">One per line for multiple classes. Start a line with "-" for a bullet.</p>
     </div>`;
     h += `<div class="og"><label class="ol">Time</label>
       <input class="oi" value="${x(S.time)}" oninput="set('time',this.value)">
     </div>`;
     h += `<div class="og"><label class="ol">Description</label>
       <textarea class="ota" oninput="set('desc',this.value)">${x(S.desc)}</textarea>
+      <p class="hint">Start a line with "-" for a bullet. Blank lines separate items.</p>
     </div>`;
+    h += oTextSize();
+    h += oCardHeight();
     h += `<div class="og"><label class="ol">Button Text</label>
       <input class="oi" value="${x(S.nlButtonText)}" oninput="set('nlButtonText',this.value)">
     </div>`;
@@ -885,6 +889,30 @@ function renderOpts() {
 }
 
 // Options helpers
+function oCardHeight() {
+  const h = S.nlHeight != null ? S.nlHeight : 700;
+  return `<div class="og"><label class="ol">Card Height</label>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="bumpHeight(-50)">−</button>
+      <span style="min-width:70px;text-align:center;font-weight:600">${h} px</span>
+      <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="bumpHeight(50)">+</button>
+    </div>
+    <p class="hint">Width stays 1200px. Card also grows automatically if text is long.</p>
+  </div>`;
+}
+function bumpHeight(delta) {
+  const cur = S.nlHeight != null ? S.nlHeight : 700;
+  S.nlHeight = Math.max(500, Math.min(1600, cur + delta));
+  renderOpts(); updatePreview();
+}
+function oTextSize() {
+  const cur = S.nlTextScale != null ? S.nlTextScale : 1;
+  const opts = [['0.8','Smallest'],['0.9','Smaller'],['1','Default'],['1.1','Larger'],['1.2','Largest']];
+  return `<div class="og"><label class="ol">Text Size</label>
+    <select class="os" onchange="set('nlTextScale',+this.value)">
+      ${opts.map(([v,l])=>`<option value="${v}" ${Math.abs(cur-parseFloat(v))<0.001?'selected':''}>${l}</option>`).join('')}
+    </select></div>`;
+}
 function oEvent() {
   if (!events.length) return `<div class="og"><p class="hint">No events found.</p></div>`;
   return `<div class="og"><label class="ol">Event</label>
@@ -1008,6 +1036,35 @@ function pink(text, words) {
   });
   return out;
 }
+// Newsletter rich-text: split a textarea string into lines; a line starting
+// with "-" or "•" becomes a bullet row. Preserves multi-line lists for cards.
+function nlMultiline(text) {
+  const lines = String(text||'').split(/\r?\n/).map(l=>l.replace(/\s+$/,'')).filter(l=>l.trim()!=='');
+  if (!lines.length) return '';
+  return lines.map(line => {
+    const m = line.match(/^\s*[-•]\s*(.*)$/);
+    if (m) {
+      return `<div style="display:flex;gap:.5em;text-align:left;margin-bottom:.18em"><span style="flex-shrink:0">•</span><span>${x(m[1])}</span></div>`;
+    }
+    return `<div style="margin-bottom:.18em">${x(line.trim())}</div>`;
+  }).join('');
+}
+// Date block: keeps the classic "Date · Time" on one line, but if the Date
+// field has multiple lines (e.g. a list of master classes) renders them stacked.
+function nlDateBlock() {
+  const dateStr = String(S.date||'').trim();
+  if (!/\r?\n/.test(dateStr)) {
+    const one = x(dateStr) + (S.time ? (dateStr ? ' · ' : '') + x(S.time) : '');
+    return one ? `<div>${one}</div>` : '';
+  }
+  return nlMultiline(dateStr) + (S.time ? `<div style="margin-top:.1em">${x(S.time)}</div>` : '');
+}
+// Manual text-scale chosen in the sidebar (no auto-shrink). 1 = default.
+function nlScale() { return S.nlTextScale != null ? S.nlTextScale : 1; }
+function nlText(text) { return nlMultiline(text) || `<span style="color:#ccc">Description…</span>`; }
+// Manual card height (width stays 1200). Card also grows if content is taller.
+function nlH() { return S.nlHeight != null ? S.nlHeight : 700; }
+
 function inst() { return instructors[S.instIdx]||{}; }
 
 // Sama logo/handle markup used in templates
@@ -1128,14 +1185,20 @@ function scalePreview() {
   const area = document.getElementById('preview-area');
   const wrap = document.getElementById('preview-wrap');
   const full = document.getElementById('tpl-full');
+  // Width is fixed by the template; height may grow (e.g. taller newsletter cards),
+  // so measure the actual rendered height rather than assuming t.h.
+  full.style.width  = t.w + 'px';
+  full.style.height = 'auto';
+  full.style.transform = 'none';
+  const inner = full.firstElementChild;
+  const realH = inner ? inner.offsetHeight : t.h;
   const maxW = area.clientWidth  - 48;
   const maxH = area.clientHeight - 80;
-  const scale = Math.min(maxW/t.w, maxH/t.h, 1);
-  full.style.width  = t.w + 'px';
-  full.style.height = t.h + 'px';
+  const scale = Math.min(maxW/t.w, maxH/realH, 1);
+  full.style.height = realH + 'px';
   full.style.transform = `scale(${scale})`;
   wrap.style.width  = Math.round(t.w * scale) + 'px';
-  wrap.style.height = Math.round(t.h * scale) + 'px';
+  wrap.style.height = Math.round(realH * scale) + 'px';
 }
 window.addEventListener('resize', scalePreview);
 
@@ -1314,7 +1377,7 @@ function tGetToKnow() {
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.14) 0%,rgba(0,0,0,.04) 50%,rgba(0,0,0,.08) 100%)"></div>
   <div data-drag="instrName" style="position:absolute;left:${left}px;top:${top}px;cursor:grab">
     <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;letter-spacing:.22em;color:white;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.5);margin-bottom:14px;padding-left:28px">GET TO KNOW SAMA</div>
-    <div style="background:white;border-radius:0 56px 56px 0;padding:26px 72px 32px 66px;display:inline-block">
+    <div style="background:white;border-radius:0 56px 56px 0;padding:26px 72px 32px 66px;display:table">
       <div style="font-family:'Cormorant Garamond',serif;font-size:${namePx}px;font-weight:400;color:#2d2d2d;line-height:1;white-space:nowrap">${x(name)}</div>
     </div>
   </div>
@@ -1437,15 +1500,15 @@ function tNlCover() {
 function tNlEventPink() {
   const photo = S.nlEventPhoto || null;
   return `
-<div class="tpl" style="height:700px;display:flex;background:${PINK};border-radius:12px;overflow:hidden">
+<div class="tpl" style="min-height:${nlH()}px;display:flex;background:${PINK};border-radius:12px;overflow:hidden">
   <div style="flex:0 0 54%;padding:56px 52px 56px 68px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
     <div style="min-height:0">
       <div style="font-family:'Montserrat',sans-serif;font-size:50px;font-weight:800;color:white;line-height:1.15;margin-bottom:16px">${x(S.title)||'Event Title'}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:32px;font-style:italic;font-weight:700;color:rgba(255,255,255,.92);margin-bottom:22px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:28px;color:rgba(255,255,255,.88);line-height:1.6;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden">${x(S.desc)||'Event description goes here.'}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(32*nlScale())}px;font-style:italic;font-weight:700;color:rgba(255,255,255,.92);margin-bottom:22px;line-height:1.3">${nlDateBlock()}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(28*nlScale())}px;color:rgba(255,255,255,.88);line-height:1.6;overflow:hidden">${nlMultiline(S.desc)||'Event description goes here.'}</div>
     </div>
     <div style="flex-shrink:0;padding-top:32px">
-      <div style="display:inline-block;background:white;color:${PINK};font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+      <div style="display:table;background:white;color:${PINK};font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
     </div>
   </div>
   <div style="flex:0 0 46%;${photo ? bg(photo,'center top') : 'background:#c85888'}"></div>
@@ -1456,15 +1519,15 @@ function tNlEventPink() {
 function tNlEventWhite() {
   const photo = S.nlEventPhoto || null;
   return `
-<div class="tpl" style="height:700px;display:flex;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
+<div class="tpl" style="min-height:${nlH()}px;display:flex;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
   <div style="flex:0 0 54%;padding:56px 52px 56px 68px;display:flex;flex-direction:column;justify-content:space-between;min-width:0">
     <div style="min-height:0">
       <div style="font-family:'Montserrat',sans-serif;font-size:50px;font-weight:800;color:#2d2d2d;line-height:1.15;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:32px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:20px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
-      <div style="font-family:'Nunito',sans-serif;font-size:28px;color:#555;line-height:1.55;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden">${x(S.desc)||'Event description goes here.'}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(32*nlScale())}px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:20px;line-height:1.3">${nlDateBlock()}</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(28*nlScale())}px;color:#555;line-height:1.55;overflow:hidden">${nlMultiline(S.desc)||'Event description goes here.'}</div>
     </div>
     <div style="flex-shrink:0;padding-top:28px">
-      <div style="display:inline-block;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+      <div style="display:table;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
     </div>
   </div>
   <div style="flex:0 0 46%;${photo ? bg(photo,'center top') : 'background:#f0e6ec'}"></div>
@@ -1475,13 +1538,13 @@ function tNlEventWhite() {
 function tNlEventPhoto() {
   const photo = S.nlEventPhoto || null;
   return `
-<div class="tpl" style="height:700px;display:flex;flex-direction:column;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
+<div class="tpl" style="min-height:${nlH()}px;display:flex;flex-direction:column;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
   <div style="flex:0 0 330px;${photo ? bg(photo,'center') : 'background:#f0e6ec'}"></div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 56px 32px;text-align:center;min-height:0">
     <div style="font-family:'Montserrat',sans-serif;font-size:42px;font-weight:800;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.title)||'Event Title'}</div>
-    <div style="font-family:'Nunito',sans-serif;font-size:29px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:12px">${x(S.date)}${S.time?' · '+x(S.time):''}</div>
-    <div style="font-family:'Nunito',sans-serif;font-size:26px;color:#555;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:18px">${x(S.desc)||'Event description goes here.'}</div>
-    <div style="display:inline-block;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 34px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(29*nlScale())}px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:12px;line-height:1.3">${nlDateBlock()}</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(26*nlScale())}px;color:#555;line-height:1.5;overflow:hidden;margin-bottom:18px">${nlMultiline(S.desc)||'Event description goes here.'}</div>
+    <div style="display:table;margin:0 auto;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 34px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
   </div>
 </div>`;
 }
@@ -1646,7 +1709,7 @@ async function download() {
 
     // Render full-size into an off-screen container (static mode = no CSS animations, fully visible)
     const wrap = document.createElement('div');
-    wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${t.w}px;height:${t.h}px;overflow:hidden;z-index:-1`;
+    wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${t.w}px;overflow:hidden;z-index:-1`;
     wrap.innerHTML = render('static');
     document.body.appendChild(wrap);
 
@@ -1654,12 +1717,16 @@ async function download() {
     await document.fonts.ready;
     await new Promise(r => setTimeout(r, 200));
 
+    // Height may exceed the template default (e.g. taller newsletter cards) — capture the real height.
+    const realH = (wrap.firstElementChild && wrap.firstElementChild.offsetHeight) || t.h;
+    wrap.style.height = realH + 'px';
+
     const canvas = await html2canvas(wrap, {
       scale: 1,
       useCORS: true,
       allowTaint: false,
       width: t.w,
-      height: t.h,
+      height: realH,
       logging: false,
     });
 
