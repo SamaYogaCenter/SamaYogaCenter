@@ -403,6 +403,57 @@
   #cal-dl-bar {
     margin-top: 16px; text-align: center; flex-shrink: 0;
   }
+  /* ── Editable calendar affordances ──────────────────── */
+  .cal-cell { position: relative; }
+  .cal-chip { cursor: pointer; }
+  .cal-chip:hover { outline: 1.5px solid rgba(0,0,0,.28); outline-offset: -1px; }
+  .cal-add {
+    position: absolute; bottom: 4px; right: 4px;
+    width: 18px; height: 18px; line-height: 16px;
+    border-radius: 50%; border: 1px solid #d0a0b5;
+    background: #fff; color: #b03060;
+    font-size: 14px; font-weight: 700; text-align: center;
+    cursor: pointer; padding: 0;
+    opacity: 0; transition: opacity .12s;
+  }
+  .cal-cell:hover .cal-add { opacity: 1; }
+  .cal-add:hover { background: #b03060; color: #fff; }
+  /* Hidden while exporting the PNG so the downloaded calendar stays clean */
+  .cal-exporting .cal-add { display: none !important; }
+  .cal-exporting .cal-chip:hover { outline: none; }
+  /* ── Post editor modal ─────────────────────────────── */
+  #cal-edit-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    z-index: 650; display: none;
+    align-items: center; justify-content: center;
+  }
+  #cal-edit-modal.open { display: flex; }
+  #cal-edit-inner {
+    background: #fff; border-radius: 10px;
+    width: 340px; padding: 20px 22px 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  }
+  #cal-edit-inner h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: #2d3a6a; margin-bottom: 14px;
+  }
+  #cal-edit-modal .ol { margin-top: 10px; }
+  .cal-edit-actions {
+    display: flex; gap: 8px; align-items: center; margin-top: 18px;
+  }
+  .cal-edit-del {
+    background: none; border: none; color: #c0392b;
+    font-family: 'Nunito', sans-serif; font-size: 12px;
+    font-weight: 700; cursor: pointer; margin-right: auto; padding: 6px 4px;
+  }
+  .cal-edit-del:hover { text-decoration: underline; }
+  .cal-edit-cancel {
+    background: #eee; border: none; border-radius: 4px;
+    padding: 8px 14px; font-family: 'Montserrat', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    cursor: pointer; color: #555;
+  }
 
   /* ══════════════════════════════════════════════════════
      TEMPLATE STYLES — all measured at 1080px canvas width
@@ -497,6 +548,10 @@
         </div>
         <div id="cal-custom-list"></div>
       </div>
+      <div id="cal-edit-help" style="padding:9px 14px;border-bottom:1px solid #eee;flex-shrink:0">
+        <p class="hint" style="margin:0 0 7px">Click any post to edit, move, or delete it. Hover a day and click <strong style="color:#b03060">+</strong> to add one. Edits are saved automatically.</p>
+        <button class="cal-edit-cancel" style="width:100%" onclick="regenerateSchedule()" title="Discard edits for this month and rebuild from events">↺ Regenerate this month</button>
+      </div>
       <div id="cal-key-sidebar"></div>
     </div>
 
@@ -545,6 +600,25 @@
 
   </div>
 
+</div>
+
+<!-- ── Calendar Post Editor Modal ─────────────────────────── -->
+<div id="cal-edit-modal">
+  <div id="cal-edit-inner">
+    <h3 id="cal-edit-title">Edit Post</h3>
+    <label class="ol">Post text</label>
+    <input class="oi" id="cal-edit-text" placeholder="Post description…"
+           onkeydown="if(event.key==='Enter')calEditSave()">
+    <label class="ol">Type</label>
+    <select class="os" id="cal-edit-type"></select>
+    <label class="ol">Day</label>
+    <input class="oi" id="cal-edit-day" type="number" min="1" max="31">
+    <div class="cal-edit-actions">
+      <button class="cal-edit-del" id="cal-edit-del" onclick="calEditDelete()">Delete</button>
+      <button class="cal-edit-cancel" onclick="calEditCancel()">Cancel</button>
+      <button class="btn-pink" onclick="calEditSave()">Save</button>
+    </div>
+  </div>
 </div>
 
 <!-- ── Photo Picker Modal ─────────────────────────────────── -->
@@ -1836,6 +1910,47 @@ function eventsInMonth(y, m) {
 const calCustomEvents = {};
 function calKey(y, m) { return y + '-' + m; }
 
+// ── Editable schedules + persistence ─────────────────
+// calSchedules holds ONLY months the user has edited ("dirty"): key → [{id,day,text,type}].
+// Un-edited months are generated fresh each render so generator/events updates flow through.
+const calSchedules = {};
+let calRendered = [];     // working copy of the month currently on screen
+let calRenderedKey = '';
+let calUID = Date.now();
+const CAL_LS = 'sama-cal-v1';
+
+function persistCal() {
+  try { localStorage.setItem(CAL_LS, JSON.stringify({ schedules: calSchedules, custom: calCustomEvents })); }
+  catch (e) { /* storage unavailable — keep working in-memory */ }
+}
+function loadCal() {
+  try {
+    const d = JSON.parse(localStorage.getItem(CAL_LS) || '{}');
+    if (d.schedules) Object.assign(calSchedules, d.schedules);
+    if (d.custom)    Object.assign(calCustomEvents, d.custom);
+  } catch (e) { /* ignore corrupt storage */ }
+}
+
+// Flatten generator output {day:[{text,type}]} into an editable [{id,day,text,type}] array.
+function materializeSchedule(y, m) {
+  const gen = generateSchedule(y, m);
+  const arr = [];
+  Object.keys(gen).map(Number).sort((a, b) => a - b).forEach(day => {
+    gen[day].forEach(p => arr.push({ id: ++calUID, day, text: p.text, type: p.type }));
+  });
+  return arr;
+}
+// The array currently shown: stored copy if edited, else a fresh transient one.
+function getRenderSchedule(y, m) {
+  const k = calKey(y, m);
+  return calSchedules[k] ? calSchedules[k] : materializeSchedule(y, m);
+}
+// Promote the on-screen month to an owned/persisted copy before mutating it.
+function calMarkDirty() {
+  if (!calSchedules[calRenderedKey]) calSchedules[calRenderedKey] = calRendered;
+  persistCal();
+}
+
 function addCalCustomEvent() {
   const nameEl = document.getElementById('cal-custom-name');
   const dayEl  = document.getElementById('cal-custom-day');
@@ -1849,6 +1964,12 @@ function addCalCustomEvent() {
   const k = calKey(y, m);
   calCustomEvents[k] = calCustomEvents[k] || [];
   calCustomEvents[k].push({ name, day, id: Date.now() });
+  // If this month is already edited, the generator won't re-run for it, so add the
+  // key date's posts directly to the working copy to keep behavior intuitive.
+  if (calSchedules[k] && k === calRenderedKey) {
+    eventPosts(y, m, day, name).forEach(p => calRendered.push({ id: ++calUID, day: p.day, text: p.text, type: p.type }));
+  }
+  persistCal();
   nameEl.value = ''; dayEl.value = '';
   updateCalendar();
 }
@@ -1856,6 +1977,61 @@ function addCalCustomEvent() {
 function removeCalCustomEvent(k, id) {
   if (calCustomEvents[k])
     calCustomEvents[k] = calCustomEvents[k].filter(e => e.id !== id);
+  persistCal();
+  updateCalendar();
+}
+
+// Discard manual edits for the visible month and rebuild from events/recurring rules.
+function regenerateSchedule() {
+  if (calSchedules[calRenderedKey]) {
+    delete calSchedules[calRenderedKey];
+    persistCal();
+  }
+  updateCalendar();
+}
+
+// ── Post editor ──────────────────────────────────────
+let calEditId = null;   // id of post being edited, or null when adding new
+function calOpenEditor(id, day) {
+  calEditId = id;
+  const post = id != null ? calRendered.find(p => p.id === id) : null;
+  document.getElementById('cal-edit-title').textContent = post ? 'Edit Post' : 'Add Post';
+  document.getElementById('cal-edit-text').value = post ? post.text : '';
+  document.getElementById('cal-edit-day').value  = post ? post.day : (day || 1);
+  document.getElementById('cal-edit-type').innerHTML = Object.entries(PTYPES).map(([k, v]) =>
+    `<option value="${k}" ${post && post.type === k ? 'selected' : (!post && k === 'post' ? 'selected' : '')}>${v.label}</option>`
+  ).join('');
+  document.getElementById('cal-edit-del').style.display = post ? '' : 'none';
+  document.getElementById('cal-edit-modal').classList.add('open');
+  setTimeout(() => document.getElementById('cal-edit-text').focus(), 30);
+}
+function calEditCancel() { document.getElementById('cal-edit-modal').classList.remove('open'); }
+function calEditSave() {
+  const text = document.getElementById('cal-edit-text').value.trim();
+  const type = document.getElementById('cal-edit-type').value;
+  const dim  = daysInMonth(...calRenderedKey.split('-').map(Number));
+  let day    = parseInt(document.getElementById('cal-edit-day').value);
+  if (isNaN(day) || day < 1) day = 1;
+  if (day > dim) day = dim;
+  if (!text) { document.getElementById('cal-edit-text').focus(); return; }
+  calMarkDirty();
+  if (calEditId != null) {
+    const p = calRendered.find(p => p.id === calEditId);
+    if (p) { p.text = text; p.type = type; p.day = day; }
+  } else {
+    calRendered.push({ id: ++calUID, day, text, type });
+  }
+  persistCal();
+  calEditCancel();
+  updateCalendar();
+}
+function calEditDelete() {
+  if (calEditId == null) { calEditCancel(); return; }
+  calMarkDirty();
+  const i = calRendered.findIndex(p => p.id === calEditId);
+  if (i >= 0) calRendered.splice(i, 1);
+  persistCal();
+  calEditCancel();
   updateCalendar();
 }
 
@@ -1945,28 +2121,39 @@ function generateSchedule(y, m) {
   // ── Custom key dates added by user ─────────────────
   const customEvs = calCustomEvents[calKey(y, m)] || [];
   customEvs.forEach(ev => {
-    const ed = Math.min(ev.day, dim);
-    // Announcement ~10 days before
-    const aDayRaw = ed - 10;
-    if (aDayRaw >= 1) {
-      const aDay = toWeekday(y, m, aDayRaw);
-      if (aDay) add(aDay, ev.name, 'carousel');
-    }
-    // Reminder 2 days before
-    const ewd = new Date(y, m, ed).getDay();
-    const remDay = (ewd === 6) ? ed - 1 : ed - 2;
-    if (remDay >= 1 && remDay < ed) {
-      const rLabel = (ed - remDay === 1) ? ev.name + ' tomorrow' : ev.name + ' this weekend';
-      add(remDay, rLabel, 'story');
-    }
+    eventPosts(y, m, ev.day, ev.name).forEach(p => add(p.day, p.text, p.type));
   });
 
   return out;
 }
 
+// Announcement (~10 days before) + reminder (2 days before) posts for a dated
+// event. Shared by the generator and by adding a key date to an edited month.
+function eventPosts(y, m, day, label) {
+  const dim = daysInMonth(y, m);
+  const ed  = Math.min(day, dim);
+  const posts = [];
+  const aDayRaw = ed - 10;
+  if (aDayRaw >= 1) {
+    const aDay = toWeekday(y, m, aDayRaw);
+    if (aDay) posts.push({ day: aDay, text: label, type: 'carousel' });
+  }
+  const ewd = new Date(y, m, ed).getDay();
+  const remDay = (ewd === 6) ? ed - 1 : ed - 2;
+  if (remDay >= 1 && remDay < ed) {
+    const rLabel = (ed - remDay === 1) ? label + ' tomorrow' : label + ' this weekend';
+    posts.push({ day: remDay, text: rLabel, type: 'story' });
+  }
+  return posts;
+}
+
 // ── Calendar renderer ─────────────────────────────────
 function renderCalendar(y, m) {
-  const schedule  = generateSchedule(y, m);
+  // Editable working copy for this month (stored if edited, fresh otherwise).
+  calRenderedKey = calKey(y, m);
+  calRendered = getRenderSchedule(y, m);
+  const schedule = {};
+  calRendered.forEach(p => { (schedule[p.day] = schedule[p.day] || []).push(p); });
   const thisMonthEvs = eventsInMonth(y, m);
   const dim       = daysInMonth(y, m);
   const firstWd   = new Date(y, m, 1).getDay();      // weekday of day-1
@@ -2044,10 +2231,11 @@ function renderCalendar(y, m) {
   for (let d = 1; d <= dim; d++) {
     const posts = schedule[d] || [];
     const chips = posts.map(p => {
-      const t = PTYPES[p.type];
-      return `<span class="cal-chip" style="background:${t.bg};color:${t.color}">${p.text}</span>`;
+      const t = PTYPES[p.type] || PTYPES.post;
+      return `<span class="cal-chip" style="background:${t.bg};color:${t.color}" onclick="calOpenEditor(${p.id})" title="Edit post">${x(p.text)}</span>`;
     }).join('');
-    cells += `<div class="cal-cell"><span class="cal-cell-num">${d}</span>${chips}</div>`;
+    const addBtn = `<button class="cal-add" onclick="calOpenEditor(null,${d})" title="Add a post">+</button>`;
+    cells += `<div class="cal-cell"><span class="cal-cell-num">${d}</span>${chips}${addBtn}</div>`;
   }
   // Next-month filler
   let nd = 1;
@@ -2062,8 +2250,9 @@ function renderCalendar(y, m) {
 async function downloadCalendar() {
   const btn = event.target;
   btn.disabled = true; btn.textContent = 'Generating…';
+  const node = document.getElementById('cal-canvas');
   try {
-    const node = document.getElementById('cal-canvas');
+    node.classList.add('cal-exporting');   // hide + buttons / edit outlines in the PNG
     const canvas = await html2canvas(node, {
       scale: 2, useCORS: true, allowTaint: false, logging: false,
       backgroundColor: '#ffffff',
@@ -2073,11 +2262,13 @@ async function downloadCalendar() {
     a.href = canvas.toDataURL('image/png');
     a.click();
   } catch (err) { alert('Download failed: ' + err.message); }
+  node.classList.remove('cal-exporting');
   btn.disabled = false; btn.textContent = '⬇\xa0 Download Calendar PNG';
 }
 
-// Initialise month selector to current month
+// Initialise month selector to current month + restore saved calendar edits
 (function initCalSelector() {
+  loadCal();
   const sel = document.getElementById('cal-month-sel');
   if (sel) sel.value = new Date().getMonth();
   const yInp = document.getElementById('cal-year-inp');
