@@ -686,6 +686,8 @@ const TMPLS = [
   { id:'behind-pose',   label:'Behind the Pose',         ico:'🧘', w:1080, h:1080 },
   { id:'testimonial',   label:'Teacher Training Post',   ico:'💬', w:1080, h:1080 },
   { id:'ytt-cover',     label:'TT Post Cover',            ico:'🎓', w:1080, h:1350 },
+  { id:'class-type',    label:'Class Type Carousel',      ico:'🎴', w:1080, h:1350 },
+  { id:'thread',        label:'Continuous Thread',        ico:'🧵', w:1080, h:1350 },
   // ── Newsletter ───────────────────────────────────────────
   { id:'nl-cover',       label:'Cover Image',       ico:'📰', w:1200, h:840 },
   { id:'nl-event-pink',  label:'Event Card Pink',   ico:'🌸', w:1200, h:700 },
@@ -729,6 +731,19 @@ const S = {
   nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
   nlEventPhoto: null,
   nlButtonText: 'RESERVE YOUR SPOT',
+  // ── Carousels ────────────────────────────────────────────
+  slideIdx: 0,
+  // Class Type carousel: slide 0 is the cover, the rest are class types.
+  ctSlides: [
+    { header: 'Our Offerings', blurb: '', photo: null, px: 50, py: 50, zoom: 1 },
+    { header: 'Sama Stretch',  blurb: 'A slow, deep-stretch class to release tension and restore mobility.', photo: null, px: 50, py: 50, zoom: 1 },
+    { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, px: 50, py: 50, zoom: 1 },
+  ],
+  // Continuous Thread carousel: flowing lines across slides + a class name per slide.
+  ctThreadCount: 4,
+  ctThreadLineN: 5,
+  ctThreadTitle: 'Pick a number to help you decide which class to take this week!',
+  ctThreadNames: ['Mobility', 'Core', 'Restore'],
 };
 
 const DEFAULT_QS = [
@@ -1029,6 +1044,56 @@ function renderOpts() {
     </div>`;
   }
 
+  else if (t === 'class-type') {
+    const n = S.ctSlides.length, i = S.slideIdx || 0, sl = S.ctSlides[i] || {};
+    h += `<div class="og"><label class="ol">Number of Slides (2–6)</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctSetCount(${n-1})">−</button>
+        <span style="min-width:90px;text-align:center;font-weight:600">${n} slides</span>
+        <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctSetCount(${n+1})">+</button>
+      </div></div>`;
+    h += oCarouselNav(n);
+    h += `<hr class="odiv">`;
+    h += `<div class="og"><label class="ol">${i===0 ? 'Cover — Header' : 'Class Name (header)'}</label>
+      <input class="oi" value="${x(sl.header)}" oninput="setSlideProp('header',this.value)">
+    </div>`;
+    if (i > 0) {
+      h += `<div class="og"><label class="ol">Blurb</label>
+        <textarea class="ota" oninput="setSlideProp('blurb',this.value)">${x(sl.blurb)}</textarea>
+      </div>`;
+    }
+    h += oPhotoSlide('Photo (background)', sl.photo);
+    h += `<div class="og"><label class="ol">Photo Zoom</label>
+      <input type="range" min="100" max="300" value="${Math.round((sl.zoom!=null?sl.zoom:1)*100)}" oninput="setSlideProp('zoom',this.value/100)" style="width:100%;margin-top:4px">
+      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it.</p>
+    </div>`;
+  }
+
+  else if (t === 'thread') {
+    const n = S.ctThreadCount || 4, i = S.slideIdx || 0;
+    h += `<div class="og"><label class="ol">Number of Slides (2–6)</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctThreadSetCount(${n-1})">−</button>
+        <span style="min-width:90px;text-align:center;font-weight:600">${n} slides</span>
+        <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctThreadSetCount(${n+1})">+</button>
+      </div></div>`;
+    h += `<div class="og"><label class="ol">Number of Lines (2–6)</label>
+      <input type="range" min="2" max="6" value="${S.ctThreadLineN||5}" oninput="set('ctThreadLineN',+this.value)" style="width:100%;margin-top:4px">
+    </div>`;
+    h += oCarouselNav(n);
+    h += `<hr class="odiv">`;
+    if (i === 0) {
+      h += `<div class="og"><label class="ol">Cover Title (slide 1)</label>
+        <textarea class="ota" oninput="set('ctThreadTitle',this.value)">${x(S.ctThreadTitle)}</textarea>
+        <p class="hint">Numbered lines (1–${S.ctThreadLineN||5}) start on this slide and flow through the rest.</p>
+      </div>`;
+    } else {
+      h += `<div class="og"><label class="ol">Class Name (slide ${i+1})</label>
+        <input class="oi" value="${x(S.ctThreadNames[i-1]||'')}" oninput="setThreadName(${i-1},this.value)">
+      </div>`;
+    }
+  }
+
   document.getElementById('options').innerHTML = h;
 }
 
@@ -1173,10 +1238,17 @@ function pmTab(id, btn) {
   document.getElementById('pm-'+id).classList.add('active');
 }
 
+// Apply a chosen image to the active target (a flat S key, or the current carousel slide).
+function applyPhotoTarget(url) {
+  if (photoTarget === 'ctSlide') { const s = S.ctSlides[S.slideIdx]; if (s) s.photo = url; }
+  else { S[photoTarget] = url; }
+  renderOpts(); updatePreview(); closeModal();
+}
+
 function handleUpload(e) {
   const f = e.target.files[0]; if (!f) return;
   const r = new FileReader();
-  r.onload = ev => { S[photoTarget] = ev.target.result; renderOpts(); updatePreview(); closeModal(); };
+  r.onload = ev => applyPhotoTarget(ev.target.result);
   r.readAsDataURL(f);
 }
 
@@ -1189,8 +1261,7 @@ function buildSiteGrid() {
 }
 
 function pickSitePhoto(url) {
-  S[photoTarget] = url;
-  renderOpts(); updatePreview(); closeModal();
+  applyPhotoTarget(url);
 }
 
 // ── Utilities ────────────────────────────────────────────
@@ -1292,13 +1363,15 @@ document.getElementById('preview-wrap').addEventListener('mousedown', e => {
   const panEl = e.target.closest('[data-pan]');
   if (panEl) {
     const key = panEl.dataset.pan;
+    const slide = key === 'ctSlide';
+    const cur = slide ? (S.ctSlides[S.slideIdx] || {}) : null;
     _drag = {
-      pan: true, el: panEl, keyX: key+'X', keyY: key+'Y',
+      pan: true, slide, el: panEl, keyX: key+'X', keyY: key+'Y',
       w: parseFloat(panEl.dataset.panw) || 1000,
       h: parseFloat(panEl.dataset.panh) || 1000,
       scale: _getScale(), startX: e.clientX, startY: e.clientY,
-      origX: S[key+'X'] != null ? S[key+'X'] : 50,
-      origY: S[key+'Y'] != null ? S[key+'Y'] : 50,
+      origX: slide ? (cur.px != null ? cur.px : 50) : (S[key+'X'] != null ? S[key+'X'] : 50),
+      origY: slide ? (cur.py != null ? cur.py : 50) : (S[key+'Y'] != null ? S[key+'Y'] : 50),
     };
     panEl.style.cursor = 'grabbing';
     e.preventDefault();
@@ -1325,7 +1398,8 @@ document.addEventListener('mousemove', e => {
     // Drag the image: pulling right reveals the left side, so position % decreases.
     const nx = Math.max(0, Math.min(100, Math.round(_drag.origX - dxT / _drag.w * 100)));
     const ny = Math.max(0, Math.min(100, Math.round(_drag.origY - dyT / _drag.h * 100)));
-    S[_drag.keyX] = nx; S[_drag.keyY] = ny;
+    if (_drag.slide) { const s = S.ctSlides[S.slideIdx]; if (s) { s.px = nx; s.py = ny; } }
+    else { S[_drag.keyX] = nx; S[_drag.keyY] = ny; }
     _drag.el.querySelectorAll(':scope > div').forEach(d => { d.style.backgroundPosition = nx+'% '+ny+'%'; });
     return;
   }
@@ -1418,6 +1492,8 @@ function render(animT) {
     case 'behind-pose':   return tBehindPose();
     case 'testimonial':   return tTestimonial();
     case 'ytt-cover':     return tYttCover();
+    case 'class-type':     return tClassTypeSlide(S.slideIdx||0, animT);
+    case 'thread':         return tThreadSlide(S.slideIdx||0, animT);
     case 'nl-cover':       return tNlCover();
     case 'nl-event-pink':  return tNlEventPink();
     case 'nl-event-white': return tNlEventWhite();
@@ -1756,6 +1832,153 @@ function tNlEventPhoto() {
     <div style="display:table;margin:0 auto;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 34px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
   </div>
 </div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// CAROUSELS  (multi-slide; exported as separate PNGs per slide)
+// ════════════════════════════════════════════════════════
+function isCarousel(id) { return id === 'class-type' || id === 'thread'; }
+function carouselCount(id) { return id === 'class-type' ? S.ctSlides.length : (S.ctThreadCount || 1); }
+function renderSlide(id, i, animT) { return id === 'class-type' ? tClassTypeSlide(i, animT) : tThreadSlide(i, animT); }
+
+// ── Class Type carousel ──────────────────────────────────
+function tClassTypeSlide(i, animT) {
+  const sl   = S.ctSlides[i] || {};
+  const px   = sl.px != null ? sl.px : 50, py = sl.py != null ? sl.py : 50, zoom = sl.zoom != null ? sl.zoom : 1;
+  const photoLayer = sl.photo
+    ? `<div data-pan="ctSlide" data-panw="1080" data-panh="1350" style="position:absolute;inset:0;overflow:hidden;cursor:grab">
+         <div style="position:absolute;inset:0;${bg(sl.photo, `${px}% ${py}%`)};transform:scale(${zoom});transform-origin:center"></div>
+       </div>`
+    : `<div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a2a30,#241c20)"></div>`;
+  if (i === 0) {
+    return `
+<div class="tpl" style="height:1350px;background:#241c20">
+  ${photoLayer}
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,.15) 45%,rgba(0,0,0,.6))"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px">
+    <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:rgba(255,255,255,.9);text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#fff;line-height:1.05;text-shadow:0 2px 28px rgba(0,0,0,.5)">${x(sl.header)||'Our Offerings'}</div>
+    <div style="font-family:'Montserrat',sans-serif;font-size:23px;font-weight:600;letter-spacing:.2em;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:42px">Swipe to explore &rarr;</div>
+  </div>
+</div>`;
+  }
+  return `
+<div class="tpl" style="height:1350px;background:#241c20">
+  ${photoLayer}
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 40%,rgba(0,0,0,.8))"></div>
+  <div style="position:absolute;top:60px;left:80px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.85);text-transform:uppercase">${i} / ${S.ctSlides.length - 1}</div>
+  <div style="position:absolute;left:80px;right:80px;bottom:118px">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:92px;font-weight:400;color:#fff;line-height:1.0;margin-bottom:26px;text-shadow:0 2px 22px rgba(0,0,0,.55)">${x(sl.header)||'Class Name'}</div>
+    <div style="display:table;background:rgba(255,255,255,.93);border-radius:16px;padding:30px 36px">
+      <div style="font-family:'Nunito',sans-serif;font-size:34px;color:#2d2d2d;line-height:1.5">${x(sl.blurb)||'Describe this class type…'}</div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:44px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.78)')}</div>
+</div>`;
+}
+
+// ── Continuous Thread carousel ───────────────────────────
+const SAMA_THREAD = ['#b03060', '#d98aa6', '#c9a96a', '#e7d9c3', '#8fae9b', '#a98c9a'];
+// Continuous y(x) across the full carousel width so curves align at slide seams.
+function threadY(i, n, x, totalW) {
+  const top = 300, bot = 1140;
+  const base = n <= 1 ? (top + bot) / 2 : top + (bot - top) * (i / (n - 1));
+  const amp = 92 + 30 * (i % 4);
+  const freq = 1.3 + 0.45 * (i % 3);
+  const phase = i * 1.9 + 0.6;
+  const y = base + amp * Math.sin((x / totalW) * Math.PI * 2 * freq + phase);
+  return Math.max(150, Math.min(1230, y));
+}
+function threadSVG(s, count, lineN) {
+  const W = 1080, H = 1350, totalW = count * W;
+  let paths = '';
+  for (let i = 0; i < lineN; i++) {
+    let d = '';
+    for (let x = s * W; x <= (s + 1) * W; x += 16) {
+      const y = threadY(i, lineN, x, totalW);
+      d += (d === '' ? 'M' : 'L') + (x - s * W).toFixed(1) + ' ' + y.toFixed(1) + ' ';
+    }
+    paths += `<path d="${d}" fill="none" stroke="${SAMA_THREAD[i % SAMA_THREAD.length]}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${paths}</svg>`;
+}
+function tThreadSlide(i, animT) {
+  const count = S.ctThreadCount || 4;
+  const lineN = S.ctThreadLineN || 5;
+  const totalW = count * 1080;
+  const uri = `url("data:image/svg+xml,${encodeURIComponent(threadSVG(i, count, lineN))}")`;
+  let overlay = '';
+  if (i === 0) {
+    let nums = '';
+    for (let k = 0; k < lineN; k++) {
+      const yr = threadY(k, lineN, 1080, totalW);
+      nums += `<div style="position:absolute;right:50px;top:${(yr - 38).toFixed(0)}px;font-family:'Montserrat',sans-serif;font-size:58px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.5)">${k + 1}</div>`;
+    }
+    overlay = `
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(36,28,32,.94) 0%,rgba(36,28,32,.8) 40%,rgba(36,28,32,0) 66%)"></div>
+      <div style="position:absolute;left:74px;top:96px;right:280px">
+        <img src="${LOGO_URL}" style="height:48px;filter:brightness(0) invert(1)" crossorigin="anonymous">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;color:#fff;line-height:1.08;margin-top:34px">${x(S.ctThreadTitle)||'Pick a number…'}</div>
+      </div>
+      ${nums}`;
+  } else {
+    const name = (S.ctThreadNames[i - 1] || 'Class Name');
+    const onTop = i % 2 === 0;
+    overlay = `
+      <div style="position:absolute;left:0;right:0;${onTop?'top:150px':'bottom:200px'};padding:0 72px;text-align:${onTop?'left':'right'}">
+        <div style="display:inline-block;background:rgba(36,28,32,.55);border-radius:18px;padding:18px 34px">
+          <div style="font-family:'Montserrat',sans-serif;font-size:86px;font-weight:800;letter-spacing:.01em;color:#fff;text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,.6)">${x(name)}</div>
+        </div>
+      </div>`;
+  }
+  return `
+<div class="tpl" style="height:1350px;background:#241c20 ${uri} center/cover no-repeat">
+  ${overlay}
+  <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.72)')}</div>
+</div>`;
+}
+
+// ── Carousel editing helpers ─────────────────────────────
+function ctGo(delta) {
+  const n = carouselCount(S.tpl);
+  S.slideIdx = Math.max(0, Math.min(n - 1, (S.slideIdx || 0) + delta));
+  renderOpts(); updatePreview();
+}
+function setSlideProp(prop, val) { const s = S.ctSlides[S.slideIdx]; if (s) { s[prop] = val; updatePreview(); } }
+function ctSetCount(n) {
+  n = Math.max(2, Math.min(6, n));
+  while (S.ctSlides.length < n) S.ctSlides.push({ header: 'New Class', blurb: 'Describe this class type…', photo: null, px: 50, py: 50, zoom: 1 });
+  while (S.ctSlides.length > n) S.ctSlides.pop();
+  if (S.slideIdx >= n) S.slideIdx = n - 1;
+  renderOpts(); updatePreview();
+}
+function ctThreadSetCount(n) {
+  n = Math.max(2, Math.min(6, n));
+  S.ctThreadCount = n;
+  while (S.ctThreadNames.length < n - 1) S.ctThreadNames.push('Class ' + (S.ctThreadNames.length + 1));
+  while (S.ctThreadNames.length > n - 1) S.ctThreadNames.pop();
+  if (S.slideIdx >= n) S.slideIdx = n - 1;
+  renderOpts(); updatePreview();
+}
+function setThreadName(i, val) { S.ctThreadNames[i] = val; updatePreview(); }
+function oPhotoSlide(label, val) {
+  return `<div class="og"><label class="ol">${label}</label>
+    <button class="ppbtn" onclick="openModal('ctSlide')">
+      ${val ? `<img class="ppthumb" src="${val}" alt="">` : `<div class="ppempty">🖼</div>`}
+      <span>${val ? 'Change photo' : 'Choose photo…'}</span>
+    </button></div>`;
+}
+// Slide navigation strip shown atop the options for carousel templates.
+function oCarouselNav(n) {
+  const i = S.slideIdx || 0;
+  const dots = Array.from({length:n}, (_,k) =>
+    `<button onclick="ctGo(${k-i})" title="Slide ${k+1}" style="width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;font-size:11px;font-weight:700;background:${k===i?'#b03060':'#e7d7df'};color:${k===i?'#fff':'#9a6b80'}">${k+1}</button>`
+  ).join('');
+  return `<div class="og" style="display:flex;align-items:center;gap:8px;justify-content:center">
+    <button class="cal-edit-cancel" onclick="ctGo(-1)" ${i===0?'disabled style="opacity:.4"':''}>‹</button>
+    <div style="display:flex;gap:5px">${dots}</div>
+    <button class="cal-edit-cancel" onclick="ctGo(1)" ${i===n-1?'disabled style="opacity:.4"':''}>›</button>
+  </div>`;
 }
 
 // ── Download Video (10-second MP4) ───────────────────────
