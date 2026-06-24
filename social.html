@@ -707,7 +707,7 @@ const S = {
   instPhoto: null,
   q1:'', a1:'', q2:'', a2:'', q3:'', a3:'', q4:'', a4:'', q5:'', a5:'',
   // monthly
-  monthLabel: '', monthIdxs: [],
+  monthLabel: '', monthIdxs: [], monthCustom: [],
   // tips
   tipsType: 'cover', tipsMonth: '', tipsTheme: '', tipsTxt: '', tipsBg: null,
   // behind pose
@@ -836,9 +836,41 @@ function renderOpts() {
     if (t === 'event-card') {
       h += oPhoto('cardBg', 'Background Photo (optional)', S.cardBg);
     }
-    if (t === 'event-post') {
-      h += `<hr class="odiv">` + oPink();
+    if (t === 'event-story') {
+      const sx = S.storyPhotoX != null ? S.storyPhotoX : 50;
+      const sy = S.storyPhotoY != null ? S.storyPhotoY : 50;
+      h += `<div class="og"><label class="ol">Photo Framing — Horizontal</label>
+        <input type="range" min="0" max="100" value="${sx}" oninput="set('storyPhotoX',+this.value)" style="width:100%;margin-top:4px">
+      </div>`;
+      h += `<div class="og"><label class="ol">Photo Framing — Vertical</label>
+        <input type="range" min="0" max="100" value="${sy}" oninput="set('storyPhotoY',+this.value)" style="width:100%;margin-top:4px">
+      </div>`;
     }
+
+    // Editable event details — auto-filled when an event is selected, but always editable.
+    h += `<hr class="odiv">`;
+    h += `<div class="og"><label class="ol">Title</label>
+      <input class="oi" value="${x(S.title)}" oninput="set('title',this.value)">
+    </div>`;
+    h += `<div class="og"><label class="ol">Date</label>
+      <input class="oi" value="${x(S.date)}" oninput="set('date',this.value)">
+    </div>`;
+    if (t === 'event-story' || t === 'event-card') {
+      h += `<div class="og"><label class="ol">Time</label>
+        <input class="oi" value="${x(S.time)}" oninput="set('time',this.value)">
+      </div>`;
+    }
+    if (t === 'event-post') {
+      h += `<div class="og"><label class="ol">Instructor</label>
+        <input class="oi" value="${x(S.instructor)}" oninput="set('instructor',this.value)">
+      </div>`;
+    }
+    if (t === 'event-post' || t === 'event-card') {
+      h += `<div class="og"><label class="ol">Description</label>
+        <textarea class="ota" oninput="set('desc',this.value)">${x(S.desc)}</textarea>
+      </div>`;
+    }
+
     if (t === 'event-story') {
       h += `<hr class="odiv">
       <div class="og"><label class="ol">Opening Line</label>
@@ -848,6 +880,9 @@ function renderOpts() {
         <input class="oi" value="${x(S.storyFooter)}" oninput="set('storyFooter',this.value)">
         <p class="hint">Auto-links to this event's section on the website</p>
       </div>`;
+    }
+    if (t === 'event-post') {
+      h += `<hr class="odiv">` + oPink();
     }
   }
 
@@ -864,6 +899,20 @@ function renderOpts() {
         ${x(e.title)} · ${x(e.date.split(',')[1]||e.date)}
       </label>`).join('');
     h += `</div>`;
+
+    // Custom events not listed on the website (same format).
+    h += `<div class="og"><label class="ol">Add Custom Event</label>`;
+    (S.monthCustom||[]).forEach(ev => {
+      h += `<div style="display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:5px;background:#fdf0f5;border-radius:4px;padding:5px 8px">
+        <span style="flex:1">${x(ev.title)}${ev.date?' · '+x(ev.date):''}${ev.time?' · '+x(ev.time):''}</span>
+        <button onclick="removeMonthCustom(${ev.id})" title="Remove" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:14px;line-height:1">✕</button>
+      </div>`;
+    });
+    h += `<input class="oi" id="mc-title" placeholder="Title (e.g. Graduate Co-Teaching)" style="margin-bottom:4px" onkeydown="if(event.key==='Enter')addMonthCustom()">
+      <input class="oi" id="mc-date" placeholder="Date (e.g. Fridays in July) — optional" style="margin-bottom:4px" onkeydown="if(event.key==='Enter')addMonthCustom()">
+      <input class="oi" id="mc-time" placeholder="Time — optional" style="margin-bottom:6px" onkeydown="if(event.key==='Enter')addMonthCustom()">
+      <button class="btn-pink" style="width:100%;padding:7px;font-size:11px" onclick="addMonthCustom()">+ Add to list</button>
+    </div>`;
   }
 
   else if (t === 'get-to-know') {
@@ -1057,6 +1106,22 @@ function toggleMonthEv(idx, checked) {
     ? [...new Set([...S.monthIdxs, idx])]
     : S.monthIdxs.filter(i=>i!==idx);
   updatePreview();
+}
+
+// Add a custom monthly event that isn't on the website (same format as site events).
+function addMonthCustom() {
+  const titleEl = document.getElementById('mc-title');
+  const title = titleEl.value.trim();
+  if (!title) { titleEl.focus(); return; }
+  const date = document.getElementById('mc-date').value.trim();
+  const time = document.getElementById('mc-time').value.trim();
+  S.monthCustom = S.monthCustom || [];
+  S.monthCustom.push({ title, date, time, id: Date.now() });
+  renderOpts(); updatePreview();
+}
+function removeMonthCustom(id) {
+  S.monthCustom = (S.monthCustom || []).filter(e => e.id !== id);
+  renderOpts(); updatePreview();
 }
 
 // ── Photo modal ──────────────────────────────────────────
@@ -1347,6 +1412,8 @@ function tEventStory(animT) {
     ? `https://samayogacenter.com/events.html#${eventId}`
     : 'https://samayogacenter.com/events.html';
   const footerTxt = S.storyFooter || 'Click the link to reserve your spot now';
+  const sx = S.storyPhotoX != null ? S.storyPhotoX : 50;
+  const sy = S.storyPhotoY != null ? S.storyPhotoY : 50;
   return `
 <div class="tpl" style="height:1920px;background:url('${STORY_BG}') center/cover no-repeat">
   <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
@@ -1358,8 +1425,8 @@ function tEventStory(animT) {
     </div>
   </div>
   <div style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;${animFi(animT,.2,.8)}">
-    <div style="position:absolute;inset:0;${bg(S.photo)};${animP1(animT)}"></div>
-    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2)};${animP2(animT)}"></div>`:''}
+    <div style="position:absolute;inset:0;${bg(S.photo, `${sx}% ${sy}%`)};${animP1(animT)}"></div>
+    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${sx}% ${sy}%`)};${animP2(animT)}"></div>`:''}
   </div>
   <div style="position:absolute;left:72px;right:72px;top:1410px;bottom:130px;display:flex;align-items:center;justify-content:center;${animFi(animT,.7)}">
     <a href="${eventLink}" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em;text-decoration:none">${x(footerTxt)}</a>
@@ -1403,15 +1470,18 @@ function tEventCard(animT) {
 // ── Monthly shared layout helper ─────────────────────────
 function _tMonthlyLayout(h) {
   const isStory = h === 1920;
-  const sel  = S.monthIdxs.map(i => events[i]).filter(Boolean);
+  const sel  = [...S.monthIdxs.map(i => events[i]).filter(Boolean), ...(S.monthCustom || [])];
   const dividerMargin = isStory ? 28 : 20;
   const dateFontSize  = isStory ? 28 : 24;
   const titleFontSize = isStory ? 36 : 30;
   const rows = sel.length
-    ? sel.map((e,i) => `
+    ? sel.map((e,i) => {
+        const dt = [ord(x(e.date)), x(e.time)].filter(s => s && s.trim()).join(' &nbsp;·&nbsp; ');
+        return `
         ${i > 0 ? `<div style="border-top:1.5px solid ${PINK};margin:${dividerMargin}px 0"></div>` : ''}
-        <div style="font-family:'Montserrat',sans-serif;font-size:${dateFontSize}px;font-weight:300;color:#9a9a9a;letter-spacing:.04em">${ord(x(e.date))} &nbsp;·&nbsp; ${x(e.time)}</div>
-        <div style="font-family:'Nunito',sans-serif;font-size:${titleFontSize}px;font-weight:700;color:#2d2d2d;margin-top:6px">${x(e.title)}</div>`).join('')
+        ${dt ? `<div style="font-family:'Montserrat',sans-serif;font-size:${dateFontSize}px;font-weight:300;color:#9a9a9a;letter-spacing:.04em">${dt}</div>` : ''}
+        <div style="font-family:'Nunito',sans-serif;font-size:${titleFontSize}px;font-weight:700;color:#2d2d2d;margin-top:6px">${x(e.title)}</div>`;
+      }).join('')
     : `<div style="font-size:${dateFontSize}px;color:#bbb;font-style:italic">Select events in the sidebar…</div>`;
   const monthFontSize = isStory ? 140 : 112;
   const samaFontSize  = isStory ? 80  : 64;
