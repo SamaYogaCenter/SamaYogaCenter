@@ -68,7 +68,7 @@
 
   /* ── Sidebar ─────────────────────────────────────────── */
   #sidebar {
-    width: 330px; min-width: 330px;
+    width: 380px; min-width: 380px;
     background: white; border-right: 1px solid #e0dbd4;
     display: flex; flex-direction: column; overflow: hidden;
   }
@@ -517,6 +517,7 @@
 
     <div id="mode-tabs">
       <button class="mode-tab active" id="tab-studio" onclick="setMode('studio')">🎨 Studio</button>
+      <button class="mode-tab" id="tab-newsletter" onclick="setMode('newsletter')">📰 Newsletter</button>
       <button class="mode-tab" id="tab-calendar" onclick="setMode('calendar')">📅 Calendar</button>
     </div>
 
@@ -795,6 +796,7 @@ async function init() {
   if (instructors.length) selectInst(0);
   renderOpts();
   updatePreview();
+  setMode('studio');   // apply per-tab section visibility (hides newsletter grid)
 }
 
 // ── Template grid ────────────────────────────────────────
@@ -1132,7 +1134,7 @@ function nlMultiline(text) {
     const rest   = line.slice(lead.length);
     const m = rest.match(/^[-•]\s*(.*)$/);
     if (m) {
-      return `<div style="display:flex;gap:.5em;text-align:left;margin-bottom:.18em;${pad}"><span style="flex-shrink:0">•</span><span>${x(m[1])}</span></div>`;
+      return `<div style="display:flex;gap:.45em;text-align:left;margin-bottom:.18em;${pad}"><span style="flex-shrink:0">–</span><span>${x(m[1])}</span></div>`;
     }
     return `<div style="margin-bottom:.18em;${pad}">${x(rest)}</div>`;
   }).join('');
@@ -1841,17 +1843,25 @@ const CAL_DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 // ── Mode switching ────────────────────────────────────
 function setMode(mode) {
-  const isCal = (mode === 'calendar');
-  ['tpl-section','nl-section','options'].forEach(id => {
-    document.getElementById(id).style.display = isCal ? 'none' : '';
-  });
-  document.getElementById('cal-controls').style.display  = isCal ? 'flex' : 'none';
-  document.getElementById('preview-wrap').style.display  = isCal ? 'none' : '';
-  document.getElementById('dl-bar').style.display        = isCal ? 'none' : '';
-  document.getElementById('cal-area').style.display      = isCal ? 'flex' : 'none';
-  document.getElementById('tab-studio').classList.toggle('active',   !isCal);
-  document.getElementById('tab-calendar').classList.toggle('active',  isCal);
-  if (isCal) updateCalendar();
+  const isCal    = (mode === 'calendar');
+  const isNl     = (mode === 'newsletter');
+  const isStudio = (mode === 'studio');
+  // Social posts and newsletter now each have their own tab.
+  document.getElementById('tpl-section').style.display = isStudio ? '' : 'none';
+  document.getElementById('nl-section').style.display  = isNl     ? '' : 'none';
+  document.getElementById('options').style.display     = isCal    ? 'none' : '';
+  document.getElementById('cal-controls').style.display = isCal ? 'flex' : 'none';
+  document.getElementById('preview-wrap').style.display = isCal ? 'none' : '';
+  document.getElementById('dl-bar').style.display       = isCal ? 'none' : '';
+  document.getElementById('cal-area').style.display     = isCal ? 'flex' : 'none';
+  document.getElementById('tab-studio').classList.toggle('active',     isStudio);
+  document.getElementById('tab-newsletter').classList.toggle('active', isNl);
+  document.getElementById('tab-calendar').classList.toggle('active',   isCal);
+  if (isCal) { updateCalendar(); return; }
+  // Keep the selected template consistent with the active tab.
+  const onNl = (S.tpl || '').startsWith('nl-');
+  if (isNl && !onNl)     pickTpl(TMPLS.find(t =>  t.id.startsWith('nl-')).id);
+  if (isStudio && onNl)  pickTpl(TMPLS.find(t => !t.id.startsWith('nl-')).id);
 }
 
 function updateCalendar() {
