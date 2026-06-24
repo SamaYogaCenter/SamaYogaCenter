@@ -775,14 +775,28 @@ async function init() {
     ];
   } catch(e) {}
 
-  // Collect site photo URLs
+  // Collect ALL site photo URLs — every image in every data file (recursively,
+  // regardless of field name) plus any image referenced on the public pages.
   const imgs = new Set();
-  events.forEach(e=>{ if(e.image) imgs.add(e.image); });
-  instructors.forEach(i=>{ if(i.image) imgs.add(i.image); });
-  try {
-    const d = await fetch('data/classes.json?v='+Date.now()).then(r=>r.json());
-    (d.classes||[]).forEach(c=>{ if(c.image) imgs.add(c.image); });
-  } catch(e) {}
+  const IMG_RE = /\.(?:webp|jpe?g|png|avif|gif)(?:\?|$)/i;
+  const norm = u => u.replace(/^\.?\//, '/').replace(/^(?!\/|https?:)/, '/');
+  const walkImgs = o => {
+    if (!o) return;
+    if (typeof o === 'string') { if (/images\//i.test(o) && IMG_RE.test(o)) imgs.add(norm(o)); return; }
+    if (typeof o === 'object') Object.values(o).forEach(walkImgs);
+  };
+  const dataFiles = ['events.json','team.json','classes.json','kids.json','private-lessons.json','teacher-training.json'];
+  await Promise.all(dataFiles.map(async f => {
+    try { walkImgs(await fetch('data/'+f+'?v='+Date.now()).then(r=>r.json())); } catch(e) {}
+  }));
+  const pages = ['index.html','classes.html','private-sessions.html','kids-yoga.html',
+                 'teacher-training.html','events.html','team.html','pricing.html','studio-rentals.html','contact.html'];
+  await Promise.all(pages.map(async p => {
+    try {
+      const html = await fetch(p+'?v='+Date.now()).then(r=>r.text());
+      (html.match(/\/?images\/[^"'()\s>]+?\.(?:webp|jpe?g|png|avif|gif)/gi) || []).forEach(u => imgs.add(norm(u)));
+    } catch(e) {}
+  }));
   sitePhotos = [...imgs];
   buildSiteGrid();
 
@@ -836,7 +850,12 @@ function renderOpts() {
     if (t === 'event-card') {
       h += oPhoto('cardBg', 'Background Photo (optional)', S.cardBg);
     }
-    h += `<p class="hint" style="margin:-4px 0 2px">💡 Drag the photo in the preview to reposition its framing.</p>`;
+    const zoomKey = t==='event-post' ? 'postPhotoZoom' : t==='event-story' ? 'storyPhotoZoom' : 'cardPhotoZoom';
+    const zoomVal = S[zoomKey] != null ? S[zoomKey] : 1;
+    h += `<div class="og"><label class="ol">Photo Zoom</label>
+      <input type="range" min="100" max="300" value="${Math.round(zoomVal*100)}" oninput="set('${zoomKey}',this.value/100)" style="width:100%;margin-top:4px">
+      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it.</p>
+    </div>`;
 
     // Editable event details — auto-filled when an event is selected, but always editable.
     h += `<hr class="odiv">`;
@@ -917,6 +936,9 @@ function renderOpts() {
     h += oPhoto('instPhoto','Instructor Photo',S.instPhoto);
     h += `<div class="og"><label class="ol">Photo Crop (top → bottom)</label>
       <input type="range" min="0" max="100" value="${S.meetPhotoPct!=null?S.meetPhotoPct:50}" oninput="set('meetPhotoPct',+this.value)" style="width:100%;margin-top:4px">
+    </div>`;
+    h += `<div class="og"><label class="ol">Photo Zoom</label>
+      <input type="range" min="100" max="300" value="${Math.round((S.meetPhotoZoom!=null?S.meetPhotoZoom:1)*100)}" oninput="set('meetPhotoZoom',this.value/100)" style="width:100%;margin-top:4px">
     </div>`;
     h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
     h += `<hr class="odiv">`;
@@ -1036,7 +1058,7 @@ function oTextSize() {
     </select></div>`;
 }
 function oEvent() {
-  const customOpt = `<option value="custom" ${S.eventIdx===-1?'selected':''}>✏️ Custom (enter your own)</option>`;
+  const customOpt = `<option value="custom" ${S.eventIdx===-1?'selected':''}>Custom (enter your own)</option>`;
   if (!events.length) {
     return `<div class="og"><label class="ol">Event</label>
       <select class="os" onchange="selectEvent(this.value)">${customOpt}</select>
@@ -1044,10 +1066,10 @@ function oEvent() {
   }
   return `<div class="og"><label class="ol">Event</label>
     <select class="os" onchange="selectEvent(this.value)">
-      ${events.map((e,i)=>`<option value="${i}" ${S.eventIdx===i?'selected':''}>${x(e.title)}</option>`).join('')}
       ${customOpt}
+      ${events.map((e,i)=>`<option value="${i}" ${S.eventIdx===i?'selected':''}>${x(e.title)}</option>`).join('')}
     </select>
-    ${S.eventIdx===-1 ? '<p class="hint">✏️ Custom mode — all fields are your own.</p>' : ''}</div>`;
+    ${S.eventIdx===-1 ? '<p class="hint">Custom mode — all fields are your own.</p>' : ''}</div>`;
 }
 function oInst() {
   if (!instructors.length) return `<div class="og"><p class="hint">No instructors found.</p></div>`;
@@ -1426,8 +1448,8 @@ function tEventPost(animT) {
   </div>
   <!-- Center photo — always covers the "Canva" watermark (y=355–995, center y=675) -->
   <div data-pan="postPhoto" data-panw="920" data-panh="640" style="position:absolute;left:80px;right:80px;top:355px;height:640px;border-radius:6px;overflow:hidden;cursor:grab;${animFi(animT,.2,.8)}">
-    <div style="position:absolute;inset:0;${bg(S.photo, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};${animP1(animT)}"></div>
-    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};${animP2(animT)}"></div>`:''}
+    <div style="position:absolute;inset:0;${bg(S.photo, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};transform:scale(${S.postPhotoZoom!=null?S.postPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
+    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};transform:scale(${S.postPhotoZoom!=null?S.postPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
   </div>
   <!-- Description below photo -->
   <div style="position:absolute;left:80px;right:80px;top:1022px;bottom:96px;overflow:hidden;${animFi(animT,.6)}">
@@ -1460,8 +1482,8 @@ function tEventStory(animT) {
     </div>
   </div>
   <div data-pan="storyPhoto" data-panw="840" data-panh="840" style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;cursor:grab;${animFi(animT,.2,.8)}">
-    <div style="position:absolute;inset:0;${bg(S.photo, `${sx}% ${sy}%`)};${animP1(animT)}"></div>
-    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${sx}% ${sy}%`)};${animP2(animT)}"></div>`:''}
+    <div style="position:absolute;inset:0;${bg(S.photo, `${sx}% ${sy}%`)};transform:scale(${S.storyPhotoZoom!=null?S.storyPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
+    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${sx}% ${sy}%`)};transform:scale(${S.storyPhotoZoom!=null?S.storyPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
   </div>
   <div style="position:absolute;left:72px;right:72px;top:1410px;bottom:130px;display:flex;align-items:center;justify-content:center;${animFi(animT,.7)}">
     <a href="${eventLink}" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em;text-decoration:none">${x(footerTxt)}</a>
@@ -1485,8 +1507,8 @@ function tEventCard(animT) {
   ${hasBg ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>` : ''}
   <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;${cardShadow};overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
     <div data-pan="cardPhoto" data-panw="864" data-panh="520" style="position:relative;width:100%;height:520px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;cursor:grab;${animFi(animT,.15,.8)}">
-      <div style="position:absolute;inset:0;${bg(S.photo, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};${animP1(animT)}"></div>
-      ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};${animP2(animT)}"></div>`:''}
+      <div style="position:absolute;inset:0;${bg(S.photo, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};transform:scale(${S.cardPhotoZoom!=null?S.cardPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
+      ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};transform:scale(${S.cardPhotoZoom!=null?S.cardPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
     </div>
     <div style="${animFi(animT,.35)}">
       <div style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
@@ -1527,7 +1549,7 @@ function _tMonthlyLayout(h) {
   ${S.mainPhoto ? `<div style="position:absolute;inset:0;${bg(S.mainPhoto)};opacity:.32"></div>` : ''}
   <div style="position:absolute;inset:0;background:rgba(255,245,240,.08)"></div>
   <div style="padding:${topPad}px 0 0 72px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:${monthFontSize}px;font-weight:400;color:${PINK};line-height:.88;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(255,255,255,.6)">${x(S.monthLabel)||'JUNE'}</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:${monthFontSize}px;font-weight:400;color:${PINK};line-height:.88;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(255,255,255,.6);margin-bottom:${isStory?28:20}px">${x(S.monthLabel)||'JUNE'}</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:${samaFontSize}px;font-weight:400;color:${PINK};line-height:1.1;text-shadow:0 2px 14px rgba(255,255,255,.5)">SAMA</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:${samaFontSize}px;font-weight:400;color:${PINK};line-height:1.1;text-shadow:0 2px 14px rgba(255,255,255,.5)">EXPERIENCES</div>
   </div>
@@ -1591,7 +1613,9 @@ function tMeet() {
   <div style="position:absolute;inset:0;background:rgba(195,185,175,.5);backdrop-filter:blur(5px)"></div>
   <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:url('/images/Social%20Media/paper.png') center/cover no-repeat;border-radius:10px;padding:48px 60px;overflow:hidden">
     <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;line-height:1;margin-bottom:28px">Meet ${x(name)}</div>
-    <div style="width:100%;height:500px;overflow:hidden;${photoStyle};margin-bottom:30px;flex-shrink:0"></div>
+    <div style="position:relative;width:100%;height:500px;overflow:hidden;margin-bottom:30px;flex-shrink:0">
+      <div style="position:absolute;inset:0;${photoStyle};transform:scale(${S.meetPhotoZoom!=null?S.meetPhotoZoom:1});transform-origin:center"></div>
+    </div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
 </div>`;
