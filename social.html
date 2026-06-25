@@ -739,11 +739,10 @@ const S = {
     { header: 'Sama Stretch',  blurb: 'A slow, deep-stretch class to release tension and restore mobility.', photo: null, px: 50, py: 50, zoom: 1 },
     { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, px: 50, py: 50, zoom: 1 },
   ],
-  // Continuous Thread carousel: flowing lines across slides + a class name per slide.
-  ctThreadCount: 4,
-  ctThreadLineN: 5,
+  // Continuous Thread carousel: one flowing line per class slide (lines = slides-1).
+  ctThreadCount: 5,
   ctThreadTitle: 'Pick a number to help you decide which class to take this week!',
-  ctThreadNames: ['Mobility', 'Core', 'Restore'],
+  ctThreadNames: ['Mobility', 'Core', 'Restore', 'Slow Flow'],
 };
 
 const DEFAULT_QS = [
@@ -842,13 +841,18 @@ function buildGrid() {
 
 function pickTpl(id) {
   S.tpl = id;
+  S.slideIdx = 0;
   document.querySelectorAll('.tpl-btn').forEach(b=>b.classList.remove('active'));
   const b = document.getElementById('tb-'+id);
   if (b) b.classList.add('active');
   renderOpts();
   updatePreview();
   const t = TMPLS.find(x=>x.id===id)||TMPLS[0];
-  document.getElementById('dl-info').textContent = `${t.w} × ${t.h} px`;
+  const carousel = isCarousel(id);
+  document.getElementById('dl-info').textContent = carousel
+    ? `${t.w} × ${t.h} px · ${carouselCount(id)} slides`
+    : `${t.w} × ${t.h} px`;
+  document.getElementById('dl-btn').textContent = carousel ? '⬇ Download All Slides' : '⬇ Download PNG';
   document.getElementById('vid-btn').style.display =
     ['event-post','event-story','event-card'].includes(id) ? '' : 'none';
 }
@@ -1076,16 +1080,15 @@ function renderOpts() {
         <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctThreadSetCount(${n-1})">−</button>
         <span style="min-width:90px;text-align:center;font-weight:600">${n} slides</span>
         <button class="os" style="width:42px;cursor:pointer;font-size:18px;line-height:1" onclick="ctThreadSetCount(${n+1})">+</button>
-      </div></div>`;
-    h += `<div class="og"><label class="ol">Number of Lines (2–6)</label>
-      <input type="range" min="2" max="6" value="${S.ctThreadLineN||5}" oninput="set('ctThreadLineN',+this.value)" style="width:100%;margin-top:4px">
+      </div>
+      <p class="hint">1 cover + ${n-1} class slide${n-1===1?'':'s'}. One numbered line flows to each class.</p>
     </div>`;
     h += oCarouselNav(n);
     h += `<hr class="odiv">`;
     if (i === 0) {
       h += `<div class="og"><label class="ol">Cover Title (slide 1)</label>
         <textarea class="ota" oninput="set('ctThreadTitle',this.value)">${x(S.ctThreadTitle)}</textarea>
-        <p class="hint">Numbered lines (1–${S.ctThreadLineN||5}) start on this slide and flow through the rest.</p>
+        <p class="hint">Numbers 1–${n-1} start here, each leading to a class.</p>
       </div>`;
     } else {
       h += `<div class="og"><label class="ol">Class Name (slide ${i+1})</label>
@@ -1904,9 +1907,9 @@ function threadSVG(s, count, lineN) {
 }
 function tThreadSlide(i, animT) {
   const count = S.ctThreadCount || 4;
-  const lineN = S.ctThreadLineN || 5;
+  const lineN = Math.max(1, count - 1);   // one line per class slide
   const totalW = count * 1080;
-  const uri = `url("data:image/svg+xml,${encodeURIComponent(threadSVG(i, count, lineN))}")`;
+  const uri = `url('data:image/svg+xml,${encodeURIComponent(threadSVG(i, count, lineN))}')`;
   let overlay = '';
   if (i === 0) {
     let nums = '';
@@ -2132,48 +2135,51 @@ async function _wcBlob(frames, tplDef, FPS, vidBtn) {
 }
 
 // ── Download PNG ──────────────────────────────────────────
+// Render an HTML string off-screen at the given width and capture it to a canvas.
+async function _capturePNG(html, w) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${w}px;overflow:hidden;z-index:-1`;
+  wrap.innerHTML = html;
+  document.body.appendChild(wrap);
+  await document.fonts.ready;
+  await new Promise(r => setTimeout(r, 200));
+  const realH = (wrap.firstElementChild && wrap.firstElementChild.offsetHeight) || 0;
+  wrap.style.height = realH + 'px';
+  const canvas = await html2canvas(wrap, { scale:1, useCORS:true, allowTaint:false, width:w, height:realH, logging:false });
+  document.body.removeChild(wrap);
+  return canvas;
+}
+
 async function download() {
   const btn = document.getElementById('dl-btn');
   btn.disabled = true;
-  btn.textContent = 'Generating…';
   try {
     const t = TMPLS.find(t=>t.id===S.tpl)||TMPLS[0];
-
-    // Render full-size into an off-screen container (static mode = no CSS animations, fully visible)
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `position:fixed;left:-9999px;top:0;width:${t.w}px;overflow:hidden;z-index:-1`;
-    wrap.innerHTML = render('static');
-    document.body.appendChild(wrap);
-
-    // Wait for fonts and images
-    await document.fonts.ready;
-    await new Promise(r => setTimeout(r, 200));
-
-    // Height may exceed the template default (e.g. taller newsletter cards) — capture the real height.
-    const realH = (wrap.firstElementChild && wrap.firstElementChild.offsetHeight) || t.h;
-    wrap.style.height = realH + 'px';
-
-    const canvas = await html2canvas(wrap, {
-      scale: 1,
-      useCORS: true,
-      allowTaint: false,
-      width: t.w,
-      height: realH,
-      logging: false,
-    });
-
-    document.body.removeChild(wrap);
-
-    const a = document.createElement('a');
-    a.download = `sama-${S.tpl}-${Date.now()}.png`;
-    a.href = canvas.toDataURL('image/png');
-    a.click();
+    if (isCarousel(S.tpl)) {
+      const n = carouselCount(S.tpl);
+      for (let i = 0; i < n; i++) {
+        btn.textContent = `Slide ${i+1}/${n}…`;
+        const canvas = await _capturePNG(renderSlide(S.tpl, i, 'static'), t.w);
+        const a = document.createElement('a');
+        a.download = `sama-${S.tpl}-slide-${i+1}.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+        await new Promise(r => setTimeout(r, 500));
+      }
+    } else {
+      btn.textContent = 'Generating…';
+      const canvas = await _capturePNG(render('static'), t.w);
+      const a = document.createElement('a');
+      a.download = `sama-${S.tpl}-${Date.now()}.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
   } catch (err) {
     alert('Download failed: ' + err.message);
     console.error(err);
   }
   btn.disabled = false;
-  btn.textContent = '⬇ Download PNG';
+  btn.textContent = isCarousel(S.tpl) ? '⬇ Download All Slides' : '⬇ Download PNG';
 }
 
 
