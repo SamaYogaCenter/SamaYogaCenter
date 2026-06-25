@@ -740,6 +740,7 @@ const S = {
     { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, px: 50, py: 50, zoom: 1 },
   ],
   ctCoverBox: true,
+  ctAlign: 'left',
   // Continuous Thread carousel: one flowing line per class slide (lines = slides-1).
   ctThreadCount: 5,
   ctThreadLight: false,
@@ -1068,6 +1069,11 @@ function renderOpts() {
         <textarea class="ota" oninput="setSlideProp('blurb',this.value)">${x(sl.blurb)}</textarea>
         <p class="hint" style="margin-top:5px">💡 Drag the name + description box in the preview to move it.</p>
       </div>`;
+      h += `<div class="og"><label class="ol">Text Alignment</label>
+        <div class="oradio">
+          <label><input type="radio" name="ctalign" value="left" ${S.ctAlign!=='right'?'checked':''} onchange="set('ctAlign','left')"> Left</label>
+          <label><input type="radio" name="ctalign" value="right" ${S.ctAlign==='right'?'checked':''} onchange="set('ctAlign','right')"> Right</label>
+        </div></div>`;
     }
     if (i === 0) {
       h += `<div class="og"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#2d2d2d">
@@ -1868,35 +1874,40 @@ function tClassTypeSlide(i, animT) {
        </div>`
     : `<div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a2a30,#241c20)"></div>`;
   if (i === 0) {
-    // Optional semi-transparent backdrop behind the cover text for busy photos.
-    const box = (S.ctCoverBox !== false)
-      ? 'background:rgba(20,15,18,.45);border-radius:72px;padding:62px 78px;backdrop-filter:blur(2px)'
-      : '';
+    // Optional light backdrop behind the cover text for busy photos (matches the studio's boxes).
+    const boxOn    = S.ctCoverBox !== false;
+    const box      = boxOn ? 'background:rgba(244,242,238,.9);border-radius:72px;padding:62px 78px' : '';
+    const labelCol = boxOn ? '#b03060' : 'rgba(255,255,255,.92)';
+    const headCol  = boxOn ? '#2d2d2d' : '#fff';
+    const headSh   = boxOn ? '' : 'text-shadow:0 2px 28px rgba(0,0,0,.5);';
+    const swipeCol = boxOn ? '#7a6a72' : 'rgba(255,255,255,.88)';
     return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.32),rgba(0,0,0,.12) 45%,rgba(0,0,0,.48))"></div>
   <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px">
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;${box}">
-      <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:rgba(255,255,255,.92);text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#fff;line-height:1.05;text-shadow:0 2px 28px rgba(0,0,0,.5)">${x(sl.header)||'Our Offerings'}</div>
-      <div style="font-family:'Montserrat',sans-serif;font-size:23px;font-weight:600;letter-spacing:.2em;color:rgba(255,255,255,.88);text-transform:uppercase;margin-top:42px">Swipe to explore &rarr;</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:${labelCol};text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:${headCol};line-height:1.05;${headSh}">${x(sl.header)||'Our Offerings'}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:23px;font-weight:600;letter-spacing:.2em;color:${swipeCol};text-transform:uppercase;margin-top:42px">Swipe to explore &rarr;</div>
     </div>
   </div>
 </div>`;
   }
-  // Content slide — name + blurb are a single draggable group.
+  // Content slide — name + blurb are a single draggable group; alignment is selectable.
   const bl = sl.boxLeft != null ? sl.boxLeft : 80;
   const bt = sl.boxTop  != null ? sl.boxTop  : 800;
+  const align = S.ctAlign === 'right' ? 'right' : 'left';
+  const blurbBox = align === 'right' ? 'margin-left:auto' : '';
   return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 40%,rgba(0,0,0,.8))"></div>
   <div style="position:absolute;top:60px;left:80px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.85);text-transform:uppercase">${i} / ${S.ctSlides.length - 1}</div>
-  <div data-drag="ctBox" style="position:absolute;left:${bl}px;top:${bt}px;width:920px;cursor:grab">
+  <div data-drag="ctBox" style="position:absolute;left:${bl}px;top:${bt}px;width:920px;cursor:grab;text-align:${align}">
     <div style="font-family:'Cormorant Garamond',serif;font-size:92px;font-weight:400;color:#fff;line-height:1.0;margin-bottom:26px;text-shadow:0 2px 22px rgba(0,0,0,.55)">${x(sl.header)||'Class Name'}</div>
-    <div style="display:table;background:rgba(255,255,255,.93);border-radius:16px;padding:30px 36px">
-      <div style="font-family:'Nunito',sans-serif;font-size:34px;color:#2d2d2d;line-height:1.5">${x(sl.blurb)||'Describe this class type…'}</div>
+    <div style="display:table;${blurbBox};background:rgba(255,255,255,.93);border-radius:16px;padding:30px 36px">
+      <div style="font-family:'Nunito',sans-serif;font-size:34px;color:#2d2d2d;line-height:1.5;text-align:${align}">${x(sl.blurb)||'Describe this class type…'}</div>
     </div>
   </div>
   <div style="position:absolute;bottom:44px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.78)')}</div>
@@ -1910,23 +1921,25 @@ const SAMA_THREAD_LIGHT = ['#b03060', '#c0567a', '#a8843f', '#6f8e7a', '#7a5c70'
 // slide where the class name appears. y(x) is a single continuous function per line,
 // so curves line up exactly at slide seams.
 const CT_NAME_LEAD = 230;
+const CT_LINE_START_X = 968;                    // lines begin near the numbers on the cover's right
 function ctThreadLines(count) {
   const lineN = Math.max(1, count - 1);
-  const top = 540, bot = 1170;
+  const top = 200, bot = 1180;                  // numbers/names spread top→bottom on the right
   const lines = [];
   for (let i = 0; i < lineN; i++) {
     const startY = lineN <= 1 ? (top + bot) / 2 : top + (bot - top) * (i / (lineN - 1));
     lines.push({
-      startY, endY: startY,
+      startX: CT_LINE_START_X, startY, endY: startY,
       endX: (i + 1) * 1080 + CT_NAME_LEAD,
-      amp: (120 + 40 * (i % 3)) * (i % 2 ? 1 : -1),
+      amp: (90 + 30 * (i % 3)) * (i % 2 ? 1 : -1),
       waves: (i % 3) + 1,
     });
   }
   return lines;
 }
 function ctYAt(ln, x) {
-  const p = Math.max(0, Math.min(1, x / ln.endX));
+  const span = ln.endX - ln.startX;
+  const p = Math.max(0, Math.min(1, (x - ln.startX) / span));
   return ln.startY + (ln.endY - ln.startY) * p + ln.amp * Math.sin(p * Math.PI * ln.waves);
 }
 function threadSVG(s, count, colors) {
@@ -1934,16 +1947,16 @@ function threadSVG(s, count, colors) {
   const lines = ctThreadLines(count);
   let out = '';
   lines.forEach((ln, i) => {
-    const xStart = s * W, xEnd = Math.min((s + 1) * W, ln.endX);
-    if (xEnd <= xStart) return;                 // line already ended before this slide
+    const xStart = Math.max(s * W, ln.startX), xEnd = Math.min((s + 1) * W, ln.endX);
+    if (xEnd <= xStart) return;                 // line not present on this slide
     let d = '';
     for (let x = xStart; x <= xEnd; x += 14) {
-      d += (d === '' ? 'M' : 'L') + (x - xStart).toFixed(1) + ' ' + ctYAt(ln, x).toFixed(1) + ' ';
+      d += (d === '' ? 'M' : 'L') + (x - s * W).toFixed(1) + ' ' + ctYAt(ln, x).toFixed(1) + ' ';
     }
     const col = colors[i % colors.length];
     out += `<path d="${d}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>`;
     if (ln.endX <= (s + 1) * W) {               // line terminates on this slide → end dot
-      out += `<circle cx="${(ln.endX - xStart).toFixed(1)}" cy="${ctYAt(ln, ln.endX).toFixed(1)}" r="13" fill="${col}"/>`;
+      out += `<circle cx="${(ln.endX - s * W).toFixed(1)}" cy="${ctYAt(ln, ln.endX).toFixed(1)}" r="13" fill="${col}"/>`;
     }
   });
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out}</svg>`;
@@ -1960,10 +1973,10 @@ function tThreadSlide(i, animT) {
   if (i === 0) {
     let nums = '';
     lines.forEach((ln, k) => {
-      nums += `<div style="position:absolute;left:34px;top:${(ln.startY - 40).toFixed(0)}px;font-family:'Montserrat',sans-serif;font-size:56px;font-weight:800;color:${txt}">${k + 1}</div>`;
+      nums += `<div style="position:absolute;right:128px;top:${(ln.startY - 42).toFixed(0)}px;width:120px;text-align:right;font-family:'Montserrat',sans-serif;font-size:74px;font-weight:800;color:${txt}">${k + 1}</div>`;
     });
     overlay = `
-      <div style="position:absolute;left:128px;right:80px;top:96px">
+      <div style="position:absolute;left:80px;right:360px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">
         <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:${light?'#b03060':'rgba(255,255,255,.85)'}">Sama Yoga Center</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:74px;font-weight:400;color:${txt};line-height:1.08;margin-top:24px">${x(S.ctThreadTitle)||'Pick a number…'}</div>
       </div>
@@ -1972,12 +1985,10 @@ function tThreadSlide(i, animT) {
     const ln   = lines[i - 1];
     const name = S.ctThreadNames[i - 1] || 'Class Name';
     const ey   = ctYAt(ln, ln.endX);
-    const scrim = light ? 'rgba(255,255,255,.66)' : 'rgba(36,28,32,.5)';
+    const shadow = light ? 'text-shadow:0 1px 8px rgba(255,255,255,.7)' : 'text-shadow:0 2px 18px rgba(0,0,0,.55)';
     overlay = `
-      <div style="position:absolute;left:${CT_NAME_LEAD + 28}px;right:60px;top:${(ey - 72).toFixed(0)}px">
-        <div style="display:table;background:${scrim};border-radius:16px;padding:14px 30px">
-          <div style="font-family:'Montserrat',sans-serif;font-size:80px;font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:${txt}">${x(name)}</div>
-        </div>
+      <div style="position:absolute;left:${CT_NAME_LEAD + 24}px;right:60px;top:${(ey - 60).toFixed(0)}px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:84px;font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:${txt};${shadow}">${x(name)}</div>
       </div>`;
   }
   return `
