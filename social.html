@@ -739,8 +739,10 @@ const S = {
     { header: 'Sama Stretch',  blurb: 'A slow, deep-stretch class to release tension and restore mobility.', photo: null, px: 50, py: 50, zoom: 1 },
     { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, px: 50, py: 50, zoom: 1 },
   ],
+  ctCoverBox: true,
   // Continuous Thread carousel: one flowing line per class slide (lines = slides-1).
   ctThreadCount: 5,
+  ctThreadLight: false,
   ctThreadTitle: 'Pick a number to help you decide which class to take this week!',
   ctThreadNames: ['Mobility', 'Core', 'Restore', 'Slow Flow'],
 };
@@ -1064,7 +1066,13 @@ function renderOpts() {
     if (i > 0) {
       h += `<div class="og"><label class="ol">Blurb</label>
         <textarea class="ota" oninput="setSlideProp('blurb',this.value)">${x(sl.blurb)}</textarea>
+        <p class="hint" style="margin-top:5px">💡 Drag the name + description box in the preview to move it.</p>
       </div>`;
+    }
+    if (i === 0) {
+      h += `<div class="og"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#2d2d2d">
+        <input type="checkbox" ${S.ctCoverBox!==false?'checked':''} onchange="set('ctCoverBox',this.checked)"> Text backdrop (for busy photos)
+      </label></div>`;
     }
     h += oPhotoSlide('Photo (background)', sl.photo);
     h += `<div class="og"><label class="ol">Photo Zoom</label>
@@ -1083,6 +1091,9 @@ function renderOpts() {
       </div>
       <p class="hint">1 cover + ${n-1} class slide${n-1===1?'':'s'}. One numbered line flows to each class.</p>
     </div>`;
+    h += `<div class="og"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:#2d2d2d">
+      <input type="checkbox" ${S.ctThreadLight?'checked':''} onchange="set('ctThreadLight',this.checked)"> Light background
+    </label></div>`;
     h += oCarouselNav(n);
     h += `<hr class="odiv">`;
     if (i === 0) {
@@ -1382,13 +1393,16 @@ document.getElementById('preview-wrap').addEventListener('mousedown', e => {
   }
   const el = e.target.closest('[data-drag]');
   if (!el) return;
+  const dkey = el.dataset.drag;
+  const slideBox = dkey === 'ctBox';                 // carousel content box → stored per-slide
+  const cur = slideBox ? (S.ctSlides[S.slideIdx] || {}) : null;
   _drag = {
-    key:     el.dataset.drag,
+    key:     dkey, slideBox,
     scale:   _getScale(),
     startX:  e.clientX,
     startY:  e.clientY,
-    origLeft: parseFloat(el.style.left) || 0,
-    origTop:  parseFloat(el.style.top)  || 0,
+    origLeft: slideBox ? (cur.boxLeft != null ? cur.boxLeft : 80)  : (parseFloat(el.style.left) || 0),
+    origTop:  slideBox ? (cur.boxTop  != null ? cur.boxTop  : 800) : (parseFloat(el.style.top)  || 0),
   };
   el.style.cursor = 'grabbing';
   e.preventDefault();
@@ -1408,8 +1422,8 @@ document.addEventListener('mousemove', e => {
   }
   const newLeft = _drag.origLeft + (e.clientX - _drag.startX) / _drag.scale;
   const newTop  = _drag.origTop  + (e.clientY - _drag.startY) / _drag.scale;
-  S[_drag.key + 'Left'] = newLeft;
-  S[_drag.key + 'Top']  = newTop;
+  if (_drag.slideBox) { const s = S.ctSlides[S.slideIdx]; if (s) { s.boxLeft = newLeft; s.boxTop = newTop; } }
+  else { S[_drag.key + 'Left'] = newLeft; S[_drag.key + 'Top']  = newTop; }
   const el = document.querySelector(`[data-drag="${_drag.key}"]`);
   if (el) { el.style.left = newLeft+'px'; el.style.top = newTop+'px'; }
 });
@@ -1854,23 +1868,32 @@ function tClassTypeSlide(i, animT) {
        </div>`
     : `<div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a2a30,#241c20)"></div>`;
   if (i === 0) {
+    // Optional semi-transparent backdrop behind the cover text for busy photos.
+    const box = (S.ctCoverBox !== false)
+      ? 'background:rgba(20,15,18,.45);border-radius:72px;padding:62px 78px;backdrop-filter:blur(2px)'
+      : '';
     return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.4),rgba(0,0,0,.15) 45%,rgba(0,0,0,.6))"></div>
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:90px">
-    <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:rgba(255,255,255,.9);text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#fff;line-height:1.05;text-shadow:0 2px 28px rgba(0,0,0,.5)">${x(sl.header)||'Our Offerings'}</div>
-    <div style="font-family:'Montserrat',sans-serif;font-size:23px;font-weight:600;letter-spacing:.2em;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:42px">Swipe to explore &rarr;</div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.32),rgba(0,0,0,.12) 45%,rgba(0,0,0,.48))"></div>
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;${box}">
+      <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:rgba(255,255,255,.92);text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:#fff;line-height:1.05;text-shadow:0 2px 28px rgba(0,0,0,.5)">${x(sl.header)||'Our Offerings'}</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:23px;font-weight:600;letter-spacing:.2em;color:rgba(255,255,255,.88);text-transform:uppercase;margin-top:42px">Swipe to explore &rarr;</div>
+    </div>
   </div>
 </div>`;
   }
+  // Content slide — name + blurb are a single draggable group.
+  const bl = sl.boxLeft != null ? sl.boxLeft : 80;
+  const bt = sl.boxTop  != null ? sl.boxTop  : 800;
   return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
   <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 40%,rgba(0,0,0,.8))"></div>
   <div style="position:absolute;top:60px;left:80px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.85);text-transform:uppercase">${i} / ${S.ctSlides.length - 1}</div>
-  <div style="position:absolute;left:80px;right:80px;bottom:118px">
+  <div data-drag="ctBox" style="position:absolute;left:${bl}px;top:${bt}px;width:920px;cursor:grab">
     <div style="font-family:'Cormorant Garamond',serif;font-size:92px;font-weight:400;color:#fff;line-height:1.0;margin-bottom:26px;text-shadow:0 2px 22px rgba(0,0,0,.55)">${x(sl.header)||'Class Name'}</div>
     <div style="display:table;background:rgba(255,255,255,.93);border-radius:16px;padding:30px 36px">
       <div style="font-family:'Nunito',sans-serif;font-size:34px;color:#2d2d2d;line-height:1.5">${x(sl.blurb)||'Describe this class type…'}</div>
@@ -1881,63 +1904,86 @@ function tClassTypeSlide(i, animT) {
 }
 
 // ── Continuous Thread carousel ───────────────────────────
-const SAMA_THREAD = ['#b03060', '#d98aa6', '#c9a96a', '#e7d9c3', '#8fae9b', '#a98c9a'];
-// Continuous y(x) across the full carousel width so curves align at slide seams.
-function threadY(i, n, x, totalW) {
-  const top = 300, bot = 1140;
-  const base = n <= 1 ? (top + bot) / 2 : top + (bot - top) * (i / (n - 1));
-  const amp = 92 + 30 * (i % 4);
-  const freq = 1.3 + 0.45 * (i % 3);
-  const phase = i * 1.9 + 0.6;
-  const y = base + amp * Math.sin((x / totalW) * Math.PI * 2 * freq + phase);
-  return Math.max(150, Math.min(1230, y));
-}
-function threadSVG(s, count, lineN) {
-  const W = 1080, H = 1350, totalW = count * W;
-  let paths = '';
+const SAMA_THREAD       = ['#b03060', '#d98aa6', '#c9a96a', '#e7d9c3', '#8fae9b', '#a98c9a']; // on dark
+const SAMA_THREAD_LIGHT = ['#b03060', '#c0567a', '#a8843f', '#6f8e7a', '#7a5c70', '#9a7a4a']; // on light
+// Each line starts at an equally-spaced y on the cover (x=0) and ends at its class
+// slide where the class name appears. y(x) is a single continuous function per line,
+// so curves line up exactly at slide seams.
+const CT_NAME_LEAD = 230;
+function ctThreadLines(count) {
+  const lineN = Math.max(1, count - 1);
+  const top = 540, bot = 1170;
+  const lines = [];
   for (let i = 0; i < lineN; i++) {
-    let d = '';
-    for (let x = s * W; x <= (s + 1) * W; x += 16) {
-      const y = threadY(i, lineN, x, totalW);
-      d += (d === '' ? 'M' : 'L') + (x - s * W).toFixed(1) + ' ' + y.toFixed(1) + ' ';
-    }
-    paths += `<path d="${d}" fill="none" stroke="${SAMA_THREAD[i % SAMA_THREAD.length]}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>`;
+    const startY = lineN <= 1 ? (top + bot) / 2 : top + (bot - top) * (i / (lineN - 1));
+    lines.push({
+      startY, endY: startY,
+      endX: (i + 1) * 1080 + CT_NAME_LEAD,
+      amp: (120 + 40 * (i % 3)) * (i % 2 ? 1 : -1),
+      waves: (i % 3) + 1,
+    });
   }
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${paths}</svg>`;
+  return lines;
+}
+function ctYAt(ln, x) {
+  const p = Math.max(0, Math.min(1, x / ln.endX));
+  return ln.startY + (ln.endY - ln.startY) * p + ln.amp * Math.sin(p * Math.PI * ln.waves);
+}
+function threadSVG(s, count, colors) {
+  const W = 1080, H = 1350;
+  const lines = ctThreadLines(count);
+  let out = '';
+  lines.forEach((ln, i) => {
+    const xStart = s * W, xEnd = Math.min((s + 1) * W, ln.endX);
+    if (xEnd <= xStart) return;                 // line already ended before this slide
+    let d = '';
+    for (let x = xStart; x <= xEnd; x += 14) {
+      d += (d === '' ? 'M' : 'L') + (x - xStart).toFixed(1) + ' ' + ctYAt(ln, x).toFixed(1) + ' ';
+    }
+    const col = colors[i % colors.length];
+    out += `<path d="${d}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>`;
+    if (ln.endX <= (s + 1) * W) {               // line terminates on this slide → end dot
+      out += `<circle cx="${(ln.endX - xStart).toFixed(1)}" cy="${ctYAt(ln, ln.endX).toFixed(1)}" r="13" fill="${col}"/>`;
+    }
+  });
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${out}</svg>`;
 }
 function tThreadSlide(i, animT) {
-  const count = S.ctThreadCount || 4;
-  const lineN = Math.max(1, count - 1);   // one line per class slide
-  const totalW = count * 1080;
-  const uri = `url('data:image/svg+xml,${encodeURIComponent(threadSVG(i, count, lineN))}')`;
+  const count  = S.ctThreadCount || 4;
+  const light  = !!S.ctThreadLight;
+  const colors = light ? SAMA_THREAD_LIGHT : SAMA_THREAD;
+  const bgc    = light ? '#f3ede3' : '#241c20';
+  const txt    = light ? '#2d2424' : '#ffffff';
+  const lines  = ctThreadLines(count);
+  const uri    = `url('data:image/svg+xml,${encodeURIComponent(threadSVG(i, count, colors))}')`;
   let overlay = '';
   if (i === 0) {
     let nums = '';
-    for (let k = 0; k < lineN; k++) {
-      const yr = threadY(k, lineN, 1080, totalW);
-      nums += `<div style="position:absolute;right:50px;top:${(yr - 38).toFixed(0)}px;font-family:'Montserrat',sans-serif;font-size:58px;font-weight:800;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.5)">${k + 1}</div>`;
-    }
+    lines.forEach((ln, k) => {
+      nums += `<div style="position:absolute;left:34px;top:${(ln.startY - 40).toFixed(0)}px;font-family:'Montserrat',sans-serif;font-size:56px;font-weight:800;color:${txt}">${k + 1}</div>`;
+    });
     overlay = `
-      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(36,28,32,.94) 0%,rgba(36,28,32,.8) 40%,rgba(36,28,32,0) 66%)"></div>
-      <div style="position:absolute;left:74px;top:96px;right:280px">
-        <img src="${LOGO_URL}" style="height:48px;filter:brightness(0) invert(1)" crossorigin="anonymous">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:400;color:#fff;line-height:1.08;margin-top:34px">${x(S.ctThreadTitle)||'Pick a number…'}</div>
+      <div style="position:absolute;left:128px;right:80px;top:96px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:${light?'#b03060':'rgba(255,255,255,.85)'}">Sama Yoga Center</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:74px;font-weight:400;color:${txt};line-height:1.08;margin-top:24px">${x(S.ctThreadTitle)||'Pick a number…'}</div>
       </div>
       ${nums}`;
   } else {
-    const name = (S.ctThreadNames[i - 1] || 'Class Name');
-    const onTop = i % 2 === 0;
+    const ln   = lines[i - 1];
+    const name = S.ctThreadNames[i - 1] || 'Class Name';
+    const ey   = ctYAt(ln, ln.endX);
+    const scrim = light ? 'rgba(255,255,255,.66)' : 'rgba(36,28,32,.5)';
     overlay = `
-      <div style="position:absolute;left:0;right:0;${onTop?'top:150px':'bottom:200px'};padding:0 72px;text-align:${onTop?'left':'right'}">
-        <div style="display:inline-block;background:rgba(36,28,32,.55);border-radius:18px;padding:18px 34px">
-          <div style="font-family:'Montserrat',sans-serif;font-size:86px;font-weight:800;letter-spacing:.01em;color:#fff;text-transform:uppercase;text-shadow:0 2px 24px rgba(0,0,0,.6)">${x(name)}</div>
+      <div style="position:absolute;left:${CT_NAME_LEAD + 28}px;right:60px;top:${(ey - 72).toFixed(0)}px">
+        <div style="display:table;background:${scrim};border-radius:16px;padding:14px 30px">
+          <div style="font-family:'Montserrat',sans-serif;font-size:80px;font-weight:800;letter-spacing:.01em;text-transform:uppercase;color:${txt}">${x(name)}</div>
         </div>
       </div>`;
   }
   return `
-<div class="tpl" style="height:1350px;background:#241c20 ${uri} center/cover no-repeat">
+<div class="tpl" style="height:1350px;background:${bgc} ${uri} center/cover no-repeat">
   ${overlay}
-  <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.72)')}</div>
+  <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%)">${samyHandle(light ? '#9a7080' : 'rgba(255,255,255,.72)')}</div>
 </div>`;
 }
 
