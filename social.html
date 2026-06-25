@@ -725,7 +725,6 @@ const S = {
   // instructor post cover (get to know)
   instrNameLeft: null, instrNameTop: null,
   // instructor post content (meet)
-  meetPhotoPct: 50,
   // newsletter
   nlCoverPhoto: null,
   nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
@@ -735,9 +734,9 @@ const S = {
   slideIdx: 0,
   // Class Type carousel: slide 0 is the cover, the rest are class types.
   ctSlides: [
-    { header: 'Our Offerings', blurb: '', photo: null, px: 50, py: 50, zoom: 1 },
-    { header: 'Sama Stretch',  blurb: 'A slow, deep-stretch class to release tension and restore mobility.', photo: null, px: 50, py: 50, zoom: 1 },
-    { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, px: 50, py: 50, zoom: 1 },
+    { header: 'Our Offerings', blurb: '', photo: null, x: 0, y: 0, zoom: 1 },
+    { header: 'Sama Stretch',  blurb: 'A slow, deep-stretch class to release tension and restore mobility.', photo: null, x: 0, y: 0, zoom: 1 },
+    { header: 'Private Lessons', blurb: 'One-on-one guidance tailored entirely to your body and your goals.', photo: null, x: 0, y: 0, zoom: 1 },
   ],
   ctCoverBox: true,
   ctAlign: 'left',
@@ -872,11 +871,10 @@ function renderOpts() {
     if (t === 'event-card') {
       h += oPhoto('cardBg', 'Background Photo (optional)', S.cardBg);
     }
-    const zoomKey = t==='event-post' ? 'postPhotoZoom' : t==='event-story' ? 'storyPhotoZoom' : 'cardPhotoZoom';
-    const zoomVal = S[zoomKey] != null ? S[zoomKey] : 1;
+    const frameKey = t==='event-post' ? 'post' : t==='event-story' ? 'story' : 'card';
     h += `<div class="og"><label class="ol">Photo Zoom</label>
-      <input type="range" min="100" max="300" value="${Math.round(zoomVal*100)}" oninput="set('${zoomKey}',this.value/100)" style="width:100%;margin-top:4px">
-      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it.</p>
+      <input type="range" min="100" max="300" value="${Math.round((frameFor(frameKey).zoom||1)*100)}" oninput="setFrameZoom('${frameKey}',this.value/100)" style="width:100%;margin-top:4px">
+      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it (any direction).</p>
     </div>`;
 
     // Editable event details — auto-filled when an event is selected, but always editable.
@@ -956,11 +954,9 @@ function renderOpts() {
   else if (t === 'meet') {
     h += oInst();
     h += oPhoto('instPhoto','Instructor Photo',S.instPhoto);
-    h += `<div class="og"><label class="ol">Photo Crop (top → bottom)</label>
-      <input type="range" min="0" max="100" value="${S.meetPhotoPct!=null?S.meetPhotoPct:50}" oninput="set('meetPhotoPct',+this.value)" style="width:100%;margin-top:4px">
-    </div>`;
     h += `<div class="og"><label class="ol">Photo Zoom</label>
-      <input type="range" min="100" max="300" value="${Math.round((S.meetPhotoZoom!=null?S.meetPhotoZoom:1)*100)}" oninput="set('meetPhotoZoom',this.value/100)" style="width:100%;margin-top:4px">
+      <input type="range" min="100" max="300" value="${Math.round((frameFor('meet').zoom||1)*100)}" oninput="setFrameZoom('meet',this.value/100)" style="width:100%;margin-top:4px">
+      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it (any direction).</p>
     </div>`;
     h += oPhoto('bgPhoto','Background Photo',S.bgPhoto);
     h += `<hr class="odiv">`;
@@ -1293,6 +1289,50 @@ function bg(url, pos) {
     ? `background:url('${url.replace(/'/g,"\\'")}') ${pos||'center'}/cover no-repeat`
     : `background:#d0ccc6`;
 }
+
+// ── Pan/zoom photo framing ────────────────────────────────
+// The image is sized to its true cover dimensions × zoom and then translated,
+// so it can be dragged in BOTH axes — and still pans when zoomed in.
+const _imgAR = {};                          // url → naturalWidth/naturalHeight
+function cacheAR(url) {
+  if (!url || _imgAR[url] !== undefined) return;
+  _imgAR[url] = null;                        // pending (use frame aspect until it loads)
+  const im = new Image();
+  im.onload  = () => { if (im.naturalHeight) { _imgAR[url] = im.naturalWidth / im.naturalHeight; updatePreview(); } };
+  im.onerror = () => { _imgAR[url] = 0; };
+  im.src = url;
+}
+function frameFor(key) {                     // returns the {x,y,zoom} framing for a pan key
+  if (key === 'ctSlide') {
+    const s = S.ctSlides[S.slideIdx] || {};
+    if (s.x == null) s.x = 0; if (s.y == null) s.y = 0; if (s.zoom == null) s.zoom = 1;
+    return s;
+  }
+  const k = key + 'Frame';
+  if (!S[k]) S[k] = { x: 0, y: 0, zoom: 1 };
+  return S[k];
+}
+function setFrameZoom(key, z) { frameFor(key).zoom = z; updatePreview(); }
+function _coverBox(url, W, H, zoom) {
+  const ar = _imgAR[url] || (W / H);         // fall back to frame aspect until natural size loads
+  let cw = W, ch = W / ar;
+  if (ch < H) { ch = H; cw = H * ar; }
+  return { cw: cw * zoom, ch: ch * zoom, ovx: Math.max(0, cw * zoom - W), ovy: Math.max(0, ch * zoom - H) };
+}
+// layers: [{url, extra}] sharing one frame; extra = per-layer style (e.g. crossfade opacity).
+function pphoto(layers, fr, panKey, W, H) {
+  const prim = (layers.find(l => l.url) || {}).url;
+  if (!prim) return `<div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a2a30,#241c20)"></div>`;
+  cacheAR(prim);
+  const zoom = fr && fr.zoom != null ? fr.zoom : 1;
+  const { cw, ch, ovx, ovy } = _coverBox(prim, W, H, zoom);
+  const nx = fr && fr.x != null ? fr.x : 0, ny = fr && fr.y != null ? fr.y : 0;
+  const tx = nx * ovx / 2, ty = ny * ovy / 2;
+  const inner = layers.map(l => l.url
+    ? `<div style="position:absolute;left:50%;top:50%;width:${cw.toFixed(1)}px;height:${ch.toFixed(1)}px;${bg(l.url,'center')};transform:translate(-50%,-50%) translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px);${l.extra||''}"></div>`
+    : '').join('');
+  return `<div data-pan="${panKey}" data-ovx="${ovx.toFixed(1)}" data-ovy="${ovy.toFixed(1)}" style="position:absolute;inset:0;overflow:hidden;cursor:grab">${inner}</div>`;
+}
 function ord(s) {  // superscript ordinal suffixes
   return String(s||'').replace(/(\d+)(st|nd|rd|th)\b/gi,'$1<sup style="font-size:.55em;vertical-align:super">$2</sup>');
 }
@@ -1383,15 +1423,13 @@ document.getElementById('preview-wrap').addEventListener('mousedown', e => {
   const panEl = e.target.closest('[data-pan]');
   if (panEl) {
     const key = panEl.dataset.pan;
-    const slide = key === 'ctSlide';
-    const cur = slide ? (S.ctSlides[S.slideIdx] || {}) : null;
+    const fr = frameFor(key);
     _drag = {
-      pan: true, slide, el: panEl, keyX: key+'X', keyY: key+'Y',
-      w: parseFloat(panEl.dataset.panw) || 1000,
-      h: parseFloat(panEl.dataset.panh) || 1000,
+      pan: true, el: panEl, key,
+      ovx: parseFloat(panEl.dataset.ovx) || 0,
+      ovy: parseFloat(panEl.dataset.ovy) || 0,
       scale: _getScale(), startX: e.clientX, startY: e.clientY,
-      origX: slide ? (cur.px != null ? cur.px : 50) : (S[key+'X'] != null ? S[key+'X'] : 50),
-      origY: slide ? (cur.py != null ? cur.py : 50) : (S[key+'Y'] != null ? S[key+'Y'] : 50),
+      origX: fr.x != null ? fr.x : 0, origY: fr.y != null ? fr.y : 0,
     };
     panEl.style.cursor = 'grabbing';
     e.preventDefault();
@@ -1418,12 +1456,13 @@ document.addEventListener('mousemove', e => {
   if (_drag.pan) {
     const dxT = (e.clientX - _drag.startX) / _drag.scale;
     const dyT = (e.clientY - _drag.startY) / _drag.scale;
-    // Drag the image: pulling right reveals the left side, so position % decreases.
-    const nx = Math.max(0, Math.min(100, Math.round(_drag.origX - dxT / _drag.w * 100)));
-    const ny = Math.max(0, Math.min(100, Math.round(_drag.origY - dyT / _drag.h * 100)));
-    if (_drag.slide) { const s = S.ctSlides[S.slideIdx]; if (s) { s.px = nx; s.py = ny; } }
-    else { S[_drag.keyX] = nx; S[_drag.keyY] = ny; }
-    _drag.el.querySelectorAll(':scope > div').forEach(d => { d.style.backgroundPosition = nx+'% '+ny+'%'; });
+    // Drag the image directly (both axes); offsets are normalised to -1..1 of the overflow.
+    let nx = _drag.ovx > 0 ? _drag.origX + dxT / (_drag.ovx / 2) : 0;
+    let ny = _drag.ovy > 0 ? _drag.origY + dyT / (_drag.ovy / 2) : 0;
+    nx = Math.max(-1, Math.min(1, nx)); ny = Math.max(-1, Math.min(1, ny));
+    const fr = frameFor(_drag.key); fr.x = nx; fr.y = ny;
+    const tx = (nx * _drag.ovx / 2).toFixed(1), ty = (ny * _drag.ovy / 2).toFixed(1);
+    _drag.el.querySelectorAll(':scope > div').forEach(d => { d.style.transform = `translate(-50%,-50%) translate(${tx}px,${ty}px)`; });
     return;
   }
   const newLeft = _drag.origLeft + (e.clientX - _drag.startX) / _drag.scale;
@@ -1546,9 +1585,8 @@ function tEventPost(animT) {
     ${byLine}
   </div>
   <!-- Center photo — always covers the "Canva" watermark (y=355–995, center y=675) -->
-  <div data-pan="postPhoto" data-panw="920" data-panh="640" style="position:absolute;left:80px;right:80px;top:355px;height:640px;border-radius:6px;overflow:hidden;cursor:grab;${animFi(animT,.2,.8)}">
-    <div style="position:absolute;inset:0;${bg(S.photo, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};transform:scale(${S.postPhotoZoom!=null?S.postPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
-    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.postPhotoX!=null?S.postPhotoX:50}% ${S.postPhotoY!=null?S.postPhotoY:50}%`)};transform:scale(${S.postPhotoZoom!=null?S.postPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
+  <div style="position:absolute;left:80px;right:80px;top:355px;height:640px;border-radius:6px;overflow:hidden;${animFi(animT,.2,.8)}">
+    ${pphoto([{url:S.photo,extra:(S.photo2?animP1(animT):"")},{url:S.photo2,extra:animP2(animT)}], frameFor('post'), 'post', 920, 640)}
   </div>
   <!-- Description below photo -->
   <div style="position:absolute;left:80px;right:80px;top:1022px;bottom:96px;overflow:hidden;${animFi(animT,.6)}">
@@ -1568,8 +1606,6 @@ function tEventStory(animT) {
     ? `https://samayogacenter.com/events.html#${eventId}`
     : 'https://samayogacenter.com/events.html';
   const footerTxt = S.storyFooter || 'Click the link to reserve your spot now';
-  const sx = S.storyPhotoX != null ? S.storyPhotoX : 50;
-  const sy = S.storyPhotoY != null ? S.storyPhotoY : 50;
   return `
 <div class="tpl" style="height:1920px;background:url('${STORY_BG}') center/cover no-repeat">
   <div style="position:absolute;left:72px;right:72px;top:80px;height:430px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0">
@@ -1580,9 +1616,8 @@ function tEventStory(animT) {
       <div style="font-family:'Montserrat',sans-serif;font-size:30px;font-weight:300;color:#6b6b6b;letter-spacing:.04em;margin-top:6px">${x(S.time)}</div>
     </div>
   </div>
-  <div data-pan="storyPhoto" data-panw="840" data-panh="840" style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;cursor:grab;${animFi(animT,.2,.8)}">
-    <div style="position:absolute;inset:0;${bg(S.photo, `${sx}% ${sy}%`)};transform:scale(${S.storyPhotoZoom!=null?S.storyPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
-    ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${sx}% ${sy}%`)};transform:scale(${S.storyPhotoZoom!=null?S.storyPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
+  <div style="position:absolute;left:120px;right:120px;top:530px;height:840px;border-radius:10px;overflow:hidden;${animFi(animT,.2,.8)}">
+    ${pphoto([{url:S.photo,extra:(S.photo2?animP1(animT):"")},{url:S.photo2,extra:animP2(animT)}], frameFor('story'), 'story', 840, 840)}
   </div>
   <div style="position:absolute;left:72px;right:72px;top:1410px;bottom:130px;display:flex;align-items:center;justify-content:center;${animFi(animT,.7)}">
     <a href="${eventLink}" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-style:italic;color:#5a4a3a;text-align:center;letter-spacing:.02em;text-decoration:none">${x(footerTxt)}</a>
@@ -1605,9 +1640,8 @@ function tEventCard(animT) {
 <div class="tpl" style="${outerStyle}">
   ${hasBg ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,.18)"></div>` : ''}
   <div style="position:absolute;left:60px;right:60px;top:120px;bottom:90px;background:white;border-radius:24px;padding:44px 48px;${cardShadow};overflow:hidden;display:flex;flex-direction:column;${animFi(animT,0,.7)}">
-    <div data-pan="cardPhoto" data-panw="864" data-panh="520" style="position:relative;width:100%;height:520px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;cursor:grab;${animFi(animT,.15,.8)}">
-      <div style="position:absolute;inset:0;${bg(S.photo, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};transform:scale(${S.cardPhotoZoom!=null?S.cardPhotoZoom:1});transform-origin:center;${animP1(animT)}"></div>
-      ${S.photo2?`<div style="position:absolute;inset:0;${bg(S.photo2, `${S.cardPhotoX!=null?S.cardPhotoX:50}% ${S.cardPhotoY!=null?S.cardPhotoY:50}%`)};transform:scale(${S.cardPhotoZoom!=null?S.cardPhotoZoom:1});transform-origin:center;${animP2(animT)}"></div>`:''}
+    <div style="position:relative;width:100%;height:520px;border-radius:12px;overflow:hidden;flex-shrink:0;margin-bottom:28px;${animFi(animT,.15,.8)}">
+      ${pphoto([{url:S.photo,extra:(S.photo2?animP1(animT):"")},{url:S.photo2,extra:animP2(animT)}], frameFor('card'), 'card', 864, 520)}
     </div>
     <div style="${animFi(animT,.35)}">
       <div style="font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:400;color:${PINK};text-align:center;line-height:1.0;margin-bottom:14px">${x(S.title)||'Event Title'}</div>
@@ -1695,10 +1729,6 @@ function tMeet() {
   const i     = inst();
   const photo = S.instPhoto || i.image || null;
   const name  = i.name || 'Instructor';
-  const pct   = S.meetPhotoPct != null ? S.meetPhotoPct : 50;
-  const photoStyle = photo
-    ? `background:url('${photo.replace(/'/g,"\\'")}') center ${pct}%/cover no-repeat`
-    : 'background:#d0ccc6';
   const qa = [1,2,3,4,5].map(n => {
     const q = S['q'+n], a = S['a'+n];
     if (!q && !a) return '';
@@ -1713,7 +1743,7 @@ function tMeet() {
   <div style="position:absolute;left:56px;right:56px;top:56px;bottom:56px;background:url('/images/Social%20Media/paper.png') center/cover no-repeat;border-radius:10px;padding:48px 60px;overflow:hidden">
     <div style="font-family:'Cormorant Garamond',serif;font-size:82px;font-weight:400;color:#2d2d2d;line-height:1;margin-bottom:28px">Meet ${x(name)}</div>
     <div style="position:relative;width:100%;height:500px;overflow:hidden;margin-bottom:30px;flex-shrink:0">
-      <div style="position:absolute;inset:0;${photoStyle};transform:scale(${S.meetPhotoZoom!=null?S.meetPhotoZoom:1});transform-origin:center"></div>
+      ${pphoto([{url:photo}], frameFor('meet'), 'meet', 848, 500)}
     </div>
     ${qa||'<div style="font-size:24px;color:#bbb;font-style:italic">Enter Q&amp;A answers in the sidebar</div>'}
   </div>
@@ -1867,12 +1897,7 @@ function renderSlide(id, i, animT) { return id === 'class-type' ? tClassTypeSlid
 // ── Class Type carousel ──────────────────────────────────
 function tClassTypeSlide(i, animT) {
   const sl   = S.ctSlides[i] || {};
-  const px   = sl.px != null ? sl.px : 50, py = sl.py != null ? sl.py : 50, zoom = sl.zoom != null ? sl.zoom : 1;
-  const photoLayer = sl.photo
-    ? `<div data-pan="ctSlide" data-panw="1080" data-panh="1350" style="position:absolute;inset:0;overflow:hidden;cursor:grab">
-         <div style="position:absolute;inset:0;${bg(sl.photo, `${px}% ${py}%`)};transform:scale(${zoom});transform-origin:center"></div>
-       </div>`
-    : `<div style="position:absolute;inset:0;background:linear-gradient(135deg,#3a2a30,#241c20)"></div>`;
+  const photoLayer = pphoto([{url:sl.photo}], sl, 'ctSlide', 1080, 1350);
   if (i === 0) {
     // Optional light backdrop behind the cover text for busy photos (matches the studio's boxes).
     const boxOn    = S.ctCoverBox !== false;
@@ -1940,7 +1965,10 @@ function ctThreadLines(count) {
 function ctYAt(ln, x) {
   const span = ln.endX - ln.startX;
   const p = Math.max(0, Math.min(1, (x - ln.startX) / span));
-  return ln.startY + (ln.endY - ln.startY) * p + ln.amp * Math.sin(p * Math.PI * ln.waves);
+  // Ease the wave in over the first ~520px so each line leaves the cover fairly
+  // straight before it starts curving.
+  const ramp = Math.min(1, (x - ln.startX) / 520);
+  return ln.startY + (ln.endY - ln.startY) * p + ln.amp * ramp * Math.sin(p * Math.PI * ln.waves);
 }
 function threadSVG(s, count, colors) {
   const W = 1080, H = 1350;
@@ -2007,7 +2035,7 @@ function ctGo(delta) {
 function setSlideProp(prop, val) { const s = S.ctSlides[S.slideIdx]; if (s) { s[prop] = val; updatePreview(); } }
 function ctSetCount(n) {
   n = Math.max(2, Math.min(6, n));
-  while (S.ctSlides.length < n) S.ctSlides.push({ header: 'New Class', blurb: 'Describe this class type…', photo: null, px: 50, py: 50, zoom: 1 });
+  while (S.ctSlides.length < n) S.ctSlides.push({ header: 'New Class', blurb: 'Describe this class type…', photo: null, x: 0, y: 0, zoom: 1 });
   while (S.ctSlides.length > n) S.ctSlides.pop();
   if (S.slideIdx >= n) S.slideIdx = n - 1;
   renderOpts(); updatePreview();
