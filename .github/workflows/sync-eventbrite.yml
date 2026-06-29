@@ -1,7 +1,8 @@
 name: Sync Events to Eventbrite
 
-# Runs automatically whenever events.json is updated on the main branch
-# (i.e. every time someone saves a change in the Decap CMS admin panel).
+# Runs automatically:
+#   • whenever events.json is updated on main (i.e. a save in the Decap CMS admin), and
+#   • once a day, so new events publish and past events unpublish on their own.
 # Can also be triggered manually from the Actions tab in GitHub.
 
 on:
@@ -9,6 +10,8 @@ on:
     branches: [main]
     paths:
       - 'data/events.json'
+  schedule:
+    - cron: '0 8 * * *'   # daily at 08:00 UTC (~3–4am ET): publishes new events, unpublishes past ones
   workflow_dispatch:   # Manual trigger — useful for testing or a full re-sync
 
 jobs:
