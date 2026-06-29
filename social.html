@@ -1909,8 +1909,8 @@ function tClassTypeSlide(i, animT) {
     return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.32),rgba(0,0,0,.12) 45%,rgba(0,0,0,.48))"></div>
-  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:80px">
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.32),rgba(0,0,0,.12) 45%,rgba(0,0,0,.48))"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;padding:80px">
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;${box}">
       <div style="font-family:'Montserrat',sans-serif;font-size:26px;font-weight:700;letter-spacing:.28em;color:${labelCol};text-transform:uppercase;margin-bottom:30px">Sama Yoga Center</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:108px;font-weight:400;color:${headCol};line-height:1.05;${headSh}">${x(sl.header)||'Our Offerings'}</div>
@@ -1927,15 +1927,15 @@ function tClassTypeSlide(i, animT) {
   return `
 <div class="tpl" style="height:1350px;background:#241c20">
   ${photoLayer}
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 40%,rgba(0,0,0,.8))"></div>
-  <div style="position:absolute;top:60px;left:80px;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.85);text-transform:uppercase">${i} / ${S.ctSlides.length - 1}</div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.05) 40%,rgba(0,0,0,.8))"></div>
+  <div style="position:absolute;top:60px;left:80px;pointer-events:none;font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.85);text-transform:uppercase">${i} / ${S.ctSlides.length - 1}</div>
   <div data-drag="ctBox" style="position:absolute;left:${bl}px;top:${bt}px;width:920px;cursor:grab;text-align:${align}">
     <div style="font-family:'Cormorant Garamond',serif;font-size:92px;font-weight:400;color:#fff;line-height:1.0;margin-bottom:26px;text-shadow:0 2px 22px rgba(0,0,0,.55)">${x(sl.header)||'Class Name'}</div>
     <div style="display:table;${blurbBox};background:rgba(255,255,255,.93);border-radius:16px;padding:30px 36px">
       <div style="font-family:'Nunito',sans-serif;font-size:34px;color:#2d2d2d;line-height:1.5;text-align:${align}">${x(sl.blurb)||'Describe this class type…'}</div>
     </div>
   </div>
-  <div style="position:absolute;bottom:44px;left:50%;transform:translateX(-50%)">${samyHandle('rgba(255,255,255,.78)')}</div>
+  <div style="position:absolute;bottom:44px;left:50%;transform:translateX(-50%);pointer-events:none">${samyHandle('rgba(255,255,255,.78)')}</div>
 </div>`;
 }
 
