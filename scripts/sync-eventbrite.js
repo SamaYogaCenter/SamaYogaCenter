@@ -6,16 +6,17 @@
  * samayogacenter.com/events.html — actual registration stays on MindBody.
  *
  * ─── Setup (one-time) ───────────────────────────────────────────────────────
- *  1. Fill in VENUE_ADDRESS.address_1 below with Sama Yoga's street address.
- *  2. Add two GitHub Secrets to the repo (Settings → Secrets → Actions):
- *       EVENTBRITE_TOKEN        — your Eventbrite private token
- *                                 (eventbrite.com/platform/api-keys → "Create API Key")
- *       EVENTBRITE_ORGANIZER_ID — your Eventbrite organizer ID
- *                                 (visible in your Eventbrite account URL, or ask Abby)
- *  3. Push this file — the GitHub Action will run automatically from then on.
+ *  1. Confirm VENUE_ADDRESS below is Sama Yoga's street address.
+ *  2. Add ONE GitHub Secret to the repo (Settings → Secrets and variables → Actions):
+ *       EVENTBRITE_TOKEN — your Eventbrite private token
+ *                          (eventbrite.com/platform/api-keys → "Create API Key")
+ *     The organization id is discovered automatically from the token. Only add an
+ *     EVENTBRITE_ORGANIZATION_ID secret if your account has multiple organizations.
+ *  3. Run the workflow once (Actions tab → "Sync Events to Eventbrite" → Run workflow)
+ *     to test, then it runs automatically whenever data/events.json changes.
  *
  * ─── Running locally to test ────────────────────────────────────────────────
- *  EVENTBRITE_TOKEN=xxx EVENTBRITE_ORGANIZER_ID=xxx node scripts/sync-eventbrite.js
+ *  EVENTBRITE_TOKEN=xxx node scripts/sync-eventbrite.js
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -38,7 +39,8 @@ const VENUE_ADDRESS = {
 
 // Injected by GitHub Actions from repository Secrets — do not change these lines
 const TOKEN        = process.env.EVENTBRITE_TOKEN;
-const ORGANIZER_ID = process.env.EVENTBRITE_ORGANIZER_ID;
+let   ORG_ID       = process.env.EVENTBRITE_ORGANIZATION_ID || '';  // auto-discovered if blank
+const ORGANIZER_ID = process.env.EVENTBRITE_ORGANIZER_ID    || '';  // optional brand/profile id
 
 const SITE_URL = 'https://samayogacenter.com';
 const TIMEZONE = 'America/New_York';
@@ -82,6 +84,20 @@ function ebRequest(method, endpoint, body) {
 }
 
 
+// ─── Organization helper ──────────────────────────────────────────────────────
+// Every event/venue is created under an Organization. If EVENTBRITE_ORGANIZATION_ID
+// isn't provided, discover it from the token's account.
+
+async function getOrganizationId() {
+  if (ORG_ID) return ORG_ID;
+  const res = await ebRequest('GET', '/v3/users/me/organizations/');
+  const org = (res.organizations || [])[0];
+  if (!org) throw new Error('No Eventbrite organization found for this token. Set EVENTBRITE_ORGANIZATION_ID.');
+  console.log(`Using Eventbrite organization: ${org.name} (${org.id})\n`);
+  return org.id;
+}
+
+
 // ─── Venue helper ─────────────────────────────────────────────────────────────
 // Creates the Sama Yoga Center venue on first run; caches the ID in eventbrite-ids.json.
 
@@ -95,7 +111,7 @@ async function getOrCreateVenue(ids) {
   }
 
   console.log('Creating Sama Yoga Center venue on Eventbrite (first run only)...');
-  const result = await ebRequest('POST', `/v3/organizers/${ORGANIZER_ID}/venues/`, {
+  const result = await ebRequest('POST', `/v3/organizations/${ORG_ID}/venues/`, {
     venue: {
       name:    VENUE_ADDRESS.name,
       address: {
@@ -214,11 +230,14 @@ function buildDescription(event) {
 // ─── Main sync ────────────────────────────────────────────────────────────────
 
 async function main() {
-  if (!TOKEN || !ORGANIZER_ID) {
-    console.error('❌  EVENTBRITE_TOKEN and EVENTBRITE_ORGANIZER_ID must be set.');
-    console.error('   Add them as GitHub Secrets, or export them before running locally.');
+  if (!TOKEN) {
+    console.error('❌  EVENTBRITE_TOKEN must be set.');
+    console.error('   Add it as a GitHub Secret, or export it before running locally.');
     process.exit(1);
   }
+
+  // Resolve the organization id (auto-discovered from the token if not provided).
+  ORG_ID = await getOrganizationId();
 
   const eventsData = JSON.parse(fs.readFileSync(EVENTS_FILE, 'utf8'));
   const ids        = fs.existsSync(IDS_FILE) ? JSON.parse(fs.readFileSync(IDS_FILE, 'utf8')) : {};
@@ -271,7 +290,7 @@ async function main() {
         end:          { timezone: TIMEZONE, utc: toUtcString(event.dateISO, times.endH,   times.endM)   },
         currency:     'USD',
         online_event: false,
-        organizer_id: ORGANIZER_ID,
+        ...(ORGANIZER_ID ? { organizer_id: ORGANIZER_ID } : {}),
         ...(venueId ? { venue_id: venueId } : {}),
         is_free:      true,
         listed:       true,
@@ -292,7 +311,7 @@ async function main() {
     } else {
       // ── Create new listing ───────────────────────────────────────────────
       console.log(`✨  Creating: ${event.title}`);
-      const created = await ebRequest('POST', '/v3/events/', eventPayload);
+      const created = await ebRequest('POST', `/v3/organizations/${ORG_ID}/events/`, eventPayload);
       ids[slug] = created.id;
 
       // Add a free "ticket" — the button label tells visitors to register on the website

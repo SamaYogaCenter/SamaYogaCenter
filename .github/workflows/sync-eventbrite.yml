@@ -26,18 +26,18 @@ jobs:
       - name: Sync events to Eventbrite
         run: node scripts/sync-eventbrite.js
         env:
-          # ── Add these two values as GitHub Secrets ──────────────────────────
+          # ── Add this as a GitHub Secret ─────────────────────────────────────
           # Repo Settings → Secrets and variables → Actions → New repository secret
           #
-          #   EVENTBRITE_TOKEN        → your Eventbrite private token
-          #                             (eventbrite.com/platform/api-keys)
+          #   EVENTBRITE_TOKEN  → your Eventbrite private token
+          #                       (eventbrite.com/platform/api-keys → "Create API Key")
           #
-          #   EVENTBRITE_ORGANIZER_ID → your Eventbrite organizer ID
-          #                             (visible in your Eventbrite account URL,
-          #                              or in Account → Organizer page)
+          # The organization is discovered automatically from the token. Only add
+          # EVENTBRITE_ORGANIZATION_ID if your account has more than one organization
+          # and you need to target a specific one.
           # ────────────────────────────────────────────────────────────────────
-          EVENTBRITE_TOKEN:        ${{ secrets.EVENTBRITE_TOKEN }}
-          EVENTBRITE_ORGANIZER_ID: ${{ secrets.EVENTBRITE_ORGANIZER_ID }}
+          EVENTBRITE_TOKEN:           ${{ secrets.EVENTBRITE_TOKEN }}
+          EVENTBRITE_ORGANIZATION_ID: ${{ secrets.EVENTBRITE_ORGANIZATION_ID }}
 
       - name: Commit updated Eventbrite IDs
         run: |
