@@ -248,6 +248,7 @@ async function main() {
   if (venueId) ids.__venue_id__ = venueId;
 
   for (const event of eventsData.events) {
+   try {
     const slug = event.id;
 
     // Events without a machine-readable date can't be scheduled on Eventbrite
@@ -292,7 +293,6 @@ async function main() {
         online_event: false,
         ...(ORGANIZER_ID ? { organizer_id: ORGANIZER_ID } : {}),
         ...(venueId ? { venue_id: venueId } : {}),
-        is_free:      true,
         listed:       true,
         shareable:    true,
         invite_only:  false,
@@ -327,6 +327,9 @@ async function main() {
       await ebRequest('POST', `/v3/events/${created.id}/publish/`);
       console.log(`   ✅  Published — Eventbrite ID: ${created.id}`);
     }
+   } catch (e) {
+     console.warn(`⚠️  Error with "${event.title}" — ${e.message} (skipped, others continue)`);
+   }
   }
 
   // Write the updated ID map back to disk — the GitHub Action commits this file
