@@ -1018,7 +1018,7 @@
 
       return `
         ${divider}
-        <div class="ev-event" id="${event.id}">
+        <div class="ev-event" id="${event.id}" style="scroll-margin-top:110px">
           <div class="ev-event__content">
             <h3 class="ev-event__title">${event.title.toLowerCase()}</h3>
             ${instructor}
@@ -1067,6 +1067,15 @@
         // Init placeholders for any newly inserted healcode widgets
         if (typeof initHealcodePlaceholders === 'function') initHealcodePlaceholders();
         updateEvArrows();
+
+        // If the page was opened with an anchor (e.g. from an Eventbrite listing
+        // link like /events.html#inversions), scroll to that event now that it
+        // exists. getElementById handles ids with spaces; scroll-margin-top on
+        // the element clears the fixed header.
+        if (location.hash.length > 1) {
+          const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth' }));
+        }
       } catch (err) {
         console.error('Could not load events:', err);
       }
