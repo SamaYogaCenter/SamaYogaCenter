@@ -276,7 +276,7 @@ async function setStructuredContent(eventId, event) {
 
   const ctaHtml =
     '<p><strong>Registration is through the Sama Yoga Center website — not through Eventbrite.</strong></p>' +
-    `<p><a href="${siteLink}">→ View full details &amp; register at samayogacenter.com</a></p>`;
+    `<p><a href="${siteLink}">register at samayogacenter.com</a></p>`;
 
   // New content must be posted at (current version + 1); a fresh event has none.
   let version = 0;
