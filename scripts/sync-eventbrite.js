@@ -216,19 +216,52 @@ function buildBodyHtml(event) {
 }
 
 /**
- * Builds the legacy `description` field. Eventbrite strips <a> links from this
- * field, so the clickable link is added via structured content instead (see
- * setStructuredContent). Here we leave a clean, readable plain-text pointer as a
- * fallback in case structured content ever fails.
+ * The legacy `description` field. Eventbrite renders BOTH this and structured
+ * content on the listing page, so putting the body in both makes it appear twice.
+ * The full body + link live in structured content (setStructuredContent); this is
+ * deliberately a single line so nothing is duplicated.
  */
 function buildDescription(event) {
-  const footer = [
-    '<hr>',
-    '<p><strong>Registration is through the Sama Yoga Center website — not through Eventbrite.</strong></p>',
-    '<p>Visit <strong>samayogacenter.com/events</strong> to view full details and register.</p>',
-  ].join('\n');
+  return '<p>Full details, pricing, and registration are on our website — visit <strong>samayogacenter.com/events</strong>.</p>';
+}
 
-  return [buildBodyHtml(event), footer].filter(Boolean).join('\n');
+/**
+ * The standard admission price to advertise: the non-member, non-early-bird,
+ * single-class rate. Bundles/packages are excluded, and since early-bird and
+ * member rates are discounts, the full price is the highest remaining tier.
+ * Returns a display string like "$150", or null if the event has no pricing.
+ */
+function headlinePrice(event) {
+  const toNum = s => parseFloat(String(s).replace(/[^0-9.]/g, '')) || 0;
+  const all   = event.pricing || [];
+  const tiers = all.filter(p => !/bundle|package/i.test(p.label || ''));
+  const pool  = tiers.length ? tiers : all;
+  if (!pool.length) return null;
+  return pool.reduce((hi, p) => (toNum(p.price) > toNum(hi.price) ? p : hi)).price;
+}
+
+/**
+ * Creates or updates the event's single free ticket. Eventbrite collects no
+ * payment (that happens on MindBody), so the ticket is free — but the real
+ * admission price is put in the ticket NAME so visitors see it instead of only
+ * a bare "Free". Runs on every sync so existing listings pick up the change.
+ */
+async function syncTicket(eventId, event) {
+  const price = headlinePrice(event);
+  const ticket = {
+    name:           price ? `${price} · register on our website` : 'Register at samayogacenter.com',
+    description:    'Registration and payment are on our website, not through Eventbrite — visit samayogacenter.com/events to sign up through MindBody.',
+    free:           true,
+    quantity_total: 500,
+  };
+
+  const existing = await ebRequest('GET', `/v3/events/${eventId}/ticket_classes/`);
+  const current  = (existing.ticket_classes || [])[0];
+  if (current) {
+    await ebRequest('POST', `/v3/events/${eventId}/ticket_classes/${current.id}/`, { ticket_class: ticket });
+  } else {
+    await ebRequest('POST', `/v3/events/${eventId}/ticket_classes/`, { ticket_class: ticket });
+  }
 }
 
 /**
@@ -340,6 +373,9 @@ async function main() {
       // ── Update existing listing ──────────────────────────────────────────
       console.log(`🔄  Updating: ${event.title}`);
       await ebRequest('POST', `/v3/events/${ids[slug]}/`, eventPayload);
+      // Refresh the ticket so the price shows (and existing "Free" tickets get renamed)
+      try { await syncTicket(ids[slug], event); }
+      catch (e) { console.warn(`   (ticket update skipped: ${e.message})`); }
       // Re-publish in case the event was previously unpublished
       try { await ebRequest('POST', `/v3/events/${ids[slug]}/publish/`); }
       catch { /* already published — fine */ }
@@ -353,15 +389,8 @@ async function main() {
       const created = await ebRequest('POST', `/v3/organizations/${ORG_ID}/events/`, eventPayload);
       ids[slug] = created.id;
 
-      // Add a free "ticket" — the button label tells visitors to register on the website
-      await ebRequest('POST', `/v3/events/${created.id}/ticket_classes/`, {
-        ticket_class: {
-          name:           'Register at samayogacenter.com',
-          description:    'Registration is on our website, not through Eventbrite — visit samayogacenter.com/events to sign up through MindBody.',
-          free:           true,
-          quantity_total: 500,
-        },
-      });
+      // Add the free ticket (a listing needs one to publish); its name carries the price
+      await syncTicket(created.id, event);
 
       await ebRequest('POST', `/v3/events/${created.id}/publish/`);
       // Rich description with the working, nicely-labelled website link
