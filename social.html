@@ -1029,6 +1029,10 @@ function renderOpts() {
   else if (t === 'nl-event-pink' || t === 'nl-event-white' || t === 'nl-event-photo') {
     h += oEvent();
     h += oPhoto('nlEventPhoto', 'Speaker / Headshot Photo', S.nlEventPhoto);
+    h += `<div class="og"><label class="ol">Photo Zoom</label>
+      <input type="range" min="100" max="300" value="${Math.round((frameFor('nlEvent').zoom||1)*100)}" oninput="setFrameZoom('nlEvent',this.value/100)" style="width:100%;margin-top:4px">
+      <p class="hint" style="margin-top:5px">💡 Drag the photo in the preview to move it (any direction).</p>
+    </div>`;
     h += `<div class="og"><label class="ol">Event Title</label>
       <input class="oi" value="${x(S.title)}" oninput="set('title',this.value)">
     </div>`;
@@ -1849,7 +1853,7 @@ function tNlEventPink() {
       <div style="display:table;background:white;color:${PINK};font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
     </div>
   </div>
-  <div style="flex:0 0 46%;${photo ? bg(photo,'center top') : 'background:#c85888'}"></div>
+  <div style="flex:0 0 46%;position:relative;overflow:hidden;background:#c85888">${photo ? pphoto([{url:photo}], frameFor('nlEvent'), 'nlEvent', 552, nlH()) : ''}</div>
 </div>`;
 }
 
@@ -1868,7 +1872,7 @@ function tNlEventWhite() {
       <div style="display:table;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:19px;font-weight:800;letter-spacing:.13em;padding:18px 40px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
     </div>
   </div>
-  <div style="flex:0 0 46%;${photo ? bg(photo,'center top') : 'background:#f0e6ec'}"></div>
+  <div style="flex:0 0 46%;position:relative;overflow:hidden;background:#f0e6ec">${photo ? pphoto([{url:photo}], frameFor('nlEvent'), 'nlEvent', 552, nlH()) : ''}</div>
 </div>`;
 }
 
@@ -1877,7 +1881,7 @@ function tNlEventPhoto() {
   const photo = S.nlEventPhoto || null;
   return `
 <div class="tpl" style="min-height:${nlH()}px;display:flex;flex-direction:column;background:white;border:2px solid #d4a8be;border-radius:12px;overflow:hidden">
-  <div style="flex:0 0 330px;${photo ? bg(photo,'center') : 'background:#f0e6ec'}"></div>
+  <div style="flex:0 0 330px;position:relative;overflow:hidden;background:#f0e6ec">${photo ? pphoto([{url:photo}], frameFor('nlEvent'), 'nlEvent', 1200, 330) : ''}</div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 56px 32px;text-align:center;min-height:0">
     <div style="font-family:'Montserrat',sans-serif;font-size:42px;font-weight:800;color:#2d2d2d;line-height:1.15;margin-bottom:10px">${x(S.title)||'Event Title'}</div>
     <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(29*nlScale())}px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:12px;line-height:1.3">${nlMultiline(S.subtitle)}</div>
