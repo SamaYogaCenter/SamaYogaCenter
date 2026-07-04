@@ -202,13 +202,8 @@ function inlineMd(text) {
     .replace(/\[(.+?)\]\((.+?)\)/g,  '<a href="$2">$1</a>');
 }
 
-/**
- * Builds the full Eventbrite event description:
- * event details → pricing tiers → prominent link back to the Sama website.
- */
-function buildDescription(event) {
-  const siteLink = `${SITE_URL}/events.html#${event.id}`;
-
+/** Event body + pricing as HTML (shared by the legacy description and structured content). */
+function buildBodyHtml(event) {
   const bodyHtml = mdToHtml(event.description || event.cardDescription || '');
 
   const pricingHtml = (event.pricing || []).length
@@ -217,13 +212,54 @@ function buildDescription(event) {
       '</ul>'
     : '';
 
+  return [bodyHtml, pricingHtml].filter(Boolean).join('\n');
+}
+
+/**
+ * Builds the legacy `description` field. Eventbrite strips <a> links from this
+ * field, so the clickable link is added via structured content instead (see
+ * setStructuredContent). Here we leave a clean, readable plain-text pointer as a
+ * fallback in case structured content ever fails.
+ */
+function buildDescription(event) {
   const footer = [
     '<hr>',
     '<p><strong>Registration is through the Sama Yoga Center website — not through Eventbrite.</strong></p>',
-    `<p>👉 <a href="${siteLink}"><strong>View full details &amp; register at samayogacenter.com →</strong></a></p>`,
+    '<p>Visit <strong>samayogacenter.com/events</strong> to view full details and register.</p>',
   ].join('\n');
 
-  return [bodyHtml, pricingHtml, footer].filter(Boolean).join('\n');
+  return [buildBodyHtml(event), footer].filter(Boolean).join('\n');
+}
+
+/**
+ * Publishes the rich description Eventbrite actually shows on the listing page.
+ * Unlike the legacy description field, structured-content text modules keep
+ * clickable links — so the "register on our website" call-to-action renders as a
+ * proper link (labelled text, not a raw URL). Best-effort: the caller ignores
+ * failures so a listing still publishes with the plain-text description.
+ */
+async function setStructuredContent(eventId, event) {
+  const siteLink = `${SITE_URL}/events.html#${event.id}`;
+
+  const ctaHtml =
+    '<p><strong>Registration is through the Sama Yoga Center website — not through Eventbrite.</strong></p>' +
+    `<p><a href="${siteLink}">→ View full details &amp; register at samayogacenter.com</a></p>`;
+
+  // New content must be posted at (current version + 1); a fresh event has none.
+  let version = 0;
+  try {
+    const current = await ebRequest('GET', `/v3/events/${eventId}/structured_content/`);
+    version = current.page_version_number || 0;
+  } catch { /* no structured content yet — start at version 1 */ }
+
+  await ebRequest('POST', `/v3/events/${eventId}/structured_content/${version + 1}/`, {
+    publish: true,
+    purpose: 'listing',
+    modules: [
+      { type: 'text', data: { body: { type: 'text', text: buildBodyHtml(event), alignment: 'left' } } },
+      { type: 'text', data: { body: { type: 'text', text: ctaHtml,              alignment: 'left' } } },
+    ],
+  });
 }
 
 
@@ -307,6 +343,9 @@ async function main() {
       // Re-publish in case the event was previously unpublished
       try { await ebRequest('POST', `/v3/events/${ids[slug]}/publish/`); }
       catch { /* already published — fine */ }
+      // Rich description with the working, nicely-labelled website link
+      try { await setStructuredContent(ids[slug], event); }
+      catch (e) { console.warn(`   (rich description skipped: ${e.message})`); }
 
     } else {
       // ── Create new listing ───────────────────────────────────────────────
@@ -318,13 +357,16 @@ async function main() {
       await ebRequest('POST', `/v3/events/${created.id}/ticket_classes/`, {
         ticket_class: {
           name:           'Register at samayogacenter.com',
-          description:    `Registration is on our website — not through Eventbrite. Visit ${SITE_URL}/events.html#${slug} to sign up through MindBody.`,
+          description:    'Registration is on our website, not through Eventbrite — visit samayogacenter.com/events to sign up through MindBody.',
           free:           true,
           quantity_total: 500,
         },
       });
 
       await ebRequest('POST', `/v3/events/${created.id}/publish/`);
+      // Rich description with the working, nicely-labelled website link
+      try { await setStructuredContent(created.id, event); }
+      catch (e) { console.warn(`   (rich description skipped: ${e.message})`); }
       console.log(`   ✅  Published — Eventbrite ID: ${created.id}`);
     }
    } catch (e) {
