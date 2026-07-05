@@ -693,6 +693,7 @@ const TMPLS = [
   { id:'nl-event-pink',  label:'Event Card Pink',   ico:'🌸', w:1200, h:700 },
   { id:'nl-event-white', label:'Event Card White',  ico:'📋', w:1200, h:700 },
   { id:'nl-event-photo',  label:'Event Card Photo',  ico:'📷', w:1200, h:700 },
+  { id:'nl-intro',       label:'Intro Message',     ico:'✍️', w:1200, h:700 },
 ];
 
 // ── App state ────────────────────────────────────────────
@@ -730,6 +731,8 @@ const S = {
   nlSubtitle: 'Your serene space for studio updates, class insights, and mindful musings',
   nlEventPhoto: null,
   nlButtonText: 'RESERVE YOUR SPOT',
+  nlIntroText: 'Thank you for walking through our doors, unrolling your mat, and showing up for yourself this month. You are what makes Sama so special.\n\nJune was filled with connection, growth, and moments we will carry with us for a long time. Here is a look at what made it so meaningful:\n\n- **Prenatal Yoga Training** deepened our commitment to supporting families.\n- **Sama Stretch soft-launched** — our newest class designed to open, restore, and renew.\n- **Our Solstice Celebration** brought new friends together.',
+  nlIntroAlign: 'center',
   // ── Carousels ────────────────────────────────────────────
   slideIdx: 0,
   // Class Type carousel: slide 0 is the cover, the rest are class types.
@@ -1051,6 +1054,24 @@ function renderOpts() {
     </div>`;
   }
 
+  else if (t === 'nl-intro') {
+    h += `<div class="og"><label class="ol">Intro Message</label>
+      <textarea class="ota" style="min-height:220px" oninput="set('nlIntroText',this.value)">${x(S.nlIntroText)}</textarea>
+      <p class="hint">Each new line is its own line. Blank line = space between paragraphs.<br>
+        • <b>**bold**</b> and <b>*italic*</b> · start a line with <b>-</b> for a bullet · add spaces at the start of a line to indent it.<br>
+        • Bigger text: start a line with <b>#</b> (biggest), <b>##</b>, or <b>###</b>.</p>
+    </div>`;
+    h += `<div class="og"><label class="ol">Alignment</label>
+      <div class="oradio">
+        <label><input type="radio" name="nlialign" value="left" ${S.nlIntroAlign!=='center'?'checked':''} onchange="set('nlIntroAlign','left')"> Left</label>
+        <label><input type="radio" name="nlialign" value="center" ${S.nlIntroAlign==='center'?'checked':''} onchange="set('nlIntroAlign','center')"> Center</label>
+      </div>
+      <p class="hint">Bullets and indented lines always stay left-aligned.</p>
+    </div>`;
+    h += oTextSize();
+    h += oCardHeight();
+  }
+
   else if (t === 'class-type') {
     const n = S.ctSlides.length, i = S.slideIdx || 0, sl = S.ctSlides[i] || {};
     h += `<div class="og"><label class="ol">Number of Slides (2–6)</label>
@@ -1367,6 +1388,48 @@ function nlMultiline(text) {
     return `<div style="margin-bottom:.18em;${pad}">${x(rest)}</div>`;
   }).join('');
 }
+// Inline formatting for rich newsletter text: **bold** and *italic*.
+// Escapes HTML first, so the markers are the only thing that becomes markup.
+function nlInline(s) {
+  return x(s)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,      '<em>$1</em>')
+    .replace(/__(.+?)__/g,      '<strong>$1</strong>')
+    .replace(/_(.+?)_/g,        '<em>$1</em>');
+}
+// Rich multi-paragraph text for the Intro Message. Each line can be:
+//   # / ## / ###  → three heading sizes (change size per paragraph)
+//   - or •        → a bullet list item
+//   leading spaces→ indent (2 spaces / 1 tab per level)
+// plus **bold** and *italic* anywhere. Blank lines add spacing.
+function nlRich(text, align) {
+  const s     = nlScale();
+  const SIZE  = { h1: 40, h2: 32, h3: 26, p: 22 };
+  const lines = String(text || '').split(/\r?\n/);
+  if (!lines.some(l => l.trim())) return `<div style="color:#ccc">Write your intro message…</div>`;
+  return lines.map(raw => {
+    if (!raw.trim()) return `<div style="height:.7em"></div>`;          // blank line = spacer
+    const lead  = (raw.match(/^[ \t]*/) || [''])[0];
+    const level = Math.floor(lead.replace(/\t/g, '  ').length / 2);
+    const pad   = level ? `padding-left:${(level * 1.6).toFixed(2)}em;` : '';
+    let   body  = raw.slice(lead.length);
+    let   size  = SIZE.p, weight = '400';
+    let   h = body.match(/^(#{1,3})\s+(.*)$/);
+    if (h) { const n = h[1].length; size = n === 1 ? SIZE.h1 : n === 2 ? SIZE.h2 : SIZE.h3; weight = '700'; body = h[2]; }
+    const fs = `font-size:${Math.round(size * s)}px;font-weight:${weight};`;
+    const bullet = body.match(/^[-•]\s*(.*)$/);
+    if (bullet) {
+      return `<div style="display:flex;gap:.5em;text-align:left;${pad}margin-bottom:.35em;${fs}"><span style="flex-shrink:0">–</span><span>${nlInline(bullet[1])}</span></div>`;
+    }
+    return `<div style="text-align:${align || 'left'};${pad}margin-bottom:.35em;${fs}line-height:1.45">${nlInline(body)}</div>`;
+  }).join('');
+}
+// Faint pink ensō (open brush circle) used as a background watermark.
+function ensoWatermark() {
+  return `<svg viewBox="0 0 200 200" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);width:74%;max-width:600px;opacity:.10;pointer-events:none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M143,171 A82,82 0 1 1 171,132" fill="none" stroke="${PINK}" stroke-width="15" stroke-linecap="round"/>
+  </svg>`;
+}
 // Manual text-scale chosen in the sidebar (no auto-shrink). 1 = default.
 function nlScale() { return S.nlTextScale != null ? S.nlTextScale : 1; }
 function nlText(text) { return nlMultiline(text) || `<span style="color:#ccc">Description…</span>`; }
@@ -1564,6 +1627,7 @@ function render(animT) {
     case 'nl-event-pink':  return tNlEventPink();
     case 'nl-event-white': return tNlEventWhite();
     case 'nl-event-photo':  return tNlEventPhoto();
+    case 'nl-intro':        return tNlIntro();
     default: return '';
   }
 }
@@ -1887,6 +1951,17 @@ function tNlEventPhoto() {
     <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(29*nlScale())}px;font-style:italic;font-weight:700;color:${PINK};margin-bottom:12px;line-height:1.3">${nlMultiline(S.subtitle)}</div>
     <div style="font-family:'Nunito',sans-serif;font-size:${Math.round(26*nlScale())}px;color:#555;line-height:1.5;overflow:hidden;margin-bottom:18px">${nlMultiline(S.desc)||'Event description goes here.'}</div>
     <div style="display:table;margin:0 auto;background:${PINK};color:white;font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:.13em;padding:15px 34px;border-radius:6px">${x(S.nlButtonText)||'RESERVE YOUR SPOT'}</div>
+  </div>
+</div>`;
+}
+
+// ── NL 5. Intro Message — white card, faint pink ensō ───
+function tNlIntro() {
+  return `
+<div class="tpl" style="min-height:${nlH()}px;background:white;border:2px solid #ecdfe6;border-radius:12px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;padding:64px 88px">
+  ${ensoWatermark()}
+  <div style="position:relative;font-family:'Nunito',sans-serif;color:#3a3a3a;width:100%;max-width:920px">
+    ${nlRich(S.nlIntroText, S.nlIntroAlign)}
   </div>
 </div>`;
 }
