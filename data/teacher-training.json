@@ -18,7 +18,7 @@
   "costFullProgram": "$3,500",
   "costOnline": "$3,500",
   "costPaymentPlan": "contact for details",
-  "sectionOrder": ["sama-method", "faq", "cover", "schedule", "cost"],
+  "sectionOrder": ["sama-method", "cover", "schedule", "cost", "faq"],
   "reviews": [
     {
       "avatar": "/images/OurTeam/Megan.webp",
