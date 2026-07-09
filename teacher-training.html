@@ -1281,6 +1281,11 @@
         padding: 0 var(--space-3xl);
         align-items: stretch;
       }
+      /* The last card's bottom margin stacked on the section padding, making the
+         gap before the "Ready to Practice" CTA larger than on other pages. */
+      .tt-fs:last-child {
+        margin-bottom: 0;
+      }
       .tt-fs__img-wrap {
         position: relative;
         min-height: 380px;
