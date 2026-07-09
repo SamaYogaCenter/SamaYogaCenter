@@ -137,6 +137,17 @@
       display: block;
     }
 
+    /* Cost section: make the photo match the pricing box height so their
+       tops and bottoms line up (desktop only — the section stacks on mobile). */
+    @media (min-width: 769px) {
+      .tt-cost-intro {
+        align-items: stretch;
+      }
+      .tt-cost-intro .tt-intro__img {
+        height: 100%;
+      }
+    }
+
     .tt-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -815,7 +826,7 @@
   <!-- Cost -->
   <section data-section="cost" style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
     <div class="tt-container">
-      <div class="tt-intro">
+      <div class="tt-intro tt-cost-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
         <div style="background: var(--color-beige); min-height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-lg) var(--space-2xl);">
           <p style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a 200-Hour Yoga Alliance&reg; Certified Yoga Teacher and immerse in your own well-being.</p>
