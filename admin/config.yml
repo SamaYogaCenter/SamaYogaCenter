@@ -123,6 +123,20 @@ collections:
         label: "Teacher Training Page"
         file: "data/teacher-training.json"
         fields:
+          - name: "sectionOrder"
+            label: "Section Order"
+            widget: "list"
+            hint: "Drag the sections up or down to change the order they appear on the page (from just under the intro down to the reviews). Any section you leave off the list will stay at the end."
+            field:
+              label: "Section"
+              name: "section"
+              widget: "select"
+              options:
+                - { label: "The Sama Method", value: "sama-method" }
+                - { label: "FAQ — Questions You Might Have", value: "faq" }
+                - { label: "What We Will Cover / What's Included", value: "cover" }
+                - { label: "Schedule + Graduation Requirements", value: "schedule" }
+                - { label: "Cost", value: "cost" }
           - { label: "Schedule Time", name: "scheduleTime", widget: "string", hint: "e.g. weekends, 12:30–3:30pm  (use an em dash –)" }
           - name: "scheduleDates"
             label: "Weekend Training Dates"

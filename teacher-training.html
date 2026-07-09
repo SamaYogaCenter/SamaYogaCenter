@@ -652,7 +652,7 @@
   </style>
 
   <!-- The Sama Method -->
-  <section style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0;">
+  <section data-section="sama-method" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0;">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl);">
       <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">the sama method</h2>
@@ -667,7 +667,7 @@
   </section>
 
   <!-- Questions You Might Have (FAQ) -->
-  <section style="background: white; padding: var(--space-4xl) 0;">
+  <section data-section="faq" style="background: white; padding: var(--space-4xl) 0;">
     <div class="tt-container">
       <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">questions you might have</h2>
       <div class="tt-faq">
@@ -790,7 +790,7 @@
   </section>
 
   <!-- What's Included + What We Will Cover -->
-  <section style="background: var(--color-beige); padding: var(--space-3xl) 0;">
+  <section data-section="cover" style="background: var(--color-beige); padding: var(--space-3xl) 0;">
     <div class="tt-container">
       <div class="tt-grid" style="align-items: stretch;">
 
@@ -825,7 +825,7 @@
   </section>
 
   <!-- Schedule + Graduation Requirements -->
-  <section style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-xl);">
+  <section data-section="schedule" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-xl);">
     <div class="tt-container">
       <div class="tt-schedule-layout">
 
@@ -864,7 +864,7 @@
   </section>
 
   <!-- Cost -->
-  <section style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
+  <section data-section="cost" style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
     <div class="tt-container">
       <div class="tt-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
@@ -981,7 +981,7 @@
     }
   </style>
 
-  <section class="tt-reviews">
+  <section class="tt-reviews" id="tt-sections-anchor">
     <div class="tt-container" style="text-align: center;">
       <h2 class="tt-heading" style="text-align: center;">what our graduates say</h2>
       <p style="max-width: 800px; margin: 0 auto var(--space-lg); text-align: center; font-size: 1rem; color: var(--color-text-secondary); line-height: 1.7;">Our Yoga Teacher Trainings are registered with Yoga Alliance&reg; and recognized nationwide for their exceptional quality. We take pride in our five-star reviews, a testament to our commitment to excellence.</p>
@@ -1048,6 +1048,26 @@
     fetch('data/teacher-training.json?v=' + Date.now())
       .then(function(r) { return r.json(); })
       .then(function(d) {
+        // Section order — controlled from the CMS ("Section Order" field).
+        // Reorders the tagged <section> blocks; any section left out of the list
+        // keeps its place at the end, so nothing can disappear.
+        var order  = d.sectionOrder || [];
+        var anchor = document.getElementById('tt-sections-anchor');
+        if (anchor && order.length) {
+          var secs = {};
+          document.querySelectorAll('section[data-section]').forEach(function(s) {
+            secs[s.getAttribute('data-section')] = s;
+          });
+          var placed = {};
+          order.forEach(function(key) {
+            var val = (key && key.section) ? key.section : key;  // support string or {section}
+            if (secs[val] && !placed[val]) { anchor.parentNode.insertBefore(secs[val], anchor); placed[val] = true; }
+          });
+          Object.keys(secs).forEach(function(key) {
+            if (!placed[key]) anchor.parentNode.insertBefore(secs[key], anchor);
+          });
+        }
+
         // Schedule time
         var timeEl = document.getElementById('tt-schedule-time');
         if (timeEl) timeEl.innerHTML = '<strong>' + d.scheduleTime + '</strong>';
