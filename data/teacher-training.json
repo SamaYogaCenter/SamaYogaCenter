@@ -1,24 +1,33 @@
 {
-  "scheduleTime": "weekends, 12:30–3:30pm",
-  "scheduleDates": [
-    {"date": "April 18–19"},
-    {"date": "April 25–26"},
-    {"date": "May 2–3"},
-    {"date": "May 16–17"},
-    {"date": "May 30–31"}
-  ],
-  "graduationDate": "June 6–7",
-  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
-  "graduationRequirements": [
-    {"requirement": "Attend training modules or watch recordings"},
-    {"requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"},
-    {"requirement": "Submit and teach a prepared sequence"},
-    {"requirement": "Complete an open-book exam at your own pace"}
-  ],
-  "costFullProgram": "$3,500",
   "costOnline": "$3,500",
   "costPaymentPlan": "contact for details",
-  "sectionOrder": ["sama-method", "cover", "schedule", "cost", "faq"],
+  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
+  "scheduleTime": "weekends, 12:30–3:30pm",
+  "costFullProgram": "$3,500",
+  "sectionOrder": [
+    "sama-method",
+    "cover",
+    "schedule",
+    "cost",
+    "faq"
+  ],
+  "scheduleDates": [
+    {
+      "date": "September 26–27"
+    },
+    {
+      "date": "October 3–4"
+    },
+    {
+      "date": "October 17–18"
+    },
+    {
+      "date": "October 24–25"
+    },
+    {
+      "date": "November 7–8"
+    }
+  ],
   "reviews": [
     {
       "avatar": "/images/OurTeam/Megan.webp",
@@ -59,6 +68,21 @@
       "avatar": "/images/OurTeam/Zach.webp",
       "author": "Zach",
       "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
+    }
+  ],
+  "graduationDate": "November 14–15",
+  "graduationRequirements": [
+    {
+      "requirement": "Attend training modules or watch recordings"
+    },
+    {
+      "requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"
+    },
+    {
+      "requirement": "Submit and teach a prepared sequence"
+    },
+    {
+      "requirement": "Complete an open-book exam at your own pace"
     }
   ]
 }
