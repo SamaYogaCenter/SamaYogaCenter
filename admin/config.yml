@@ -137,6 +137,7 @@ collections:
                 - { label: "What We Will Cover / What's Included", value: "cover" }
                 - { label: "Schedule + Graduation Requirements", value: "schedule" }
                 - { label: "Cost", value: "cost" }
+          - { label: "Intro Blurb", name: "introBody", widget: "text", hint: "The paragraphs under 'yoga teacher training' at the top. Wrap text in **double asterisks** to bold it, and leave a blank line between paragraphs. Update the season here (e.g. Spring / Fall)." }
           - { label: "Sama Method — Heading", name: "samaMethodHeading", widget: "string", hint: "e.g. What is the Sama Method?®  (displayed in lowercase to match the page style)" }
           - { label: "Sama Method — Body", name: "samaMethodBody", widget: "text", hint: "The Sama Method description. Leave a blank line between paragraphs." }
           - name: "whatWeWillCover"

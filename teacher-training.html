@@ -602,8 +602,10 @@
       <div class="tt-intro">
         <div class="tt-intro__text">
           <h2 class="tt-heading tt-heading--large">yoga teacher training</h2>
-          <p>Join us this Spring for an experience that goes far beyond learning to teach. Our <strong>200-hour Yoga Alliance® registered training</strong> — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.</p>
+          <div id="tt-intro-body">
+          <p>Join us this Fall for an experience that goes far beyond learning to teach. Our <strong>200-hour Yoga Alliance® registered training</strong> — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.</p>
           <p>This training is for you. <strong>You don't need to intend to teach.</strong> Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as <strong>a retreat you return to every weekend</strong> — immersive, personal, and transformative.</p>
+          </div>
           <div class="tt-register-btn" style="margin-top: var(--space-md);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
         </div>
         <img loading="eager" src="images/Teacher%20Training/TeacherTraining_Image2.webp" alt="Yoga Teacher Training" class="tt-intro__img" style="object-position: 30% 60%;">
@@ -1094,6 +1096,13 @@
         if (samaBody && d.samaMethodBody) {
           samaBody.innerHTML = String(d.samaMethodBody).split(/\n{2,}/).filter(function(p){ return p.trim(); })
             .map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('');
+        }
+
+        // Intro blurb — paragraphs with **bold** support
+        var introBody = document.getElementById('tt-intro-body');
+        if (introBody && d.introBody) {
+          introBody.innerHTML = String(d.introBody).split(/\n{2,}/).filter(function(p){ return p.trim(); })
+            .map(function(p) { return '<p>' + esc(p).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>') + '</p>'; }).join('');
         }
 
         // What We Will Cover / What's Included lists
