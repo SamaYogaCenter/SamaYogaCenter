@@ -666,12 +666,14 @@
   <section data-section="sama-method" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0;">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl);">
-      <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">the sama method</h2>
-      <div class="tt-prose">
-        <p>The Sama Method is our integrative approach to teaching yoga—rooted in the wisdom of the eight limbs of yoga and informed by modern movement science. Rather than preparing you to teach a single style, you'll learn to confidently guide Vinyasa, Open Level, Yin Flow, Meditation, and Restorative Yoga, equipping you to support students of all abilities, bodies, and stages of life.</p>
-        <p>At its heart, the Sama Method is about learning to attune—to your students, to the energy of the room, and to your own authentic voice. More than memorizing poses or sequences, you'll gain a clear framework for teaching, communicate with confidence, and develop the discernment to meet each student with presence, skill, and compassion.</p>
-        <p>Our greatest measure of success is the experience of our graduates. Every Yoga Alliance&reg; review of the Sama Method has earned 5 out of 5 stars, reflecting the quality of our education, the depth of our mentorship, and the confidence our graduates carry into their teaching and their lives.</p>
-        <p>Your tuition is intentionally all-inclusive. From the day you enroll until graduation, you'll enjoy unlimited yoga classes, a comprehensive training manual, recorded lectures for review or make-up sessions, and individualized mentorship throughout the program. There are no additional class packages to purchase, no required book fees, and no hidden costs—only thoughtful support designed to help you thrive.</p>
+      <h2 class="tt-heading tt-heading--large" id="tt-sama-heading" style="text-align: center; margin-bottom: var(--space-xl);">What is the Sama Method?&reg;</h2>
+      <div class="tt-prose" id="tt-sama-body">
+        <p>The Sama Method&reg; is an integrative approach to teaching yoga that unites the timeless wisdom of the eight limbs of yoga with contemporary movement science, functional anatomy, nervous system awareness, and compassionate leadership.</p>
+        <p>Rather than preparing you to teach a single style, the Sama Method equips you to skillfully guide Vinyasa, Open Level, Yin Flow, and Meditation practices with confidence, adaptability, and intention.</p>
+        <p>At the heart of the Sama Method is discernment: more than learning poses and memorizing sequences, you'll develop the skills to observe, assess, communicate, and respond with care. You will learn to create experiences where students feel safe, capable, supported, and seen. Because exceptional teaching extends beyond sequencing poses—it is the art of helping another human being reconnect with themselves.</p>
+        <p>Our curriculum blends philosophy, biomechanics, breathwork, anatomy, language, intelligent sequencing, Sanskrit and the science of learning into a practical framework you carry into every class, private session, and conversation. You will graduate with the confidence to adapt your teaching for different bodies, abilities, life stages, and individual needs while remaining grounded in the essence of yoga.</p>
+        <p>Our greatest measure of success is the experience of our graduates. Yoga Alliance&reg; reviews of the Sama Method have all earned 5-star ratings, reflecting the depth of our mentorship, the quality of our education, and the confidence our graduates carry into both their teaching and their lives.</p>
+        <p>Your tuition is intentionally all-inclusive. From the day you enroll through graduation, you'll enjoy unlimited yoga classes, a comprehensive training manual, recorded lectures for review and make-up sessions, and individualized mentorship throughout the program. There are no additional class packages to purchase, no required textbooks, and no hidden fees—only thoughtful support designed to help you thrive.</p>
       </div>
       </div>
     </div>
@@ -682,7 +684,7 @@
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl); border: 1px solid #cdbfa8;">
       <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">questions you might have</h2>
-      <div class="tt-faq">
+      <div class="tt-faq" id="tt-faq-list">
 
         <details class="tt-faq-item">
           <summary>How much experience do I need?</summary>
@@ -757,7 +759,7 @@
         <!-- What We Will Cover -->
         <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
           <h2 class="tt-heading">what we will cover</h2>
-          <ul class="tt-list">
+          <ul class="tt-list" id="tt-cover-list">
             <li>Āsana study &amp; practice</li>
             <li>Anatomy &amp; physiology</li>
             <li>Meditation</li>
@@ -770,7 +772,7 @@
         <!-- What's Included -->
         <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
           <h2 class="tt-heading">what's included</h2>
-          <ul class="tt-list">
+          <ul class="tt-list" id="tt-included-list">
             <li>In-person group training sessions</li>
             <li>Unlimited membership from registration to graduation</li>
             <li>Comprehensive learning manual</li>
@@ -847,7 +849,10 @@
               </div>
             </div>
           </div>
-          <div class="tt-register-btn" style="margin-top: var(--space-lg);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
+          <div style="margin-top: var(--space-lg); display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center; align-items: center;">
+            <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — In-Person" /></div>
+            <a id="tt-online-register" href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&amp;stype=41&amp;sTG=26&amp;prodId=10979" target="_blank" rel="noopener" class="btn btn--primary">Register — Online</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1073,6 +1078,45 @@
             rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">Payment Plan</span><span class="tt-pricing-row__price">' + d.costPaymentPlan + '</span></div>';
           }
           if (rowHTML) pricingBox.innerHTML = rowHTML;
+        }
+
+        // Online registration button link
+        var onlineReg = document.getElementById('tt-online-register');
+        if (onlineReg && d.costOnlineLink) onlineReg.href = d.costOnlineLink;
+
+        // Escape helper for hydrated text
+        var esc = function(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+
+        // Sama Method — heading + paragraphs (blank line separates paragraphs)
+        var samaHeading = document.getElementById('tt-sama-heading');
+        if (samaHeading && d.samaMethodHeading) samaHeading.textContent = d.samaMethodHeading;
+        var samaBody = document.getElementById('tt-sama-body');
+        if (samaBody && d.samaMethodBody) {
+          samaBody.innerHTML = String(d.samaMethodBody).split(/\n{2,}/).filter(function(p){ return p.trim(); })
+            .map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('');
+        }
+
+        // What We Will Cover / What's Included lists
+        var listFrom = function(id, arr) {
+          var el = document.getElementById(id);
+          if (el && arr && arr.length) {
+            el.innerHTML = arr.map(function(item) {
+              return '<li>' + esc(typeof item === 'string' ? item : (item.item || '')) + '</li>';
+            }).join('');
+          }
+        };
+        listFrom('tt-cover-list', d.whatWeWillCover);
+        listFrom('tt-included-list', d.whatsIncluded);
+
+        // FAQ accordion
+        var faqList = document.getElementById('tt-faq-list');
+        if (faqList && d.faqs && d.faqs.length) {
+          faqList.innerHTML = d.faqs.map(function(f) {
+            var ans = String(f.answer || '').split(/\n{2,}/).filter(function(p){ return p.trim(); })
+              .map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('');
+            return '<details class="tt-faq-item"><summary>' + esc(f.question) + '</summary>' +
+                   '<div class="tt-faq-item__answer">' + ans + '</div></details>';
+          }).join('');
         }
 
         // Reviews

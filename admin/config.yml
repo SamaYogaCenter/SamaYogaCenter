@@ -137,6 +137,20 @@ collections:
                 - { label: "What We Will Cover / What's Included", value: "cover" }
                 - { label: "Schedule + Graduation Requirements", value: "schedule" }
                 - { label: "Cost", value: "cost" }
+          - { label: "Sama Method — Heading", name: "samaMethodHeading", widget: "string", hint: "e.g. What is the Sama Method?®  (displayed in lowercase to match the page style)" }
+          - { label: "Sama Method — Body", name: "samaMethodBody", widget: "text", hint: "The Sama Method description. Leave a blank line between paragraphs." }
+          - name: "whatWeWillCover"
+            label: "What We Will Cover"
+            label_singular: "Item"
+            widget: "list"
+            hint: "Bulleted list shown in the 'what we will cover' box. Drag to reorder."
+            field: { label: "Item", name: "item", widget: "string" }
+          - name: "whatsIncluded"
+            label: "What's Included"
+            label_singular: "Item"
+            widget: "list"
+            hint: "Bulleted list shown in the 'what's included' box. Drag to reorder."
+            field: { label: "Item", name: "item", widget: "string" }
           - { label: "Schedule Time", name: "scheduleTime", widget: "string", hint: "e.g. weekends, 12:30–3:30pm  (use an em dash –)" }
           - name: "scheduleDates"
             label: "Weekend Training Dates"
@@ -156,8 +170,19 @@ collections:
             hint: "Add one entry per requirement. Drag to reorder."
             fields:
               - { label: "Requirement", name: "requirement", widget: "string" }
-          - { label: "Cost — Full Program", name: "costFullProgram", widget: "string", hint: "e.g. $3,500" }
+          - { label: "Cost — In-Person", name: "costFullProgram", widget: "string", hint: "e.g. $3,500" }
+          - { label: "Cost — Online (Live via Zoom)", name: "costOnline", widget: "string", required: false, hint: "e.g. $3,500. Leave blank to hide the online row." }
           - { label: "Cost — Payment Plan", name: "costPaymentPlan", widget: "string", hint: "e.g. contact for details" }
+          - { label: "Online Registration Link", name: "costOnlineLink", widget: "string", required: false, hint: "MindBody payment link used by the 'Register — Online' button." }
+          - name: "faqs"
+            label: "FAQ — Questions You Might Have"
+            label_singular: "Question"
+            widget: "list"
+            summary: "{{fields.question}}"
+            hint: "Drag to reorder. Each item is a question and its answer. Leave a blank line in the answer to start a new paragraph."
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - { label: "Answer", name: "answer", widget: "text" }
           - name: "reviews"
             label: "Graduate Reviews"
             label_singular: "Review"

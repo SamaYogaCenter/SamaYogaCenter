@@ -1,24 +1,48 @@
 {
   "scheduleTime": "weekends, 12:30–3:30pm",
   "scheduleDates": [
-    {"date": "April 18–19"},
-    {"date": "April 25–26"},
-    {"date": "May 2–3"},
-    {"date": "May 16–17"},
-    {"date": "May 30–31"}
+    {
+      "date": "April 18–19"
+    },
+    {
+      "date": "April 25–26"
+    },
+    {
+      "date": "May 2–3"
+    },
+    {
+      "date": "May 16–17"
+    },
+    {
+      "date": "May 30–31"
+    }
   ],
   "graduationDate": "June 6–7",
   "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
   "graduationRequirements": [
-    {"requirement": "Attend training modules or watch recordings"},
-    {"requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"},
-    {"requirement": "Submit and teach a prepared sequence"},
-    {"requirement": "Complete an open-book exam at your own pace"}
+    {
+      "requirement": "Attend training modules or watch recordings"
+    },
+    {
+      "requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"
+    },
+    {
+      "requirement": "Submit and teach a prepared sequence"
+    },
+    {
+      "requirement": "Complete an open-book exam at your own pace"
+    }
   ],
   "costFullProgram": "$3,500",
   "costOnline": "$3,500",
   "costPaymentPlan": "contact for details",
-  "sectionOrder": ["sama-method", "cover", "schedule", "cost", "faq"],
+  "sectionOrder": [
+    "sama-method",
+    "cover",
+    "schedule",
+    "cost",
+    "faq"
+  ],
   "reviews": [
     {
       "avatar": "/images/OurTeam/Megan.webp",
@@ -59,6 +83,75 @@
       "avatar": "/images/OurTeam/Zach.webp",
       "author": "Zach",
       "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
+    }
+  ],
+  "samaMethodHeading": "What is the Sama Method?®",
+  "samaMethodBody": "The Sama Method® is an integrative approach to teaching yoga that unites the timeless wisdom of the eight limbs of yoga with contemporary movement science, functional anatomy, nervous system awareness, and compassionate leadership.\n\nRather than preparing you to teach a single style, the Sama Method equips you to skillfully guide Vinyasa, Open Level, Yin Flow, and Meditation practices with confidence, adaptability, and intention.\n\nAt the heart of the Sama Method is discernment: more than learning poses and memorizing sequences, you'll develop the skills to observe, assess, communicate, and respond with care. You will learn to create experiences where students feel safe, capable, supported, and seen. Because exceptional teaching extends beyond sequencing poses—it is the art of helping another human being reconnect with themselves.\n\nOur curriculum blends philosophy, biomechanics, breathwork, anatomy, language, intelligent sequencing, Sanskrit and the science of learning into a practical framework you carry into every class, private session, and conversation. You will graduate with the confidence to adapt your teaching for different bodies, abilities, life stages, and individual needs while remaining grounded in the essence of yoga.\n\nOur greatest measure of success is the experience of our graduates. Yoga Alliance® reviews of the Sama Method have all earned 5-star ratings, reflecting the depth of our mentorship, the quality of our education, and the confidence our graduates carry into both their teaching and their lives.\n\nYour tuition is intentionally all-inclusive. From the day you enroll through graduation, you'll enjoy unlimited yoga classes, a comprehensive training manual, recorded lectures for review and make-up sessions, and individualized mentorship throughout the program. There are no additional class packages to purchase, no required textbooks, and no hidden fees—only thoughtful support designed to help you thrive.",
+  "whatWeWillCover": [
+    "Āsana study & practice",
+    "Anatomy & physiology",
+    "Meditation",
+    "Prānāyāma",
+    "Philosophy & Sanskrit",
+    "Teaching methodology"
+  ],
+  "whatsIncluded": [
+    "In-person group training sessions",
+    "Unlimited membership from registration to graduation",
+    "Comprehensive learning manual",
+    "Recorded lecture access",
+    "One on one mentorship",
+    "Opportunity to register with Yoga Alliance® at graduation"
+  ],
+  "costOnlineLink": "https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=26&prodId=10979",
+  "faqs": [
+    {
+      "question": "How much experience do I need?",
+      "answer": "We recommend about one year of consistent yoga practice before beginning teacher training—but you don't need to be advanced or especially flexible. The Sama Method is designed for every body and every level. Students arrive with a wide range of backgrounds, and we meet you where you are, helping you modify, adapt, and build knowledge, confidence, and teaching skills one step at a time."
+    },
+    {
+      "question": "What if I want to do this for myself and I'm not sure I want to teach?",
+      "answer": "You're in wonderful company. Many students join to deepen their personal practice, cultivate a meditation practice, gain confidence, and connect with a like-minded community. Whether you teach or not, this training is designed to enrich your life."
+    },
+    {
+      "question": "Is this training accredited?",
+      "answer": "Yes. Sama Academy is a Yoga Alliance® Registered Yoga School (RYS 200). Upon successful completion of the program, you may register with Yoga Alliance as a Registered Yoga Teacher (RYT 200)."
+    },
+    {
+      "question": "Will I feel prepared to teach?",
+      "answer": "Yes. Throughout the program you'll receive progressive teaching opportunities, individualized feedback, and personal mentorship. You'll graduate with the confidence to teach safely, communicate clearly, and create meaningful experiences."
+    },
+    {
+      "question": "Can I teach at a hot yoga studio after graduation?",
+      "answer": "Absolutely. While our training takes place in a comfortable room with gently warmed floors, you'll learn principles that translate beautifully to both heated and non-heated environments. Your education prepares you to teach with confidence wherever your path leads."
+    },
+    {
+      "question": "Can I attend from home?",
+      "answer": "Yes. We offer a live online training option, allowing you to participate from home while remaining fully connected to the group. You'll interact with faculty and fellow trainees in real time, ask questions, receive personalized feedback, and enjoy the same curriculum and mentorship as our in-person students."
+    },
+    {
+      "question": "Can I watch the recordings instead of attending live?",
+      "answer": "The heart of the Sama Method is learning together. Whether you attend in person or online, participation happens live so you can ask questions, receive individualized guidance, and practice teach with confidence. Online students join via Zoom with cameras on to create an engaging, supportive learning environment. If life requires you to miss a session, let us know. Recordings are available for review and make-up purposes, and we'll help you stay on track."
+    },
+    {
+      "question": "Where do the 200 hours come from?",
+      "answer": "A 200-hour teacher training includes much more than classroom instruction. The Sama Method is thoughtfully designed for modern life, blending in-person learning with guided home study, personal practice, observation, reflection, reading, written assignments, practice teaching, unlimited yoga classes, and one-on-one mentorship.\n\nYou'll integrate your learning over time—to create layered understanding, strong teaching skills, and lasting confidence."
+    },
+    {
+      "question": "What happens if I miss a weekend?",
+      "answer": "Life happens. We record the portions of training that are appropriate for review, and we'll work with you to create a plan so you feel supported and confident before moving forward."
+    },
+    {
+      "question": "How many students are in each training?",
+      "answer": "We intentionally keep our trainings small to create a supportive learning environment where every student receives individualized feedback, mentorship, and meaningful opportunities to practice teach."
+    },
+    {
+      "question": "Do I need to purchase classes?",
+      "answer": "No. Unlimited yoga classes are included from the day you register through graduation. There are no required class packages or additional membership costs."
+    },
+    {
+      "question": "Do I need to purchase books or materials?",
+      "answer": "No. Your tuition includes a comprehensive training manual, recorded lectures, and all required learning materials. We provide a recommended reading list and have many of the books available to borrow if you'd like to explore further."
     }
   ]
 }
