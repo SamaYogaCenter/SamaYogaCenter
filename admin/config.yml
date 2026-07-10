@@ -184,6 +184,8 @@ collections:
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
+              - { label: "Button Label (optional)", name: "buttonLabel", widget: "string", required: false, hint: "Adds a call-to-action button under this answer, e.g. Reserve My Spot. Leave blank for no button." }
+              - { label: "Button Link (optional)", name: "buttonLink", widget: "string", required: false, hint: "Where the button goes. Leave blank to scroll to the cost / register section." }
           - name: "reviews"
             label: "Graduate Reviews"
             label_singular: "Review"

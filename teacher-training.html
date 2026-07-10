@@ -828,7 +828,7 @@
   </section>
 
   <!-- Cost -->
-  <section data-section="cost" style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
+  <section data-section="cost" id="tt-cost" style="background: white; padding: var(--space-xl) 0 var(--space-4xl); scroll-margin-top: 90px;">
     <div class="tt-container">
       <div class="tt-intro tt-cost-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
@@ -1123,8 +1123,12 @@
           faqList.innerHTML = d.faqs.map(function(f) {
             var ans = String(f.answer || '').split(/\n{2,}/).filter(function(p){ return p.trim(); })
               .map(function(p) { return '<p>' + esc(p) + '</p>'; }).join('');
+            var btn = '';
+            if (f.buttonLabel) {
+              btn = '<a href="' + esc(f.buttonLink || '#tt-cost') + '" class="btn btn--primary" style="display:inline-block;margin-top:var(--space-md);">' + esc(f.buttonLabel) + '</a>';
+            }
             return '<details class="tt-faq-item"><summary>' + esc(f.question) + '</summary>' +
-                   '<div class="tt-faq-item__answer">' + ans + '</div></details>';
+                   '<div class="tt-faq-item__answer">' + ans + btn + '</div></details>';
           }).join('');
         }
 

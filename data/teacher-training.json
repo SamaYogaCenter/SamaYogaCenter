@@ -152,6 +152,12 @@
     {
       "question": "Do I need to purchase books or materials?",
       "answer": "No. Your tuition includes a comprehensive training manual, recorded lectures, and all required learning materials. We provide a recommended reading list and have many of the books available to borrow if you'd like to explore further."
+    },
+    {
+      "question": "How much does the training cost?",
+      "answer": "Tuition is $3,500, with flexible payment plans available. Your investment includes everything needed to complete the program, with no surprise fees or required add-on purchases.",
+      "buttonLabel": "Reserve My Spot",
+      "buttonLink": "#tt-cost"
     }
   ],
   "introBody": "Join us this Fall for an experience that goes far beyond learning to teach. Our **200-hour Yoga Alliance® registered training** — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.\n\nThis training is for you. **You don't need to intend to teach.** Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as **a retreat you return to every weekend** — immersive, personal, and transformative."
