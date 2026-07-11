@@ -59,6 +59,18 @@
       box-shadow: var(--shadow-md);
     }
 
+    /* Cost section: fit both register buttons side by side in one row. */
+    .tt-cost-buttons .healcode-pricing-option-text-link,
+    .tt-cost-buttons .btn {
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+    .tt-cost-buttons .tt-register-btn healcode-widget {
+      min-width: 0;
+    }
+
     .tt-hero {
       width: 100%;
       height: 380px;
@@ -261,17 +273,20 @@
       grid-template-columns: 1fr 1fr;
       gap: var(--space-4xl);
       align-items: stretch;
+      /* Tall enough that the photo and grad-requirements box split into equal
+         halves (each clears the ~4-item requirements list). */
+      min-height: 524px;
     }
 
     .tt-grad-area {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
       gap: 20px;
     }
 
     .tt-grad-img {
-      flex: 1 1 auto;
-      min-height: 220px;
+      height: 100%;
+      min-height: 0;
       width: 100%;
       object-fit: cover;
       object-position: center 10%;
@@ -279,7 +294,7 @@
     }
 
     .tt-grad-card {
-      flex: 0 0 auto;
+      min-height: 0;
       background: var(--color-beige);
       padding: var(--space-xl) var(--space-xl);
       display: flex;
@@ -664,7 +679,7 @@
   </style>
 
   <!-- The Sama Method -->
-  <section data-section="sama-method" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0;">
+  <section data-section="sama-method" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-3xl) 0;">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl);">
       <h2 class="tt-heading tt-heading--large" id="tt-sama-heading" style="text-align: center; margin-bottom: var(--space-xl);">What is the Sama Method?&reg;</h2>
@@ -681,7 +696,7 @@
   </section>
 
   <!-- Questions You Might Have (FAQ) -->
-  <section data-section="faq" style="background: white; padding: var(--space-xl) 0 var(--space-4xl);">
+  <section data-section="faq" style="background: white; padding: var(--space-3xl) 0;">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl); border: 1px solid #cdbfa8;">
       <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">questions you might have</h2>
@@ -788,16 +803,16 @@
   </section>
 
   <!-- Schedule + Graduation Requirements -->
-  <section data-section="schedule" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-3xl);">
+  <section data-section="schedule" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-3xl) 0;">
     <div class="tt-container">
       <div class="tt-schedule-layout">
 
         <!-- Left: Schedule -->
-        <div style="text-align: center; background: white; padding: var(--space-2xl);">
+        <div style="text-align: center; background: white; padding: var(--space-2xl); display: flex; flex-direction: column;">
           <h2 class="tt-heading" style="margin-bottom: var(--space-xs);">schedule</h2>
-          <div class="tt-schedule">
+          <div class="tt-schedule" style="flex: 1; display: flex; flex-direction: column;">
             <p style="font-size: 1.25rem; margin-bottom: var(--space-lg);" id="tt-schedule-time"><strong>weekends, 12:30–3:30pm</strong></p>
-            <div class="tt-schedule-dates" id="tt-schedule-dates">
+            <div class="tt-schedule-dates" id="tt-schedule-dates" style="flex: 1; justify-content: space-between;">
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 18–19</span>
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">April 25–26</span>
               <span style="background: var(--color-beige); padding: var(--space-sm) var(--space-lg); border-radius: 50px; font-size: 1rem;">May 2–3</span>
@@ -827,7 +842,7 @@
   </section>
 
   <!-- Cost -->
-  <section data-section="cost" id="tt-cost" style="background: white; padding: var(--space-xl) 0 var(--space-3xl); scroll-margin-top: 90px;">
+  <section data-section="cost" id="tt-cost" style="background: white; padding: var(--space-3xl) 0; scroll-margin-top: 90px;">
     <div class="tt-container">
       <div class="tt-intro tt-cost-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
@@ -850,7 +865,7 @@
               </div>
             </div>
           </div>
-          <div style="margin-top: var(--space-lg); display: flex; gap: var(--space-md); flex-wrap: wrap; justify-content: center; align-items: center;">
+          <div class="tt-cost-buttons" style="margin-top: var(--space-lg); display: flex; gap: var(--space-sm); flex-wrap: nowrap; justify-content: center; align-items: stretch;">
             <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — In-Person" /></div>
             <a id="tt-online-register" href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&amp;stype=41&amp;sTG=26&amp;prodId=10979" target="_blank" rel="noopener" class="btn btn--primary">Register — Online</a>
           </div>
