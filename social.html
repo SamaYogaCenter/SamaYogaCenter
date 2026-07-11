@@ -735,11 +735,12 @@ const S = {
   nlIntroText: 'Thank you for walking through our doors, unrolling your mat, and showing up for yourself this month. You are what makes Sama so special.\n\nJune was filled with connection, growth, and moments we will carry with us for a long time. Here is a look at what made it so meaningful:\n\n- **Prenatal Yoga Training** deepened our commitment to supporting families.\n- **Sama Stretch soft-launched** — our newest class designed to open, restore, and renew.\n- **Our Solstice Celebration** brought new friends together.',
   nlIntroAlign: 'center',
   nlQuad: [
-    { photo: null, title: '', date: '', time: '' },
-    { photo: null, title: '', date: '', time: '' },
-    { photo: null, title: '', date: '', time: '' },
-    { photo: null, title: '', date: '', time: '' },
+    { photo: null, title: '', date: '', time: '', desc: '' },
+    { photo: null, title: '', date: '', time: '', desc: '' },
+    { photo: null, title: '', date: '', time: '', desc: '' },
+    { photo: null, title: '', date: '', time: '', desc: '' },
   ],
+  nlQuadInvert: false,
   // ── Carousels ────────────────────────────────────────────
   slideIdx: 0,
   // Class Type carousel: slide 0 is the cover, the rest are class types.
@@ -1084,7 +1085,12 @@ function renderOpts() {
   }
 
   else if (t === 'nl-quad') {
-    h += `<p class="hint" style="margin-bottom:6px">Four photo + caption blocks in a 2×2 grid. Keep captions short — event name, date, time.</p>`;
+    h += `<p class="hint" style="margin-bottom:6px">Four photo + caption blocks in a 2×2 grid. Keep captions short — event name, date, time, and an optional one-line description.</p>`;
+    h += `<div class="og"><label class="ol">Card Style</label>
+      <div class="oradio">
+        <label><input type="radio" name="nlqinv" ${!S.nlQuadInvert?'checked':''} onchange="set('nlQuadInvert',false)"> White cards, pink border</label>
+        <label><input type="radio" name="nlqinv" ${S.nlQuadInvert?'checked':''} onchange="set('nlQuadInvert',true)"> Pink background, white cards</label>
+      </div></div>`;
     S.nlQuad.forEach((q, i) => {
       h += `<hr class="odiv"><div class="og"><label class="ol" style="color:${PINK}">Block ${i+1}</label></div>`;
       if (events.length) {
@@ -1101,6 +1107,7 @@ function renderOpts() {
       h += `<div class="og"><label class="ol">Event Name</label><input class="oi" value="${x(q.title)}" oninput="nlQuadSet(${i},'title',this.value)"></div>`;
       h += `<div class="og"><label class="ol">Date</label><input class="oi" value="${x(q.date)}" oninput="nlQuadSet(${i},'date',this.value)"></div>`;
       h += `<div class="og"><label class="ol">Time</label><input class="oi" value="${x(q.time)}" oninput="nlQuadSet(${i},'time',this.value)"></div>`;
+      h += `<div class="og"><label class="ol">Description (one line)</label><input class="oi" value="${x(q.desc)}" oninput="nlQuadSet(${i},'desc',this.value)"></div>`;
     });
     h += `<hr class="odiv">`;
     h += oTextSize();
@@ -2014,16 +2021,19 @@ function nlQuadPickEvent(i, idx) {
   renderOpts(); updatePreview();
 }
 function tNlQuad() {
+  const invert = S.nlQuadInvert === true;
+  const cardBorder = invert ? '' : `border:2px solid ${PINK};`;
   const cell = (q, i) => `
-    <div style="display:flex;flex-direction:column;background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(120,60,90,.08)">
+    <div style="display:flex;flex-direction:column;background:white;border-radius:10px;overflow:hidden;${cardBorder}box-shadow:0 2px 10px rgba(120,60,90,.08)">
       <div style="position:relative;overflow:hidden;background:#f0e6ec;height:300px">${q.photo ? pphoto([{url:q.photo}], frameFor('nlQuad'+i), 'nlQuad'+i, 549, 300) : ''}</div>
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 22px;text-align:center">
         <div style="font-family:'Montserrat',sans-serif;font-size:${Math.round(27*nlScale())}px;font-weight:800;color:#2d2d2d;line-height:1.2">${x(q.title)||'Event Name'}</div>
         ${(q.date||q.time) ? `<div style="font-family:'Nunito',sans-serif;font-size:${Math.round(19*nlScale())}px;font-weight:700;color:${PINK};margin-top:7px">${x(q.date)}${q.date&&q.time?' · ':''}${x(q.time)}</div>` : ''}
+        ${q.desc ? `<div style="font-family:'Nunito',sans-serif;font-size:${Math.round(17*nlScale())}px;color:#555;line-height:1.35;margin-top:8px">${x(q.desc)}</div>` : ''}
       </div>
     </div>`;
   return `
-<div class="tpl" style="min-height:${nlH()}px;background:#faf6f8;border-radius:12px;padding:34px;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:34px">
+<div class="tpl" style="min-height:${nlH()}px;background:${invert ? PINK : 'white'};border-radius:12px;padding:34px;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:34px">
   ${S.nlQuad.map(cell).join('')}
 </div>`;
 }
