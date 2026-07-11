@@ -1467,11 +1467,9 @@ function nlRich(text, align) {
     return `<div style="text-align:${align || 'left'};${pad}margin-bottom:.35em;${fs}line-height:1.45">${nlInline(body)}</div>`;
   }).join('');
 }
-// Faint pink ensō (open brush circle) used as a background watermark.
+// Faint pink ensō watermark — the brand PinkEnzo image.
 function ensoWatermark() {
-  return `<svg viewBox="0 0 200 200" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);width:74%;max-width:600px;opacity:.10;pointer-events:none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M143,171 A82,82 0 1 1 171,132" fill="none" stroke="${PINK}" stroke-width="15" stroke-linecap="round"/>
-  </svg>`;
+  return `<img src="/images/PinkEnzo.png" alt="" crossorigin="anonymous" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64%;max-width:520px;opacity:.12;pointer-events:none;object-fit:contain">`;
 }
 // Manual text-scale chosen in the sidebar (no auto-shrink). 1 = default.
 function nlScale() { return S.nlTextScale != null ? S.nlTextScale : 1; }
