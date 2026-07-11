@@ -270,8 +270,8 @@
     }
 
     .tt-grad-img {
-      flex: 1 1 0;
-      min-height: 0;
+      flex: 1 1 auto;
+      min-height: 220px;
       width: 100%;
       object-fit: cover;
       object-position: center 10%;
@@ -279,13 +279,12 @@
     }
 
     .tt-grad-card {
-      flex: 1 1 0;
+      flex: 0 0 auto;
       background: var(--color-beige);
       padding: var(--space-xl) var(--space-xl);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      overflow: hidden;
     }
 
     .tt-grad-card .tt-heading {
@@ -789,7 +788,7 @@
   </section>
 
   <!-- Schedule + Graduation Requirements -->
-  <section data-section="schedule" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-xl);">
+  <section data-section="schedule" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-4xl) 0 var(--space-3xl);">
     <div class="tt-container">
       <div class="tt-schedule-layout">
 
@@ -828,7 +827,7 @@
   </section>
 
   <!-- Cost -->
-  <section data-section="cost" id="tt-cost" style="background: white; padding: var(--space-xl) 0 var(--space-4xl); scroll-margin-top: 90px;">
+  <section data-section="cost" id="tt-cost" style="background: white; padding: var(--space-xl) 0 var(--space-3xl); scroll-margin-top: 90px;">
     <div class="tt-container">
       <div class="tt-intro tt-cost-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
