@@ -1,5 +1,25 @@
 {
+  "costOnline": "$3,500",
+  "costPaymentPlan": "contact for details",
+  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
   "scheduleTime": "weekends, 12:30–3:30pm",
+  "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in the wisdom of yoga philosophy and informed by modern movement science, you'll learn far more than poses and sequencing. You'll develop the observation, communication, and teaching skills to adapt to the individual and confidently guide Vinyasa, Open Level, Yin Flow, Meditation, and Accessible Yoga.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
+  "costFullProgram": "$3,500",
+  "sectionOrder": [
+    "sama-method",
+    "cover",
+    "schedule",
+    "cost",
+    "faq"
+  ],
+  "whatsIncluded": [
+    "Unlimited yoga package through graduation",
+    "Comprehensive Sama Method training manual",
+    "Recorded Lectures",
+    "Individualized mentorship",
+    "One post-graduation mentoring session",
+    "Opportunity to register with Yoga Alliance® as a Certified Yoga Instructor"
+  ],
   "scheduleDates": [
     {
       "date": "September 26–27"
@@ -17,32 +37,16 @@
       "date": "November 7–8"
     }
   ],
-  "graduationDate": "November 14–15",
-  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
-  "graduationRequirements": [
-    {
-      "requirement": "Attend training modules or watch recordings"
-    },
-    {
-      "requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"
-    },
-    {
-      "requirement": "Submit and teach a prepared sequence"
-    },
-    {
-      "requirement": "Complete an open-book exam at your own pace"
-    }
+  "introBody": "Learn to Teach the Person, Not Just the Pose.\n\nDevelop the skills to teach yoga with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n200-Hour Yoga Alliance Registered Teacher Training",
+  "whatWeWillCover": [
+    "Āsana study & practice",
+    "Anatomy & physiology",
+    "Meditation",
+    "Prānāyāma",
+    "Philosophy & Sanskrit",
+    "Teaching methodology"
   ],
-  "costFullProgram": "$3,500",
-  "costOnline": "$3,500",
-  "costPaymentPlan": "contact for details",
-  "sectionOrder": [
-    "sama-method",
-    "cover",
-    "schedule",
-    "cost",
-    "faq"
-  ],
+  "costOnlineLink": "https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=26&prodId=10979",
   "reviews": [
     {
       "avatar": "/images/OurTeam/Megan.webp",
@@ -85,25 +89,7 @@
       "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
     }
   ],
-  "samaMethodHeading": "What is the Sama Method?®",
-  "samaMethodBody": "The Sama Method® is an integrative approach to teaching yoga that unites the timeless wisdom of the eight limbs of yoga with contemporary movement science, functional anatomy, nervous system awareness, and compassionate leadership.\n\nRather than preparing you to teach a single style, the Sama Method equips you to skillfully guide Vinyasa, Open Level, Yin Flow, and Meditation practices with confidence, adaptability, and intention.\n\nAt the heart of the Sama Method is discernment: more than learning poses and memorizing sequences, you'll develop the skills to observe, assess, communicate, and respond with care. You will learn to create experiences where students feel safe, capable, supported, and seen. Because exceptional teaching extends beyond sequencing poses—it is the art of helping another human being reconnect with themselves.\n\nOur curriculum blends philosophy, biomechanics, breathwork, anatomy, language, intelligent sequencing, Sanskrit and the science of learning into a practical framework you carry into every class, private session, and conversation. You will graduate with the confidence to adapt your teaching for different bodies, abilities, life stages, and individual needs while remaining grounded in the essence of yoga.\n\nOur greatest measure of success is the experience of our graduates. Yoga Alliance® reviews of the Sama Method have all earned 5-star ratings, reflecting the depth of our mentorship, the quality of our education, and the confidence our graduates carry into both their teaching and their lives.\n\nYour tuition is intentionally all-inclusive. From the day you enroll through graduation, you'll enjoy unlimited yoga classes, a comprehensive training manual, recorded lectures for review and make-up sessions, and individualized mentorship throughout the program. There are no additional class packages to purchase, no required textbooks, and no hidden fees—only thoughtful support designed to help you thrive.",
-  "whatWeWillCover": [
-    "Āsana study & practice",
-    "Anatomy & physiology",
-    "Meditation",
-    "Prānāyāma",
-    "Philosophy & Sanskrit",
-    "Teaching methodology"
-  ],
-  "whatsIncluded": [
-    "In-person group training sessions",
-    "Unlimited membership from registration to graduation",
-    "Comprehensive learning manual",
-    "Recorded lecture access",
-    "One on one mentorship",
-    "Opportunity to register with Yoga Alliance® at graduation"
-  ],
-  "costOnlineLink": "https://clients.mindbodyonline.com/classic/ws?studioid=210871&stype=41&sTG=26&prodId=10979",
+  "graduationDate": "November 14–15",
   "faqs": [
     {
       "question": "How much experience do I need?",
@@ -160,5 +146,19 @@
       "buttonLink": "#tt-cost"
     }
   ],
-  "introBody": "Join us this Fall for an experience that goes far beyond learning to teach. Our **200-hour Yoga Alliance® registered training** — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.\n\nThis training is for you. **You don't need to intend to teach.** Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as **a retreat you return to every weekend** — immersive, personal, and transformative."
+  "graduationRequirements": [
+    {
+      "requirement": "Attend training modules or watch recordings"
+    },
+    {
+      "requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"
+    },
+    {
+      "requirement": "Submit and teach a prepared sequence"
+    },
+    {
+      "requirement": "Complete an open-book exam at your own pace"
+    }
+  ],
+  "samaMethodHeading": "The Sama Method?®"
 }
