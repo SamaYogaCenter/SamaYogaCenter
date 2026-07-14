@@ -156,16 +156,19 @@
   ],
   "graduationRequirements": [
     {
-      "requirement": "Attend training modules or watch recordings"
+      "requirement": "To graduate and receive your 200-Hour Yoga Teacher Training Certificate, you will:"
     },
     {
-      "requirement": "Complete 50 yoga or meditation sessions (at least 30 with Sama)"
+      "requirement": "✔ Attend training sessions live or complete recorded make-up modules"
     },
     {
-      "requirement": "Submit and teach a prepared sequence"
+      "requirement": "Complete 50 yoga or meditation sessions, including at least 30 at Sama"
     },
     {
-      "requirement": "Complete an open-book exam at your own pace"
+      "requirement": "✔ Design and teach a thoughtfully sequenced class"
+    },
+    {
+      "requirement": "✔ Complete a self-paced, open-book final assessment"
     }
   ],
   "samaMethodHeading": "The Sama Method®"
