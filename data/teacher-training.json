@@ -1,10 +1,7 @@
 {
-  "costOnline": "Enroll by August 1 to secure preferred tuition of $3,500. Tuition increases to $3,750 beginning August 2.",
-  "costPaymentPlan": "contact for details",
   "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
   "scheduleTime": "weekends, 12:30–3:30pm",
   "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in the wisdom of yoga philosophy and informed by modern movement science, you'll learn far more than poses and sequencing. You'll develop the observation, communication, and teaching skills to adapt to the individual and confidently guide Vinyasa, Open Level, Yin Flow, Meditation and Adaptable Yoga.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
-  "costFullProgram": "Enroll by August 1 to secure preferred tuition of $3,500. Tuition increases to $3,750 beginning August 2.",
   "sectionOrder": [
     "sama-method",
     "cover",
@@ -191,5 +188,19 @@
   "costHeading": "cost",
   "faqHeading": "questions you might have",
   "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose.",
-  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees."
+  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.",
+  "costRows": [
+    {
+      "label": "Early Bird (through Aug 1)",
+      "price": "$3,500"
+    },
+    {
+      "label": "Regular (from Aug 2)",
+      "price": "$3,750"
+    },
+    {
+      "label": "Payment Plan",
+      "price": "contact for details"
+    }
+  ]
 }

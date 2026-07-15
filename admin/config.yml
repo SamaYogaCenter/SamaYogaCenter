@@ -191,9 +191,15 @@ collections:
             fields:
               - { label: "Requirement", name: "requirement", widget: "string" }
           - { label: "Cost — Intro line", name: "costIntro", widget: "text", required: false, hint: "The line above the cost box — e.g. Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose." }
-          - { label: "Cost — In-Person", name: "costFullProgram", widget: "string", hint: "e.g. $3,500" }
-          - { label: "Cost — Online (Live via Zoom)", name: "costOnline", widget: "string", required: false, hint: "e.g. $3,500. Leave blank to hide the online row." }
-          - { label: "Cost — Payment Plan", name: "costPaymentPlan", widget: "string", hint: "e.g. contact for details" }
+          - name: "costRows"
+            label: "Cost — Price Rows"
+            label_singular: "Row"
+            widget: "list"
+            summary: "{{fields.label}}  —  {{fields.price}}"
+            hint: "Each row is a label + price, shown one per line in the cost box (e.g. Early Bird / Regular / Payment Plan). Drag to reorder; add or remove rows freely."
+            fields:
+              - { label: "Label", name: "label", widget: "string", hint: "e.g. Early Bird (through Aug 1)" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $3,500  or  contact for details" }
           - { label: "Cost — Tuition Includes line", name: "tuitionIncludes", widget: "text", required: false, hint: "Shown above the register buttons. Start with 'Tuition Includes:' — everything up to the first colon is bolded automatically." }
           - { label: "Online Registration Link", name: "costOnlineLink", widget: "string", required: false, hint: "MindBody payment link used by the 'Register — Online' button." }
           - name: "faqs"

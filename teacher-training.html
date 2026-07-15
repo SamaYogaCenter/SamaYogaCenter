@@ -319,6 +319,14 @@
     .tt-grad-card .tt-list li {
       padding: 5px 0;
     }
+    /* Last item is a concluding sentence, not a bullet — drop the magenta dash. */
+    .tt-grad-card .tt-list li:last-child::before {
+      content: none;
+    }
+    .tt-grad-card .tt-list li:last-child {
+      margin-top: var(--space-sm);
+      padding-left: 0;
+    }
 
     .tt-connector-svg {
       position: absolute;
@@ -630,7 +638,7 @@
           <p>Join us this Fall for an experience that goes far beyond learning to teach. Our <strong>200-hour Yoga Alliance® registered training</strong> — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.</p>
           <p>This training is for you. <strong>You don't need to intend to teach.</strong> Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as <strong>a retreat you return to every weekend</strong> — immersive, personal, and transformative.</p>
           </div>
-          <div class="tt-register-btn" style="margin-top: var(--space-md);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
+          <div class="tt-register-btn" style="margin-top: var(--space-2xl);"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register Now" /></div>
         </div>
         <img loading="eager" src="images/Teacher%20Training/TeacherTraining_Image2.webp" alt="Yoga Teacher Training" class="tt-intro__img" style="object-position: 30% 60%;">
       </div>
@@ -862,12 +870,12 @@
             <h2 class="tt-heading" id="tt-cost-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
             <div class="tt-pricing-box" id="tt-pricing-box">
               <div class="tt-pricing-row">
-                <span class="tt-pricing-row__label">In-Person</span>
+                <span class="tt-pricing-row__label">Early Bird (through Aug 1)</span>
                 <span class="tt-pricing-row__price">$3,500</span>
               </div>
               <div class="tt-pricing-row">
-                <span class="tt-pricing-row__label">Online (Live via Zoom)</span>
-                <span class="tt-pricing-row__price">$3,500</span>
+                <span class="tt-pricing-row__label">Regular (from Aug 2)</span>
+                <span class="tt-pricing-row__price">$3,750</span>
               </div>
               <div class="tt-pricing-row">
                 <span class="tt-pricing-row__label">Payment Plan</span>
@@ -1123,20 +1131,12 @@
           }).join('');
         }
 
-        // Pricing
+        // Pricing — tiered rows (label + price), editable in the CMS
         var pricingBox = document.getElementById('tt-pricing-box');
-        if (pricingBox) {
-          var rowHTML = '';
-          if (d.costFullProgram) {
-            rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">In-Person</span><span class="tt-pricing-row__price">' + d.costFullProgram + '</span></div>';
-          }
-          if (d.costOnline) {
-            rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">Online (Live via Zoom)</span><span class="tt-pricing-row__price">' + d.costOnline + '</span></div>';
-          }
-          if (d.costPaymentPlan) {
-            rowHTML += '<div class="tt-pricing-row"><span class="tt-pricing-row__label">Payment Plan</span><span class="tt-pricing-row__price">' + d.costPaymentPlan + '</span></div>';
-          }
-          if (rowHTML) pricingBox.innerHTML = rowHTML;
+        if (pricingBox && d.costRows && d.costRows.length) {
+          pricingBox.innerHTML = d.costRows.map(function(r) {
+            return '<div class="tt-pricing-row"><span class="tt-pricing-row__label">' + esc(r.label) + '</span><span class="tt-pricing-row__price">' + esc(r.price) + '</span></div>';
+          }).join('');
         }
 
         // Online registration button link
