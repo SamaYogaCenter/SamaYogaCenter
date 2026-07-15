@@ -117,6 +117,15 @@
       margin-bottom: var(--space-lg);
     }
 
+    .tt-intro-tagline {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
     .tt-heading--large {
       font-size: 2.25rem;
       font-weight: 600;
@@ -615,7 +624,8 @@
     <div class="tt-container">
       <div class="tt-intro">
         <div class="tt-intro__text">
-          <h2 class="tt-heading tt-heading--large">yoga teacher training</h2>
+          <p class="tt-intro-tagline" id="tt-intro-tagline">Learn to Teach the Person, Not Just the Pose.</p>
+          <h2 class="tt-heading tt-heading--large" id="tt-intro-heading">yoga teacher training + mentorship</h2>
           <div id="tt-intro-body">
           <p>Join us this Fall for an experience that goes far beyond learning to teach. Our <strong>200-hour Yoga Alliance® registered training</strong> — recognized by the nationally respected yoga teachers' organization — prepares you to practice and guide Vinyasa, Open Level, Yin Flow, and Meditation with integrity and equity for all.</p>
           <p>This training is for you. <strong>You don't need to intend to teach.</strong> Many of our graduates simply wanted to deepen their practice, understand their bodies, and find community. Think of it as <strong>a retreat you return to every weekend</strong> — immersive, personal, and transformative.</p>
@@ -699,7 +709,7 @@
   <section data-section="faq" style="background: white; padding: 20px 0 var(--space-3xl);">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl); border: 2px solid #cdbfa8;">
-      <h2 class="tt-heading tt-heading--large" style="text-align: center; margin-bottom: var(--space-xl);">questions you might have</h2>
+      <h2 class="tt-heading tt-heading--large" id="tt-faq-heading" style="text-align: center; margin-bottom: var(--space-xl);">questions you might have</h2>
       <div class="tt-faq" id="tt-faq-list">
 
         <details class="tt-faq-item">
@@ -774,7 +784,7 @@
 
         <!-- What We Will Cover -->
         <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
-          <h2 class="tt-heading">what we will cover</h2>
+          <h2 class="tt-heading" id="tt-cover-heading">what you'll learn</h2>
           <ul class="tt-list" id="tt-cover-list">
             <li>Āsana study &amp; practice</li>
             <li>Anatomy &amp; physiology</li>
@@ -787,7 +797,7 @@
 
         <!-- What's Included -->
         <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
-          <h2 class="tt-heading">what's included</h2>
+          <h2 class="tt-heading" id="tt-included-heading">what's included</h2>
           <ul class="tt-list" id="tt-included-list">
             <li>In-person group training sessions</li>
             <li>Unlimited membership from registration to graduation</li>
@@ -809,7 +819,7 @@
 
         <!-- Left: Schedule -->
         <div style="text-align: center; background: white; padding: var(--space-2xl); display: flex; flex-direction: column;">
-          <h2 class="tt-heading" style="margin-bottom: var(--space-xs);">schedule</h2>
+          <h2 class="tt-heading" id="tt-schedule-heading" style="margin-bottom: var(--space-xs);">schedule</h2>
           <div class="tt-schedule" style="flex: 1; display: flex; flex-direction: column;">
             <p style="font-size: 1.25rem; margin-bottom: var(--space-lg);" id="tt-schedule-time"><strong>weekends, 12:30–3:30pm</strong></p>
             <div class="tt-schedule-dates" id="tt-schedule-dates" style="flex: 1; justify-content: space-between;">
@@ -827,7 +837,7 @@
         <div class="tt-grad-area">
           <img loading="lazy" src="images/Teacher%20Training/L1130392%201.webp" alt="Yoga Teacher Training" class="tt-grad-img" id="tt-grad-photo">
           <div class="tt-grad-card">
-            <h2 class="tt-heading">graduation requirements</h2>
+            <h2 class="tt-heading" id="tt-gradreq-heading">graduation requirements</h2>
             <ul class="tt-list" id="tt-grad-list">
               <li>Attend training modules or watch recordings</li>
               <li>Complete 50 yoga or meditation sessions (at least 30 with Sama)</li>
@@ -847,9 +857,9 @@
       <div class="tt-intro tt-cost-intro">
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
         <div style="background: var(--color-beige); min-height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-lg) var(--space-2xl);">
-          <p style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a 200-Hour Yoga Alliance&reg; Certified Yoga Teacher and immerse in your own well-being.</p>
+          <p id="tt-cost-intro" style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a Yoga Alliance&reg; Certified Yoga Teacher and learn to teach the person—not just the pose.</p>
           <div style="background: white; padding: var(--space-lg) var(--space-2xl); width: 100%; max-width: 380px;">
-            <h2 class="tt-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
+            <h2 class="tt-heading" id="tt-cost-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
             <div class="tt-pricing-box" id="tt-pricing-box">
               <div class="tt-pricing-row">
                 <span class="tt-pricing-row__label">In-Person</span>
@@ -865,6 +875,7 @@
               </div>
             </div>
           </div>
+          <p id="tt-tuition-includes" style="font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.55; max-width: 420px; margin-top: var(--space-lg);"><strong>Tuition Includes:</strong> Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.</p>
           <div class="tt-cost-buttons" style="margin-top: var(--space-lg); display: flex; gap: var(--space-sm); flex-wrap: nowrap; justify-content: center; align-items: stretch;">
             <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — In-Person" /></div>
             <a id="tt-online-register" href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&amp;stype=41&amp;sTG=26&amp;prodId=10979" target="_blank" rel="noopener" class="btn btn--primary">Register — Online</a>
@@ -1029,6 +1040,16 @@
     fetch('data/teacher-training.json?v=' + Date.now())
       .then(function(r) { return r.json(); })
       .then(function(d) {
+        // Shared helpers
+        var esc = function(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        var richText = function(str) {
+          return String(str || '').split(/\n{2,}/).filter(function(p){ return p.trim(); })
+            .map(function(block) {
+              return '<p>' + esc(block).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') + '</p>';
+            }).join('');
+        };
+        var setText = function(id, val) { var el = document.getElementById(id); if (el && val != null && val !== '') el.textContent = val; };
+
         // Section order — controlled from the CMS ("Section Order" field).
         // Reorders the tagged <section> blocks; any section left out of the list
         // keeps its place at the end, so nothing can disappear.
@@ -1046,6 +1067,28 @@
           });
           Object.keys(secs).forEach(function(key) {
             if (!placed[key]) anchor.parentNode.insertBefore(secs[key], anchor);
+          });
+        }
+
+        // Custom sections (added in the CMS) — prose blocks inserted after the Sama Method.
+        if (d.customSections && d.customSections.length) {
+          var afterEl = document.querySelector('section[data-section="sama-method"]');
+          d.customSections.forEach(function(cs) {
+            if (!cs || (!cs.title && !cs.body)) return;
+            var sec = document.createElement('section');
+            sec.className = 'tt-section tt-custom-section';
+            sec.style.cssText = 'background: white; padding: 40px 0;';
+            sec.innerHTML =
+              '<div class="tt-container" style="max-width: 900px;">' +
+                '<div style="background: white; border: 1px solid #cdbfa8; padding: var(--space-2xl) var(--space-3xl);">' +
+                  '<h2 class="tt-heading tt-heading--large" style="text-align:center; margin-bottom: var(--space-xl);">' + esc(cs.title) + '</h2>' +
+                  '<div class="tt-prose">' + richText(cs.body) + '</div>' +
+                '</div>' +
+              '</div>';
+            if (afterEl && afterEl.parentNode) {
+              afterEl.parentNode.insertBefore(sec, afterEl.nextSibling);
+              afterEl = sec;
+            }
           });
         }
 
@@ -1100,8 +1143,21 @@
         var onlineReg = document.getElementById('tt-online-register');
         if (onlineReg && d.costOnlineLink) onlineReg.href = d.costOnlineLink;
 
-        // Escape helper for hydrated text
-        var esc = function(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        // Editable section headings, intro tagline, and cost copy
+        setText('tt-intro-tagline', d.introTagline);
+        setText('tt-intro-heading', d.introHeading);
+        setText('tt-cover-heading', d.coverHeading);
+        setText('tt-included-heading', d.includedHeading);
+        setText('tt-schedule-heading', d.scheduleHeading);
+        setText('tt-gradreq-heading', d.gradReqHeading);
+        setText('tt-cost-heading', d.costHeading);
+        setText('tt-faq-heading', d.faqHeading);
+        setText('tt-cost-intro', d.costIntro);
+        var tuit = document.getElementById('tt-tuition-includes');
+        if (tuit && d.tuitionIncludes) {
+          var m = String(d.tuitionIncludes).match(/^(.*?:)([\s\S]*)$/);
+          tuit.innerHTML = m ? '<strong>' + esc(m[1]) + '</strong>' + esc(m[2]) : esc(d.tuitionIncludes);
+        }
 
         // Sama Method — heading + paragraphs (blank line separates paragraphs)
         var samaHeading = document.getElementById('tt-sama-heading');

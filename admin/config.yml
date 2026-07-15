@@ -134,12 +134,31 @@ collections:
               options:
                 - { label: "The Sama Method", value: "sama-method" }
                 - { label: "FAQ — Questions You Might Have", value: "faq" }
-                - { label: "What We Will Cover / What's Included", value: "cover" }
+                - { label: "What You'll Learn / What's Included", value: "cover" }
                 - { label: "Schedule + Graduation Requirements", value: "schedule" }
                 - { label: "Cost", value: "cost" }
-          - { label: "Intro Blurb", name: "introBody", widget: "text", hint: "The paragraphs under 'yoga teacher training' at the top. Wrap text in **double asterisks** to bold it, and leave a blank line between paragraphs. Update the season here (e.g. Spring / Fall)." }
+          - { label: "Intro — Tagline (top line)", name: "introTagline", widget: "string", required: false, hint: "Small line above the main heading — e.g. Learn to Teach the Person, Not Just the Pose." }
+          - { label: "Intro — Heading", name: "introHeading", widget: "string", required: false, hint: "The big heading at the top — e.g. yoga teacher training + mentorship (shown in lowercase)." }
+          - { label: "Section Title — What You'll Learn", name: "coverHeading", widget: "string", required: false, hint: "Heading of the left box in the 'what you'll learn / what's included' row." }
+          - { label: "Section Title — What's Included", name: "includedHeading", widget: "string", required: false }
+          - { label: "Section Title — Schedule", name: "scheduleHeading", widget: "string", required: false }
+          - { label: "Section Title — Graduation Requirements", name: "gradReqHeading", widget: "string", required: false }
+          - { label: "Section Title — Cost", name: "costHeading", widget: "string", required: false }
+          - { label: "Section Title — FAQ", name: "faqHeading", widget: "string", required: false }
+          - { label: "Intro Blurb", name: "introBody", widget: "text", hint: "The paragraphs under the main heading. Wrap text in **double asterisks** to bold it, and leave a blank line between paragraphs. Update the season here (e.g. Spring / Fall)." }
           - { label: "Sama Method — Heading", name: "samaMethodHeading", widget: "string", hint: "e.g. What is the Sama Method?®  (displayed in lowercase to match the page style)" }
           - { label: "Sama Method — Body", name: "samaMethodBody", widget: "text", hint: "The Sama Method description. Leave a blank line between paragraphs." }
+          - name: "customSections"
+            label: "Your Own Sections (add / edit / reorder)"
+            label_singular: "Section"
+            widget: "list"
+            summary: "{{fields.title}}"
+            collapsed: true
+            required: false
+            hint: "Add your own content sections. They appear after the Sama Method, in this order (drag to reorder). Each has a title and a body. Leave a blank line between paragraphs; wrap text in **double asterisks** to bold."
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Body", name: "body", widget: "text" }
           - name: "whatWeWillCover"
             label: "What We Will Cover"
             label_singular: "Item"
@@ -171,9 +190,11 @@ collections:
             hint: "Add one entry per requirement. Drag to reorder."
             fields:
               - { label: "Requirement", name: "requirement", widget: "string" }
+          - { label: "Cost — Intro line", name: "costIntro", widget: "text", required: false, hint: "The line above the cost box — e.g. Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose." }
           - { label: "Cost — In-Person", name: "costFullProgram", widget: "string", hint: "e.g. $3,500" }
           - { label: "Cost — Online (Live via Zoom)", name: "costOnline", widget: "string", required: false, hint: "e.g. $3,500. Leave blank to hide the online row." }
           - { label: "Cost — Payment Plan", name: "costPaymentPlan", widget: "string", hint: "e.g. contact for details" }
+          - { label: "Cost — Tuition Includes line", name: "tuitionIncludes", widget: "text", required: false, hint: "Shown above the register buttons. Start with 'Tuition Includes:' — everything up to the first colon is bolded automatically." }
           - { label: "Online Registration Link", name: "costOnlineLink", widget: "string", required: false, hint: "MindBody payment link used by the 'Register — Online' button." }
           - name: "faqs"
             label: "FAQ — Questions You Might Have"

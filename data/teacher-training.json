@@ -3,7 +3,7 @@
   "costPaymentPlan": "contact for details",
   "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
   "scheduleTime": "weekends, 12:30–3:30pm",
-  "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in the wisdom of yoga philosophy and informed by modern movement science, you'll learn far more than poses and sequencing. You'll develop the observation, communication, and teaching skills to adapt to the individual and confidently guide Vinyasa, Open Level, Yin Flow, Meditation and Adaptable Yoga.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.\n\nWhy Students Choose Sama\n\n✔ Individualized mentorship throughout the program\n\n✔ Unlimited yoga classes from enrollment through graduation\n\n✔ Multiple teaching styles—not a single-method training\n\n✔ Recorded lectures and flexible make-up options\n\n✔ Small-group learning and personalized feedback\n\n✔ Practical teaching experience and progressive practice teaching\n\n✔ Graduate mentorship and continued support\n\n✔ 5-star Yoga Alliance reviews\n\nWho This Training Is For\n\nThis Training Is For You If:\nYou want to become a yoga teacher.\nYou want to deepen your personal practice.\nYou love learning and personal growth.\nYou want to understand anatomy, breath, and movement more deeply.\nYou value mentorship and community.\nYou want practical skills—not memorized scripts.\n\nYou do not need to be advanced.\n\nYou do not need to touch your toes.\n\nYou do not need to know if you want to teach.\n\nYou only need curiosity and a willingness to learn.",
+  "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in the wisdom of yoga philosophy and informed by modern movement science, you'll learn far more than poses and sequencing. You'll develop the observation, communication, and teaching skills to adapt to the individual and confidently guide Vinyasa, Open Level, Yin Flow, Meditation and Adaptable Yoga.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
   "costFullProgram": "Enroll by August 1 to secure preferred tuition of $3,500. Tuition increases to $3,750 beginning August 2.",
   "sectionOrder": [
     "sama-method",
@@ -41,7 +41,7 @@
       "date": "November 7–8"
     }
   ],
-  "introBody": "Learn to Teach the Person, Not Just the Pose.\n\nDevelop the skills to teach yoga with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n**200-Hour Yoga Alliance Registered Teacher Training**",
+  "introBody": "Develop the skills to teach yoga with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n**200-Hour Yoga Alliance Registered Teacher Training**",
   "whatWeWillCover": [
     "Yoga philosophy and the Eight Limbs",
     "Functional anatomy and movement science",
@@ -171,5 +171,25 @@
       "requirement": "This approach allows you to learn, practice, reflect, and apply your knowledge with confidence."
     }
   ],
-  "samaMethodHeading": "The Sama Method®"
+  "samaMethodHeading": "The Sama Method®",
+  "customSections": [
+    {
+      "title": "Why Students Choose Sama",
+      "body": "✔ Individualized mentorship throughout the program\n\n✔ Unlimited yoga classes from enrollment through graduation\n\n✔ Multiple teaching styles—not a single-method training\n\n✔ Recorded lectures and flexible make-up options\n\n✔ Small-group learning and personalized feedback\n\n✔ Practical teaching experience and progressive practice teaching\n\n✔ Graduate mentorship and continued support\n\n✔ 5-star Yoga Alliance reviews"
+    },
+    {
+      "title": "Who This Training Is For",
+      "body": "This Training Is For You If:\nYou want to become a yoga teacher.\nYou want to deepen your personal practice.\nYou love learning and personal growth.\nYou want to understand anatomy, breath, and movement more deeply.\nYou value mentorship and community.\nYou want practical skills—not memorized scripts.\n\nYou do not need to be advanced.\n\nYou do not need to touch your toes.\n\nYou do not need to know if you want to teach.\n\nYou only need curiosity and a willingness to learn."
+    }
+  ],
+  "introTagline": "Learn to Teach the Person, Not Just the Pose.",
+  "introHeading": "yoga teacher training + mentorship",
+  "coverHeading": "What You'll Learn",
+  "includedHeading": "what's included",
+  "scheduleHeading": "schedule",
+  "gradReqHeading": "graduation requirements",
+  "costHeading": "cost",
+  "faqHeading": "questions you might have",
+  "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose.",
+  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees."
 }
