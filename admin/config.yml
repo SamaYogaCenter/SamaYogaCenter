@@ -15,6 +15,18 @@ collections:
         label: "Events List"
         file: "data/events.json"
         fields:
+          - name: "teacherTrainingPromo"
+            label: "Teacher Training Promo (first card)"
+            widget: "object"
+            collapsed: true
+            hint: "The Teacher Training card that always shows first in the Events carousel."
+            fields:
+              - { label: "Title", name: "title", widget: "string", hint: "e.g. Fall Yoga Teacher Training + Mentorship" }
+              - { label: "Date Range", name: "dateRange", widget: "string", hint: "e.g. September 26th – December 6th, 2026" }
+              - { label: "Time", name: "time", widget: "string", hint: "e.g. 12:30-3:30 PM" }
+              - { label: "Description", name: "description", widget: "text", hint: "1–2 sentences shown on the card." }
+              - { label: "Photo", name: "image", widget: "image", hint: "Photo shown on the card." }
+              - { label: "Photo focus point", name: "imagePosition", widget: "string", required: false, default: "center", hint: "Which part of the photo shows — e.g. center · center top · center 60%" }
           - name: "events"
             label: "Events"
             label_singular: "Event"
@@ -147,6 +159,19 @@ collections:
           - { label: "Section Title — FAQ", name: "faqHeading", widget: "string", required: false }
           - { label: "Intro Blurb", name: "introBody", widget: "text", hint: "The paragraphs under the main heading. Wrap text in **double asterisks** to bold it, and leave a blank line between paragraphs. Update the season here (e.g. Spring / Fall)." }
           - { label: "Sama Method — Heading", name: "samaMethodHeading", widget: "string", hint: "e.g. What is the Sama Method?®  (displayed in lowercase to match the page style)" }
+          - { label: "Sama Method — Background Photo", name: "samaMethodImage", widget: "image", required: false, hint: "Photo shown behind the Sama Method text box. Wide (landscape) photos work best. Leave blank for a plain background." }
+          - label: "Sama Method — Photo Framing"
+            name: "samaMethodImagePosition"
+            widget: "select"
+            required: false
+            default: "center 78%"
+            hint: "Which part of the background photo to show. Only a band of the photo fits behind the text box, so pick the part you want visible."
+            options:
+              - { label: "Top of photo", value: "center top" }
+              - { label: "Upper middle", value: "center 25%" }
+              - { label: "Middle", value: "center center" }
+              - { label: "Lower middle (current)", value: "center 78%" }
+              - { label: "Bottom of photo", value: "center bottom" }
           - { label: "Sama Method — Body", name: "samaMethodBody", widget: "text", hint: "The Sama Method description. Leave a blank line between paragraphs." }
           - name: "customSections"
             label: "Your Own Sections (add / edit / reorder)"

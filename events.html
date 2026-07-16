@@ -577,15 +577,15 @@
       </button>
       <div class="events-carousel" id="events-carousel">
         <!-- Populated by events.js from data/events.json -->
-        <!-- Spring Teacher Training (static — managed separately) -->
+        <!-- Teacher Training promo — editable in the CMS: Upcoming Events → Teacher Training Promo -->
       <div class="event-card">
-        <img loading="lazy" src="images/Events/TeacherTraining.webp" alt="Spring Teacher Training" class="event-card__image">
+        <img loading="eager" src="images/Events/ReversedTriangle.jpg" alt="Fall Yoga Teacher Training + Mentorship" class="event-card__image" id="tt-promo-image">
         <div class="event-card__content">
-          <h2 class="event-card__title">Spring Teacher Training</h2>
-          <div class="event-card__date">April 18th – June 7th, 2026</div>
-          <div class="event-card__time">12:30-3:30 PM</div>
-          <p class="event-card__description">
-            Our 200-hour Yoga Alliance® registered training prepares you to practice and guide Vinyasa, Open Level, Yin Flow and Meditation practices with integrity &amp; equity for all.
+          <h2 class="event-card__title" id="tt-promo-title">Fall Yoga Teacher Training + Mentorship</h2>
+          <div class="event-card__date" id="tt-promo-date">September 26th – December 6th, 2026</div>
+          <div class="event-card__time" id="tt-promo-time">12:30-3:30 PM</div>
+          <p class="event-card__description" id="tt-promo-description">
+            Deepen your connections and become a Yoga Alliance&reg; Certified Yoga Teacher. The Sama Method prepares you to teach the person—not just the pose.
           </p>
           <a href="teacher-training.html#teacher-training-program" class="event-card__learn-more">Learn more &rarr;</a>
           <div class="event-card__button" style="align-self: flex-start; padding: 0;"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="REGISTER" /></div>
@@ -1041,6 +1041,19 @@
         const res = await fetch('data/events.json?v=' + Date.now());
         const data = await res.json();
         const today = new Date(); today.setHours(0,0,0,0);
+
+        // Teacher Training promo card — content editable in the CMS
+        const promo = data.teacherTrainingPromo;
+        if (promo) {
+          const setP = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
+          setP('tt-promo-title', promo.title);
+          setP('tt-promo-date', promo.dateRange);
+          setP('tt-promo-time', promo.time);
+          setP('tt-promo-description', promo.description);
+          const pImg = document.getElementById('tt-promo-image');
+          if (pImg && promo.image) { pImg.src = promo.image; pImg.alt = promo.title || pImg.alt; }
+          if (pImg && promo.imagePosition) pImg.style.objectPosition = promo.imagePosition;
+        }
 
         // Filter out hidden events and past events (using dateISO if present)
         const events = data.events.filter(e => {

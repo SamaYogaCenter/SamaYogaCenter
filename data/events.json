@@ -1,4 +1,12 @@
 {
+  "teacherTrainingPromo": {
+    "title": "Fall Yoga Teacher Training + Mentorship",
+    "dateRange": "September 26th – December 6th, 2026",
+    "time": "12:30-3:30 PM",
+    "description": "Deepen your connections and become a Yoga Alliance® Certified Yoga Teacher. The Sama Method prepares you to teach the person—not just the pose.",
+    "image": "/images/Events/ReversedTriangle.jpg",
+    "imagePosition": "center"
+  },
   "events": [
     {
       "imagePosition": "center top",

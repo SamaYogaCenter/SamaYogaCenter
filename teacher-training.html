@@ -697,7 +697,9 @@
   </style>
 
   <!-- The Sama Method -->
-  <section data-section="sama-method" style="background: repeating-linear-gradient(-45deg, white, white 6px, #e8e2d9 6px, #e8e2d9 12px); padding: var(--space-3xl) 0;">
+  <!-- Scrim over the photo keeps it a soft backdrop (like the stripes it replaced) rather than a competing image.
+       Focal point sits low so the crop clears the mirrored window logo near the top of the source photo. -->
+  <section data-section="sama-method" id="tt-sama-section" style="background-color: #e8e4dd; background-image: linear-gradient(rgba(240,237,231,0.62), rgba(240,237,231,0.62)), url('images/Teacher%20Training/SamaMethod1.jpg'); background-position: center 78%; background-size: cover; background-repeat: no-repeat; padding: var(--space-3xl) 0;">
     <div class="tt-container">
       <div style="background: white; padding: var(--space-2xl) var(--space-3xl);">
       <h2 class="tt-heading tt-heading--large" id="tt-sama-heading" style="text-align: center; margin-bottom: var(--space-xl);">What is the Sama Method?&reg;</h2>
@@ -1157,6 +1159,15 @@
         if (tuit && d.tuitionIncludes) {
           var m = String(d.tuitionIncludes).match(/^(.*?:)([\s\S]*)$/);
           tuit.innerHTML = m ? '<strong>' + esc(m[1]) + '</strong>' + esc(m[2]) : esc(d.tuitionIncludes);
+        }
+
+        // Sama Method — background photo
+        var samaSection = document.getElementById('tt-sama-section');
+        if (samaSection && d.samaMethodImage) {
+          samaSection.style.backgroundImage = "linear-gradient(rgba(240,237,231,0.62), rgba(240,237,231,0.62)), url('" + d.samaMethodImage + "')";
+        }
+        if (samaSection && d.samaMethodImagePosition) {
+          samaSection.style.backgroundPosition = d.samaMethodImagePosition;
         }
 
         // Sama Method — heading + paragraphs (blank line separates paragraphs)
