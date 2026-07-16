@@ -247,6 +247,14 @@
       padding: var(--space-xl) var(--space-2xl);
     }
 
+    /* Match the check list beside it: tighter leading so a wrapped line stays visibly
+       part of its item rather than reading as the next one. */
+    .tt-custom-box .tt-prose p {
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: var(--space-md);
+    }
+
     /* An odd one out spans the full width instead of sitting half-empty. */
     .tt-custom-grid .tt-custom-box:last-child:nth-child(odd) {
       grid-column: 1 / -1;
