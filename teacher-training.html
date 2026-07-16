@@ -283,23 +283,16 @@
       flex-direction: column;
     }
 
+    /* Spread the rows apart rather than stretching each one: a stretched row would centre
+       its text while the marker stayed pinned to the row top, floating the marker above
+       the line it belongs to. Rows keep their natural height, so markers stay on the
+       first line. */
     .tt-panel .tt-list,
     .tt-custom-box .tt-check-list {
       flex: 1;
       display: flex;
       flex-direction: column;
-    }
-
-    .tt-panel .tt-list > li,
-    .tt-custom-box .tt-check-list > li {
-      flex: 1 1 auto;
-      align-items: center;
-    }
-
-    /* Keep the marker on the first line of a wrapped item rather than centred against it. */
-    .tt-panel .tt-list > li::before,
-    .tt-custom-box .tt-check-list > li::before {
-      align-self: flex-start;
+      justify-content: space-between;
     }
 
     /* An odd one out spans the full width instead of sitting half-empty. */
