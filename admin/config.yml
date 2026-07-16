@@ -216,7 +216,8 @@ collections:
             fields:
               - { label: "Requirement", name: "requirement", widget: "string" }
           - { label: "Graduation Requirements — Closing line", name: "graduationNote", widget: "text", required: false, hint: "Sentence below the requirement list, shown without a dash. Leave blank to hide." }
-          - { label: "Cost — Intro line", name: "costIntro", widget: "text", required: false, hint: "The line above the cost box — e.g. Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose." }
+          - { label: "Cost — Intro line", name: "costIntro", widget: "text", required: false, hint: "The line above the cost box. Press Enter to split it onto a new line." }
+          - { label: "Cost — Note under the prices", name: "costPriceNote", widget: "string", required: false, hint: "Small line under the price list — e.g. Same tuition whether you join in person or online. Leave blank to hide." }
           - name: "costRows"
             label: "Cost — Price Rows"
             label_singular: "Row"

@@ -163,6 +163,8 @@
     @media (min-width: 769px) {
       .tt-cost-intro {
         align-items: stretch;
+        /* Give the pricing column the extra width; the photo is decorative and crops. */
+        grid-template-columns: 0.9fr 1.1fr;
       }
       .tt-cost-intro .tt-intro__img {
         height: 100%;
@@ -963,8 +965,8 @@
         <img loading="lazy" src="images/Teacher%20Training/TeacherTraining_Image1.webp" alt="Yoga Teacher Training" class="tt-intro__img">
         <!-- Extra bottom padding: the buttons' solid edge reads tighter than text does at
              the same distance, so matching the top optically needs a larger number. -->
-        <div style="background: var(--color-beige); min-height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-lg) var(--space-2xl) var(--space-xl);">
-          <p id="tt-cost-intro" style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-lg);">Become a Yoga Alliance&reg; Certified Yoga Teacher and learn to teach the person—not just the pose.</p>
+        <div style="background: var(--color-beige); min-height: 360px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-2xl) var(--space-2xl) var(--space-3xl);">
+          <p id="tt-cost-intro" style="font-size: 1.25rem; font-weight: 400; color: var(--color-text-primary); line-height: 1.5; margin-bottom: var(--space-md);">Become a Yoga Alliance&reg; Certified Yoga Teacher.<br>Learn to teach the person—not just the pose.</p>
           <div style="background: white; padding: var(--space-lg) var(--space-2xl); width: 100%; max-width: 380px;">
             <h2 class="tt-heading" id="tt-cost-heading" style="text-align: center; margin-bottom: var(--space-sm);">cost</h2>
             <div class="tt-pricing-box" id="tt-pricing-box">
@@ -981,9 +983,10 @@
                 <span class="tt-pricing-row__price">contact for details</span>
               </div>
             </div>
+            <p id="tt-cost-price-note" style="font-size: 0.85rem; color: var(--color-text-secondary); line-height: 1.4; margin: var(--space-sm) 0 0;">Same tuition whether you join in person or online.</p>
           </div>
-          <p id="tt-tuition-includes" style="font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.55; max-width: 420px; margin-top: var(--space-lg); text-wrap: balance;"><strong>Tuition Includes:</strong> Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.</p>
-          <div class="tt-cost-buttons" style="margin-top: var(--space-lg); display: flex; gap: var(--space-sm); flex-wrap: nowrap; justify-content: center; align-items: stretch;">
+          <p id="tt-tuition-includes" style="font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.55; max-width: 470px; margin-top: var(--space-md); text-wrap: balance;"><strong>Tuition Includes:</strong> Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.</p>
+          <div class="tt-cost-buttons" style="margin-top: var(--space-md); display: flex; gap: var(--space-sm); flex-wrap: nowrap; justify-content: center; align-items: stretch;">
             <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10813" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — In-Person" /></div>
             <a id="tt-online-register" href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&amp;stype=41&amp;sTG=26&amp;prodId=10979" target="_blank" rel="noopener" class="btn btn--primary">Register — Online</a>
           </div>
@@ -1283,7 +1286,12 @@
         setText('tt-gradreq-heading', d.gradReqHeading);
         setText('tt-cost-heading', d.costHeading);
         setText('tt-faq-heading', d.faqHeading);
-        setText('tt-cost-intro', d.costIntro);
+        // Cost intro keeps Rebekah's line breaks, so she controls where it splits.
+        var costIntroEl = document.getElementById('tt-cost-intro');
+        if (costIntroEl && d.costIntro) {
+          costIntroEl.innerHTML = esc(d.costIntro).replace(/\n+/g, '<br>');
+        }
+        setText('tt-cost-price-note', d.costPriceNote);
         var tuit = document.getElementById('tt-tuition-includes');
         if (tuit && d.tuitionIncludes) {
           var m = String(d.tuitionIncludes).match(/^(.*?:)([\s\S]*)$/);
