@@ -210,6 +210,48 @@
       flex-shrink: 0;
     }
 
+    /* Checkmark lines authored in the CMS as "✔ ..." — the mark is drawn here so it
+       stays pink and evenly spaced no matter how the copy is typed. */
+    .tt-check-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tt-check-list li {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      padding: var(--space-sm) 0;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .tt-check-list li::before {
+      content: '✔';
+      color: var(--color-primary);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Rebekah's own sections — same white box, padding and heading as What You'll Learn
+       / What's Included below, with the FAQ box's border weight. */
+    .tt-custom-grid {
+      align-items: stretch;
+    }
+
+    .tt-custom-box {
+      background: white;
+      border: 2px solid #cdbfa8;
+      padding: var(--space-xl) var(--space-2xl);
+    }
+
+    /* An odd one out spans the full width instead of sitting half-empty. */
+    .tt-custom-grid .tt-custom-box:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
     .tt-card {
       background: white;
       border: 1px solid var(--color-primary);
@@ -319,10 +361,14 @@
     .tt-grad-card .tt-list li {
       padding: 5px 0;
     }
-    /* Concluding sentence below the bullets — no dash marker. */
+    /* Concluding sentence below the bullets — matches the bullet type, bold, no dash marker. */
     .tt-grad-note {
       margin: var(--space-sm) 0 0;
       padding: 5px 0 0;
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      font-weight: 700;
     }
     .tt-grad-note:empty {
       display: none;
@@ -1053,11 +1099,34 @@
       .then(function(d) {
         // Shared helpers
         var esc = function(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+        var inlineText = function(s) {
+          return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        };
+        // Blank line = new paragraph; single newline = line break. Lines starting with a
+        // checkmark group into a list so the mark can be styled rather than sit in the copy.
         var richText = function(str) {
-          return String(str || '').split(/\n{2,}/).filter(function(p){ return p.trim(); })
-            .map(function(block) {
-              return '<p>' + esc(block).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>') + '</p>';
-            }).join('');
+          var out = '', para = [], checks = [];
+          var flushPara = function() {
+            if (para.length) { out += '<p>' + para.join('<br>') + '</p>'; para = []; }
+          };
+          var flushChecks = function() {
+            if (checks.length) {
+              out += '<ul class="tt-check-list">' + checks.map(function(c) {
+                return '<li>' + c + '</li>';
+              }).join('') + '</ul>';
+              checks = [];
+            }
+          };
+          String(str || '').split('\n').forEach(function(raw) {
+            var t = raw.trim();
+            if (!t) { flushPara(); flushChecks(); return; }
+            var m = t.match(/^[✔✓☑]\s*(.*)$/);
+            if (m) { flushPara(); checks.push(inlineText(m[1])); }
+            else { flushChecks(); para.push(inlineText(t)); }
+          });
+          flushPara();
+          flushChecks();
+          return out;
         };
         var setText = function(id, val) { var el = document.getElementById(id); if (el && val != null && val !== '') el.textContent = val; };
 
@@ -1081,26 +1150,31 @@
           });
         }
 
-        // Custom sections (added in the CMS) — prose blocks inserted after the Sama Method.
+        // Custom sections (added in the CMS) — laid out side by side after the Sama Method.
         if (d.customSections && d.customSections.length) {
-          var afterEl = document.querySelector('section[data-section="sama-method"]');
-          d.customSections.forEach(function(cs) {
-            if (!cs || (!cs.title && !cs.body)) return;
+          var customs = d.customSections.filter(function(cs) {
+            return cs && (cs.title || cs.body);
+          });
+          if (customs.length) {
             var sec = document.createElement('section');
             sec.className = 'tt-section tt-custom-section';
             sec.style.cssText = 'background: white; padding: 40px 0;';
             sec.innerHTML =
-              '<div class="tt-container" style="max-width: 900px;">' +
-                '<div style="background: white; border: 1px solid #cdbfa8; padding: var(--space-2xl) var(--space-3xl);">' +
-                  '<h2 class="tt-heading tt-heading--large" style="text-align:center; margin-bottom: var(--space-xl);">' + esc(cs.title) + '</h2>' +
-                  '<div class="tt-prose">' + richText(cs.body) + '</div>' +
+              '<div class="tt-container">' +
+                '<div class="tt-grid tt-custom-grid">' +
+                  customs.map(function(cs) {
+                    return '<div class="tt-custom-box">' +
+                      '<h2 class="tt-heading">' + esc(cs.title) + '</h2>' +
+                      '<div class="tt-prose">' + richText(cs.body) + '</div>' +
+                    '</div>';
+                  }).join('') +
                 '</div>' +
               '</div>';
-            if (afterEl && afterEl.parentNode) {
-              afterEl.parentNode.insertBefore(sec, afterEl.nextSibling);
-              afterEl = sec;
+            var samaEl = document.querySelector('section[data-section="sama-method"]');
+            if (samaEl && samaEl.parentNode) {
+              samaEl.parentNode.insertBefore(sec, samaEl.nextSibling);
             }
-          });
+          }
         }
 
         // Schedule time
