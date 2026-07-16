@@ -223,9 +223,14 @@
       color: var(--color-text-secondary);
       line-height: 1.5;
       padding: var(--space-sm) 0;
+      border-bottom: 1px solid #ddd;
       display: flex;
       align-items: flex-start;
       gap: var(--space-md);
+    }
+
+    .tt-check-list li:last-child {
+      border-bottom: none;
     }
 
     .tt-check-list li::before {
@@ -248,11 +253,53 @@
     }
 
     /* Match the check list beside it: tighter leading so a wrapped line stays visibly
-       part of its item rather than reading as the next one. */
+       part of its item rather than reading as the next one, and the same divider rhythm. */
     .tt-custom-box .tt-prose p {
       font-size: 1rem;
       line-height: 1.5;
-      margin-bottom: var(--space-md);
+      margin-bottom: 0;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .tt-custom-box .tt-prose p:last-child {
+      border-bottom: none;
+    }
+
+    /* A shorter column's rows spread to fill the box, so both columns' content ends at
+       the same height instead of leaving dead space under the shorter one. Rows grow
+       from their natural size, so a wrapped item still gets the room it needs. */
+    .tt-panel,
+    .tt-custom-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* .tt-prose sits between the box and its list, so it has to grow too or the list
+       has no height to fill. */
+    .tt-custom-box .tt-prose {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tt-panel .tt-list,
+    .tt-custom-box .tt-check-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tt-panel .tt-list > li,
+    .tt-custom-box .tt-check-list > li {
+      flex: 1 1 auto;
+      align-items: center;
+    }
+
+    /* Keep the marker on the first line of a wrapped item rather than centred against it. */
+    .tt-panel .tt-list > li::before,
+    .tt-custom-box .tt-check-list > li::before {
+      align-self: flex-start;
     }
 
     /* An odd one out spans the full width instead of sitting half-empty. */
@@ -847,7 +894,7 @@
       <div class="tt-grid" style="align-items: stretch;">
 
         <!-- What We Will Cover -->
-        <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
+        <div class="tt-panel" style="background: white; padding: var(--space-xl) var(--space-2xl);">
           <h2 class="tt-heading" id="tt-cover-heading">what you'll learn</h2>
           <ul class="tt-list" id="tt-cover-list">
             <li>Āsana study &amp; practice</li>
@@ -860,7 +907,7 @@
         </div>
 
         <!-- What's Included -->
-        <div style="background: white; padding: var(--space-xl) var(--space-2xl);">
+        <div class="tt-panel" style="background: white; padding: var(--space-xl) var(--space-2xl);">
           <h2 class="tt-heading" id="tt-included-heading">what's included</h2>
           <ul class="tt-list" id="tt-included-list">
             <li>In-person group training sessions</li>
@@ -1127,7 +1174,10 @@
           };
           String(str || '').split('\n').forEach(function(raw) {
             var t = raw.trim();
-            if (!t) { flushPara(); flushChecks(); return; }
+            // A blank line ends a paragraph, but checkmark lines keep grouping into one
+            // list across blank lines — otherwise each becomes a one-item list and loses
+            // its dividers.
+            if (!t) { flushPara(); return; }
             var m = t.match(/^[✔✓☑]\s*(.*)$/);
             if (m) { flushPara(); checks.push(inlineText(m[1])); }
             else { flushChecks(); para.push(inlineText(t)); }
