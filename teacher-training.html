@@ -319,13 +319,13 @@
     .tt-grad-card .tt-list li {
       padding: 5px 0;
     }
-    /* Last item is a concluding sentence, not a bullet — drop the magenta dash. */
-    .tt-grad-card .tt-list li:last-child::before {
-      content: none;
+    /* Concluding sentence below the bullets — no dash marker. */
+    .tt-grad-note {
+      margin: var(--space-sm) 0 0;
+      padding: 5px 0 0;
     }
-    .tt-grad-card .tt-list li:last-child {
-      margin-top: var(--space-sm);
-      padding-left: 0;
+    .tt-grad-note:empty {
+      display: none;
     }
 
     .tt-connector-svg {
@@ -854,6 +854,7 @@
               <li>Submit and teach a prepared sequence</li>
               <li>Complete an open-book exam at your own pace</li>
             </ul>
+            <p class="tt-grad-note" id="tt-grad-note">This approach allows you to learn, practice, reflect, and apply your knowledge with confidence.</p>
           </div>
         </div>
 
@@ -1132,6 +1133,7 @@
             return '<li>' + req + '</li>';
           }).join('');
         }
+        setText('tt-grad-note', d.graduationNote);
 
         // Pricing — tiered rows (label + price), editable in the CMS
         var pricingBox = document.getElementById('tt-pricing-box');

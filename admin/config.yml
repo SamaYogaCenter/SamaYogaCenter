@@ -212,9 +212,10 @@ collections:
             label_singular: "Requirement"
             widget: "list"
             summary: "{{fields.requirement}}"
-            hint: "Add one entry per requirement. Drag to reorder."
+            hint: "Add one entry per requirement. Each shows with a dash. Drag to reorder."
             fields:
               - { label: "Requirement", name: "requirement", widget: "string" }
+          - { label: "Graduation Requirements — Closing line", name: "graduationNote", widget: "text", required: false, hint: "Sentence below the requirement list, shown without a dash. Leave blank to hide." }
           - { label: "Cost — Intro line", name: "costIntro", widget: "text", required: false, hint: "The line above the cost box — e.g. Become a Yoga Alliance® Certified Yoga Teacher and learn to teach the person—not just the pose." }
           - name: "costRows"
             label: "Cost — Price Rows"
