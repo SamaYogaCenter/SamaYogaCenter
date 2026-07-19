@@ -86,33 +86,6 @@
       "instructor": "Rebekah Jacobs"
     },
     {
-      "imagePosition": "center top",
-      "pricing": [
-        {
-          "label": "Early Bird (by 9/1)",
-          "price": "$75",
-          "serviceId": "10946",
-          "link": "#"
-        },
-        {
-          "label": "Regular",
-          "price": "$95",
-          "serviceId": "10945",
-          "link": "#"
-        }
-      ],
-      "hidden": false,
-      "cardDescription": "A gentle pause created just for you with Caroline Reilly. Restorative yoga, breathwork, and rest.",
-      "time": "1:00-3:00 PM",
-      "date": "Sunday, September 13th, 2026",
-      "dateISO": "2026-09-13",
-      "title": "Mini Retreat: Moms Replenish",
-      "id": "moms-replenish",
-      "image": "/images/uploads/l1200159-1_websize.jpg",
-      "description": "**A restorative retreat for mothers.**\n\nJoin Caroline Reilly for an afternoon of deep rest designed to **nourish the body, calm the nervous system, and replenish the heart.** Through restorative yoga, guided breathwork, and intentional moments of connection, you'll be invited to **slow down, soften, and receive** the same care you so generously offer others.\n\nLeave feeling grounded, supported, and renewed.\n\n**Includes:** fresh juices, candlelight, soft music, and optional hands-on assists.\n\n**Reserve your place and allow yourself to be cared for. Your spot awaits.**",
-      "instructor": "Caroline Reilly"
-    },
-    {
       "imagePosition": "center 60%",
       "showOnTrainingPage": true,
       "pricing": [
@@ -223,6 +196,61 @@
       "image": "/images/uploads/img_9040.jpeg",
       "description": "Join us for an **immersive sound bath** in our garden, weather permitting, featuring crystal singing bowls designed to **calm your nervous system, quiet your mind, and restore your body.**  \n\nTake these moments, immersed in healing sounds, to **reflect and reconnect before the rhythms of a new season begin.** Leave feeling centered, restored, and prepared for the shifts ahead.",
       "instructor": "Natalia Aristizabal"
+    },
+    {
+      "imagePosition": "center top",
+      "pricing": [
+        {
+          "label": "Early Bird (by 9/1)",
+          "price": "$75",
+          "serviceId": "10946",
+          "link": "#"
+        },
+        {
+          "label": "Regular",
+          "price": "$95",
+          "serviceId": "10945",
+          "link": "#"
+        }
+      ],
+      "hidden": false,
+      "cardDescription": "A gentle pause created just for you with Caroline Reilly. Restorative yoga, breathwork, and rest.",
+      "time": "1:00-3:00 PM",
+      "date": "Sunday, September 13th, 2026",
+      "dateISO": "2026-09-13",
+      "title": "Mini Retreat: Moms Replenish",
+      "id": "moms-replenish",
+      "image": "/images/uploads/l1200159-1_websize.jpg",
+      "description": "**A restorative retreat for mothers.**\n\nJoin Caroline Reilly for an afternoon of deep rest designed to **nourish the body, calm the nervous system, and replenish the heart.** Through restorative yoga, guided breathwork, and intentional moments of connection, you'll be invited to **slow down, soften, and receive** the same care you so generously offer others.\n\nLeave feeling grounded, supported, and renewed.\n\n**Includes:** fresh juices, candlelight, soft music, and optional hands-on assists.\n\n**Reserve your place and allow yourself to be cared for. Your spot awaits.**",
+      "instructor": "Caroline Reilly"
+    },
+    {
+      "imagePosition": "center top",
+      "showOnTrainingPage": false,
+      "pricing": [
+        {
+          "link": "#",
+          "label": "Member",
+          "price": "$75",
+          "serviceId": "10980"
+        },
+        {
+          "link": "#",
+          "label": "Regular",
+          "price": "$95",
+          "serviceId": "10981"
+        }
+      ],
+      "hidden": false,
+      "cardDescription": "Calm your nervous system and replenish your energy through the combined healing benefits of Yin Yoga, breathwork, and ear acupuncture.",
+      "time": "1:00-3:00 PM",
+      "date": "Sunday, November 1st, 2026",
+      "dateISO": "2026-11-1",
+      "title": "A Yin Yoga + Ear Acupuncture Retreat",
+      "id": "yin-ear-accupuncture",
+      "image": "/images/uploads/22_09_04_rebekahandnina-26.jpg",
+      "description": "Join **Dr. Nina Jatuparisuthiseen and Rebekah** for a nourishing experience designed to help you slow down, soften, and reconnect with yourself. This unique collaboration combines the grounding benefits of **Yin Yoga with auricular (ear) acupuncture** to support relaxation, nervous system regulation, and overall well-being.\n\nYou'll begin with a **gentle Yin Yoga practice** featuring long-held, supported postures designed to release tension, improve mobility, and invite stillness. Guided breathwork and mindful awareness will help quiet your mind and create space for ease. As the practice winds down, **you'll receive ear acupuncture,** if you wish, to allow your body and nervous system to settle into a deeper state of repair.\n\nYou'll leave grounded, replenished, and renewed.\n\nIncludes:\n\n* Yin Yoga\n* Guided Breathwork\n* Auricular (Ear) Acupuncture\n* Soft Music & Candlelight\n* Aromatherapy\n* Fresh Juices\n* Relaxation & Integration\n\nNo prior yoga or acupuncture experience is necessary.\n\n**Come exactly as you are. Leave feeling supported, restored, and renewed. Your spot awaits.**",
+      "instructor": "Dr. Nina Jatuparisuthiseen "
     }
   ]
 }
