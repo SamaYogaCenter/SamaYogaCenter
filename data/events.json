@@ -90,13 +90,13 @@
       "pricing": [
         {
           "label": "Early Bird (by 9/1)",
-          "price": "$95",
+          "price": "$75",
           "serviceId": "10946",
           "link": "#"
         },
         {
           "label": "Regular",
-          "price": "$125",
+          "price": "$95",
           "serviceId": "10945",
           "link": "#"
         }
