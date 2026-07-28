@@ -57,18 +57,18 @@
       "bio": "Tamara is honored to have completed Sama's 200-hour YTT and Restorative Yoga Program has been practicing yoga for over 30 years. With a background in personal training and group fitness, she has explored many movement modalities—but yoga has always been her true home.\n\nShe is passionate about helping others feel strong, supported, and empowered at every stage of life. Tamara is excited to share the joy, curiosity, and connection that yoga brings—both on and off the mat. Welcome!"
     },
     {
-      "name": "Zach",
-      "image": "/images/OurTeam/Zach.webp",
-      "imagePosition": "center top",
-      "hidden": false,
-      "bio": "Graduate of Sama Academy's YTT-200-hour and Children's Teacher Training. With a Masters in educational psychology and undergrad in Human Development and Family Science, Zach is passionate about every human being being heard and seen, He is a graduate of Sama Yoga Academy's 200 hr YTT program and is currently an elementary school teacher in Bridgeport, CT. Through his mindful flows and innate kindness, Zach shares that he started yoga as an adult and is eager to meet you where you are."
-    },
-    {
       "imagePosition": "center top",
       "hidden": false,
       "name": "Tracey",
       "image": "/images/uploads/samaacademyjune26-68.jpg",
       "bio": "Tracey is a graduate of Sama Academy's 200-Hour Yoga Teacher Training Program, a graduate of the University of Essex in the United Kingdom, and a former competitive figure skater and U.S. Figure Skating Double Gold Medalist. With a lifelong appreciation for movement and mindful practice, she is dedicated to helping students cultivate strength, balance, and a deeper connection to themselves."
+    },
+    {
+      "name": "Zach",
+      "image": "/images/OurTeam/Zach.webp",
+      "imagePosition": "center top",
+      "hidden": false,
+      "bio": "Graduate of Sama Academy's YTT-200-hour and Children's Teacher Training. With a Masters in educational psychology and undergrad in Human Development and Family Science, Zach is passionate about every human being being heard and seen, He is a graduate of Sama Yoga Academy's 200 hr YTT program and is currently an elementary school teacher in Bridgeport, CT. Through his mindful flows and innate kindness, Zach shares that he started yoga as an adult and is eager to meet you where you are."
     }
   ],
   "substitutes": [
