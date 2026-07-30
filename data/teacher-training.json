@@ -1,7 +1,26 @@
 {
+  "graduationNote": "This approach allows you to learn, practice, reflect, and apply your knowledge with confidence.",
+  "samaMethodImagePosition": "center 78%",
+  "introTagline": "Learn to Teach the Person, Not Just the Pose.",
   "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
   "scheduleTime": "weekends, 12:30–3:30pm",
   "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in the wisdom of yoga philosophy and informed by modern movement science, you'll learn far more than poses and sequencing. You'll develop the observation, communication, and teaching skills to adapt to the individual and confidently guide Vinyasa, Open Level, Yin Flow, Meditation and Adaptable Yoga.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
+  "includedHeading": "what's included",
+  "costRows": [
+    {
+      "label": "Early Bird (through Aug 15)",
+      "price": "$3,500"
+    },
+    {
+      "label": "Regular (from Aug 16)",
+      "price": "$3,750"
+    },
+    {
+      "label": "Payment Plan",
+      "price": "contact for details"
+    }
+  ],
+  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.",
   "sectionOrder": [
     "sama-method",
     "cover",
@@ -20,6 +39,9 @@
     "A sustainable schedule designed to support deep learning without putting your life on hold",
     "No required textbooks, additional class packages, or hidden fees"
   ],
+  "coverHeading": "What You'll Learn",
+  "scheduleHeading": "schedule",
+  "faqHeading": "questions you might have",
   "scheduleDates": [
     {
       "date": "September 26–27"
@@ -38,6 +60,8 @@
     }
   ],
   "introBody": "Develop the skills to teach yoga with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n**200-Hour Yoga Alliance Registered Teacher Training**",
+  "costPriceNote": "Same tuition whether you join in person or online.",
+  "gradReqHeading": "graduation requirements",
   "whatWeWillCover": [
     "Yoga philosophy and the Eight Limbs",
     "Functional anatomy and movement science",
@@ -50,6 +74,9 @@
     "Hands-on support and consent",
     "The Sama Method"
   ],
+  "costHeading": "cost",
+  "introHeading": "yoga teacher training + mentorship",
+  "samaMethodImage": "/images/Teacher%20Training/SamaMethod1.jpg",
   "reviews": [
     {
       "avatar": "/images/OurTeam/Megan.webp",
@@ -163,7 +190,6 @@
       "requirement": "Complete a self-paced, open-book final assessment"
     }
   ],
-  "graduationNote": "This approach allows you to learn, practice, reflect, and apply your knowledge with confidence.",
   "samaMethodHeading": "The Sama Method®",
   "customSections": [
     {
@@ -175,31 +201,5 @@
       "body": "**this training is for you if:**\n\nYou want to become a yoga teacher.\n\nYou want to deepen your personal practice.\n\nYou love learning and personal growth.\n\nYou want to understand anatomy, breath, and movement more deeply.\n\nYou value mentorship and community.\n\nYou want practical skills—not memorized scripts.\n\nYou do not need to be advanced.\n\nYou do not need to touch your toes.\n\nYou do not need to know if you want to teach.\n\nYou only need curiosity and a willingness to learn."
     }
   ],
-  "introTagline": "Learn to Teach the Person, Not Just the Pose.",
-  "introHeading": "yoga teacher training + mentorship",
-  "coverHeading": "What You'll Learn",
-  "includedHeading": "what's included",
-  "scheduleHeading": "schedule",
-  "gradReqHeading": "graduation requirements",
-  "costHeading": "cost",
-  "faqHeading": "questions you might have",
-  "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher.\nLearn to teach the person—not just the pose.",
-  "costPriceNote": "Same tuition whether you join in person or online.",
-  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.",
-  "costRows": [
-    {
-      "label": "Early Bird (through Aug 1)",
-      "price": "$3,500"
-    },
-    {
-      "label": "Regular (from Aug 2)",
-      "price": "$3,750"
-    },
-    {
-      "label": "Payment Plan",
-      "price": "contact for details"
-    }
-  ],
-  "samaMethodImage": "/images/Teacher%20Training/SamaMethod1.jpg",
-  "samaMethodImagePosition": "center 78%"
+  "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher.\nLearn to teach the person—not just the pose."
 }
