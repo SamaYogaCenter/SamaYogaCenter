@@ -1002,7 +1002,7 @@
           <p id="tt-tuition-includes" style="font-size: 0.95rem; color: var(--color-text-secondary); line-height: 1.55; max-width: 470px; margin-top: var(--space-md); text-wrap: balance;"><strong>Tuition Includes:</strong> Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.</p>
           <div class="tt-cost-buttons" style="margin-top: var(--space-md); display: flex; gap: var(--space-sm); flex-wrap: wrap; justify-content: center; align-items: stretch;">
             <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10982" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — In-Person" /></div>
-            <a id="tt-online-register" href="https://clients.mindbodyonline.com/classic/ws?studioid=210871&amp;stype=41&amp;sTG=26&amp;prodId=10979" target="_blank" rel="noopener" class="btn btn--primary">Register — Online</a>
+            <div class="tt-register-btn"><healcode-widget data-version="0.2" data-link-class="healcode-pricing-option-text-link" data-site-id="10572" data-mb-site-id="210871" data-service-id="10983" data-bw-identity-site="true" data-type="pricing-link" data-inner-html="Register — Online" /></div>
           </div>
         </div>
       </div>
@@ -1286,10 +1286,6 @@
             return '<div class="tt-pricing-row"><span class="tt-pricing-row__label">' + esc(r.label) + '</span><span class="tt-pricing-row__price">' + esc(r.price) + '</span></div>';
           }).join('');
         }
-
-        // Online registration button link
-        var onlineReg = document.getElementById('tt-online-register');
-        if (onlineReg && d.costOnlineLink) onlineReg.href = d.costOnlineLink;
 
         // Editable section headings, intro tagline, and cost copy
         setText('tt-intro-tagline', d.introTagline);

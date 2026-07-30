@@ -228,7 +228,6 @@ collections:
               - { label: "Label", name: "label", widget: "string", hint: "e.g. Early Bird (through Aug 1)" }
               - { label: "Price", name: "price", widget: "string", hint: "e.g. $3,500  or  contact for details" }
           - { label: "Cost — Tuition Includes line", name: "tuitionIncludes", widget: "text", required: false, hint: "Shown above the register buttons. Start with 'Tuition Includes:' — everything up to the first colon is bolded automatically." }
-          - { label: "Online Registration Link", name: "costOnlineLink", widget: "string", required: false, hint: "MindBody payment link used by the 'Register — Online' button." }
           - name: "faqs"
             label: "FAQ — Questions You Might Have"
             label_singular: "Question"
