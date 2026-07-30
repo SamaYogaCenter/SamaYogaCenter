@@ -72,6 +72,20 @@
       display: none;
     }
 
+    /* When every card fits without scrolling, spread them to fill the row instead of
+       bunching at the left. Cards grow from their 220px base (capped so one or two
+       events don't become absurdly wide) and centre if the cap leaves any slack.
+       Desktop only — mobile keeps its 80vw swipe cards. The JS toggles --fits. */
+    @media (min-width: 769px) {
+      .events-carousel--fits {
+        justify-content: center;
+      }
+      .events-carousel--fits .event-card {
+        flex: 1 1 220px;
+        max-width: 400px;
+      }
+    }
+
     .events-carousel-arrow {
       position: absolute;
       top: 40%;
@@ -957,6 +971,23 @@
     });
 
     evCarousel.addEventListener('scroll', updateEvArrows);
+
+    // Decide between "fill the row" and "scroll" modes. Measure in the natural
+    // fixed-width state (class removed) so scrollWidth reflects true content width;
+    // if it fits, switch cards to grow-to-fill and hide the arrows.
+    function updateCarouselFit() {
+      evCarousel.classList.remove('events-carousel--fits');
+      const fits = evCarousel.scrollWidth <= evCarousel.clientWidth + 1;
+      evCarousel.classList.toggle('events-carousel--fits', fits);
+      if (fits) {
+        evArrowLeft.classList.remove('visible');
+        evArrowRight.style.opacity = '0';
+        evArrowRight.style.pointerEvents = 'none';
+      } else {
+        updateEvArrows();
+      }
+    }
+    window.addEventListener('resize', updateCarouselFit);
   </script>
 
   <!-- Events rendering from data/events.json -->
@@ -1079,7 +1110,7 @@
         carousel.insertAdjacentHTML('beforeend', events.map(renderCard).join(''));
         // Init placeholders for any newly inserted healcode widgets
         if (typeof initHealcodePlaceholders === 'function') initHealcodePlaceholders();
-        updateEvArrows();
+        updateCarouselFit();
 
         // If the page was opened with an anchor (e.g. from an Eventbrite listing
         // link like /events.html#inversions), scroll to that event now that it
