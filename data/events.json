@@ -199,33 +199,6 @@
     },
     {
       "imagePosition": "center top",
-      "pricing": [
-        {
-          "label": "Early Bird (by 11/1)",
-          "price": "$75",
-          "serviceId": "10946",
-          "link": "#"
-        },
-        {
-          "label": "Regular",
-          "price": "$95",
-          "serviceId": "10945",
-          "link": "#"
-        }
-      ],
-      "hidden": false,
-      "cardDescription": "A gentle pause created just for you with Caroline Reilly. Restorative yoga, breathwork, and rest.",
-      "time": "1:00-3:00 PM",
-      "date": "Sunday, November 8th, 2026",
-      "dateISO": "2026-09-13",
-      "title": "Mini Retreat: Moms Replenish",
-      "id": "moms-replenish",
-      "image": "/images/uploads/l1200159-1_websize.jpg",
-      "description": "**A restorative retreat for mothers.**\n\nJoin Caroline Reilly for an afternoon of deep rest designed to **nourish the body, calm the nervous system, and replenish the heart.** Through restorative yoga, guided breathwork, and intentional moments of connection, you'll be invited to **slow down, soften, and receive** the same care you so generously offer others.\n\nLeave feeling grounded, supported, and renewed.\n\n**Includes:** fresh juices, candlelight, soft music, and optional hands-on assists.\n\n**Reserve your place and allow yourself to be cared for. Your spot awaits.**",
-      "instructor": "Caroline Reilly"
-    },
-    {
-      "imagePosition": "center top",
       "showOnTrainingPage": false,
       "pricing": [
         {
@@ -251,6 +224,33 @@
       "image": "/images/uploads/22_09_04_rebekahandnina-9.jpg",
       "description": "Join **Dr. Nina Jatuparisuthiseen** for a nourishing experience designed to help you slow down, soften, and reconnect with yourself. This unique collaboration combines the grounding benefits of **Yin Yoga with auricular (ear) acupuncture** to support relaxation, nervous system regulation, and overall well-being.\n\nWe'll begin with a **gentle Yin Yoga practice** featuring long-held, supported postures designed to release tension, improve mobility, and invite stillness. Guided breathwork and mindful awareness will help quiet your mind and create space for ease. As the practice winds down, **you'll receive ear acupuncture,** if you wish, to allow your body and nervous system to settle into a deeper state of repair.\n\nYou'll leave grounded, replenished, and renewed.\n\nIncludes:\n\n* Yin Yoga\n* Guided Breathwork\n* Auricular (Ear) Acupuncture\n* Soft Music & Candlelight\n* Aromatherapy\n* Fresh Juices\n* Relaxation & Integration\n\nDr. Nina holds a Doctorate in Acupuncture, trained in Traditional Chinese Medicine, the Sports Medicine Acupuncture Certification Program, the Electro Acupuncture Institute, Trigger Point Therapy, and Kiiko Japanese-style acupuncture. No prior yoga or acupuncture experience is necessary.\n\n**Come exactly as you are. Leave feeling supported, restored, and renewed. Your spot awaits.**",
       "instructor": "Dr. Nina Jatuparisuthiseen"
+    },
+    {
+      "imagePosition": "center top",
+      "pricing": [
+        {
+          "label": "Early Bird (by 11/1)",
+          "price": "$75",
+          "serviceId": "10946",
+          "link": "#"
+        },
+        {
+          "label": "Regular",
+          "price": "$95",
+          "serviceId": "10945",
+          "link": "#"
+        }
+      ],
+      "hidden": false,
+      "cardDescription": "A gentle pause created just for you with Caroline Reilly. Restorative yoga, breathwork, and rest.",
+      "time": "1:00-3:00 PM",
+      "date": "Sunday, November 8th, 2026",
+      "dateISO": "2026-09-13",
+      "title": "Mini Retreat: Moms Replenish",
+      "id": "moms-replenish",
+      "image": "/images/uploads/l1200159-1_websize.jpg",
+      "description": "**A restorative retreat for mothers.**\n\nJoin Caroline Reilly for an afternoon of deep rest designed to **nourish the body, calm the nervous system, and replenish the heart.** Through restorative yoga, guided breathwork, and intentional moments of connection, you'll be invited to **slow down, soften, and receive** the same care you so generously offer others.\n\nLeave feeling grounded, supported, and renewed.\n\n**Includes:** fresh juices, candlelight, soft music, and optional hands-on assists.\n\n**Reserve your place and allow yourself to be cared for. Your spot awaits.**",
+      "instructor": "Caroline Reilly"
     }
   ]
 }
