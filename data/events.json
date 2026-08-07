@@ -201,7 +201,7 @@
       "imagePosition": "center top",
       "pricing": [
         {
-          "label": "Early Bird (by 9/1)",
+          "label": "Early Bird (by 11/1)",
           "price": "$75",
           "serviceId": "10946",
           "link": "#"
@@ -216,7 +216,7 @@
       "hidden": false,
       "cardDescription": "A gentle pause created just for you with Caroline Reilly. Restorative yoga, breathwork, and rest.",
       "time": "1:00-3:00 PM",
-      "date": "Sunday, September 13th, 2026",
+      "date": "Sunday, November 8th, 2026",
       "dateISO": "2026-09-13",
       "title": "Mini Retreat: Moms Replenish",
       "id": "moms-replenish",
