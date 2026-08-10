@@ -1086,20 +1086,34 @@
           if (pImg && promo.imagePosition) pImg.style.objectPosition = promo.imagePosition;
         }
 
-        // Filter out hidden events and past events (using dateISO if present)
+        // Turn an event into a sortable timestamp. The visible "date" field is the
+        // source of truth — it's what Rebekah edits and sees — so updating it alone
+        // re-orders and re-hides the event. dateISO is only a fallback for a display
+        // date we can't parse. This is why a rescheduled event now moves on its own.
+        const eventTime = (e) => {
+          if (e && e.date) {
+            // "Sunday, November 8th, 2026" -> "November 8, 2026"
+            const cleaned = String(e.date)
+              .replace(/^[A-Za-z]+,\s*/, '')            // drop leading weekday
+              .replace(/(\d+)(st|nd|rd|th)\b/gi, '$1'); // drop ordinal suffix
+            const d = new Date(cleaned);
+            if (!isNaN(d)) return d.getTime();
+          }
+          if (e && e.dateISO) {
+            const iso = new Date(e.dateISO + 'T00:00:00');
+            if (!isNaN(iso)) return iso.getTime();
+          }
+          return Infinity; // undated / unparseable -> sort last, never auto-hidden
+        };
+
+        // Hide hidden + past events, then order chronologically. All driven by the
+        // visible date, so rescheduling an event re-sorts it automatically.
+        const todayTime = today.getTime();
         const events = data.events.filter(e => {
           if (e.hidden) return false;
-          if (e.dateISO) {
-            const d = new Date(e.dateISO + 'T00:00:00');
-            if (d < today) return false;
-          }
-          return true;
-        }).sort((a, b) => {
-          if (!a.dateISO && !b.dateISO) return 0;
-          if (!a.dateISO) return 1;
-          if (!b.dateISO) return -1;
-          return new Date(a.dateISO) - new Date(b.dateISO);
-        });
+          const t = eventTime(e);
+          return t === Infinity || t >= todayTime;
+        }).sort((a, b) => eventTime(a) - eventTime(b));
 
         // Render detail sections
         const detailSection = document.getElementById('ev-detail-section');
