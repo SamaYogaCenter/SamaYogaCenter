@@ -128,6 +128,16 @@
   .ota { resize: vertical; min-height: 64px; line-height: 1.5; }
   .hint { font-size: 11px; color: #bbb; margin-top: 4px; }
   .odiv { border: none; border-top: 1px solid #eee; margin: 12px 0; }
+  /* Formatting toolbar above the newsletter text boxes */
+  .nl-fmt-bar { display: flex; gap: 4px; margin-bottom: 5px; }
+  .nl-fmt-btn {
+    min-width: 30px; padding: 4px 9px;
+    border: 1px solid #ddd; border-radius: 4px;
+    background: white; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 13px; color: #2d2d2d;
+    line-height: 1;
+  }
+  .nl-fmt-btn:hover { border-color: #b03060; }
   .oradio { display: flex; gap: 10px; }
   .oradio label {
     display: flex; align-items: center; gap: 5px;
@@ -1052,12 +1062,14 @@ function renderOpts() {
       <input class="oi" value="${x(S.title)}" oninput="set('title',this.value)">
     </div>`;
     h += `<div class="og"><label class="ol">Subtitle</label>
+      ${nlFmtBar()}
       <textarea class="ota" style="min-height:72px" oninput="set('subtitle',this.value)">${x(S.subtitle)}</textarea>
-      <p class="hint">Date, time, or any details. Blank line = new paragraph · new line = line break · "-" starts a bullet · indent with leading spaces. Format: **bold**, *italic*, ==pink==.</p>
+      <p class="hint">Date, time, or any details. Select text, then click B / I / Pink above. Blank line = new paragraph · new line = line break · "-" starts a bullet.</p>
     </div>`;
     h += `<div class="og"><label class="ol">Description</label>
+      ${nlFmtBar()}
       <textarea class="ota" oninput="set('desc',this.value)">${x(S.desc)}</textarea>
-      <p class="hint">Blank line = new paragraph · new line = line break · "-" starts a bullet. Format: **bold**, *italic*, ==pink==.</p>
+      <p class="hint">Select text, then click B / I / Pink above. Blank line = new paragraph · new line = line break · "-" starts a bullet.</p>
     </div>`;
     h += oTextSize();
     h += oCardHeight();
@@ -1245,6 +1257,29 @@ function oPink() {
 
 // ── State ────────────────────────────────────────────────
 function set(k, v) { S[k] = v; updatePreview(); }
+
+// Formatting toolbar for the newsletter text boxes. Buttons wrap the current
+// selection in the same markers the renderer understands (**bold**, *italic*,
+// ==pink==), so Rebekah never has to type them — the stored value is unchanged.
+function nlFmtBar() {
+  return `<div class="nl-fmt-bar">`
+    + `<button type="button" class="nl-fmt-btn" onmousedown="event.preventDefault()" onclick="nlWrap(this,'**','**')" title="Bold"><b>B</b></button>`
+    + `<button type="button" class="nl-fmt-btn" onmousedown="event.preventDefault()" onclick="nlWrap(this,'*','*')" title="Italic"><i>I</i></button>`
+    + `<button type="button" class="nl-fmt-btn" onmousedown="event.preventDefault()" onclick="nlWrap(this,'==','==')" title="Pink text"><span style="color:#b03060;font-weight:800">Pink</span></button>`
+    + `</div>`;
+}
+function nlWrap(btn, before, after) {
+  const ta = btn.closest('.og').querySelector('textarea');
+  if (!ta) return;
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const val = ta.value;
+  const sel = start !== end ? val.slice(start, end) : 'text';
+  ta.value = val.slice(0, start) + before + sel + after + val.slice(end);
+  ta.dispatchEvent(new Event('input', { bubbles: true }));  // -> set() -> updatePreview()
+  ta.focus();
+  // Reselect the inner text so it can be re-toggled or typed over.
+  ta.setSelectionRange(start + before.length, start + before.length + sel.length);
+}
 
 function selectEvent(idx) {
   // "Custom" — Rebekah is entering entirely her own info; clear the auto-filled text.
