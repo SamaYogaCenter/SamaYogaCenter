@@ -1053,11 +1053,11 @@ function renderOpts() {
     </div>`;
     h += `<div class="og"><label class="ol">Subtitle</label>
       <textarea class="ota" style="min-height:72px" oninput="set('subtitle',this.value)">${x(S.subtitle)}</textarea>
-      <p class="hint">Date, time, or any details. New line = line break · start a line with "-" for a bullet · add spaces at the start of a line to indent it.</p>
+      <p class="hint">Date, time, or any details. Blank line = new paragraph · new line = line break · "-" starts a bullet · indent with leading spaces. Format: **bold**, *italic*, ==pink==.</p>
     </div>`;
     h += `<div class="og"><label class="ol">Description</label>
       <textarea class="ota" oninput="set('desc',this.value)">${x(S.desc)}</textarea>
-      <p class="hint">Start a line with "-" for a bullet. New line = line break.</p>
+      <p class="hint">Blank line = new paragraph · new line = line break · "-" starts a bullet. Format: **bold**, *italic*, ==pink==.</p>
     </div>`;
     h += oTextSize();
     h += oCardHeight();
@@ -1413,12 +1413,18 @@ function pink(text, words) {
   });
   return out;
 }
-// Newsletter rich-text: split a textarea string into lines; a line starting
-// with "-" or "•" becomes a bullet row. Preserves multi-line lists for cards.
+// Newsletter rich-text for the event cards — inherits the caller's font size/colour.
+//   blank line      → paragraph gap
+//   "-" or "•"      → bullet row
+//   leading spaces  → indent (2 spaces / 1 tab per level)
+//   **bold** *italic* ==pink==  → inline formatting (plus the pink-words list)
 function nlMultiline(text) {
-  const lines = String(text||'').split(/\r?\n/).map(l=>l.replace(/\s+$/,'')).filter(l=>l.trim()!=='');
+  const lines = String(text||'').split(/\r?\n/).map(l=>l.replace(/\s+$/,''));
+  while (lines.length && !lines[0].trim())              lines.shift(); // trim leading blanks
+  while (lines.length && !lines[lines.length-1].trim()) lines.pop();   // trim trailing blanks
   if (!lines.length) return '';
   return lines.map(line => {
+    if (!line.trim()) return `<div style="height:.6em"></div>`;        // blank line = paragraph gap
     // Leading spaces/tabs = indent (2 spaces or 1 tab per level).
     const lead   = (line.match(/^[ \t]*/) || [''])[0];
     const level  = Math.floor(lead.replace(/\t/g, '  ').length / 2);
@@ -1426,10 +1432,19 @@ function nlMultiline(text) {
     const rest   = line.slice(lead.length);
     const m = rest.match(/^[-•]\s*(.*)$/);
     if (m) {
-      return `<div style="display:flex;gap:.45em;text-align:left;margin-bottom:.18em;${pad}"><span style="flex-shrink:0">–</span><span>${x(m[1])}</span></div>`;
+      return `<div style="display:flex;gap:.45em;text-align:left;margin-bottom:.18em;${pad}"><span style="flex-shrink:0">–</span><span>${nlFmt(m[1])}</span></div>`;
     }
-    return `<div style="margin-bottom:.18em;${pad}">${x(rest)}</div>`;
+    return `<div style="margin-bottom:.18em;${pad}">${nlFmt(rest)}</div>`;
   }).join('');
+}
+// Inline formatting shared by the newsletter cards. Escape first, apply the
+// pink-words keywords on clean text, then the **bold** / *italic* / ==pink== markers.
+function nlFmt(s) {
+  return pink(x(s), S.pinkWords)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,     '<em>$1</em>')
+    .replace(/__(.+?)__/g,     '<strong>$1</strong>')
+    .replace(/==(.+?)==/g,     `<span style="color:${PINK}">$1</span>`);
 }
 // Inline formatting for rich newsletter text: **bold** and *italic*.
 // Escapes HTML first, so the markers are the only thing that becomes markup.
