@@ -1080,9 +1080,10 @@ function renderOpts() {
 
   else if (t === 'nl-intro') {
     h += `<div class="og"><label class="ol">Intro Message</label>
+      ${nlFmtBar()}
       <textarea class="ota" style="min-height:220px" oninput="set('nlIntroText',this.value)">${x(S.nlIntroText)}</textarea>
       <p class="hint">Each new line is its own line. Blank line = space between paragraphs.<br>
-        • <b>**bold**</b> and <b>*italic*</b> · start a line with <b>-</b> for a bullet · add spaces at the start of a line to indent it.<br>
+        • Select text, then click <b>B</b> / <b>I</b> / <b>Pink</b> above · start a line with <b>-</b> for a bullet · add spaces at the start of a line to indent it.<br>
         • Bigger text: start a line with <b>#</b> (biggest), <b>##</b>, or <b>###</b>.</p>
     </div>`;
     h += `<div class="og"><label class="ol">Alignment</label>
@@ -1481,14 +1482,15 @@ function nlFmt(s) {
     .replace(/__(.+?)__/g,     '<strong>$1</strong>')
     .replace(/==(.+?)==/g,     `<span style="color:${PINK}">$1</span>`);
 }
-// Inline formatting for rich newsletter text: **bold** and *italic*.
+// Inline formatting for rich newsletter text: **bold**, *italic*, ==pink==.
 // Escapes HTML first, so the markers are the only thing that becomes markup.
 function nlInline(s) {
   return x(s)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.+?)\*/g,      '<em>$1</em>')
     .replace(/__(.+?)__/g,      '<strong>$1</strong>')
-    .replace(/_(.+?)_/g,        '<em>$1</em>');
+    .replace(/_(.+?)_/g,        '<em>$1</em>')
+    .replace(/==(.+?)==/g,      `<span style="color:${PINK}">$1</span>`);
 }
 // Rich multi-paragraph text for the Intro Message. Each line can be:
 //   # / ## / ###  → three heading sizes (change size per paragraph)
