@@ -50,13 +50,6 @@
       "bio": "Sarah began practicing yoga over 7 years ago in search of balance, harmony, and inner strength, and immediately fell in love. As a graduate of Sama Yoga Academy's 200-hour Yoga Teacher Training, she seeks to offer the support and steady easefulness that yoga has brought to her life in every one of her classes.\n\nOutside the studio, Sarah bounces between Norwalk and New York City working in book publishing and fills her free time with long runs, crochet projects, and matcha lattes. She is a cat mom and dog walking volunteer at a local shelter and will always say yes to seeing a picture of your pet.\n\nSarah invites you to leave your day at the door and join her on the mat for an hour of blissful unplugging, joyful movement, and the occasional fiery flow."
     },
     {
-      "name": "Tamara",
-      "image": "/images/OurTeam/Tamara.webp",
-      "imagePosition": "50% 30%",
-      "hidden": false,
-      "bio": "Tamara is honored to have completed Sama's 200-hour YTT and Restorative Yoga Program has been practicing yoga for over 30 years. With a background in personal training and group fitness, she has explored many movement modalities—but yoga has always been her true home.\n\nShe is passionate about helping others feel strong, supported, and empowered at every stage of life. Tamara is excited to share the joy, curiosity, and connection that yoga brings—both on and off the mat. Welcome!"
-    },
-    {
       "imagePosition": "center top",
       "hidden": false,
       "name": "Tracey",
@@ -127,6 +120,13 @@
       "imagePosition": "center top",
       "hidden": false,
       "bio": "Sara is a proud graduate of Sama Yoga Academy's 200 hr YTT, and Savannah College of Art and Design with a major in fashion design. She works as a sewing and crafting teacher in Darien and Greenwich, designs clothes, knits and crochets in her free time."
+    },
+    {
+      "imagePosition": "50% 30%",
+      "hidden": false,
+      "name": "Tamara",
+      "image": "/images/uploads/tamara.jpg",
+      "bio": "Tamara is honored to have completed Sama's 200-hour YTT and Restorative Yoga Program has been practicing yoga for over 30 years. With a background in personal training and group fitness, she has explored many movement modalities—but yoga has always been her true home.\n\nShe is passionate about helping others feel strong, supported, and empowered at every stage of life. Tamara is excited to share the joy, curiosity, and connection that yoga brings—both on and off the mat. "
     }
   ]
 }
