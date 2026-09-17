@@ -230,13 +230,13 @@
       "pricing": [
         {
           "label": "Early Bird (by 11/1)",
-          "price": "$75",
+          "price": "$55",
           "serviceId": "10946",
           "link": "#"
         },
         {
           "label": "Regular",
-          "price": "$95",
+          "price": "$75",
           "serviceId": "10945",
           "link": "#"
         }
@@ -249,7 +249,7 @@
       "title": "Replenish: A Restorative Mini Retreat for Mothers & Mothers-to-Be",
       "id": "moms-moms-to-be-replenish",
       "image": "/images/uploads/samastrength-188.jpg",
-      "description": "Motherhood begins long before a baby arrives. Whether you are navigating the physical and emotional changes of pregnancy, preparing for a new chapter, or carrying the many demands of motherhood, this afternoon is an invitation to pause and receive.\n\nJoin Caroline Reilly for a restorative retreat designed to **nourish the body, calm the nervous system and replenish the heart.** Through pregnancy-supportive gentle yoga, guided breathwork and intentional moments of connection, you’ll be invited to **slow down, soften and reconnect with yourself** amid all that is changing and all that you hold.\n\nLeave feeling grounded, supported and renewed.\n\n**Includes:** fresh juices, candlelight, soft music and optional hands-on support.\n\n**Reserve your place and allow yourself to be cared for, too.**",
+      "description": "Motherhood begins long before a baby arrives. Whether you are navigating the physical and emotional changes of pregnancy, preparing for a new chapter, or carrying the many demands of motherhood, this afternoon is an invitation to pause and receive.\n\nJoin Caroline Reilly for a restorative retreat designed to **nourish the body, regulate the nervous system and replenish the heart.** Through pregnancy-supportive gentle yoga, guided breathwork and intentional moments of connection, you’ll be invited to **slow down, soften and reconnect with yourself** amid all that is changing and all that you hold.\n\nLeave feeling grounded, supported and renewed.\n\n**Includes:** fresh juices, candlelight, soft music and optional hands-on assists.\n\n**Reserve your place and allow yourself to be cared for, too.**",
       "instructor": "Caroline Reilly"
     },
     {
