@@ -506,7 +506,7 @@
 
 <!-- ── Lock Screen ───────────────────────────────────────── -->
 <div id="lock">
-  <img id="lock-logo" src="/images/sama-yoga-logo.webp" alt="Sama Yoga" onerror="this.style.display='none'">
+  <img id="lock-logo" src="/images/sama-center.png" alt="Sama Center" onerror="this.style.display='none'">
   <h1>Social Studio</h1>
   <p id="lock-sub">Internal Tool · Sama Yoga Center</p>
   <div class="lock-row">
@@ -521,7 +521,7 @@
 
   <div id="sidebar">
     <div id="sb-head">
-      <img src="/images/sama-yoga-logo.webp" alt="Sama Yoga" onerror="this.style.display='none'">
+      <img src="/images/sama-center.png" alt="Sama Center" onerror="this.style.display='none'">
       <span>Social Studio</span>
     </div>
 
@@ -678,7 +678,7 @@
 // ════════════════════════════════════════════════════════
 const PASSWORD = 'sama';       // ← change this
 const PINK     = '#b03060';
-const LOGO_URL = '/images/sama-yoga-logo.webp';
+const LOGO_URL = '/images/sama-center.png';
 const _V       = '?v=' + Date.now();   // cache-buster — forces fresh image on every page load
 const ENZO_BG  = '/images/Social%20Media/background.png'  + _V;
 const STORY_BG = '/images/Social%20Media/storybackground.png' + _V;
@@ -1558,7 +1558,7 @@ function inst() { return instructors[S.instIdx]||{}; }
 // Sama logo/handle markup used in templates
 function samyLogo(filter) {
   const f = filter||'none';
-  return `<img src="${LOGO_URL}" style="height:54px;object-fit:contain;filter:${f}" alt="Sama Yoga Center" crossorigin="anonymous">`;
+  return `<img src="${LOGO_URL}" style="height:54px;object-fit:contain;filter:${f}" alt="Sama Center" crossorigin="anonymous">`;
 }
 function samyHandle(col) {
   col = col||'#2d2d2d';
