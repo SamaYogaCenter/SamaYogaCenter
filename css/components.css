@@ -525,6 +525,13 @@ healcode-widget {
   width: auto !important;
 }
 
+/* Bowtie.ai chat widget: its fixed decorative backdrop (#bowtie-cta-background)
+   covers the bottom-right corner and was intercepting clicks on footer links.
+   Make the backdrop click-through; the actual chat launcher keeps its own clicks. */
+#bowtie-cta-background {
+  pointer-events: none !important;
+}
+
 .footer__nav-columns {
   display: flex;
   gap: var(--space-3xl);
