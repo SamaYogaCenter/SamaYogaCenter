@@ -63,8 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (currentScroll > headerHeight) {
       header.classList.add('header--scrolled');
-      // Add padding to body to prevent jump when header becomes fixed
-      document.body.style.paddingTop = headerHeight + 'px';
+      // Add padding to body to prevent jump when header becomes fixed.
+      // Subtract 1px so content tucks flush under the fixed header with no
+      // sub-pixel white seam showing between the header and the banner below.
+      document.body.style.paddingTop = (headerHeight - 1) + 'px';
     } else {
       header.classList.remove('header--scrolled');
       document.body.style.paddingTop = '0';
