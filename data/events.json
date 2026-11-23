@@ -272,6 +272,27 @@
       "image": "/images/uploads/samayoga_socials-109.jpg",
       "description": "Once a month, step away from the pace of everyday life and settle into an hour of deep, supported rest. With the body held comfortably by bolsters, blankets and other props, restorative postures invite tension to soften, the breath to deepen and the nervous system to settle.\n\nThis signature Sama experience is quiet, spacious and thoughtfully guided—an opportunity to replenish yourself before the week ahead.\n\n**Select Sundays | 12:30–1:30pm**\\\n\\\nOctober 25 • November 22 • December 20\n\n**Included with Sama memberships and class packages.** \\\nOpen to all levels. No restorative yoga experience is needed.",
       "instructor": "Caroline Reilly"
+    },
+    {
+      "imagePosition": "center top",
+      "showOnTrainingPage": false,
+      "pricing": [
+        {
+          "link": "#",
+          "price": "$55",
+          "label": "Ticket",
+          "serviceId": "10987"
+        }
+      ],
+      "hidden": false,
+      "cardDescription": "A Body-Based Approach to Stress Relief, Burnout Recovery, and Peak Performance",
+      "time": "6:30pm - 8:00pm ",
+      "date": "Thursday, December 10th",
+      "title": "Somatic Masterclass: Master Your Nervous System & Reclaim Your Energy",
+      "id": "somatic-regulate-breathwork",
+      "image": "/images/uploads/steve.weiss.jpeg",
+      "description": "Traditional coaching focuses on mindset—teaching you how to analyze and change your thoughts under stress. This masterclass takes a different, science-backed approach: **working directly with your body.**When life gets demanding, your nervous system reacts long before your conscious mind catches up. Whether you are leading a team, competing on the field, managing a busy household, or simply pushing yourself toward your full potential, chronic stress quietly takes a toll. Over time, stored physical tension and constant \"fight-or-flight\" mode drain your energy, cloud your focus, and lead straight to burnout.In this hands-on workshop, you will move beyond overthinking and learn practical, body-based (\"somatic\") tools to reset your physiology in real time.**What You Will Learn:**\n\n* **Read Your Physical Cues:**\n\n   Recognize your body's early warning signs of stress and overload before they hijack your mood, focus, or patience.\n* **Shift Your State on Demand:**\n\n   Use simple, targeted breathwork and physical resets to lower your heart rate, steady your presence, and stay calm under pressure.\n* **Release Stored Tension:**\n\n   Discharge built-up physical stress from your muscles and nervous system to accelerate recovery and feel lighter in your body.\n* **Build Lasting Resilience:**\n\n   Strengthen your mind-body connection so you can show up with clarity, sustainable energy, and confidence—no matter what the day throws at you.\n\n**Who This Is For:**\nThis workshop is designed for everyday high performers—including executives, athletes, busy parents, and anyone navigating burnout or striving to reach their maximum potential. If you want practical, actionable tools to manage stress without relying on willpower alone, this class is for you.",
+      "instructor": "Steve Weiss"
     }
   ]
 }
