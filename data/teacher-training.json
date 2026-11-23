@@ -1,26 +1,4 @@
 {
-  "graduationNote": "This approach allows you to learn, practice, reflect, and apply your knowledge with confidence.",
-  "samaMethodImagePosition": "center 78%",
-  "introTagline": "Learn to Teach the Person, Not Just the Pose.",
-  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
-  "scheduleTime": "weekends, 12:30–3:30pm",
-  "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in yoga philosophy and modern movement science, you'll learn to move intelligently for your own body while developing the skills to observe, adapt, communicate clearly, and confidently teach real people.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
-  "includedHeading": "what's included",
-  "costRows": [
-    {
-      "label": "Early Bird (through Aug 15)",
-      "price": "$3,500"
-    },
-    {
-      "label": "Regular (from Aug 16)",
-      "price": "$3,750"
-    },
-    {
-      "label": "Payment Plan",
-      "price": "contact for details"
-    }
-  ],
-  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes from enrollment through graduation, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.",
   "sectionOrder": [
     "sama-method",
     "cover",
@@ -28,37 +6,29 @@
     "cost",
     "faq"
   ],
-  "whatsIncluded": [
-    "Unlimited yoga classes from enrollment through graduation",
-    "Comprehensive Sama Method training manual",
-    "Recorded Lectures and flexible make-up opportunities",
-    "Individualized mentorship and feedback",
-    "Multiple teaching styles and practical teaching experience",
-    "Progressive teaching opportunities",
-    "The opportunity to register with Yoga Alliance as a Certified Yoga Instructor",
-    "A sustainable schedule designed to support deep learning without putting your life on hold",
-    "No required textbooks, additional class packages, or hidden fees"
-  ],
+  "introTagline": "Learn to Teach the Person, Not Just the Pose.",
+  "introHeading": "yoga teacher training",
   "coverHeading": "What You'll Learn",
+  "includedHeading": "what's included",
   "scheduleHeading": "schedule",
+  "gradReqHeading": "graduation requirements",
+  "costHeading": "cost",
   "faqHeading": "questions you might have",
-  "scheduleDates": [
+  "introBody": "Develop the skills to attune to yourself and teach with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n**200-Hour Yoga Alliance Registered Teacher Training**",
+  "samaMethodHeading": "The Sama Method®",
+  "samaMethodImage": "/images/uploads/rebekah2-1-.jpg",
+  "samaMethodImagePosition": "center 78%",
+  "samaMethodBody": "The Sama Method is a human-centered approach to teaching yoga.\n\nRooted in yoga philosophy and modern movement science, you'll learn to move intelligently for your own body while developing the skills to observe, adapt, communicate clearly, and confidently teach real people.\n\nWe believe great teachers do more than instruct movement.\n\nThey see the person in front of them.\n\nThis is the heart of the Sama Method.",
+  "customSections": [
     {
-      "date": "October 3–4"
+      "title": "Why Students Choose Sama",
+      "body": "✔ Individualized mentorship throughout the program\n\n✔ Unlimited yoga classes from enrollment through graduation\n\n✔ Multiple teaching styles—not a single-method training\n\n✔ Recorded lectures and flexible make-up options\n\n✔ Small-group learning and personalized feedback\n\n✔ Practical teaching experience and progressive practice teaching\n\n✔ Graduate mentorship and continued support\n\n✔ 5-star Yoga Alliance reviews"
     },
     {
-      "date": "October 17–18"
-    },
-    {
-      "date": "October 31-November 1"
-    },
-    {
-      "date": "November 14–15"
+      "title": "Who This Training Is For",
+      "body": "**this training is for you if:**\n\nYou want to become a yoga teacher.\n\nYou want to deepen your personal practice.\n\nYou love learning and personal growth.\n\nYou want to understand anatomy, breath, and movement more deeply.\n\nYou value mentorship and community.\n\nYou want practical skills—not memorized scripts.\n\nYou do not need to be advanced.\n\nYou do not need to touch your toes.\n\nYou do not need to know if you want to teach.\n\nYou only need curiosity and a willingness to learn."
     }
   ],
-  "introBody": "Develop the skills to attune to yourself and teach with confidence through anatomy, philosophy, breathwork, movement science, and individualized mentorship. The Sama Method prepares you to meet students where they are and guide meaningful experiences in any setting.\n\n**200-Hour Yoga Alliance Registered Teacher Training**",
-  "costPriceNote": "Same tuition whether you join in person or online.",
-  "gradReqHeading": "graduation requirements",
   "whatWeWillCover": [
     "Yoga philosophy and the Eight Limbs",
     "Functional anatomy and movement science",
@@ -71,52 +41,72 @@
     "Hands-on support and consent",
     "The Sama Method"
   ],
-  "costHeading": "cost",
-  "introHeading": "yoga teacher training + mentorship",
-  "samaMethodImage": "/images/Teacher%20Training/SamaMethod1.jpg",
-  "reviews": [
+  "whatsIncluded": [
+    "Unlimited yoga classes from enrollment through graduation",
+    "Comprehensive Sama Method training manual",
+    "Recorded Lectures and flexible make-up opportunities",
+    "Individualized mentorship and feedback",
+    "Multiple teaching styles and practical teaching experience",
+    "Progressive teaching opportunities",
+    "The opportunity to register with Yoga Alliance as a Certified Yoga Instructor",
+    "A sustainable schedule designed to support deep learning without putting your life on hold",
+    "No required textbooks, additional class packages, or hidden fees"
+  ],
+  "scheduleTime": "weekends, 12:30–3:30pm",
+  "scheduleDates": [
     {
-      "avatar": "/images/OurTeam/Megan.webp",
-      "author": "Megan",
-      "quote": "I joined this YTT with the intention of deepening my personal practice, and I ended up gaining so much more than I expected. Beyond learning about yoga, the training offered meaningful opportunities for self-reflection and growth that extended into other areas of my life. I felt genuinely supported by both the instructors and my fellow trainees, and appreciated how flexible and accessible the program was. It provided a strong foundation in yoga philosophy, cueing, and thoughtful sequencing, with a clear emphasis on creating classes that are inclusive, welcoming, and responsive to different bodies and experiences. Over the course of the training, I began to see potential in myself as a teacher that I hadn’t anticipated when I first started. I now feel equipped with both the confidence and the practical tools to share this practice with others in a way that feels authentic and grounded."
+      "date": "March 20-21"
     },
     {
-      "avatar": "/images/OurTeam/Laura.webp",
-      "author": "Laura",
-      "quote": "A truly transformative experience. Fascinating, deeply instructive, and held in a beautiful, welcoming, and supportive environment. Rebekah is an exceptional teacher and leader. She guided us with such grace and care, creating space for our own individual journeys to unfold naturally. I highly recommend this yoga academy to anyone looking to deepen their practice."
+      "date": "March 27-28"
     },
     {
-      "avatar": "/images/Teacher%20Training/Nathalie.YTT.webp",
-      "author": "Nathalie",
-      "quote": "I loved my teacher training program at Sama with Rebekah! It is so informative and she makes the material digestible as it is A LOT. I appreciate the booklet she creates for the teacher training; it is very clear. I also appreciate her help in continuing my learning with a mentor and opportunities to practice teach. I highly recommend the program!"
+      "date": "April 3+4"
     },
     {
-      "avatar": "/images/Teacher%20Training/Jen%20D.jpg",
-      "author": "Jennifer D.",
-      "quote": "The program was an absolutely joy. Rebekah is the consummate teacher, I couldn’t have asked for a better experience. It has opened doors to new paths personally and professionally. I am eternally grateful and would recommend anyone who is curious about this training and/or Sama’s practice to not delay and reach out, you won’t be disappointed."
+      "date": "April 24+25"
     },
     {
-      "avatar": "/images/Teacher%20Training/Mayela.webp",
-      "author": "Mayela",
-      "quote": "The material, guidance and heartfelt empathy provided by Sama Yoga Center and specially by Rebekah, made this experience truly invaluable and deeply transformative."
+      "date": "May 1+2"
     },
     {
-      "avatar": "/images/Teacher%20Training/Kari.webp",
-      "author": "Kari",
-      "quote": "This training was incredibly organized, comprehensive, and heartfelt. I learned more than I could have ever hoped. I couldn’t recommend Sama enough."
-    },
-    {
-      "avatar": "/images/Teacher%20Training/Becky.webp",
-      "author": "Becky",
-      "quote": "The program includes opportunities for take-home readings and self-practice, complemented by in-studio discussions, peer connections, and co-teaching experiences. Enrolling in the program gives you access to a comprehensive handbook, unlimited classes at Sama, and an online library of additional content, including text and videos. It’s a balanced and supportive approach to learning, fostering both personal and professional growth as a yoga instructor."
-    },
-    {
-      "avatar": "/images/OurTeam/Zach.webp",
-      "author": "Zach",
-      "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
+      "date": "May 15+16"
     }
   ],
-  "graduationDate": "December 5–6",
+  "graduationDate": "May 22–23",
+  "scheduleImage": "/images/Teacher%20Training/L1130392%201.webp",
+  "graduationRequirements": [
+    {
+      "requirement": "Attend all training modules live or through approved recordings"
+    },
+    {
+      "requirement": "Complete 50 yoga or meditation sessions, including at least 30 at Sama"
+    },
+    {
+      "requirement": "Create and teach a well sequenced practice"
+    },
+    {
+      "requirement": "Complete a self-paced, open-book final assessment"
+    }
+  ],
+  "graduationNote": "This approach allows you to learn, practice, reflect, and apply your knowledge with confidence.",
+  "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher.\nLearn to teach the person—so much more than a pose.",
+  "costPriceNote": "Same tuition whether you join in person or online.",
+  "costRows": [
+    {
+      "label": "Early Bird (through December 31st)",
+      "price": "$3,500"
+    },
+    {
+      "label": "Regular (from Jan 1st)",
+      "price": "$3,750"
+    },
+    {
+      "label": "Payment Plan",
+      "price": "contact for details"
+    }
+  ],
+  "tuitionIncludes": "Tuition Includes: Unlimited yoga classes during your training, individualized mentorship, recorded lectures, comprehensive training materials, and no hidden fees.",
   "faqs": [
     {
       "question": "How much experience do I need?",
@@ -164,7 +154,7 @@
     },
     {
       "question": "Do I need to purchase books or materials?",
-      "answer": "No. Your tuition includes a comprehensive training manual, recorded lectures, and all required learning materials. We provide a recommended reading list and have many of the books available to borrow if you'd like to explore further."
+      "answer": "Your tuition includes a comprehensive training manual, recorded lectures, and all required learning materials. We provide a recommended reading list and have many of the books available to borrow if you'd like to explore further."
     },
     {
       "question": "How much does the training cost?",
@@ -173,30 +163,46 @@
       "buttonLink": "#tt-cost"
     }
   ],
-  "graduationRequirements": [
+  "reviews": [
     {
-      "requirement": "Attend all training modules live or through approved recordings"
+      "avatar": "/images/OurTeam/Megan.webp",
+      "author": "Megan",
+      "quote": "I joined this YTT with the intention of deepening my personal practice, and I ended up gaining so much more than I expected. Beyond learning about yoga, the training offered meaningful opportunities for self-reflection and growth that extended into other areas of my life. I felt genuinely supported by both the instructors and my fellow trainees, and appreciated how flexible and accessible the program was. It provided a strong foundation in yoga philosophy, cueing, and thoughtful sequencing, with a clear emphasis on creating classes that are inclusive, welcoming, and responsive to different bodies and experiences. Over the course of the training, I began to see potential in myself as a teacher that I hadn’t anticipated when I first started. I now feel equipped with both the confidence and the practical tools to share this practice with others in a way that feels authentic and grounded."
     },
     {
-      "requirement": "Complete 50 yoga or meditation sessions, including at least 30 at Sama"
+      "avatar": "/images/OurTeam/Laura.webp",
+      "author": "Laura",
+      "quote": "A truly transformative experience. Fascinating, deeply instructive, and held in a beautiful, welcoming, and supportive environment. Rebekah is an exceptional teacher and leader. She guided us with such grace and care, creating space for our own individual journeys to unfold naturally. I highly recommend this yoga academy to anyone looking to deepen their practice."
     },
     {
-      "requirement": "Create and teach a well sequenced practice"
+      "avatar": "/images/Teacher%20Training/Nathalie.YTT.webp",
+      "author": "Nathalie",
+      "quote": "I loved my teacher training program at Sama with Rebekah! It is so informative and she makes the material digestible as it is A LOT. I appreciate the booklet she creates for the teacher training; it is very clear. I also appreciate her help in continuing my learning with a mentor and opportunities to practice teach. I highly recommend the program!"
     },
     {
-      "requirement": "Complete a self-paced, open-book final assessment"
+      "avatar": "/images/Teacher%20Training/Jen%20D.jpg",
+      "author": "Jennifer D.",
+      "quote": "The program was an absolutely joy. Rebekah is the consummate teacher, I couldn’t have asked for a better experience. It has opened doors to new paths personally and professionally. I am eternally grateful and would recommend anyone who is curious about this training and/or Sama’s practice to not delay and reach out, you won’t be disappointed."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Mayela.webp",
+      "author": "Mayela",
+      "quote": "The material, guidance and heartfelt empathy provided by Sama Yoga Center and specially by Rebekah, made this experience truly invaluable and deeply transformative."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Kari.webp",
+      "author": "Kari",
+      "quote": "This training was incredibly organized, comprehensive, and heartfelt. I learned more than I could have ever hoped. I couldn’t recommend Sama enough."
+    },
+    {
+      "avatar": "/images/Teacher%20Training/Becky.webp",
+      "author": "Becky",
+      "quote": "The program includes opportunities for take-home readings and self-practice, complemented by in-studio discussions, peer connections, and co-teaching experiences. Enrolling in the program gives you access to a comprehensive handbook, unlimited classes at Sama, and an online library of additional content, including text and videos. It’s a balanced and supportive approach to learning, fostering both personal and professional growth as a yoga instructor."
+    },
+    {
+      "avatar": "/images/OurTeam/Zach.webp",
+      "author": "Zach",
+      "quote": "Rebekah’s knowledge, care and professionalism create one of the most wholistic and nurturing educational environments I have ever experienced. The program is thorough, individualized, and touches upon all fundamental and experiential concepts that go into guiding and facilitating a yoga practice."
     }
-  ],
-  "samaMethodHeading": "The Sama Method®",
-  "customSections": [
-    {
-      "title": "Why Students Choose Sama",
-      "body": "✔ Individualized mentorship throughout the program\n\n✔ Unlimited yoga classes from enrollment through graduation\n\n✔ Multiple teaching styles—not a single-method training\n\n✔ Recorded lectures and flexible make-up options\n\n✔ Small-group learning and personalized feedback\n\n✔ Practical teaching experience and progressive practice teaching\n\n✔ Graduate mentorship and continued support\n\n✔ 5-star Yoga Alliance reviews"
-    },
-    {
-      "title": "Who This Training Is For",
-      "body": "**this training is for you if:**\n\nYou want to become a yoga teacher.\n\nYou want to deepen your personal practice.\n\nYou love learning and personal growth.\n\nYou want to understand anatomy, breath, and movement more deeply.\n\nYou value mentorship and community.\n\nYou want practical skills—not memorized scripts.\n\nYou do not need to be advanced.\n\nYou do not need to touch your toes.\n\nYou do not need to know if you want to teach.\n\nYou only need curiosity and a willingness to learn."
-    }
-  ],
-  "costIntro": "Become a Yoga Alliance® Certified Yoga Teacher.\nLearn to teach the person—not just the pose."
+  ]
 }
