@@ -1,0 +1,172 @@
+{
+  "new-student": {
+    "name": "New Student Offer",
+    "price": "$99",
+    "cents": ".00",
+    "detailNumber": "",
+    "detail": "unlimited for 14 days",
+    "period": "",
+    "features": [
+      { "text": "Expires 2 weeks after purchase", "highlight": false },
+      { "text": "Unlimited classes", "highlight": false },
+      { "text": "In studio + virtual", "highlight": false }
+    ]
+  },
+  "drop-in": {
+    "name": "Drop In",
+    "price": "$40",
+    "cents": ".00",
+    "detailNumber": "1",
+    "detail": "Class",
+    "period": "",
+    "features": [
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "Expires 30 days after purchase", "highlight": false },
+      { "text": "Pass lost if late cancellation (within 10 hours) or no show", "highlight": false }
+    ]
+  },
+  "membership-12mo": {
+    "name": "12 Month Committed",
+    "price": "$185",
+    "cents": ".00",
+    "detailNumber": "",
+    "detail": "unlimited per month",
+    "period": "",
+    "features": [
+      { "text": "Save 19% / $43.00 per month", "highlight": true },
+      { "text": "Unlimited Classes", "highlight": false },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "One late cancellation (within 10 hours) or no show per month, $25 fee afterwards", "highlight": false },
+      { "text": "Autorenews for 12 months", "highlight": false },
+      { "text": "Bring a friend once per month", "highlight": false }
+    ]
+  },
+  "membership-6mo": {
+    "name": "6 Month Committed",
+    "price": "$205",
+    "cents": ".00",
+    "detailNumber": "",
+    "detail": "unlimited per month",
+    "period": "",
+    "features": [
+      { "text": "Save 10% / $23.00 per month", "highlight": true },
+      { "text": "Unlimited classes", "highlight": false },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "One late cancellation (within 10 hours) or no show per month, $25 fee afterwards", "highlight": false },
+      { "text": "Autorenews for 6 months", "highlight": false },
+      { "text": "Bring a friend once per month", "highlight": false }
+    ]
+  },
+  "membership-monthly": {
+    "name": "Monthly Unlimited",
+    "price": "$228",
+    "cents": ".00",
+    "detailNumber": "",
+    "detail": "unlimited per month",
+    "period": "",
+    "features": [
+      { "text": "Unlimited classes", "highlight": false },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "One late cancellation (within 10 hours) or no show per month, $25 fee afterwards", "highlight": false },
+      { "text": "Autorenews monthly, cancel anytime", "highlight": false }
+    ]
+  },
+  "pack-5": {
+    "name": "5 Class Pack",
+    "price": "$160",
+    "cents": ".00",
+    "detailNumber": "5",
+    "detail": "Classes",
+    "period": "",
+    "features": [
+      { "text": "Save 9% / Per class price $32.00", "highlight": true },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "Expires 45 days after purchase", "highlight": false },
+      { "text": "Pass lost if late cancellation (within 10 hours) or no show", "highlight": false }
+    ]
+  },
+  "pack-10": {
+    "name": "10 Class Pack",
+    "price": "$300",
+    "cents": ".00",
+    "detailNumber": "10",
+    "detail": "Classes",
+    "period": "",
+    "features": [
+      { "text": "Save 14% / Per class price $30.00", "highlight": true },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "Expires 90 days after purchase", "highlight": false },
+      { "text": "Pass lost if late cancellation (within 10 hours) or no show", "highlight": false }
+    ]
+  },
+  "pack-20": {
+    "name": "20 Class Pack",
+    "price": "$560",
+    "cents": ".00",
+    "detailNumber": "20",
+    "detail": "Classes",
+    "period": "",
+    "features": [
+      { "text": "Save 20% / Per class price $28.00", "highlight": true },
+      { "text": "Shareable between two people", "highlight": false },
+      { "text": "In studio + virtual", "highlight": false },
+      { "text": "Expires 8 months after purchase", "highlight": false },
+      { "text": "Pass lost if late cancellation (within 10 hours) or no show", "highlight": false }
+    ]
+  },
+  "lessons-5": {
+    "name": "5 Lesson Pack",
+    "price": "$900",
+    "cents": ".00",
+    "detailNumber": "5",
+    "detail": "Lessons",
+    "period": "",
+    "features": [
+      { "text": "Save 5% / $10.00 per lesson", "highlight": true },
+      { "text": "Flexible scheduling", "highlight": false },
+      { "text": "One on one instruction", "highlight": false },
+      { "text": "Tailored focus", "highlight": false }
+    ]
+  },
+  "lessons-10": {
+    "name": "10 Lesson Pack",
+    "price": "$1,750",
+    "cents": ".00",
+    "detailNumber": "10",
+    "detail": "Lessons",
+    "period": "",
+    "features": [
+      { "text": "Save 8% / $15.00 per lesson", "highlight": true },
+      { "text": "Flexible scheduling", "highlight": false },
+      { "text": "One on one instruction", "highlight": false },
+      { "text": "Tailored focus", "highlight": false }
+    ]
+  },
+  "lessons-20": {
+    "name": "20 Lesson Pack",
+    "price": "$3,400",
+    "cents": ".00",
+    "detailNumber": "20",
+    "detail": "Lessons",
+    "period": "",
+    "features": [
+      { "text": "Save 11% / $20.00 per lesson", "highlight": true },
+      { "text": "Flexible scheduling", "highlight": false },
+      { "text": "One on one instruction", "highlight": false },
+      { "text": "Tailored focus", "highlight": false }
+    ]
+  },
+  "gift-card": {
+    "name": "Gift Card",
+    "price": "Any Amount",
+    "cents": "",
+    "detailNumber": "",
+    "detail": "",
+    "period": "You choose",
+    "features": [
+      { "text": "Use toward classes or memberships", "highlight": false },
+      { "text": "No expiration date", "highlight": false },
+      { "text": "Physical or digital delivery", "highlight": false }
+    ]
+  }
+}

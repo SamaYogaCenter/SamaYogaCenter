@@ -469,7 +469,7 @@
       <section id="intro-offers" class="pricing-section">
         <h2 class="section-title section-title--left pricing-section__title">Intro Offers</h2>
         <div class="pricing-grid">
-          <div class="pricing-card pricing-card--featured">
+          <div data-key="new-student" class="pricing-card pricing-card--featured">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">New Student Offer</h3>
@@ -491,7 +491,7 @@
           </div>
 
           <!-- Drop In -->
-          <div class="pricing-card">
+          <div data-key="drop-in" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">Drop In</h3>
@@ -518,7 +518,7 @@
         <h2 class="section-title section-title--left pricing-section__title">Memberships</h2>
         <div class="pricing-grid">
           <!-- 12 Month Committed -->
-          <div class="pricing-card">
+          <div data-key="membership-12mo" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">12 Month Committed</h3>
@@ -542,7 +542,7 @@
           </div>
 
           <!-- 6 Month Committed -->
-          <div class="pricing-card">
+          <div data-key="membership-6mo" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">6 Month Committed</h3>
@@ -566,7 +566,7 @@
           </div>
 
           <!-- Monthly Unlimited -->
-          <div class="pricing-card pricing-card--featured">
+          <div data-key="membership-monthly" class="pricing-card pricing-card--featured">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">Monthly Unlimited</h3>
@@ -595,7 +595,7 @@
         <h2 class="section-title section-title--left pricing-section__title">Class Packages</h2>
         <div class="pricing-grid">
           <!-- 5 Class Pack -->
-          <div class="pricing-card">
+          <div data-key="pack-5" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">5 Class Pack</h3>
@@ -617,7 +617,7 @@
           </div>
 
           <!-- 10 Class Pack -->
-          <div class="pricing-card">
+          <div data-key="pack-10" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">10 Class Pack</h3>
@@ -639,7 +639,7 @@
           </div>
 
           <!-- 20 Class Pack -->
-          <div class="pricing-card">
+          <div data-key="pack-20" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">20 Class Pack</h3>
@@ -668,7 +668,7 @@
         <h2 class="section-title section-title--left pricing-section__title">Private Lessons</h2>
         <div class="pricing-grid">
           <!-- 5 Lesson Pack -->
-          <div class="pricing-card">
+          <div data-key="lessons-5" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">5 Lesson Pack</h3>
@@ -690,7 +690,7 @@
           </div>
 
           <!-- 10 Lesson Pack -->
-          <div class="pricing-card">
+          <div data-key="lessons-10" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">10 Lesson Pack</h3>
@@ -712,7 +712,7 @@
           </div>
 
           <!-- 20 Lesson Pack -->
-          <div class="pricing-card">
+          <div data-key="lessons-20" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">20 Lesson Pack</h3>
@@ -739,7 +739,7 @@
       <section id="gift-cards" class="pricing-section">
         <h2 class="section-title section-title--left pricing-section__title">Gift Cards</h2>
         <div class="pricing-grid">
-          <div class="pricing-card">
+          <div data-key="gift-card" class="pricing-card">
             <div class="pricing-card__header"></div>
             <div class="pricing-card__body">
               <h3 class="pricing-card__name">Gift Card</h3>
@@ -884,6 +884,52 @@
         });
       });
     });
+  </script>
+  <script>
+    // Hydrate pricing cards from data/pricing.json (editable via /admin).
+    // The hardcoded cards above are the fallback if this fetch fails.
+    fetch('data/pricing.json?v=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        Object.keys(data).forEach(function (key) {
+          var card = document.querySelector('.pricing-card[data-key="' + key + '"]');
+          if (!card) return;
+          var d = data[key] || {};
+
+          var nameEl = card.querySelector('.pricing-card__name');
+          if (nameEl && d.name != null) nameEl.textContent = d.name;
+
+          var priceEl = card.querySelector('.pricing-card__price');
+          if (priceEl && d.price != null) {
+            if (d.cents) {
+              priceEl.innerHTML = d.price + '<span class="pricing-card__price-cents">' + d.cents + '</span>';
+            } else {
+              priceEl.textContent = d.price;
+            }
+          }
+
+          var detailEl = card.querySelector('.pricing-card__price-detail');
+          if (detailEl && d.detail != null) {
+            if (d.detailNumber) {
+              detailEl.innerHTML = '<span class="pricing-card__price-detail-number">' + d.detailNumber + '</span> ' + d.detail;
+            } else {
+              detailEl.textContent = d.detail;
+            }
+          }
+
+          var periodEl = card.querySelector('.pricing-card__period');
+          if (periodEl && d.period != null) periodEl.textContent = d.period;
+
+          var featuresEl = card.querySelector('.pricing-card__features');
+          if (featuresEl && Array.isArray(d.features)) {
+            featuresEl.innerHTML = d.features.map(function (f) {
+              var cls = 'pricing-card__feature' + (f && f.highlight ? ' pricing-card__feature--savings' : '');
+              return '<li class="' + cls + '">' + (f ? f.text : '') + '</li>';
+            }).join('');
+          }
+        });
+      })
+      .catch(function (err) { console.error('pricing.json failed to load', err); });
   </script>
   <!-- Messenger[ai] chat widget -->
   <script>(function(t,i,o,n,w,a,e){t["bowtieDataToken"]=w;t[w]=t[w]||function(){(t[w].i=t[w].i||[]).push(arguments)};t[w].o=1*new Date;a=i.createElement(o);e=i.getElementsByTagName(o)[0];a.async=1;a.src=n;e.parentNode.insertBefore(a,e)})(window,document,"script","https://s3.amazonaws.com/bowtie.ai/bowtieJS/bowtie_widget.js","sama_yoga_center");</script>

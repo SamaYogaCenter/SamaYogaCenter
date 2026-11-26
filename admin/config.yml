@@ -277,3 +277,239 @@ collections:
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
+
+  - name: "pricing"
+    label: "Pricing"
+    files:
+      - name: "pricing"
+        label: "Pricing Cards"
+        file: "data/pricing.json"
+        fields:
+          - name: "new-student"
+            label: "New Student Offer — Intro Offer"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "drop-in"
+            label: "Drop In — Intro Offer"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "membership-12mo"
+            label: "12 Month Committed — Membership"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "membership-6mo"
+            label: "6 Month Committed — Membership"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "membership-monthly"
+            label: "Monthly Unlimited — Membership"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "pack-5"
+            label: "5 Class Pack — Class Package"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "pack-10"
+            label: "10 Class Pack — Class Package"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "pack-20"
+            label: "20 Class Pack — Class Package"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "lessons-5"
+            label: "5 Lesson Pack — Private Lessons"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "lessons-10"
+            label: "10 Lesson Pack — Private Lessons"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "lessons-20"
+            label: "20 Lesson Pack — Private Lessons"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
+          - name: "gift-card"
+            label: "Gift Card"
+            widget: "object"
+            collapsed: true
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string", hint: "e.g. $99  (or 'Any Amount' for the gift card)" }
+              - { label: "Cents", name: "cents", widget: "string", required: false, hint: "Usually .00 — leave blank for 'Any Amount'" }
+              - { label: "Big number (optional)", name: "detailNumber", widget: "string", required: false, hint: "Large number shown before the detail, e.g. 1, 5, 10 — leave blank if none" }
+              - { label: "Detail", name: "detail", widget: "string", required: false, hint: "Line next to the price, e.g. unlimited for 14 days · Class · Classes · unlimited per month" }
+              - { label: "Period (optional)", name: "period", widget: "string", required: false, hint: "Small line under the price — usually blank (e.g. 'You choose')" }
+              - label: "Features"
+                name: "features"
+                widget: "list"
+                summary: "{{fields.text}}"
+                hint: "Bullet points shown on the card. Turn on Highlight for the green savings line."
+                fields:
+                  - { label: "Text", name: "text", widget: "string" }
+                  - { label: "Highlight (savings)", name: "highlight", widget: "boolean", default: false, required: false }
